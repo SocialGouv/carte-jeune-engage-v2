@@ -9,7 +9,7 @@
 Accédez au dossier de l'application NextJS webapp :
 
 ```bash
-cd webap
+cd webapp
 ```
 
 Copiez le fichier .env.example :
@@ -22,12 +22,6 @@ Installez les dépendances nécessaires :
 
 ```bash
 yarn
-```
-
-Initialisez la base de données Postgres :
-
-```bash
-npx prisma db migrate dev
 ```
 
 Lancez l'application, qui sera accessible sur le port 3000 :
