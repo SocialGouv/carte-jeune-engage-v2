@@ -1,28 +1,13 @@
-import {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  type DocumentProps,
-} from "next/document";
-import { augmentDocumentWithEmotionCache, dsfrDocumentApi } from "./_app";
+import { Html, Head, Main, NextScript } from 'next/document'
 
-const { getColorSchemeHtmlAttributes, augmentDocumentForDsfr } =
-  dsfrDocumentApi;
-
-const Document = (props: DocumentProps) => {
+export default function Document() {
   return (
-    <Html {...getColorSchemeHtmlAttributes(props)}>
+    <Html lang="en">
       <Head />
       <body>
         <Main />
         <NextScript />
       </body>
     </Html>
-  );
-};
-
-augmentDocumentWithEmotionCache(Document);
-augmentDocumentForDsfr(Document);
-
-export default Document;
+  )
+}

@@ -1,35 +1,25 @@
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
- * for Docker builds.
- */
-await import("./src/env.js");
+// next.config.js
+const path = require("path");
+const { withPayload } = require("@payloadcms/next-payload");
 
-/** @type {import("node_modules/next/index.js").NextConfig} */
-const config = {
-  reactStrictMode: true,
-
-  /**
-   * If you are using `appDir` then you must comment the below `i18n` config out.
-   *
-   * @see https://github.com/vercel/next.js/issues/41980
-   */
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
+module.exports = withPayload(
+  {
+    // your Next config here
+    reactStrictMode: true,
   },
+  {
+    // The second argument to `withPayload`
+    // allows you to specify paths to your Payload dependencies
+    // and configure the admin route to your Payload CMS.
 
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.woff2$/,
-      type: "asset/resource",
-    });
-    return config;
-  },
-  //This option requires Next 13.1 or newer, if you can't update you can use this plugin instead: https://github.com/martpie/next-transpile-modules
-  transpilePackages: [
-    "@codegouvfr/react-dsfr",
-    "tss-react", // This is for MUI or if you use htts://tss-react.dev
-  ],
-};
+    // Point to your Payload config (required)
+    configPath: path.resolve(__dirname, "./src/payload/payload.config.ts"),
 
-export default config;
+    // Point to your exported, initialized Payload instance (optional, default shown below`)
+    payloadPath: path.resolve(process.cwd(), "./src/payload/payloadClient.ts"),
+
+    // Set a custom Payload admin route (optional, default is `/admin`)
+    // NOTE: Read the "Set a custom admin route" section in the payload/next-payload README.
+    adminRoute: "/admin",
+  }
+);

@@ -1,21 +1,13 @@
-import { z } from "zod";
-
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const postRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
+  getList: publicProcedure.query(async ({ ctx }) => {
+    const data = await ctx.payload.find({
+      collection: "offers",
+      limit: 10,
+      depth: 0,
+    });
 
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
+    return { data: data.docs };
   }),
 });
