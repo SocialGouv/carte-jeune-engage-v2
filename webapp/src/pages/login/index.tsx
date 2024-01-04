@@ -10,9 +10,16 @@ import {
   FormErrorMessage,
   FormLabel,
   Heading,
+  Icon,
   Input,
+  cookieStorageManager,
 } from "@chakra-ui/react";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import FormInput from "~/components/FormInput";
+import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
+import { useRouter } from "next/router";
+import { Users } from "~/payload/collections/User";
+import { setCookie } from "cookies-next";
 
 type LoginForm = {
   email: string;
@@ -20,6 +27,8 @@ type LoginForm = {
 };
 
 export default function Home() {
+  const router = useRouter();
+
   const {
     handleSubmit,
     register,
@@ -27,8 +36,9 @@ export default function Home() {
   } = useForm<LoginForm>();
 
   const { mutate: loginUser, isLoading } = api.user.login.useMutation({
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: async ({ data }) => {
+      setCookie("cje-jwt", data.token || "");
+      router.push("/dashboard");
     },
   });
 
@@ -37,43 +47,57 @@ export default function Home() {
   };
 
   return (
-    <Box mt={28}>
-      <Heading>Connexion</Heading>
-      <Flex
-        as="form"
-        flexDir="column"
-        mt={6}
-        bg="gray.50"
-        shadow="lg"
-        borderRadius={8}
-        p={8}
-        gap={6}
-        onSubmit={handleSubmit(handleLogin)}
-      >
-        <FormControl isRequired isInvalid={!!errors.email}>
-          <FormLabel htmlFor="email">Email</FormLabel>
-          <Input
-            id="email"
-            type="email"
-            {...register("email", { required: "Ce champ est obligatoire" })}
+    <Flex
+      display="flex"
+      flexDir="column"
+      py={12}
+      justifyContent="space-between"
+      h="full"
+    >
+      <Box>
+        <Heading>Connexion</Heading>
+        <Flex
+          as="form"
+          flexDir="column"
+          mt={12}
+          borderRadius={8}
+          gap={6}
+          onSubmit={handleSubmit(handleLogin)}
+        >
+          <FormInput
+            name="email"
+            label="Email"
+            kind="email"
+            fieldError={errors.email}
+            register={register}
+            rules={{ required: "Ce champ est obligatoire" }}
           />
-          <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-        </FormControl>
-        <FormControl isRequired isInvalid={!!errors.password}>
-          <FormLabel htmlFor="password">Mot de passe</FormLabel>
-          <Input
-            id="password"
-            type="password"
-            {...register("password", { required: "Ce champ est obligatoire" })}
+          <FormInput
+            name="password"
+            label="Mot de passe"
+            kind="password"
+            fieldError={errors.password}
+            register={register}
+            rules={{ required: "Ce champ est obligatoire" }}
           />
-          <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-        </FormControl>
-        <Flex justifyContent="end">
-          <Button type="submit" colorScheme="blue" isLoading={isLoading}>
-            Connexion
-          </Button>
         </Flex>
+      </Box>
+      <Flex justifyContent={{ base: "space-between", lg: "end" }}>
+        <Button
+          px={0}
+          rightIcon={<Icon as={HiOutlineArrowLeft} />}
+          iconSpacing={0}
+          display={{ base: "flex", lg: "none" }}
+          onClick={() => router.push("/")}
+        />
+        <Button
+          rightIcon={<Icon as={HiOutlineArrowRight} />}
+          onClick={handleSubmit(handleLogin)}
+          isLoading={isLoading}
+        >
+          Se connecter
+        </Button>
       </Flex>
-    </Box>
+    </Flex>
   );
 }

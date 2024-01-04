@@ -1,57 +1,38 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { getCookie } from "cookies-next";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import { User } from "~/payload/payload-types";
 
-import { api } from "~/utils/api";
-
-type Logout = () => Promise<void>;
-
 type AuthContext = {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  logout: Logout;
+  user?: User | null;
+  setUser: (user: User | null) => void;
 };
 
 const Context = createContext({} as AuthContext);
 
-export const AuthProvider: React.FC<{
-  children: React.ReactNode;
-}> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>();
 
-  const logout = useCallback<Logout>(async () => {
-    await api.user.logout();
-    setUser(null);
-    return;
-  }, []);
-
-  // On mount, get user and set
   useEffect(() => {
     const fetchMe = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_CMS_URL}/api/users/me`,
-        {}
-      );
-
-      const user = await res.json();
-
-      setUser(user);
+      const token = getCookie("cje-jwt");
+      const result = await fetch("/api/users/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((req) => req.json());
+      setUser(result.user || null);
     };
 
     fetchMe();
-  }, [api]);
+  }, []);
 
   return (
     <Context.Provider
       value={{
         user,
         setUser,
-        logout,
       }}
     >
       {children}
@@ -59,6 +40,6 @@ export const AuthProvider: React.FC<{
   );
 };
 
-type UseAuth<T = User> = () => AuthContext; // eslint-disable-line no-unused-vars
+type UseAuth = () => AuthContext;
 
 export const useAuth: UseAuth = () => useContext(Context);

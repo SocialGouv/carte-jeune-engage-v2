@@ -12,6 +12,7 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 import getPayloadClient from "~/payload/payloadClient";
+import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 
 /**
  * 1. CONTEXT
@@ -33,13 +34,9 @@ type CreateContextOptions = Record<string, never>;
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-const createInnerTRPCContext = async (_opts: CreateContextOptions) => {
-  const payload = await getPayloadClient();
-
-  return {
-    payload,
-  };
-};
+// const createInnerTRPCContext = (: FetchCreateContextFnOptions) => {
+//   return {};
+// };
 
 /**
  * This is the actual context you will use in your router. It will be used to process every request
@@ -47,8 +44,12 @@ const createInnerTRPCContext = async (_opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (_opts: CreateNextContextOptions) => {
-  return createInnerTRPCContext({});
+export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
+  const payload = await getPayloadClient();
+
+  return {
+    payload,
+  };
 };
 
 /**
