@@ -3,7 +3,7 @@ import React, { useState, createContext, useContext, useEffect } from "react";
 import { User } from "~/payload/payload-types";
 
 type AuthContext = {
-  user?: User | null;
+  user: User | null;
   setUser: (user: User | null) => void;
 };
 
@@ -12,7 +12,7 @@ const Context = createContext({} as AuthContext);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<User | null>();
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchMe = async () => {
