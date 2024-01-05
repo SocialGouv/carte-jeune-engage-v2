@@ -1,6 +1,6 @@
-app:
-  envFrom:
-    - secretRef:
-        name: app-sealed-secret
-    - configMapRef:
-        name: app-configmap
+# app:
+#   envFrom:
+#     - secretRef:
+#         name: app-sealed-secret
+#     - configMapRef:
+#         name: app-configmap
