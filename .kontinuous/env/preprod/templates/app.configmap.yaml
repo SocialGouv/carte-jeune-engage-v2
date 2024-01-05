@@ -1,6 +1,6 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: cje-app-configmap
+  name: app-configmap
 data:
   PAYLOAD_CONFIG_PATH: payload/payload.config.ts

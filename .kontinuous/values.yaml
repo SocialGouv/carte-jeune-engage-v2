@@ -1,10 +1,10 @@
-cje-app:
-  ~chart: cje-app
-  ~needs: [build-cje-app, pg]
-  host: "cje-app-{{ $.Values.global.host }}"
-  imagePackage: cje-app
+app:
+  ~chart: app
+  ~needs: [build-app, pg]
+  host: "app-{{ $.Values.global.host }}"
+  imagePackage: app
   containerPort: 8080
-  probesPath: /_health
+  probesPath: /api/health
   resources:
     requests:
       cpu: 0.3
@@ -19,25 +19,16 @@ cje-app:
     - secretRef:
         name: pg-app
     - secretRef:
-        name: cje-app-sealed-secret
-    - secretRef:
-        name: azure-cje-volume
+        name: app-sealed-secret
     - configMapRef:
-        name: cje-app-configmap
-  volumeMounts:
-    - name: uploads
-      mountPath: /app/public/uploads
-  volumes:
-    - name: uploads
-      persistentVolumeClaim:
-        claimName: uploads
+        name: app-configmap
 
 pg:
   ~chart: pg
 
 jobs:
   runs:
-    build-cje-app:
+    build-app:
       use: build
       with:
-        imagePackage: cje-app
+        imagePackage: app

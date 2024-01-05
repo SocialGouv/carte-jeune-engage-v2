@@ -1,12 +1,12 @@
-cje-app:
+app:
   host: cje.fabrique.social.gouv.fr
   envFrom:
     - secretRef:
         name: pg-app
     - secretRef:
-        name: cje-app-sealed-secret
+        name: app-sealed-secret
     - configMapRef:
-        name: cje-app-configmap
+        name: app-configmap
     - secretRef:
         name: azure-cje-volume
 
