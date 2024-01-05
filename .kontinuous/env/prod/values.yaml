@@ -8,7 +8,7 @@ cje-app:
     - configMapRef:
         name: cje-app-configmap
     - secretRef:
-        name: azure-tumeplay-volume
+        name: azure-cje-volume
 
 pg:
   cnpg-cluster:
