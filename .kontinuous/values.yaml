@@ -4,7 +4,7 @@ app:
   host: "app-{{ $.Values.global.host }}"
   imagePackage: app
   containerPort: 8080
-  probesPath: /api/health
+  probesPath: /api/healthz
   resources:
     requests:
       cpu: 0.3
