@@ -1,10 +1,4 @@
 cje-app:
-  volumes:
-    - name: uploads
-      emptyDir: {}
-  volumeMounts:
-    - mountPath: /app/public/uploads
-      name: uploads
   envFrom:
     - secretRef:
         name: pg-app

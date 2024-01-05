@@ -3,5 +3,4 @@ apiVersion: v1
 metadata:
   name: cje-map-configmap
 data:
-  RANCHER_PROJECT_ID: xxxx
   PAYLOAD_CONFIG_PATH: payload/payload.config.ts
