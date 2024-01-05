@@ -1,0 +1,20 @@
+projectName: cje
+ciNamespace: ci-cje
+
+dependencies:
+  fabrique:
+    extends:
+      - name: ovh
+        ifEnv: [dev, preprod]
+      - name: buildkit-service
+    dependencies:
+      contrib:
+        preDeploy:
+          importSecrets:
+            options:
+              secrets:
+                kubeconfig:
+                harbor:
+                buildkit-client-certs:
+                cje-dev-backups-access-key:
+                cje-prod-backups-access-key:

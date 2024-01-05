@@ -1,0 +1,19 @@
+cje-app:
+  host: cje.fabrique.social.gouv.fr
+  envFrom:
+    - secretRef:
+        name: pg-app
+    - secretRef:
+        name: cje-app-sealed-secret
+    - configMapRef:
+        name: cje-app-configmap
+    - secretRef:
+        name: azure-tumeplay-volume
+
+pg:
+  cnpg-cluster:
+    resources:
+      requests:
+        memory: 128Mi
+      limits:
+        memory: 1Gi
