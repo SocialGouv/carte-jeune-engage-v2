@@ -23,7 +23,7 @@ app:
     - configMapRef:
         name: app-configmap
 
-pg:
+cnpg-cluster:
   ~chart: pg
 
 jobs:

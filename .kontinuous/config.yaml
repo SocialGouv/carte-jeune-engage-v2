@@ -1,5 +1,5 @@
-projectName: cje
-ciNamespace: ci-cje
+projectName: carte-jeune-engage
+ciNamespace: ci-carte-jeune-engage
 
 dependencies:
   fabrique:
@@ -7,14 +7,12 @@ dependencies:
       - name: ovh
         ifEnv: [dev, preprod]
       - name: buildkit-service
+        ifEnv: [dev, preprod]
     dependencies:
       contrib:
         preDeploy:
           importSecrets:
             options:
               secrets:
-                kubeconfig:
-                harbor:
-                buildkit-client-certs:
-                cje-dev-backups-access-key:
-                cje-prod-backups-access-key:
+                carte-jeune-engage-dev-backups-access-key:
+                carte-jeune-engage-prod-backups-access-key:
