@@ -10,8 +10,10 @@ export interface Config {
   collections: {
     admins: Admin;
     users: User;
-    posts: Post;
-    offers: Offer;
+    media: Media;
+    categories: Category;
+    partners: Partner;
+    discounts: Discount;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -19,8 +21,8 @@ export interface Config {
 }
 export interface Admin {
   id: number;
-  firstName?: string | null;
-  lastName?: string | null;
+  firstName: string;
+  lastName: string;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -47,20 +49,67 @@ export interface User {
   lockUntil?: string | null;
   password: string | null;
 }
-export interface Post {
+export interface Media {
   id: number;
-  title: string;
-  content: {
-    [k: string]: unknown;
-  }[];
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    tablet?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+export interface Category {
+  id: number;
+  slug: string;
+  label: string;
+  icon: number | Media;
+  color: string;
   updatedAt: string;
   createdAt: string;
 }
-export interface Offer {
+export interface Partner {
+  id: number;
+  name: string;
+  description: string;
+  icon: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Discount {
   id: number;
   title: string;
-  description: string;
-  user: number | User;
+  partner: number | Partner;
+  category: number | Category;
+  kind: 'voucher' | 'code';
   updatedAt: string;
   createdAt: string;
 }

@@ -45,7 +45,9 @@ type CreateContextOptions = Record<string, never>;
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
-  const payload = await getPayloadClient();
+  const payload = await getPayloadClient({
+    seed: false,
+  });
 
   return {
     payload,

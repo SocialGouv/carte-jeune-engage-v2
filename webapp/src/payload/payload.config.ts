@@ -1,13 +1,16 @@
 import path from "path";
+import { env } from "~/env";
 import { buildConfig } from "payload/config";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { slateEditor } from "@payloadcms/richtext-slate";
 import { webpackBundler } from "@payloadcms/bundler-webpack";
 
-import { Posts } from "./collections/Post";
-import { Offers } from "./collections/Offer";
 import { Admins } from "./collections/Admin";
 import { Users } from "./collections/User";
+import { Media } from "./collections/Media";
+import { Categories } from "./collections/Categorie";
+import { Partners } from "./collections/Partner";
+import { Discounts } from "./collections/Discount";
 
 export default buildConfig({
   db: postgresAdapter({
@@ -20,7 +23,7 @@ export default buildConfig({
     bundler: webpackBundler(),
     user: "admins",
   },
-  collections: [Admins, Users, Posts, Offers],
+  collections: [Admins, Users, Media, Categories, Partners, Discounts],
   localization: {
     locales: ["fr"],
     defaultLocale: "fr",

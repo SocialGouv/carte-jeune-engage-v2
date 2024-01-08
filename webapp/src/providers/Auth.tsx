@@ -1,4 +1,5 @@
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie, deleteCookie } from "cookies-next";
+import { useRouter } from "next/router";
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { User } from "~/payload/payload-types";
 
@@ -13,16 +14,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchMe = async () => {
       const token = getCookie("cje-jwt");
+      if (!token) return;
       const result = await fetch("/api/users/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }).then((req) => req.json());
-      setUser(result.user || null);
+      if (result && result.user !== null) {
+        setUser(result.user);
+      } else {
+        setUser(null);
+        deleteCookie("cje-jwt");
+        router.push("/login");
+      }
     };
 
     fetchMe();

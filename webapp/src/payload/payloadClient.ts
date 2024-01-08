@@ -1,9 +1,6 @@
 import { Payload, getPayload } from "payload/dist/payload";
 import config from "./payload.config";
-
-if (!process.env.PAYLOAD_SECRET) {
-  throw new Error("PAYLOAD_SECRET environment variable is missing");
-}
+import { env } from "~/env";
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
@@ -21,7 +18,11 @@ if (!cached) {
   cached = (global as any).payload = { client: null, promise: null };
 }
 
-export const getPayloadClient = async (): Promise<Payload> => {
+interface Args {
+  seed?: boolean;
+}
+
+export const getPayloadClient = async (args: Args): Promise<Payload> => {
   if (cached.client) {
     return cached.client;
   }
@@ -31,6 +32,7 @@ export const getPayloadClient = async (): Promise<Payload> => {
       // Make sure that your environment variables are filled out accordingly
       secret: process.env.PAYLOAD_SECRET as string,
       config: config,
+      local: args?.seed ?? false,
     });
   }
 

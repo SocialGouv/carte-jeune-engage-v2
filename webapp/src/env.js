@@ -8,6 +8,10 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    DATABASE_URL: z.string().url(),
+    PAYLOAD_SECRET: z.string(),
+    PAYLOAD_CONFIG_PATH: z.string(),
+    JWT_NAME: z.string(),
   },
 
   /**
@@ -25,6 +29,10 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    DATABASE_URL: process.env.DATABASE_URL,
+    PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
+    PAYLOAD_CONFIG_PATH: process.env.PAYLOAD_CONFIG_PATH,
+    JWT_NAME: process.env.JWT_NAME,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

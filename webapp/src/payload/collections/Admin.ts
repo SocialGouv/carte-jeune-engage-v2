@@ -12,16 +12,20 @@ export const Admins: CollectionConfig = {
       name: "email",
       type: "email",
       label: "Email",
+      required: true,
+      unique: true,
     },
     {
       name: "firstName",
       type: "text",
       label: "Prénom",
+      required: true,
     },
     {
       name: "lastName",
       type: "text",
       label: "Nom",
+      required: true,
     },
   ],
 };
