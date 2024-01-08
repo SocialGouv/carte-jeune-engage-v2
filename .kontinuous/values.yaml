@@ -1,0 +1,26 @@
+app:
+  ~chart: app
+  ~needs: [build-app]
+  host: "app-{{ $.Values.global.host }}"
+  imagePackage: app
+  probesPath: /api/healthz
+
+  env:
+    - name: DATABASE_URL
+      value: "$(DATABASE_URL)"
+  envFrom:
+    - secretRef:
+        name: app-sealed-secret
+    - configMapRef:
+        name: app-configmap
+
+cnpg-cluster:
+  ~chart: pg
+
+jobs:
+  runs:
+    build-app:
+      use: build
+      with:
+        imagePackage: app
+        context: ./webapp
