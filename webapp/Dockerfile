@@ -2,7 +2,6 @@ ARG NODE_VERSION=lts-alpine3.18@sha256:ef5e088232f803cadb83326edb4731015f42961d2
 
 FROM node:NODE_VERSION as base
 WORKDIR /app
-ARG PRODUCTION
 
 FROM base as dependencies
 COPY yarn.lock .yarnrc.yml ./
@@ -16,9 +15,10 @@ COPY --from=dependencies /app/node_modules ./node_modules
 RUN yarn build
 
 # prepare runtime dependencies
-RUN yarn --production && yarn cache clean
+RUN yarn workspaces focus --production && yarn cache clean
 
 FROM base as runner
+ARG PRODUCTION
 ENV NODE_ENV production
 
 COPY --from=builder /app/public ./public
