@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "seed": "rm -rf ./public/payload/media && PAYLOAD_DROP_DATABASE=true tsx ./src/payload/seed/index.ts",
+    "seed": "rm -rf ./public/images/payload/media && PAYLOAD_DROP_DATABASE=true tsx ./src/payload/seed/index.ts",
     "lint": "next lint"
   },
   "dependencies": {

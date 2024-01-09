@@ -26,7 +26,7 @@ export async function seedPartners(payload: Payload) {
       collection: "media",
       filePath: path.join(
         __dirname,
-        `../../../public/seeds/partners/${partner.name.toLowerCase()}.svg`
+        `../../../public/images/seeds/partners/${partner.name.toLowerCase()}.svg`
       ),
       data: {
         alt: `${partner.name.toLowerCase()} icon`,

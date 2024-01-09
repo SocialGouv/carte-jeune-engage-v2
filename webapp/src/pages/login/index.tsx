@@ -1,24 +1,9 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
 import { api } from "~/utils/api";
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Icon,
-  Input,
-  cookieStorageManager,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Icon } from "@chakra-ui/react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import FormInput from "~/components/FormInput";
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { useRouter } from "next/router";
-import { Users } from "~/payload/collections/User";
 import { setCookie } from "cookies-next";
 
 type LoginForm = {
@@ -51,6 +36,7 @@ export default function Home() {
       display="flex"
       flexDir="column"
       py={12}
+      px={6}
       justifyContent="space-between"
       h="full"
     >

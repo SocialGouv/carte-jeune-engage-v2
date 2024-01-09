@@ -1,6 +1,5 @@
 import { type AppType } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
-import OnBoardingLayout from "~/layouts/OnBoardingLayout";
 import DefaultLayout from "~/layouts/DefaultLayout";
 import "~/styles/globals.css";
 
@@ -16,7 +15,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     if (pathname.startsWith("/admin")) {
       return children;
     } else {
-      return <OnBoardingLayout>{children}</OnBoardingLayout>;
+      return <DefaultLayout>{children}</DefaultLayout>;
     }
   };
 

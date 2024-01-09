@@ -20,20 +20,20 @@ export default function Home() {
       title: "Des réductions pour vous accompagner au quotidien",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-      image: "/onboarding/discount.svg",
+      image: "/images/onboarding/discount.svg",
     },
     {
       title: "Générer facilement la promo associé à l’offre",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-      image: "/onboarding/box.svg",
+      image: "/images/onboarding/box.svg",
     },
     {
       title:
         "Utilisez la promo en ligne ou directement chez l’enseigne partenaire",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-      image: "/onboarding/computer.svg",
+      image: "/images/onboarding/computer.svg",
     },
   ];
 

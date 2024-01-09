@@ -1,5 +1,41 @@
 /* theme.ts */
 import { extendTheme } from "@chakra-ui/react";
+import localFont from "next/font/local";
+
+export const Marianne = localFont({
+  src: [
+    {
+      path: "../styles/fonts/Marianne-Thin.woff2",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../styles/fonts/Marianne-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../styles/fonts/Marianne-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../styles/fonts/Marianne-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../styles/fonts/Marianne-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../styles/fonts/Marianne-ExtraBold.woff2",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+});
 
 export const theme = extendTheme({
   components: {
@@ -29,5 +65,10 @@ export const theme = extendTheme({
       "900": "#282a87",
       "950": "#18184e",
     },
+    bgWhite: "#F7F7FA",
+  },
+  fonts: {
+    heading: Marianne.style.fontFamily,
+    body: Marianne.style.fontFamily,
   },
 });

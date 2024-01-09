@@ -35,7 +35,7 @@ export async function seedCategories(payload: Payload) {
       collection: "media",
       filePath: path.join(
         __dirname,
-        `../../../public/seeds/categories/${category.slug}.${
+        `../../../public/images/seeds/categories/${category.slug}.${
           category.slug === "mobility" ? "png" : "svg"
         }`
       ),

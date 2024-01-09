@@ -7,8 +7,8 @@ export const Media: CollectionConfig = {
     plural: "Images",
   },
   upload: {
-    staticURL: "/payload/media",
-    staticDir: "../public/payload/media",
+    staticURL: "/images/payload/media",
+    staticDir: "../public/images/payload/media",
     imageSizes: [
       {
         name: "thumbnail",

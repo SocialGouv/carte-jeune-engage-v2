@@ -31,7 +31,7 @@ export async function seedDiscounts(payload: Payload) {
       partner: partners.findIndex((partner) => partner.name === "Flixbus") + 1,
       category:
         categories.findIndex((category) => category.slug === "mobility") + 1,
-      kind: "voucher",
+      kind: "code",
     },
   ];
 
