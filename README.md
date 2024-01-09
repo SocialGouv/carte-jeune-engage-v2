@@ -24,6 +24,12 @@ Installez les dépendances nécessaires :
 yarn
 ```
 
+Générez les données de test :
+
+```bash
+yarn seed
+```
+
 Lancez l'application, qui sera accessible sur le port 3000 :
 
 ```bash
