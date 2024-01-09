@@ -44,7 +44,7 @@ export default function Dashboard() {
           {isLoadingCategories ? (
             <Text>Loading...</Text>
           ) : (
-            categories?.map((category: Category) => (
+            categories?.map((category) => (
               <Flex key={category.id} flexDir="column" textAlign="center">
                 <Flex
                   justifyContent="center"
@@ -55,8 +55,8 @@ export default function Dashboard() {
                   height="74px"
                 >
                   <Image
-                    src={category.icon.url}
-                    alt={category.icon.alt}
+                    src={category.icon.url ?? ""}
+                    alt={category.icon.alt ?? ""}
                     width={40}
                     height={40}
                   />
@@ -93,7 +93,7 @@ export default function Dashboard() {
           {isLoadingDiscounts ? (
             <Text>Loading...</Text>
           ) : (
-            discounts?.map((discount: Discount) => (
+            discounts?.map((discount) => (
               <Flex key={discount.id} flexDir="column" minW="250px">
                 <Flex
                   flexDir="column"
@@ -108,8 +108,8 @@ export default function Dashboard() {
                   <Flex alignItems="center" gap={4}>
                     <Box bgColor="white" borderRadius={6} p={1}>
                       <Image
-                        src={discount.partner.icon.url}
-                        alt={discount.partner.icon.alt}
+                        src={discount.partner.icon.url ?? ""}
+                        alt={discount.partner.icon.alt ?? ""}
                         width={40}
                         height={40}
                       />
@@ -130,8 +130,8 @@ export default function Dashboard() {
                       p={1}
                     >
                       <Image
-                        src={discount.category.icon.url}
-                        alt={discount.partner.icon.alt}
+                        src={discount.category.icon.url ?? ""}
+                        alt={discount.partner.icon.alt ?? ""}
                         width={20}
                         height={20}
                       />

@@ -1,7 +1,9 @@
-import { TRPCError } from "@trpc/server";
-import APIError from "payload/dist/errors/APIError";
-import { z } from "zod";
+import type { Category, Media } from "~/payload/payload-types";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+
+interface CategoryIncluded extends Category {
+  icon: Media;
+}
 
 export const categoryRouter = createTRPCRouter({
   getList: publicProcedure.query(async ({ ctx }) => {
@@ -11,6 +13,6 @@ export const categoryRouter = createTRPCRouter({
       limit: 100,
     });
 
-    return { data: categories.docs };
+    return { data: categories.docs as CategoryIncluded[] };
   }),
 });

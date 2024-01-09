@@ -1,7 +1,10 @@
-import { TRPCError } from "@trpc/server";
-import APIError from "payload/dist/errors/APIError";
-import { z } from "zod";
+import { Category, Discount, Media, Partner } from "~/payload/payload-types";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+
+interface DiscountIncluded extends Discount {
+  partner: Partner & { icon: Media };
+  category: Category & { icon: Media };
+}
 
 export const discountRouter = createTRPCRouter({
   getList: publicProcedure.query(async ({ ctx }) => {
@@ -10,6 +13,6 @@ export const discountRouter = createTRPCRouter({
       limit: 100,
     });
 
-    return { data: discounts.docs };
+    return { data: discounts.docs as DiscountIncluded[] };
   }),
 });
