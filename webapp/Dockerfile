@@ -3,15 +3,12 @@ ARG NODE_VERSION=lts-alpine3.18@sha256:ef5e088232f803cadb83326edb4731015f42961d2
 FROM node:$NODE_VERSION as base
 WORKDIR /app
 
-FROM base as dependencies
+FROM base as builder
 COPY yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
 RUN yarn fetch
 
-FROM base as builder
-
 COPY . .
-COPY --from=dependencies /app/node_modules ./node_modules
 RUN yarn build
 
 # prepare runtime dependencies
