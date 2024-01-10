@@ -1,2 +1,7 @@
 projectName: carte-jeune-engage
 ciNamespace: ci-carte-jeune-engage
+
+dependencies:
+  fabrique:
+    extends:
+      - name: ovh
