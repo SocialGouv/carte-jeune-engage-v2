@@ -1827,10 +1827,10 @@
     webpack-dev-middleware "6.0.1"
     webpack-hot-middleware "^2.25.3"
 
-"@payloadcms/db-postgres@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@payloadcms/db-postgres/-/db-postgres-0.2.3.tgz#3f3a81fd9dc2e80a1b765ea2a0c3b2f1c1ab477c"
-  integrity sha512-hE/P0wydgwwBgp7EC7+LzAT0XjzOHIytmW1kroyb5z6Sp+BVwNndjjLftsXsPbJ+BVAdEzmu4BHdjUqlrrF/2g==
+"@payloadcms/db-postgres@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@payloadcms/db-postgres/-/db-postgres-0.3.0.tgz#45f2a2a2144053c8e4613d6bab3be2cb65db32a2"
+  integrity sha512-VQ+6yPpt1aXNODLen/A9Lo1IbgtxFvv2dgVn9NmAwfTnBTX82miPGcseK3Jx8oSeAHF/IksHIFbTfXJp2VmNUQ==
   dependencies:
     "@libsql/client" "^0.3.1"
     console-table-printer "2.11.2"
