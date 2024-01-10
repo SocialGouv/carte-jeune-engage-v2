@@ -1,6 +1,6 @@
 ARG NODE_VERSION=lts-alpine3.18@sha256:ef5e088232f803cadb83326edb4731015f42961d23a11510b109c2c98cfbb945
 
-FROM node:NODE_VERSION as base
+FROM node:$NODE_VERSION as base
 WORKDIR /app
 
 FROM base as dependencies
@@ -15,7 +15,7 @@ COPY --from=dependencies /app/node_modules ./node_modules
 RUN yarn build
 
 # prepare runtime dependencies
-RUN yarn workspaces focus --production && yarn cache clean
+RUN yarn workspaces focus --production
 
 FROM base as runner
 ARG PRODUCTION
@@ -24,6 +24,9 @@ ENV NODE_ENV production
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
+
+COPY --from=builder /app/package.json .
+COPY --from=builder /app/next.config.js .
 
 # Block crawlers for staging deployments
 RUN if [ -z "$PRODUCTION" ]; then mv -f public/robots.staging.txt public/robots.txt; \
