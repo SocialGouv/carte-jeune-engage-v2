@@ -3,10 +3,10 @@ on:
   push:
     branches:
       - "**"
-      - "!master"
       - "!main"
       - "!feat/**"
       - "!fix/**"
+      - "!chore/**"
 
 concurrency:
   cancel-in-progress: true
