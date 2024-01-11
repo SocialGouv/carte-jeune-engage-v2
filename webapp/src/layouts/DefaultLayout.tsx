@@ -3,6 +3,7 @@ import Head from "next/head";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 import InstallationBanner from "~/components/InstallationBanner";
+import BottomNavigation from "~/components/BottomNavigation";
 
 export default function DefaultLayout({
   children,
@@ -12,6 +13,7 @@ export default function DefaultLayout({
   classname?: string;
 }) {
   const pathname = usePathname();
+
   return (
     <>
       <Head>
@@ -58,6 +60,9 @@ export default function DefaultLayout({
           >
             {children}
           </Container>
+          {(pathname === "/dashboard" ||
+            pathname === "/dashboard/offers" ||
+            pathname === "/dashboard/account") && <BottomNavigation />}
           <InstallationBanner />
         </Box>
       </Box>

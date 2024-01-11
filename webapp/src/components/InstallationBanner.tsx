@@ -83,7 +83,7 @@ const InstallationBanner: React.FC = () => {
   return (
     <Flex
       position="absolute"
-      bottom={12}
+      bottom={24}
       left={6}
       right={6}
       bg="white"

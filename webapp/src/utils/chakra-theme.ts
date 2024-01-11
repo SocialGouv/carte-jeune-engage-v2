@@ -66,6 +66,7 @@ export const theme = extendTheme({
       "950": "#18184e",
     },
     bgWhite: "#F7F7FA",
+    disabled: "#9595B1",
   },
   fonts: {
     heading: Marianne.style.fontFamily,
