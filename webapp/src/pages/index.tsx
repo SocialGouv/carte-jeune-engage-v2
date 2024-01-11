@@ -40,21 +40,22 @@ export default function Home() {
   const [onBoardingItemIndex, setOnBoardingItemIndex] = useState(0);
 
   return (
-    <Box pt={24} h="full">
+    <Flex flexDir="column" h="full" justifyContent="space-between">
       <Image
         src={onBoardingItems[onBoardingItemIndex]?.image}
         alt={onBoardingItems[onBoardingItemIndex]?.title}
         w="full"
+        my="auto"
         h="350px"
         objectPosition="bottom"
         objectFit="cover"
       />
-      <Box w="full" px={6}>
+      <Box w="full" px={6} mb={6}>
         <Flex
           px={6}
           py={8}
-          h="45vh"
           flexDir="column"
+          h="45vh"
           borderRadius="3xl"
           textAlign="center"
           background="linear-gradient(217deg, rgba(252, 252, 253, 0.50) -0.01%, rgba(252, 252, 253, 0.30) 100%)"
@@ -62,11 +63,10 @@ export default function Home() {
           <Heading as="h2" fontSize="xl" fontWeight="semibold">
             {onBoardingItems[onBoardingItemIndex]?.title}
           </Heading>
-          <Text mt={4} fontSize="sm">
+          <Text my={4} fontSize="sm">
             {onBoardingItems[onBoardingItemIndex]?.description}
           </Text>
           <Flex flexDir="column" mt="auto" mx="auto">
-            <Button onClick={() => router.push("/login")}>Connexion</Button>
             <Flex
               bgColor="white"
               mt={5}
@@ -91,19 +91,18 @@ export default function Home() {
                 w="24px"
                 h="24px"
                 onClick={() => {
-                  if (onBoardingItemIndex !== onBoardingItems.length - 1)
+                  if (onBoardingItemIndex !== onBoardingItems.length - 1) {
                     setOnBoardingItemIndex((prev) => prev + 1);
+                  } else {
+                    router.push("/login");
+                  }
                 }}
-                color={
-                  onBoardingItemIndex === onBoardingItems.length - 1
-                    ? "gray.300"
-                    : "primary.500"
-                }
+                color="primary.500"
               />
             </Flex>
           </Flex>
         </Flex>
       </Box>
-    </Box>
+    </Flex>
   );
 }

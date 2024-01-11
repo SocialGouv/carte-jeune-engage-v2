@@ -1,5 +1,4 @@
 import path from "path";
-import { env } from "~/env";
 import { buildConfig } from "payload/config";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { slateEditor } from "@payloadcms/richtext-slate";
