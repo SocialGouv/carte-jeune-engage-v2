@@ -7,10 +7,17 @@ import { DiscountKindBadge } from "~/components/DiscountKindBadge";
 
 export default function Dashboard() {
   const { data: resultCategories, isLoading: isLoadingCategories } =
-    api.category.getList.useQuery();
+    api.category.getList.useQuery({
+      page: 1,
+      perPage: 50,
+      sort: "createdAt",
+    });
 
   const { data: resultDiscounts, isLoading: isLoadingDiscounts } =
-    api.discount.getList.useQuery();
+    api.discount.getList.useQuery({
+      page: 1,
+      perPage: 50,
+    });
 
   const { data: categories } = resultCategories || {};
 
