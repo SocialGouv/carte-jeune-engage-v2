@@ -2,6 +2,7 @@ import { Box, Container } from "@chakra-ui/react";
 import Head from "next/head";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
+import InstallationBanner from "~/components/InstallationBanner";
 
 export default function DefaultLayout({
   children,
@@ -14,8 +15,18 @@ export default function DefaultLayout({
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <title>Carte Jeune Engagé</title>
         <meta name="description" content="Carte Jeune Engagé" />
+        <link rel="shortcut icon" href="/pwa/appIcon/maskable_icon_x48.png" />
+        <link rel="manifest" href="/pwa/manifest.json" />
+        /* iOS */
+        <meta name="apple-mobile-web-app-status-bar-style" content="#F7F7FA" />
+        <link
+          rel="apple-touch-icon"
+          href="/pwa/appIcon/maskable_icon_x192.png"
+        />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
       </Head>
       <Box
         as="main"
@@ -47,6 +58,7 @@ export default function DefaultLayout({
           >
             {children}
           </Container>
+          <InstallationBanner />
         </Box>
       </Box>
     </>

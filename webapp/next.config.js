@@ -2,11 +2,15 @@
 const path = require("path");
 const { withPayload } = require("@payloadcms/next-payload");
 
+const withPWA = require("@ducanh2912/next-pwa").default({
+  dest: "public/pwa",
+});
+
 module.exports = withPayload(
-  {
+  withPWA({
     // your Next config here
     reactStrictMode: true,
-  },
+  }),
   {
     // The second argument to `withPayload`
     // allows you to specify paths to your Payload dependencies
