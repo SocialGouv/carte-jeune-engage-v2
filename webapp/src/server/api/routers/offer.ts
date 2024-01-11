@@ -1,28 +1,28 @@
-import { Category, Discount, Media, Partner } from "~/payload/payload-types";
+import { Category, Offer, Media, Partner } from "~/payload/payload-types";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { ZGetListParams } from "~/server/types";
 
-interface DiscountIncluded extends Discount {
+interface OfferIncluded extends Offer {
   partner: Partner & { icon: Media };
   category: Category & { icon: Media };
 }
 
-export const discountRouter = createTRPCRouter({
+export const offerRouter = createTRPCRouter({
   getList: publicProcedure
     .input(ZGetListParams)
     .query(async ({ ctx, input }) => {
       const { perPage, page, sort } = input;
 
-      const discounts = await ctx.payload.find({
-        collection: "discounts",
+      const offers = await ctx.payload.find({
+        collection: "offers",
         limit: perPage,
         page: page,
         sort,
       });
 
       return {
-        data: discounts.docs as DiscountIncluded[],
-        metadata: { page, count: discounts.docs.length },
+        data: offers.docs as OfferIncluded[],
+        metadata: { page, count: offers.docs.length },
       };
     }),
 });

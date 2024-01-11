@@ -13,7 +13,7 @@ export interface Config {
     media: Media;
     categories: Category;
     partners: Partner;
-    discounts: Discount;
+    offers: Offer;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -104,7 +104,7 @@ export interface Partner {
   updatedAt: string;
   createdAt: string;
 }
-export interface Discount {
+export interface Offer {
   id: number;
   title: string;
   partner: number | Partner;

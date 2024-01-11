@@ -1,10 +1,10 @@
 import { type CollectionConfig } from "payload/types";
 
-export const Discounts: CollectionConfig = {
-  slug: "discounts",
+export const Offers: CollectionConfig = {
+  slug: "offers",
   labels: {
-    singular: "Réduction",
-    plural: "Réductions",
+    singular: "Offre",
+    plural: "Offres",
   },
   fields: [
     {

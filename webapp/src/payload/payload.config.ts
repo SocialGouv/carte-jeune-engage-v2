@@ -9,7 +9,7 @@ import { Users } from "./collections/User";
 import { Media } from "./collections/Media";
 import { Categories } from "./collections/Categorie";
 import { Partners } from "./collections/Partner";
-import { Discounts } from "./collections/Discount";
+import { Offers } from "./collections/Offer";
 
 export default buildConfig({
   db: postgresAdapter({
@@ -22,7 +22,7 @@ export default buildConfig({
     bundler: webpackBundler(),
     user: "admins",
   },
-  collections: [Admins, Users, Media, Categories, Partners, Discounts],
+  collections: [Admins, Users, Media, Categories, Partners, Offers],
   localization: {
     locales: ["fr"],
     defaultLocale: "fr",

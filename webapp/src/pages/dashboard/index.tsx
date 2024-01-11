@@ -1,9 +1,8 @@
-import { Badge, Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Category, Discount } from "~/payload/payload-types";
 import { api } from "~/utils/api";
-import { DiscountKindBadge } from "~/components/DiscountKindBadge";
+import { OfferKindBadge } from "~/components/OfferKindBadge";
 
 export default function Dashboard() {
   const { data: resultCategories, isLoading: isLoadingCategories } =
@@ -13,15 +12,15 @@ export default function Dashboard() {
       sort: "createdAt",
     });
 
-  const { data: resultDiscounts, isLoading: isLoadingDiscounts } =
-    api.discount.getList.useQuery({
+  const { data: resultOffers, isLoading: isLoadingOffers } =
+    api.offer.getList.useQuery({
       page: 1,
       perPage: 50,
     });
 
   const { data: categories } = resultCategories || {};
 
-  const { data: discounts } = resultDiscounts || {};
+  const { data: offers } = resultOffers || {};
 
   return (
     <Box>
@@ -97,31 +96,31 @@ export default function Dashboard() {
             },
           }}
         >
-          {isLoadingDiscounts ? (
+          {isLoadingOffers ? (
             <Text>Loading...</Text>
           ) : (
-            discounts?.map((discount) => (
-              <Flex key={discount.id} flexDir="column" minW="250px">
+            offers?.map((offer) => (
+              <Flex key={offer.id} flexDir="column" minW="250px">
                 <Flex
                   flexDir="column"
-                  bgColor={discount.category.color}
+                  bgColor={offer.category.color}
                   gap={2}
                   p={3}
                   borderTopRadius={12}
                 >
                   <Box alignSelf="start">
-                    <DiscountKindBadge kind={discount.kind} variant="dark" />
+                    <OfferKindBadge kind={offer.kind} variant="dark" />
                   </Box>
                   <Flex alignItems="center" gap={4}>
                     <Box bgColor="white" borderRadius={6} p={1}>
                       <Image
-                        src={discount.partner.icon.url ?? ""}
-                        alt={discount.partner.icon.alt ?? ""}
+                        src={offer.partner.icon.url ?? ""}
+                        alt={offer.partner.icon.alt ?? ""}
                         width={40}
                         height={40}
                       />
                     </Box>
-                    <Text fontWeight="bold">{discount.partner.name}</Text>
+                    <Text fontWeight="bold">{offer.partner.name}</Text>
                   </Flex>
                 </Flex>
                 <Flex
@@ -132,21 +131,21 @@ export default function Dashboard() {
                 >
                   <Flex alignItems="center" gap={2}>
                     <Box
-                      bgColor={discount.category.color}
+                      bgColor={offer.category.color}
                       borderRadius="full"
                       p={1}
                     >
                       <Image
-                        src={discount.category.icon.url ?? ""}
-                        alt={discount.partner.icon.alt ?? ""}
+                        src={offer.category.icon.url ?? ""}
+                        alt={offer.partner.icon.alt ?? ""}
                         width={20}
                         height={20}
                       />
                     </Box>
-                    <Text fontSize="sm">{discount.category.label}</Text>
+                    <Text fontSize="sm">{offer.category.label}</Text>
                   </Flex>
                   <Text fontWeight="bold" fontSize="sm" noOfLines={2} mt={2}>
-                    {discount.title}
+                    {offer.title}
                   </Text>
                 </Flex>
               </Flex>

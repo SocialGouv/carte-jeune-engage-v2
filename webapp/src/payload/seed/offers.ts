@@ -1,10 +1,10 @@
 import { type Payload } from "payload";
-import { Discount } from "../payload-types";
+import { Offer } from "../payload-types";
 import { partners } from "./partners";
 import { categories } from "./categories";
 
-export async function seedDiscounts(payload: Payload) {
-  const discounts: Omit<Discount, "id" | "createdAt" | "updatedAt">[] = [
+export async function seedOffers(payload: Payload) {
+  const offers: Omit<Offer, "id" | "createdAt" | "updatedAt">[] = [
     {
       title: "15% de réduction sur les produits alimentaire",
       partner: partners.findIndex((partner) => partner.name === "Leclerc") + 1,
@@ -35,10 +35,10 @@ export async function seedDiscounts(payload: Payload) {
     },
   ];
 
-  for (const discount of discounts) {
+  for (const offer of offers) {
     await payload.create({
-      collection: "discounts",
-      data: discount,
+      collection: "offers",
+      data: offer,
     });
   }
 }

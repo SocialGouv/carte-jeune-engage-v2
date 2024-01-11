@@ -1,13 +1,13 @@
 import { Flex, Icon, Text } from "@chakra-ui/react";
-import { type Discount } from "~/payload/payload-types";
+import { type Offer } from "~/payload/payload-types";
 import { BsCart2 } from "react-icons/bs";
 import { OnlineIcon } from "~/components/icons/online";
 
-export const DiscountKindBadge = ({
+export const OfferKindBadge = ({
   kind,
   variant,
 }: {
-  kind: Discount["kind"];
+  kind: Offer["kind"];
   variant: "light" | "dark";
 }) => {
   return (

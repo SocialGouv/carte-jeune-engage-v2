@@ -4,7 +4,7 @@ import { getPayloadClient } from "../payloadClient";
 
 import { seedCategories } from "./categories";
 import { seedPartners } from "./partners";
-import { seedDiscounts } from "./discounts";
+import { seedOffers } from "./offers";
 
 export const seedData = async () => {
   try {
@@ -36,7 +36,7 @@ export const seedData = async () => {
 
     await seedPartners(payload);
 
-    await seedDiscounts(payload);
+    await seedOffers(payload);
   } catch (e) {
     console.error(e);
   } finally {
