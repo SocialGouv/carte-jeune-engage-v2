@@ -5,3 +5,24 @@ jobs:
       with:
         buildArgs:
           PRODUCTION: 1
+app:
+  host: cje.fabrique.social.gouv.fr
+  envFrom:
+    - secretRef:
+        name: pg-app
+    - secretRef:
+        name: app-sealed-secret
+    - configMapRef:
+        name: app-configmap
+    - secretRef:
+        name: azure-cje-volume
+    - secretRef:
+        name: carte-jeune-engage-prod-app-access-key
+
+pg:
+  cnpg-cluster:
+    resources:
+      requests:
+        memory: 128Mi
+      limits:
+        memory: 1Gi

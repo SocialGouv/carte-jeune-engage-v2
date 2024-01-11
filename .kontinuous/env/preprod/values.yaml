@@ -1,0 +1,5 @@
+app:
+  host: "cje-preprod.ovh.fabrique.social.gouv.fr"
+  envFrom:
+    - secretRef:
+      name: carte-jeune-engage-dev-app-access-key
