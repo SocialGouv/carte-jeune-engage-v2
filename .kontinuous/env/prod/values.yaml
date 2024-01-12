@@ -5,3 +5,14 @@ jobs:
       with:
         buildArgs:
           PRODUCTION: 1
+app:
+  host: cje.fabrique.social.gouv.fr
+  envFrom:
+    - secretRef:
+        name: pg-app
+    - secretRef:
+        name: app-sealed-secret
+    - configMapRef:
+        name: app-configmap
+    - secretRef:
+        name: carte-jeune-engage-prod-app-access-key
