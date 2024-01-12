@@ -1,4 +1,10 @@
 app:
   envFrom:
     - secretRef:
-      name: carte-jeune-engage-dev-app-access-key
+        name: pg-app
+    - secretRef:
+        name: app-sealed-secret
+    - configMapRef:
+        name: app-configmap
+    - secretRef:
+        name: carte-jeune-engage-dev-app-access-key
