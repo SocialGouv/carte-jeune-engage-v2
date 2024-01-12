@@ -27,12 +27,18 @@ export const api = createTRPCNext<AppRouter>({
        * @see https://trpc.io/docs/data-transformers
        */
       transformer: superjson,
-
       /**
        * Links used to determine request flow from client to server.
        *
        * @see https://trpc.io/docs/links
        */
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            networkMode: "always",
+          },
+        },
+      },
       links: [
         loggerLink({
           enabled: (opts) =>

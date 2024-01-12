@@ -41,5 +41,6 @@ public/images/payload/media/*
 
 
 # Next Pwa
-public/pwa/sw*.js*
-public/pwa/workbox*.js*
+public/sw*.js*
+public/workbox*.js*
+public/fallback*.js*

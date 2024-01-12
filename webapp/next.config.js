@@ -3,7 +3,15 @@ const path = require("path");
 const { withPayload } = require("@payloadcms/next-payload");
 
 const withPWA = require("@ducanh2912/next-pwa").default({
-  dest: "public/pwa",
+  dest: "public",
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  reloadOnOnline: true,
+  dynamicStartUrl: true,
+  workboxOptions: {
+    maximumFileSizeToCacheInBytes: 10000000,
+    disableDevLogs: true,
+  },
 });
 
 module.exports = withPayload(
