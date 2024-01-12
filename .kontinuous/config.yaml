@@ -5,14 +5,3 @@ dependencies:
   fabrique:
     extends:
       - name: ovh
-        ifEnv: [dev, preprod]
-      - name: buildkit-service
-        ifEnv: [dev, preprod]
-    dependencies:
-      contrib:
-        preDeploy:
-          importSecrets:
-            options:
-              secrets:
-                carte-jeune-engage-dev-backups-access-key:
-                carte-jeune-engage-prod-backups-access-key:

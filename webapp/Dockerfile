@@ -1,44 +1,40 @@
 ARG NODE_VERSION=lts-alpine3.18@sha256:ef5e088232f803cadb83326edb4731015f42961d23a11510b109c2c98cfbb945
 
-FROM node:$NODE_VERSION as dependencies
+FROM node:$NODE_VERSION as base
 WORKDIR /app
-ARG PRODUCTION
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
 
-FROM node:$NODE_VERSION as builder
-WORKDIR /app
-ARG PRODUCTION
+FROM base as builder
+COPY yarn.lock .yarnrc.yml ./
+COPY .yarn .yarn
+RUN yarn fetch
 
 COPY . .
-COPY --from=dependencies /app/node_modules ./node_modules
 RUN yarn build
 
-FROM node:$NODE_VERSION as runner
-WORKDIR /app
+# prepare runtime dependencies
+RUN yarn workspaces focus --production
+
+FROM base as runner
 ARG PRODUCTION
 ENV NODE_ENV production
 
-COPY package.json yarn.lock ./
-# Remove dev dependencies
-RUN yarn install --production --frozen-lockfile && \
-    yarn cache clean
-
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs
-
 COPY --from=builder /app/public ./public
+COPY --from=builder /app/src ./src
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 
+COPY --from=builder /app/package.json .
+COPY --from=builder /app/next.config.js .
+
 # Block crawlers for staging deployments
 RUN if [ -z "$PRODUCTION" ]; then mv -f public/robots.staging.txt public/robots.txt; \
-    else rm -f public/robots.staging.txt; fi
+  else rm -f public/robots.staging.txt; fi
 
-RUN chmod 1777 /tmp
-RUN chmod 1777 /app
+# may not be necessary
+# RUN chmod 1777 /tmp
+# RUN chmod 1777 /app
 
-USER 1001
+USER 1000
 
 EXPOSE 3000
 ENV PORT 3000

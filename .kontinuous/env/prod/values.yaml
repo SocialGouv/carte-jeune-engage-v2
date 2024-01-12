@@ -1,19 +1,7 @@
-app:
-  host: cje.fabrique.social.gouv.fr
-  envFrom:
-    - secretRef:
-        name: pg-app
-    - secretRef:
-        name: app-sealed-secret
-    - configMapRef:
-        name: app-configmap
-    - secretRef:
-        name: azure-cje-volume
-
-pg:
-  cnpg-cluster:
-    resources:
-      requests:
-        memory: 128Mi
-      limits:
-        memory: 1Gi
+jobs:
+  runs:
+    build-app:
+      use: build
+      with:
+        buildArgs:
+          PRODUCTION: 1
