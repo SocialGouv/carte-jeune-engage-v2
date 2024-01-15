@@ -7,12 +7,22 @@
  * need to use are documented accordingly near the end.
  */
 
-import { initTRPC } from "@trpc/server";
+import { TRPCError, initTRPC } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 import getPayloadClient from "~/payload/payloadClient";
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
+import { getCookie } from "cookies-next";
+import { env } from "~/env";
+import { jwtDecode } from "jwt-decode";
+
+type PayloadJwtSession = {
+  id: number;
+  email: string;
+  iat: string;
+  exp: string;
+} | null;
 
 /**
  * 1. CONTEXT
@@ -49,8 +59,20 @@ export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
     seed: false,
   });
 
+  const jwtCookie = _opts.req.cookies[process.env.JWT_NAME as string];
+
+  if (!jwtCookie) {
+    return {
+      payload,
+      session: null,
+    };
+  }
+
+  const session = jwtDecode<PayloadJwtSession>(jwtCookie);
+
   return {
     payload,
+    session,
   };
 };
 
@@ -76,6 +98,30 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
   },
 });
 
+const isAuthed = t.middleware(async ({ next, ctx }) => {
+  const user = await ctx.payload.find({
+    collection: "users",
+    where: {
+      email: {
+        equals: ctx.session?.email,
+      },
+    },
+  });
+
+  if (ctx.session?.email === undefined || !user) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "You are not authorized to perform this action",
+    });
+  }
+
+  return next({
+    ctx: {
+      session: ctx.session,
+    },
+  });
+});
+
 /**
  * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)
  *
@@ -98,3 +144,5 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+export const protectedProcedure = t.procedure.use(isAuthed);

@@ -1,7 +1,11 @@
 import { TRPCError } from "@trpc/server";
 import APIError from "payload/dist/errors/APIError";
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
   register: publicProcedure
@@ -58,18 +62,9 @@ export const userRouter = createTRPCRouter({
       return { data: user };
     }),
 
-  logout: publicProcedure.mutation(async ({ ctx }) => {
+  logout: protectedProcedure.mutation(async () => {
     await fetch("/api/users/logout");
 
     return { data: true };
-  }),
-
-  getList: publicProcedure.query(async ({ ctx }) => {
-    const users = await ctx.payload.find({
-      collection: "users",
-      limit: 100,
-    });
-
-    return { data: users.docs };
   }),
 });

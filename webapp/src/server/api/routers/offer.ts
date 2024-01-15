@@ -1,5 +1,5 @@
 import { Category, Offer, Media, Partner } from "~/payload/payload-types";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { ZGetListParams } from "~/server/types";
 
 interface OfferIncluded extends Offer {
@@ -8,7 +8,7 @@ interface OfferIncluded extends Offer {
 }
 
 export const offerRouter = createTRPCRouter({
-  getList: publicProcedure
+  getList: protectedProcedure
     .input(ZGetListParams)
     .query(async ({ ctx, input }) => {
       const { perPage, page, sort } = input;
