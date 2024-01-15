@@ -18,6 +18,9 @@ module.exports = withPayload(
   withPWA({
     // your Next config here
     reactStrictMode: true,
+    images: {
+      domains: ["localhost"],
+    },
   }),
   {
     // The second argument to `withPayload`
