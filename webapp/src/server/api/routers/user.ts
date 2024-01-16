@@ -54,12 +54,30 @@ export const userRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input: userInput }) => {
-      const user = await ctx.payload.login({
-        collection: "users",
-        data: userInput,
-      });
+      try {
+        const user = await ctx.payload.login({
+          collection: "users",
+          data: userInput,
+        });
 
-      return { data: user };
+        return { data: user };
+      } catch (error) {
+        if (error && typeof error === "object" && "status" in error) {
+          if (error.status === 401) {
+            throw new TRPCError({
+              code: "UNAUTHORIZED",
+              message: "Invalid email or password",
+              cause: error,
+            });
+          }
+        }
+
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Unknown error",
+          cause: error,
+        });
+      }
     }),
 
   logout: protectedProcedure.mutation(async () => {
