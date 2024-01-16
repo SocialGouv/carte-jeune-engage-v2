@@ -1,6 +1,5 @@
 import { Payload, getPayload } from "payload/dist/payload";
 import config from "./payload.config";
-import { env } from "~/env";
 
 /**
  * Global is used here to maintain a cached connection across hot reloads

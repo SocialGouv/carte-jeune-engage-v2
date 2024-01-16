@@ -1,14 +1,13 @@
 import { S3 } from "@aws-sdk/client-s3";
 import { NextApiRequest, NextApiResponse } from "next";
-import { env } from "~/env";
 
 const s3Client = new S3({
-  endpoint: env.S3_ENDPOINT ?? "",
+  endpoint: process.env.S3_ENDPOINT ?? "",
   credentials: {
-    accessKeyId: env.S3_ACCESS_KEY_ID ?? "",
-    secretAccessKey: env.S3_SECRET_ACCESS_KEY ?? "",
+    accessKeyId: process.env.S3_ACCESS_KEY_ID ?? "",
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY ?? "",
   },
-  region: env.S3_REGION ?? "",
+  region: process.env.S3_REGION ?? "",
 });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -26,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const s3Response = await s3Client.getObject({
-      Bucket: env.S3_BUCKET_NAME ?? "",
+      Bucket: process.env.S3_BUCKET_NAME ?? "",
       Key: filename as string,
     });
 
