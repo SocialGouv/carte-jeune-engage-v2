@@ -12,9 +12,6 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 import getPayloadClient from "~/payload/payloadClient";
-import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
-import { getCookie } from "cookies-next";
-import { env } from "~/env";
 import { jwtDecode } from "jwt-decode";
 
 type PayloadJwtSession = {

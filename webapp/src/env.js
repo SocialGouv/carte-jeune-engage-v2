@@ -24,7 +24,6 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_URL: z.string().url().optional(),
     NEXT_PUBLIC_JWT_NAME: z.string(),
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
   },
@@ -39,7 +38,6 @@ export const env = createEnv({
     PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
     PAYLOAD_CONFIG_PATH: process.env.PAYLOAD_CONFIG_PATH,
     NEXT_PUBLIC_JWT_NAME: process.env.NEXT_PUBLIC_JWT_NAME,
-    NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
     S3_ENDPOINT: process.env.S3_ENDPOINT,
     S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
     S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,

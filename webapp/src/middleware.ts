@@ -1,18 +1,17 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { env } from "./env";
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
   if (
-    !request.cookies.get(env.NEXT_PUBLIC_JWT_NAME) &&
+    !request.cookies.get(process.env.NEXT_PUBLIC_JWT_NAME as string) &&
     request.nextUrl.pathname.startsWith("/dashboard")
   ) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
   if (
-    !!request.cookies.get(env.NEXT_PUBLIC_JWT_NAME) &&
+    !!request.cookies.get(process.env.NEXT_PUBLIC_JWT_NAME as string) &&
     !request.nextUrl.pathname.startsWith("/dashboard")
   ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));

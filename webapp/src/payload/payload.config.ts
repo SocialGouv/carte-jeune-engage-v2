@@ -38,8 +38,7 @@ export default buildConfig({
           adapter: adapter,
           disableLocalStorage: true,
           disablePayloadAccessControl: true,
-          generateFileURL: (file) =>
-            `${process.env.NEXT_PUBLIC_URL}/api/image?filename=${file.filename}`,
+          generateFileURL: (file) => `/api/image?filename=${file.filename}`,
         },
       },
     }),
