@@ -5,3 +5,4 @@ metadata:
 data:
   PAYLOAD_CONFIG_PATH: payload/payload.config.ts
   NEXT_PUBLIC_JWT_NAME: cje-jwt
+  NEXT_PUBLIC_MATOMO_TRACKING_ENABLED: false
