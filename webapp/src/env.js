@@ -24,8 +24,8 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_URL: z.string().url(),
-    NEXT_PUBLIC_JWT_NAME: z.string().optional(),
+    NEXT_PUBLIC_URL: z.string().url().optional(),
+    NEXT_PUBLIC_JWT_NAME: z.string(),
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
   },
 
