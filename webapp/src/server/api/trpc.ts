@@ -59,7 +59,8 @@ export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
     seed: false,
   });
 
-  const jwtCookie = _opts.req.cookies[process.env.JWT_NAME as string];
+  const jwtCookie =
+    _opts.req.cookies[process.env.NEXT_PUBLIC_JWT_NAME as string];
 
   if (!jwtCookie) {
     return {

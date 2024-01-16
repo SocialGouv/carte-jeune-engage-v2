@@ -1,6 +1,7 @@
 import { getCookie, setCookie, deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import React, { useState, createContext, useContext, useEffect } from "react";
+import { env } from "~/env";
 import { User } from "~/payload/payload-types";
 
 type AuthContext = {
@@ -18,7 +19,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const fetchMe = async () => {
-      const token = getCookie("cje-jwt");
+      const token = getCookie(env.NEXT_PUBLIC_JWT_NAME);
       if (!token) return;
       const result = await fetch("/api/users/me", {
         headers: {
@@ -29,7 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setUser(result.user);
       } else {
         setUser(null);
-        deleteCookie("cje-jwt");
+        deleteCookie(env.NEXT_PUBLIC_JWT_NAME);
         router.push("/login");
       }
     };

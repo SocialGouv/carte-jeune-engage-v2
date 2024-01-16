@@ -5,6 +5,7 @@ import FormInput from "~/components/FormInput";
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
+import { env } from "~/env";
 
 type LoginForm = {
   email: string;
@@ -22,7 +23,7 @@ export default function Home() {
 
   const { mutate: loginUser, isLoading } = api.user.login.useMutation({
     onSuccess: async ({ data }) => {
-      setCookie("cje-jwt", data.token || "");
+      setCookie(env.NEXT_PUBLIC_JWT_NAME, data.token || "");
       router.reload();
       router.push("/dashboard");
     },
