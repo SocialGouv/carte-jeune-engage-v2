@@ -4,3 +4,4 @@ metadata:
   name: app-configmap
 data:
   PAYLOAD_CONFIG_PATH: payload/payload.config.ts
+  NEXT_PUBLIC_JWT_NAME: cje-jwt
