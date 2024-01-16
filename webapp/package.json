@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "SKIP_ENV_VALIDATION=1 next build",
+    "build": "next build",
     "start": "next start",
     "seed": "PAYLOAD_DROP_DATABASE=true tsx ./src/payload/seed/index.ts",
     "lint": "next lint"
