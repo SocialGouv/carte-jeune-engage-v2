@@ -28,7 +28,10 @@ const adapter = s3Adapter({
 export default buildConfig({
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL,
+      connectionString:
+        process.env.NODE_ENV !== "production"
+          ? process.env.DATABASE_URL
+          : `postgresql://${process.env.PGDATABASE}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}?sslmode=disable`,
     },
   }),
   plugins: [
