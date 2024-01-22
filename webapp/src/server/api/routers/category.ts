@@ -1,3 +1,5 @@
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 import type { Category, Media } from "~/payload/payload-types";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { ZGetListParams } from "~/server/types";
@@ -23,5 +25,29 @@ export const categoryRouter = createTRPCRouter({
         data: categories.docs as CategoryIncluded[],
         metadata: { page, count: categories.docs.length },
       };
+    }),
+
+  getBySlug: protectedProcedure
+    .input(z.object({ slug: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { slug } = input;
+
+      const category = await ctx.payload.find({
+        collection: "categories",
+        where: {
+          slug: {
+            equals: slug,
+          },
+        },
+      });
+
+      if (!category.docs.length) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Category not found",
+        });
+      }
+
+      return { data: category.docs[0] as CategoryIncluded };
     }),
 });

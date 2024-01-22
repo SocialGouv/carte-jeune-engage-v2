@@ -5,26 +5,31 @@ import { api } from "~/utils/api";
 import { OfferKindBadge } from "~/components/OfferKindBadge";
 
 export default function Dashboard() {
-  const { data: resultCategories, isLoading: isLoadingCategories } =
-    api.category.getList.useQuery({
-      page: 1,
-      perPage: 50,
-      sort: "createdAt",
-    });
+  // const { data: resultCategories, isLoading: isLoadingCategories } =
+  //   api.category.getList.useQuery({
+  //     page: 1,
+  //     perPage: 50,
+  //     sort: "createdAt",
+  //   });
 
-  const { data: resultOffers, isLoading: isLoadingOffers } =
-    api.offer.getList.useQuery({
-      page: 1,
-      perPage: 50,
-    });
+  // const { data: resultOffers, isLoading: isLoadingOffers } =
+  //   api.offer.getList.useQuery({
+  //     page: 1,
+  //     perPage: 50,
+  //   });
 
-  const { data: categories } = resultCategories || {};
+  // const { data: categories } = resultCategories || {};
 
-  const { data: offers } = resultOffers || {};
+  // const { data: offers } = resultOffers || {};
 
   return (
-    <Box>
-      <Flex flexDir="column" pt={12}>
+    <Box pt={12} px={8}>
+      <Link href="/dashboard/categories" color="blue">
+        <Text fontWeight="medium" color="primary.500">
+          Catégories
+        </Text>
+      </Link>
+      {/* <Flex flexDir="column" pt={12}>
         <Flex alignItems="center" justifyContent="space-between" px={8}>
           <Heading as="h3" fontSize="xl">
             Catégories
@@ -152,7 +157,7 @@ export default function Dashboard() {
             ))
           )}
         </Flex>
-      </Flex>
+      </Flex> */}
     </Box>
   );
 }

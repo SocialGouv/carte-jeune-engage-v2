@@ -27,11 +27,5 @@ export const Categories: CollectionConfig = {
       required: true,
       relationTo: "media",
     },
-    {
-      name: "color",
-      type: "text",
-      label: "Couleur",
-      required: true,
-    },
   ],
 };
