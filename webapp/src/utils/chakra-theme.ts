@@ -58,12 +58,14 @@ export const theme = extendTheme({
       sizes: {
         lg: {
           borderRadius: "2xl",
+          py: 8,
           fontWeight: "medium",
         },
         sm: {
           borderRadius: "lg",
           py: 12,
           fontWeight: "medium",
+          whiteSpace: "normal",
         },
       },
       defaultProps: {
@@ -121,6 +123,7 @@ export const theme = extendTheme({
       "800": "#ffffff",
       "900": "#ffffff",
     },
+    success: "#42B918",
     bgWhite: "#F7F7F7",
     disabled: "#9595B1",
   },

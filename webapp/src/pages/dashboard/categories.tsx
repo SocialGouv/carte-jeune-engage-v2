@@ -17,7 +17,7 @@ export default function Dashboard() {
   const { data: categories } = resultCategories || {};
 
   return (
-    <Box py={12} px={8}>
+    <Flex flexDir="column" pt={12} px={8} h="full">
       <Flex alignItems="center" gap={4}>
         <Button
           bgColor="white"
@@ -32,7 +32,19 @@ export default function Dashboard() {
           Les catégories
         </Heading>
       </Flex>
-      <SimpleGrid columns={2} spacing={4} alignItems="center" mt={8}>
+      <SimpleGrid
+        columns={2}
+        spacing={4}
+        alignItems="center"
+        mt={8}
+        pb={12}
+        overflowY="auto"
+        sx={{
+          "::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
+      >
         {categories?.map((category) => (
           <Link key={category.id} href={`/dashboard/category/${category.slug}`}>
             <Flex
@@ -57,6 +69,6 @@ export default function Dashboard() {
           </Link>
         ))}
       </SimpleGrid>
-    </Box>
+    </Flex>
   );
 }

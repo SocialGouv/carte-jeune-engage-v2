@@ -29,7 +29,6 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
           maxWidth={{ base: "container.sm", lg: "container.sm" }}
           px={0}
           h="full"
-          overflowY="auto"
         >
           {children}
         </Container>
