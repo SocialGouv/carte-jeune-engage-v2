@@ -21,6 +21,12 @@ export const Partners: CollectionConfig = {
       required: true,
     },
     {
+      name: "color",
+      type: "text",
+      label: "Couleur",
+      required: true,
+    },
+    {
       name: "icon",
       type: "upload",
       label: "Icône",

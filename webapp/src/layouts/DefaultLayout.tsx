@@ -5,13 +5,7 @@ import { ReactNode } from "react";
 import InstallationBanner from "~/components/InstallationBanner";
 import BottomNavigation from "~/components/BottomNavigation";
 
-export default function DefaultLayout({
-  children,
-  classname,
-}: {
-  children: ReactNode;
-  classname?: string;
-}) {
+export default function DefaultLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   return (
@@ -30,41 +24,19 @@ export default function DefaultLayout({
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </Head>
-      <Box
-        as="main"
-        role="main"
-        className={classname}
-        background={
-          !pathname.startsWith("/dashboard")
-            ? "linear-gradient(192deg, rgba(226, 227, 255, 0.50) 50.5%, rgba(234, 222, 255, 0.50) 100%), #FFF;"
-            : "transparent"
-        }
-        bgColor={!pathname.startsWith("/dashboard") ? "transparent" : "bgWhite"}
-      >
-        <Box
-          style={
-            !pathname.startsWith("/dashboard")
-              ? {
-                  backgroundImage: "url('/images/onboarding/background.svg')",
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  height: "100%",
-                }
-              : { height: "100%" }
-          }
+      <Box as="main" role="main" bgColor="bgWhite">
+        <Container
+          maxWidth={{ base: "container.sm", lg: "container.sm" }}
+          px={0}
+          h="full"
+          overflowY="auto"
         >
-          <Container
-            maxWidth={{ base: "container.sm", lg: "container.sm" }}
-            px={0}
-            h="full"
-          >
-            {children}
-          </Container>
-          {(pathname === "/dashboard" ||
-            pathname === "/dashboard/offers" ||
-            pathname === "/dashboard/account") && <BottomNavigation />}
-          <InstallationBanner />
-        </Box>
+          {children}
+        </Container>
+        {(pathname === "/dashboard" ||
+          pathname === "/dashboard/offers" ||
+          pathname === "/dashboard/account") && <BottomNavigation />}
+        <InstallationBanner />
       </Box>
     </>
   );

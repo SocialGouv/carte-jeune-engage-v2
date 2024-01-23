@@ -3,20 +3,24 @@ import { type Payload } from "payload";
 
 export const partners = [
   {
-    name: "Leclerc",
-    description: "Description de Leclerc",
+    name: "Cora",
+    description: "Description de Cora",
+    color: "#283F93",
   },
   {
     name: "Lidl",
     description: "Description de Lidl",
+    color: "#FFF000",
   },
   {
     name: "Auchan",
     description: "Description de Auchan",
+    color: "#E0001A",
   },
   {
     name: "Flixbus",
     description: "Description de Flixbus",
+    color: "#73D700",
   },
 ] as const;
 

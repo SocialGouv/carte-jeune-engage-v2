@@ -7,7 +7,7 @@ export async function seedOffers(payload: Payload) {
   const offers: Omit<Offer, "id" | "createdAt" | "updatedAt">[] = [
     {
       title: "15% de réduction sur les produits alimentaire",
-      partner: partners.findIndex((partner) => partner.name === "Leclerc") + 1,
+      partner: partners.findIndex((partner) => partner.name === "Cora") + 1,
       category:
         categories.findIndex((category) => category.slug === "shop") + 1,
       kind: "voucher",

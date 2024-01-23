@@ -30,54 +30,6 @@ export default function Dashboard() {
         </Text>
       </Link>
       {/* <Flex flexDir="column" pt={12}>
-        <Flex alignItems="center" justifyContent="space-between" px={8}>
-          <Heading as="h3" fontSize="xl">
-            Catégories
-          </Heading>
-          <Link href="/dashboard/categories">
-            <Text fontWeight="medium" color="primary.500">
-              Tout voir
-            </Text>
-          </Link>
-        </Flex>
-        <Flex
-          alignItems="center"
-          px={8}
-          mt={4}
-          gap={4}
-          overflowX="auto"
-          sx={{
-            "::-webkit-scrollbar": {
-              display: "none",
-            },
-          }}
-        >
-          {isLoadingCategories ? (
-            <Text>Loading...</Text>
-          ) : (
-            categories?.map((category) => (
-              <Flex key={category.id} flexDir="column" textAlign="center">
-                <Flex
-                  justifyContent="center"
-                  alignItems="center"
-                  bgColor={category.color}
-                  borderRadius={8}
-                  width="82px"
-                  height="74px"
-                >
-                  <Image
-                    src={category.icon.url ?? ""}
-                    alt={category.icon.alt ?? ""}
-                    width={40}
-                    height={40}
-                  />
-                </Flex>
-                <Text mt={2}>{category.label}</Text>
-              </Flex>
-            ))
-          )}
-        </Flex>
-      </Flex>
       <Flex flexDir="column" mt={10}>
         <Flex alignItems="center" justifyContent="space-between" px={8}>
           <Heading as="h3" fontSize="xl">

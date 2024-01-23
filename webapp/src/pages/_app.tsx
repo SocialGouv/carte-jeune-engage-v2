@@ -28,7 +28,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   }, []);
 
   const getLayout = (children: ReactNode) => {
-    if (pathname.startsWith("/admin")) {
+    if (pathname?.startsWith("/admin")) {
       return children;
     } else {
       return <DefaultLayout>{children}</DefaultLayout>;

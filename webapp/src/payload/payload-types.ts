@@ -73,6 +73,7 @@ export interface Partner {
   id: number;
   name: string;
   description: string;
+  color: string;
   icon: number | Media;
   updatedAt: string;
   createdAt: string;
