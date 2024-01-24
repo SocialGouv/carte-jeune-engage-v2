@@ -11,7 +11,6 @@ import {
   Flex,
   Heading,
   Icon,
-  IconButton,
   List,
   ListIcon,
   ListItem,
@@ -22,12 +21,7 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { api } from "~/utils/api";
-import {
-  ArrowForwardIcon,
-  CheckIcon,
-  ChevronLeftIcon,
-  CloseIcon,
-} from "@chakra-ui/icons";
+import { ArrowForwardIcon, CheckIcon, ChevronLeftIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { dottedPattern } from "~/utils/chakra-theme";
 import { CouponIcon } from "~/components/icons/coupon";

@@ -21,6 +21,12 @@ export const Partners: CollectionConfig = {
       required: true,
     },
     {
+      name: "url",
+      type: "text",
+      label: "URL",
+      required: true,
+    },
+    {
       name: "color",
       type: "text",
       label: "Couleur",

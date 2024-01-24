@@ -14,6 +14,7 @@ export interface Config {
     categories: Category;
     partners: Partner;
     offers: Offer;
+    coupons: Coupon;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -73,6 +74,7 @@ export interface Partner {
   id: number;
   name: string;
   description: string;
+  url: string;
   color: string;
   icon: number | Media;
   updatedAt: string;
@@ -84,6 +86,16 @@ export interface Offer {
   partner: number | Partner;
   category: number | Category;
   kind: 'voucher' | 'code';
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Coupon {
+  id: number;
+  code: string;
+  status: 'available' | 'archived';
+  validityTo: string;
+  user?: (number | null) | User;
+  offer: number | Offer;
   updatedAt: string;
   createdAt: string;
 }
