@@ -125,11 +125,13 @@ const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
               }}
               required
             >
-              {offers.data.map((offer) => (
-                <option key={offer.id} value={offer.id}>
-                  [{offer.partner.name}] {offer.title}
-                </option>
-              ))}
+              {offers.data
+                .sort((a, b) => (a.partner.name < b.partner.name ? -1 : 1))
+                .map((offer) => (
+                  <option key={offer.id} value={offer.id}>
+                    [{offer.partner.name}] {offer.title}
+                  </option>
+                ))}
             </Select>
           </FormControl>
           <Flex mt={4} justifyContent={"flex-start"}>
