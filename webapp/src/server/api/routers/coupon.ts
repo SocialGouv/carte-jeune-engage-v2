@@ -26,4 +26,27 @@ export const couponRouter = createTRPCRouter({
 
       return { data: coupons.docs[0] as CouponIncluded };
     }),
+  create: protectedProcedure
+    .input(
+      z.array(
+        z.object({
+          code: z.string(),
+          validityTo: z.string(),
+          status: z.enum(["available", "archived"]),
+          offer: z.number(),
+        })
+      )
+    )
+    .mutation(async ({ ctx, input }) => {
+      const promises = input.map((data) => {
+        return ctx.payload.create({
+          collection: "coupons",
+          data,
+        });
+      });
+
+      const coupons = await Promise.all(promises);
+
+      return { data: coupons };
+    }),
 });

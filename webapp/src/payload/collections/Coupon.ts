@@ -1,4 +1,13 @@
+import dynamic from "next/dynamic";
+import type { Props } from "payload/components/views/List";
 import { type CollectionConfig } from "payload/types";
+
+const ImportCoupons = dynamic<Props>(
+  () => import("../components/ImportCoupons"),
+  {
+    ssr: false,
+  }
+);
 
 export const Coupons: CollectionConfig = {
   slug: "coupons",
@@ -47,4 +56,9 @@ export const Coupons: CollectionConfig = {
       required: true,
     },
   ],
+  admin: {
+    components: {
+      BeforeListTable: [ImportCoupons],
+    },
+  },
 };
