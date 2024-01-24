@@ -33,7 +33,6 @@ export const couponRouter = createTRPCRouter({
       z.array(
         z.object({
           code: z.string(),
-          validityTo: z.string(),
           status: z.enum(["available", "archived"]),
           offer: z.number(),
         })

@@ -1,57 +1,87 @@
-import { Box, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  Heading,
+  Select,
+} from "@chakra-ui/react";
 import Papa from "papaparse";
 import type { Props } from "payload/components/views/List";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { api } from "~/utils/api";
 import { convertFrenchDateToEnglish } from "~/utils/tools";
+import { Modal, useModal } from "@faceless-ui/modal";
+import { MinimalTemplate } from "payload/components/templates";
+import { Coupon } from "../payload-types";
 
 export type ImportCouponsProps = {};
 
 const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
-  if (!hasCreatePermission) return;
+  const { toggleModal } = useModal();
+  const modalSlug = "modal-import-coupons";
 
+  const [csvFileValue, setCsvFileValue] = useState<string | undefined>("");
+  const [offerId, setOfferId] = useState<number>();
+  const [coupons, setCoupons] = useState<
+    {
+      code: string;
+      status: "available" | "archived";
+      offer: number;
+    }[]
+  >([]);
+
+  const { data: offers } = api.offer.getList.useQuery({
+    page: 1,
+    perPage: 1000,
+  });
   const { mutate: createCoupons } = api.coupon.create.useMutation({
     onSuccess() {
       resetParams();
     },
   });
 
-  const handleFileChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
 
-      if (file) {
-        Papa.parse(file, {
-          complete: (result) => {
-            createCoupons(
-              result.data
-                .filter(
-                  (row: any) =>
-                    row.code &&
-                    row.validityTo &&
-                    convertFrenchDateToEnglish(row.validityTo)
-                )
-                .map((row: any) => {
-                  const englishDate = convertFrenchDateToEnglish(
-                    row.validityTo
-                  );
+    if (file) {
+      setCsvFileValue(undefined);
+      Papa.parse(file, {
+        complete: (result) => {
+          const couponsToCreate = result.data
+            .filter(
+              (row: any) =>
+                row.code &&
+                row.validityTo &&
+                convertFrenchDateToEnglish(row.validityTo)
+            )
+            .map((row: any) => {
+              return {
+                code: row.code as string,
+                status: "available" as "available",
+                offer: -1,
+              };
+            });
 
-                  return {
-                    code: row.code,
-                    validityTo: new Date(englishDate as string).toISOString(),
-                    status: "available",
-                    offer: 1,
-                  };
-                })
-            );
-          },
-          header: true, // Si votre CSV a une ligne d'en-tête
-          dynamicTyping: true, // Convertit automatiquement les valeurs en types appropriés
-        });
-      }
-    },
-    []
-  );
+          setCoupons(couponsToCreate);
+          toggleModal(modalSlug);
+        },
+        header: true,
+        dynamicTyping: true,
+      });
+    }
+  };
+
+  const validate = () => {
+    if (!offerId) return;
+
+    if (coupons.length)
+      createCoupons(coupons.map((c) => ({ ...c, offer: offerId })));
+
+    toggleModal(modalSlug);
+  };
+
+  if (!hasCreatePermission || !offers) return;
 
   return (
     <Box>
@@ -60,11 +90,54 @@ const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
         type="file"
         accept=".csv"
         onChange={handleFileChange}
+        value={csvFileValue}
+        onClick={() => {
+          setCsvFileValue("");
+        }}
         style={{ display: "none" }}
       />
       <Button as="label" htmlFor="csvInput" cursor="pointer">
         Importer un CSV
       </Button>
+      <Modal slug={modalSlug} className="delete-document">
+        <MinimalTemplate className="delete-document__template">
+          <Heading size="lg">
+            Offre pour laquelle importer des bons de réduction :
+          </Heading>
+          <FormControl>
+            <Select
+              placeholder="Sélectionner une offre"
+              onChange={(e) => {
+                setOfferId(parseInt(e.target.value));
+              }}
+              required
+            >
+              {offers.data.map((offer) => (
+                <option key={offer.id} value={offer.id}>
+                  {offer.title}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+          <Flex mt={4} justifyContent={"flex-start"}>
+            <Button
+              onClick={() => {
+                toggleModal(modalSlug);
+              }}
+            >
+              Annuler
+            </Button>
+            <Button
+              colorScheme="whiteBtn"
+              color="black"
+              ml={4}
+              onClick={validate}
+            >
+              Valider
+            </Button>
+          </Flex>
+        </MinimalTemplate>
+      </Modal>
     </Box>
   );
 };
