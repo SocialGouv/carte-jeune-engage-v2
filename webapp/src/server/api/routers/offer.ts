@@ -3,7 +3,7 @@ import { Category, Offer, Media, Partner } from "~/payload/payload-types";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { ZGetListParams } from "~/server/types";
 
-interface OfferIncluded extends Offer {
+export interface OfferIncluded extends Offer {
   partner: Partner & { icon: Media };
   category: Category & { icon: Media };
 }

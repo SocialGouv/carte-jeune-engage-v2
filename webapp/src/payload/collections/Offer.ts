@@ -30,6 +30,12 @@ export const Offers: CollectionConfig = {
       required: true,
     },
     {
+      name: "validityTo",
+      type: "date",
+      label: "Validité jusqu'au",
+      required: true,
+    },
+    {
       type: "select",
       name: "kind",
       label: "Type",
