@@ -5,6 +5,7 @@ import {
   FormControl,
   Heading,
   Select,
+  Tooltip,
 } from "@chakra-ui/react";
 import Papa from "papaparse";
 import type { Props } from "payload/components/views/List";
@@ -13,7 +14,8 @@ import { api } from "~/utils/api";
 import { convertFrenchDateToEnglish } from "~/utils/tools";
 import { Modal, useModal } from "@faceless-ui/modal";
 import { MinimalTemplate } from "payload/components/templates";
-import { Coupon } from "../payload-types";
+import { toast } from "react-toastify";
+import { QuestionOutlineIcon } from "@chakra-ui/icons";
 
 export type ImportCouponsProps = {};
 
@@ -37,7 +39,12 @@ const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
   });
   const { mutate: createCoupons } = api.coupon.create.useMutation({
     onSuccess() {
+      toast.success(`${coupons.length} bons de réduction importés`);
+      setCoupons([]);
       resetParams();
+    },
+    onError() {
+      toast.error(`Erreur à l'import bons de réduction en base de donnée`);
     },
   });
 
@@ -49,12 +56,7 @@ const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
       Papa.parse(file, {
         complete: (result) => {
           const couponsToCreate = result.data
-            .filter(
-              (row: any) =>
-                row.code &&
-                row.validityTo &&
-                convertFrenchDateToEnglish(row.validityTo)
-            )
+            .filter((row: any) => row.code)
             .map((row: any) => {
               return {
                 code: row.code as string,
@@ -62,6 +64,11 @@ const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
                 offer: -1,
               };
             });
+
+          if (!couponsToCreate.length) {
+            toast.error("Erreur dans le format du CSV");
+            return;
+          }
 
           setCoupons(couponsToCreate);
           toggleModal(modalSlug);
@@ -97,8 +104,14 @@ const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
         style={{ display: "none" }}
       />
       <Button as="label" htmlFor="csvInput" cursor="pointer">
-        Importer un CSV
+        Importer des bons de réduction
       </Button>
+      <Tooltip
+        label="Fichier .csv requis, comprenant une colonne intitulée 'code' avec un code distinct par ligne pour l'importation."
+        fontSize="xl"
+      >
+        <QuestionOutlineIcon ml={4} fontSize="2xl" />
+      </Tooltip>
       <Modal slug={modalSlug} className="delete-document">
         <MinimalTemplate className="delete-document__template">
           <Heading size="lg">
@@ -114,7 +127,7 @@ const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
             >
               {offers.data.map((offer) => (
                 <option key={offer.id} value={offer.id}>
-                  {offer.title}
+                  [{offer.partner.name}] {offer.title}
                 </option>
               ))}
             </Select>
