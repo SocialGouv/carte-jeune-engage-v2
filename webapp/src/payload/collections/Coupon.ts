@@ -35,12 +35,6 @@ export const Coupons: CollectionConfig = {
       required: true,
     },
     {
-      name: "validityTo",
-      type: "date",
-      label: "Validité jusqu'au",
-      required: true,
-    },
-    {
       name: "user",
       type: "relationship",
       label: "Utilisateur",

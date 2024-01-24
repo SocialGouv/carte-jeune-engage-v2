@@ -37,23 +37,32 @@ import {
 } from "react-icons/fi";
 import { TbBuildingStore } from "react-icons/tb";
 import { IconType } from "react-icons/lib";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import ToastComponent from "~/components/ToastComponent";
+import { OfferIncluded } from "~/server/api/routers/offer";
+import Link from "next/link";
 
 const DrawerContentComponent = ({
-  setIsCouponActive,
   onClose,
   onlyCgu,
+  offer,
+  mutateCouponToUser,
 }: {
-  setIsCouponActive: React.Dispatch<SetStateAction<boolean>>;
   onClose: () => void;
   onlyCgu?: boolean;
+  offer: OfferIncluded;
+  mutateCouponToUser: ({ offer_id }: { offer_id: number }) => void;
 }) => {
+  const validityToDate = new Date(offer.validityTo);
+
   const cguItems: { icon: IconType; text: string; cross?: boolean }[] = [
     { icon: FiGlobe, text: "Utilisable en ligne" },
     { icon: TbBuildingStore, text: "À utiliser en magasin", cross: true },
-    { icon: FiClock, text: "À utiliser avant le XX/XX/XX !" },
+    {
+      icon: FiClock,
+      text: `À utiliser avant le ${validityToDate.toLocaleDateString()} !`,
+    },
     { icon: FiRotateCw, text: "Utilisation illimité" },
     { icon: FiTag, text: "Non cumulable" },
   ];
@@ -85,11 +94,11 @@ const DrawerContentComponent = ({
         <Button
           rightIcon={!onlyCgu ? <ArrowForwardIcon w={6} h={6} /> : undefined}
           onClick={() => {
-            if (!onlyCgu) setIsCouponActive(true);
+            if (!onlyCgu) mutateCouponToUser({ offer_id: offer.id });
             onClose();
           }}
         >
-          {!onlyCgu ? "Activer le code promo" : "Fermer les CGU"}
+          {!onlyCgu ? "Activer le code promo" : "Fermer"}
         </Button>
       </DrawerBody>
     </DrawerContent>
@@ -100,7 +109,6 @@ export default function Dashboard() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [isCouponActive, setIsCouponActive] = useState(false);
   const [isOnlyCgu, setIsOnlyCgu] = useState(false);
 
   const { data: resultOffer } = api.offer.getById.useQuery(
@@ -110,7 +118,20 @@ export default function Dashboard() {
     { enabled: id !== undefined }
   );
 
+  const { data: resultCoupon, refetch: refetchCoupon } =
+    api.coupon.getOne.useQuery(
+      {
+        offer_id: parseInt(id as string),
+      },
+      { enabled: id !== undefined }
+    );
+
   const { data: offer } = resultOffer || {};
+  const { data: coupon } = resultCoupon || {};
+
+  const { mutate: mutateCouponToUser } = api.coupon.assignToUser.useMutation({
+    onSuccess: () => refetchCoupon(),
+  });
 
   const toast = useToast();
   const theme = useTheme();
@@ -196,7 +217,7 @@ export default function Dashboard() {
             position="relative"
             borderRadius="xl"
             w="full"
-            bgColor={isCouponActive ? "white" : "cje-gray.500"}
+            bgColor={coupon ? "white" : "cje-gray.500"}
             textAlign="center"
             py={10}
           >
@@ -204,11 +225,11 @@ export default function Dashboard() {
               fontSize="2xl"
               fontWeight="bold"
               letterSpacing={4}
-              sx={!isCouponActive ? { filter: "blur(4.5px)" } : {}}
+              sx={!coupon ? { filter: "blur(4.5px)" } : {}}
             >
-              6FHDJFHEIDJF
+              {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
             </Text>
-            {!isCouponActive && (
+            {!coupon && (
               <Flex
                 position="absolute"
                 p={5}
@@ -230,7 +251,7 @@ export default function Dashboard() {
               </Flex>
             )}
           </Box>
-          {isCouponActive && (
+          {coupon && (
             <Flex
               flexDir="column"
               alignItems="center"
@@ -256,13 +277,13 @@ export default function Dashboard() {
               <Text as="span" fontSize="sm" color="disabled">
                 Utilisable jusqu'au:{" "}
                 <Text as="span" color="black" fontWeight="bold">
-                  01/01/2025
+                  {new Date(coupon.offer.validityTo).toLocaleDateString()}
                 </Text>
               </Text>
             </Flex>
           )}
         </Flex>
-        {!isCouponActive ? (
+        {!coupon ? (
           <>
             <Button rightIcon={<CouponIcon />} py={8} onClick={onOpen}>
               Activer le code promo
@@ -272,17 +293,19 @@ export default function Dashboard() {
         ) : (
           <ButtonGroup gap={3}>
             <Button size="sm" colorScheme="cje-gray" color="black" w="full">
-              <Flex flexDir="column" alignItems="center" gap={3}>
-                <Icon as={FiLink} w={6} h={6} />
-                Aller sur le site du partenaire
-              </Flex>
+              <Link href={coupon.offer.partner.url} target="_blank">
+                <Flex flexDir="column" alignItems="center" gap={3}>
+                  <Icon as={FiLink} w={6} h={6} />
+                  Aller sur le site du partenaire
+                </Flex>
+              </Link>
             </Button>
             <Button
               size="sm"
               colorScheme="cje-gray"
               color="black"
               w="full"
-              onClick={() => handleCopyToClipboard("test1")}
+              onClick={() => handleCopyToClipboard(coupon.code)}
             >
               <Flex flexDir="column" alignItems="center" gap={3}>
                 <Icon as={FiCopy} w={6} h={6} />
@@ -308,11 +331,14 @@ export default function Dashboard() {
       </Flex>
       <Drawer placement="bottom" size="full" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContentComponent
-          onClose={onClose}
-          setIsCouponActive={setIsCouponActive}
-          onlyCgu={isOnlyCgu}
-        />
+        {offer && (
+          <DrawerContentComponent
+            onClose={onClose}
+            onlyCgu={isOnlyCgu}
+            offer={offer}
+            mutateCouponToUser={mutateCouponToUser}
+          />
+        )}
       </Drawer>
     </Flex>
   );

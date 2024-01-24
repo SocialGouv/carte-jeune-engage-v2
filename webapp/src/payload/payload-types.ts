@@ -85,6 +85,7 @@ export interface Offer {
   title: string;
   partner: number | Partner;
   category: number | Category;
+  validityTo: string;
   kind: 'voucher' | 'code';
   updatedAt: string;
   createdAt: string;
@@ -93,7 +94,6 @@ export interface Coupon {
   id: number;
   code: string;
   status: 'available' | 'archived';
-  validityTo: string;
   user?: (number | null) | User;
   offer: number | Offer;
   updatedAt: string;
