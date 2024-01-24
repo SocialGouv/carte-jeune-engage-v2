@@ -36,6 +36,7 @@
     "ignore-styles": "^5.0.1",
     "jwt-decode": "^4.0.0",
     "next": "13.5.5",
+    "papaparse": "^5.4.1",
     "payload": "^2.6.0",
     "react": "^18",
     "react-dom": "^18",
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/papaparse": "^5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "typescript": "^5",
