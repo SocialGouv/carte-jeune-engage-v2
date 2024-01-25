@@ -22,7 +22,10 @@ export default function Home() {
 
   const { mutate: loginUser, isLoading } = api.user.login.useMutation({
     onSuccess: async ({ data }) => {
-      setCookie(process.env.NEXT_PUBLIC_JWT_NAME as string, data.token || "");
+      setCookie(
+        process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt",
+        data.token || ""
+      );
       router.reload();
       router.push("/dashboard");
     },

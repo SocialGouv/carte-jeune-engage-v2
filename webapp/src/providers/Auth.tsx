@@ -18,7 +18,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const fetchMe = async () => {
-      const token = getCookie(process.env.NEXT_PUBLIC_JWT_NAME as string);
+      const token = getCookie(process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt");
       if (!token) return;
       const result = await fetch("/api/users/me", {
         headers: {
@@ -29,7 +29,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setUser(result.user);
       } else {
         setUser(null);
-        deleteCookie(process.env.NEXT_PUBLIC_JWT_NAME as string);
+        deleteCookie(process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt");
         router.push("/");
       }
     };
