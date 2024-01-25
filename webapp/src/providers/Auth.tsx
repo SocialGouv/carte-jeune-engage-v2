@@ -30,7 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       } else {
         setUser(null);
         deleteCookie(process.env.NEXT_PUBLIC_JWT_NAME as string);
-        router.push("/login");
+        router.push("/");
       }
     };
 

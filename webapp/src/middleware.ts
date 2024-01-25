@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
     !request.cookies.get(process.env.NEXT_PUBLIC_JWT_NAME as string) &&
     request.nextUrl.pathname.startsWith("/dashboard")
   ) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   if (
