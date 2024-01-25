@@ -30,8 +30,31 @@ export const offerRouter = createTRPCRouter({
         sort,
       });
 
+      const couponCountOfOffers = await ctx.payload.find({
+        collection: "coupons",
+        depth: 0,
+        where: {
+          offer: {
+            in: offers.docs.map((offer) => offer.id),
+          },
+        },
+      });
+
+      const offersFiltered = offers.docs.filter((offer) => {
+        const couponCount = couponCountOfOffers.docs.filter(
+          (coupon) =>
+            coupon.offer === offer.id &&
+            coupon.status === "available" &&
+            (coupon.user === undefined ||
+              coupon.user === null ||
+              coupon.user === ctx.session.id)
+        ).length;
+
+        if (couponCount > 0) return offer;
+      });
+
       return {
-        data: offers.docs as OfferIncluded[],
+        data: offersFiltered as OfferIncluded[],
         metadata: { page, count: offers.docs.length },
       };
     }),

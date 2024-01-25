@@ -56,7 +56,7 @@ export const couponRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { offer_id } = input;
 
-      const coupon = await ctx.payload.find({
+      const coupons = await ctx.payload.find({
         collection: "coupons",
         where: {
           and: [
@@ -66,14 +66,18 @@ export const couponRouter = createTRPCRouter({
         },
       });
 
-      if (coupon.docs.length === 0) {
+      const couponsFiltered = coupons.docs.filter(
+        (coupon) => coupon.user === undefined || coupon.user === null
+      );
+
+      if (couponsFiltered.length === 0) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Coupon not found",
+          message: "No coupons available for this offer",
         });
       }
 
-      const couponData = coupon.docs[0] as CouponIncluded;
+      const couponData = couponsFiltered[0] as CouponIncluded;
 
       const updatedCoupon = await ctx.payload.update({
         collection: "coupons",

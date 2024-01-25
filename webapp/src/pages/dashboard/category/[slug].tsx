@@ -76,56 +76,58 @@ export default function Dashboard() {
           },
         }}
       >
-        {offers?.map((offer) => (
-          <Link
-            key={offer.id}
-            href={`/dashboard/offer/${
-              offer.kind === "code" ? "online" : "in-store"
-            }/${offer.id}`}
-          >
-            <Flex flexDir="column">
-              <Flex
-                bgColor={offer.partner.color}
-                py={5}
-                borderTopRadius={12}
-                position="relative"
-                justifyContent="center"
-                alignItems="center"
-                sx={{ ...dottedPattern("#ffffff") }}
-              >
+        {offers
+          ?.filter((offer) => offer.kind === "code")
+          ?.map((offer) => (
+            <Link
+              key={offer.id}
+              href={`/dashboard/offer/${
+                offer.kind === "code" ? "online" : "in-store"
+              }/${offer.id}`}
+            >
+              <Flex flexDir="column">
                 <Flex
+                  bgColor={offer.partner.color}
+                  py={5}
+                  borderTopRadius={12}
+                  position="relative"
+                  justifyContent="center"
                   alignItems="center"
-                  borderRadius="full"
-                  p={1}
-                  bgColor="white"
+                  sx={{ ...dottedPattern("#ffffff") }}
                 >
-                  <Image
-                    src={offer.partner.icon.url ?? ""}
-                    alt={offer.partner.icon.alt ?? ""}
-                    width={32}
-                    height={32}
-                  />
+                  <Flex
+                    alignItems="center"
+                    borderRadius="full"
+                    p={1}
+                    bgColor="white"
+                  >
+                    <Image
+                      src={offer.partner.icon.url ?? ""}
+                      alt={offer.partner.icon.alt ?? ""}
+                      width={32}
+                      height={32}
+                    />
+                  </Flex>
+                </Flex>
+                <Flex
+                  flexDir="column"
+                  p={3}
+                  bgColor="white"
+                  borderBottomRadius={8}
+                  gap={2}
+                  boxShadow="md"
+                >
+                  <Text fontSize="sm" fontWeight="medium">
+                    {offer.partner.name}
+                  </Text>
+                  <Text fontWeight="bold" fontSize="sm" noOfLines={2}>
+                    {offer.title}
+                  </Text>
+                  <OfferKindBadge kind={offer.kind} variant="light" />
                 </Flex>
               </Flex>
-              <Flex
-                flexDir="column"
-                p={3}
-                bgColor="white"
-                borderBottomRadius={8}
-                gap={2}
-                boxShadow="md"
-              >
-                <Text fontSize="sm" fontWeight="medium">
-                  {offer.partner.name}
-                </Text>
-                <Text fontWeight="bold" fontSize="sm" noOfLines={2}>
-                  {offer.title}
-                </Text>
-                <OfferKindBadge kind={offer.kind} variant="light" />
-              </Flex>
-            </Flex>
-          </Link>
-        ))}
+            </Link>
+          ))}
       </Flex>
     </Flex>
   );

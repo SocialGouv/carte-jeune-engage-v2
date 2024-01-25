@@ -72,14 +72,7 @@ export default function Home() {
           />
         </Flex>
       </Box>
-      <Flex justifyContent={{ base: "space-between", lg: "end" }}>
-        <Button
-          px={0}
-          rightIcon={<Icon as={HiOutlineArrowLeft} />}
-          iconSpacing={0}
-          display={{ base: "flex", lg: "none" }}
-          onClick={() => router.push("/")}
-        />
+      <Flex justifyContent="end">
         <Button
           rightIcon={<Icon as={HiOutlineArrowRight} />}
           onClick={handleSubmit(handleLogin)}
