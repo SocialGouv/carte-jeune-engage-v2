@@ -50,8 +50,8 @@
       "purpose": "any"
     }
   ],
-  "theme_color": "#F7F7FA",
-  "background_color": "#F7F7FA",
+  "theme_color": "#F7F7F7",
+  "background_color": "#F7F7F7",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait"

@@ -17,7 +17,7 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
         <link rel="shortcut icon" href="/pwa/appIcon/maskable_icon_x48.png" />
         <link rel="manifest" href="/pwa/manifest.json" />
         /* iOS */
-        <meta name="apple-mobile-web-app-status-bar-style" content="#F7F7FA" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="#F7F7F7" />
         <link
           rel="apple-touch-icon"
           href="/pwa/appIcon/maskable_icon_x192.png"
