@@ -102,7 +102,14 @@ const InstallationBanner: React.FC = () => {
           Pour une meilleure expérience, installez l'app sur votre téléphone.
         </Text>
       </Flex>
-      <Button size="lg" mx="auto" mr={1} onClick={handleInstallClick}>
+      <Button
+        size="lg"
+        variant="ghost"
+        color="white"
+        mx="auto"
+        mr={1}
+        onClick={handleInstallClick}
+      >
         Installer
       </Button>
     </Flex>
