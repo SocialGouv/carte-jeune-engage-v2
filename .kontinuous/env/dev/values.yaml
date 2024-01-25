@@ -16,7 +16,7 @@ jobs:
       checkout: false
       shell: sh
       image: "{{ .Values.global.registry }}{{ if .Values.global.imageProject }}{{ print `/` .Values.global.imageProject }}{{ end }}/{{ .Values.global.imageRepository }}/app:{{ .Values.global.imageTag }}"
-      run: "yarn seed"
+      run: "yarn payload migrate && yarn seed:prod"
       envFrom:
         - secretRef:
             name: pg-app

@@ -28,6 +28,7 @@ const adapter = s3Adapter({
 
 export default buildConfig({
   db: postgresAdapter({
+    migrationDir: path.resolve(__dirname, "./migrations"),
     pool: {
       connectionString:
         process.env.NODE_ENV !== "production"
