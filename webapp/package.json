@@ -8,7 +8,7 @@
     "start": "next start",
     "seed:dev": "PAYLOAD_DROP_DATABASE=true tsx ./src/payload/seed/index.ts",
     "seed:prod": "tsx ./src/payload/seed/index.ts",
-    "payload": "cross-env PAYLOAD_CONFIG_PATH=./src/payload/payload.config.ts payload",
+    "payload": "PAYLOAD_CONFIG_PATH=./src/payload/payload.config.ts payload",
     "lint": "next lint"
   },
   "dependencies": {
@@ -33,7 +33,6 @@
     "@trpc/server": "^10.44.1",
     "aws-crt": "^1.20.1",
     "cookies-next": "^4.1.0",
-    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "framer-motion": "^10.16.16",
     "ignore-styles": "^5.0.1",
