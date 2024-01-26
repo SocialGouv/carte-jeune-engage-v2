@@ -4,17 +4,17 @@ import {
   ButtonGroup,
   Center,
   Divider,
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
   Heading,
   Icon,
   List,
   ListIcon,
   ListItem,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Text,
   useDisclosure,
   useTheme,
@@ -46,7 +46,7 @@ import Link from "next/link";
 import Head from "next/head";
 import LoadingLoader from "~/components/LoadingLoader";
 
-const DrawerContentComponent = ({
+const ModalContentComponent = ({
   onClose,
   onlyCgu,
   offer,
@@ -71,9 +71,9 @@ const DrawerContentComponent = ({
   ];
 
   return (
-    <DrawerContent h="full">
-      {onlyCgu && <DrawerHeader mt={4}>Conditions d’utilisation</DrawerHeader>}
-      <DrawerBody
+    <ModalContent h="full">
+      {onlyCgu && <ModalHeader mt={4}>Conditions d’utilisation</ModalHeader>}
+      <ModalBody
         pos="sticky"
         display="flex"
         flexDir="column"
@@ -103,8 +103,8 @@ const DrawerContentComponent = ({
         >
           {!onlyCgu ? "Activer le code promo" : "Fermer"}
         </Button>
-      </DrawerBody>
-    </DrawerContent>
+      </ModalBody>
+    </ModalContent>
   );
 };
 
@@ -353,22 +353,17 @@ export default function Dashboard() {
                 </Flex>
               </Button>
             </Flex>
-            <Drawer
-              placement="bottom"
-              size="full"
-              onClose={onClose}
-              isOpen={isOpen}
-            >
-              <DrawerOverlay />
+            <Modal size="full" onClose={onClose} isOpen={isOpen}>
+              <ModalOverlay />
               {offer && (
-                <DrawerContentComponent
+                <ModalContentComponent
                   onClose={onClose}
                   onlyCgu={isOnlyCgu}
                   offer={offer}
                   mutateCouponToUser={mutateCouponToUser}
                 />
               )}
-            </Drawer>
+            </Modal>
           </>
         )}
       </Flex>
