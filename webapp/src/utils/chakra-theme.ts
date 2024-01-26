@@ -100,7 +100,7 @@ export const theme = extendTheme({
       "900": "#FFFFFF",
     },
     blackBtn: {
-      "50": "#FFFFFF",
+      "50": "#000000",
       "100": "#000000",
       "200": "#000000",
       "300": "#000000",

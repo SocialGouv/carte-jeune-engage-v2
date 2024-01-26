@@ -174,8 +174,7 @@ export default function Dashboard() {
         >
           <Button
             position="absolute"
-            bgColor="white"
-            variant="ghost"
+            colorScheme="whiteBtn"
             onClick={() => router.back()}
             size="md"
             iconSpacing={0}

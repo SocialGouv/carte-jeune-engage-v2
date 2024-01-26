@@ -36,8 +36,7 @@ export default function Dashboard() {
     <Flex flexDir="column" pt={12} px={8} h="full">
       <Box>
         <Button
-          bgColor="white"
-          variant="ghost"
+          colorScheme="whiteBtn"
           onClick={() => router.back()}
           size="md"
           iconSpacing={0}
