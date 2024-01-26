@@ -1,5 +1,9 @@
 /* theme.ts */
-import { extendTheme } from "@chakra-ui/react";
+import {
+  StyleFunctionProps,
+  extendTheme,
+  theme as defaultTheme,
+} from "@chakra-ui/react";
 import localFont from "next/font/local";
 
 export const Marianne = localFont({
@@ -71,6 +75,15 @@ export const theme = extendTheme({
       defaultProps: {
         size: "lg",
         colorScheme: "blackBtn",
+      },
+      variants: {
+        solid: (props: StyleFunctionProps) => ({
+          "@media(hover: none)": {
+            _hover: {
+              bg: defaultTheme.components.Button.variants?.solid(props).bg,
+            },
+          },
+        }),
       },
     },
   },
