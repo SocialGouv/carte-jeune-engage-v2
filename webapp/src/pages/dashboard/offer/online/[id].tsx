@@ -45,7 +45,6 @@ import { OfferIncluded } from "~/server/api/routers/offer";
 import Link from "next/link";
 import Head from "next/head";
 import LoadingLoader from "~/components/LoadingLoader";
-import { useLocalStorage } from "usehooks-ts";
 
 const DrawerContentComponent = ({
   onClose,

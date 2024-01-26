@@ -88,12 +88,6 @@ export default function Dashboard() {
             ?.map((offer) => (
               <Link
                 key={offer.id}
-                onClick={() =>
-                  localStorage.setItem(
-                    "cje-current-partner-color",
-                    offer.partner.color
-                  )
-                }
                 href={`/dashboard/offer/${
                   offer.kind === "code" ? "online" : "in-store"
                 }/${offer.id}`}
