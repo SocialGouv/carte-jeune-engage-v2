@@ -207,7 +207,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
         </Flex>
-        {isLoadingOffer || !offer || isLoadingCoupon || !coupon ? (
+        {isLoadingOffer || !offer || isLoadingCoupon ? (
           <Center h="full">
             <LoadingLoader />
           </Center>
