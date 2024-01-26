@@ -35,16 +35,19 @@ import {
   FiTag,
   FiLink,
   FiCopy,
+  FiUnlock,
 } from "react-icons/fi";
 import { TbBuildingStore } from "react-icons/tb";
 import { IconType } from "react-icons/lib";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import ToastComponent from "~/components/ToastComponent";
 import { OfferIncluded } from "~/server/api/routers/offer";
 import Link from "next/link";
 import Head from "next/head";
 import LoadingLoader from "~/components/LoadingLoader";
+import gsap, { Cubic } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const ModalContentComponent = ({
   onClose,
@@ -111,6 +114,7 @@ const ModalContentComponent = ({
 export default function Dashboard() {
   const router = useRouter();
   const { id } = router.query;
+  const container = useRef(null);
 
   const { data: resultOffer, isLoading: isLoadingOffer } =
     api.offer.getById.useQuery(
@@ -136,7 +140,11 @@ export default function Dashboard() {
 
   const [isOnlyCgu, setIsOnlyCgu] = useState(false);
 
-  const { mutate: mutateCouponToUser } = api.coupon.assignToUser.useMutation({
+  const {
+    mutate: mutateCouponToUser,
+    isLoading,
+    isSuccess,
+  } = api.coupon.assignToUser.useMutation({
     onSuccess: () => refetchCoupon(),
   });
 
@@ -161,6 +169,91 @@ export default function Dashboard() {
     navigator.clipboard.writeText(text);
   };
 
+  useGSAP(
+    () => {
+      if (isSuccess) {
+        gsap.to("#coupon-code-icon", {
+          backgroundColor: "#42B918",
+          color: "white",
+          duration: 1,
+        });
+
+        gsap.to("#coupon-code-icon-lock", {
+          display: "none",
+          duration: 0,
+          delay: 0.5,
+        });
+
+        gsap.to("#coupon-code-icon-unlock", {
+          display: "block",
+          duration: 0,
+          delay: 0.5,
+        });
+      }
+
+      gsap.to("#coupon-code-icon", {
+        opacity: coupon ? 0 : 1,
+        duration: isSuccess ? 0.5 : 0,
+        delay: isSuccess ? 1.25 : 0,
+      });
+
+      gsap.to("#coupon-code-text", {
+        filter: coupon ? "blur(0px)" : "blur(4.5px)",
+        duration: isSuccess ? 1 : 0,
+        delay: isSuccess ? 1.75 : 0,
+      });
+
+      if (isSuccess) {
+        gsap.fromTo(
+          ".coupon-info",
+          {
+            scaleY: 0,
+            opacity: 0,
+            transformOrigin: "top",
+          },
+          {
+            scaleY: 1,
+            transformOrigin: "top",
+            opacity: 1,
+            ease: Cubic.easeIn,
+            duration: 0.75,
+            delay: 1.5,
+          }
+        );
+
+        gsap.fromTo(
+          ".btn-utils",
+          {
+            opacity: 0,
+            translateY: -35,
+          },
+          {
+            opacity: 1,
+            translateY: 0,
+            duration: 1,
+            ease: Cubic.easeIn,
+            delay: 1.5,
+          }
+        );
+
+        gsap.fromTo(
+          ".btn-conditions",
+          {
+            translateY: -35,
+            delay: 1,
+          },
+          {
+            opacity: 1,
+            duration: 1,
+            translateY: 0,
+            ease: Cubic.easeIn,
+            delay: 1.5,
+          }
+        );
+      }
+    },
+    { dependencies: [isLoadingCoupon, coupon, isSuccess] }
+  );
   return (
     <>
       <Head>
@@ -169,7 +262,7 @@ export default function Dashboard() {
           content={isOpen ? "#ffffff" : offer?.partner.color}
         />
       </Head>
-      <Flex flexDir="column" h="full">
+      <Flex flexDir="column" h="full" ref={container}>
         <Flex
           bgColor={offer?.partner.color}
           px={8}
@@ -241,41 +334,43 @@ export default function Dashboard() {
                   py={10}
                 >
                   <Text
+                    id="coupon-code-text"
                     fontSize="2xl"
                     fontWeight="bold"
                     letterSpacing={4}
-                    sx={!coupon ? { filter: "blur(4.5px)" } : {}}
                   >
                     {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
                   </Text>
-                  {!coupon && (
-                    <Flex
-                      position="absolute"
-                      p={5}
-                      shadow="md"
-                      borderRadius="full"
-                      bgColor="white"
-                      justifyContent="center"
-                      alignItems="center"
-                      top="50%"
-                      left="50%"
-                      transform="translate(-50%, -50%)"
-                    >
-                      <Icon
-                        as={FiLock}
-                        w={6}
-                        h={6}
-                        aria-label="Copier le code promo"
-                      />
-                    </Flex>
-                  )}
+                  <Flex
+                    id="coupon-code-icon"
+                    position="absolute"
+                    bgColor="white"
+                    p={5}
+                    shadow="md"
+                    borderRadius="full"
+                    justifyContent="center"
+                    alignItems="center"
+                    top="50%"
+                    left="50%"
+                    transform="translate(-50%, -50%)"
+                  >
+                    <Icon
+                      id="coupon-code-icon-unlock"
+                      as={FiUnlock}
+                      display="none"
+                      w={6}
+                      h={6}
+                    />
+                    <Icon id="coupon-code-icon-lock" as={FiLock} w={6} h={6} />
+                  </Flex>
                 </Box>
                 {coupon && (
                   <Flex
+                    className="coupon-info"
                     flexDir="column"
                     alignItems="center"
-                    py={4}
                     gap={1}
+                    py={4}
                     bgColor="white"
                     borderRadius="xl"
                     sx={{
@@ -310,7 +405,7 @@ export default function Dashboard() {
                   <Divider />
                 </>
               ) : (
-                <ButtonGroup gap={3}>
+                <ButtonGroup gap={3} className="btn-utils">
                   <Button
                     size="sm"
                     colorScheme="cje-gray"
@@ -339,9 +434,11 @@ export default function Dashboard() {
                 </ButtonGroup>
               )}
               <Button
+                className="btn-conditions"
                 size="sm"
                 colorScheme="cje-gray"
                 color="black"
+                opacity={isLoading || isSuccess ? 0 : 1}
                 onClick={() => {
                   setIsOnlyCgu(true);
                   onOpen();
