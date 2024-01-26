@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Heading, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "~/utils/api";
@@ -6,6 +6,7 @@ import { ChevronLeftIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { OfferKindBadge } from "~/components/OfferKindBadge";
 import { dottedPattern } from "~/utils/chakra-theme";
+import LoadingLoader from "~/components/LoadingLoader";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -20,15 +21,16 @@ export default function Dashboard() {
 
   const { data: category } = resultCategory || {};
 
-  const { data: resultOffers } = api.offer.getList.useQuery(
-    {
-      page: 1,
-      perPage: 50,
-      sort: "createdAt",
-      categoryId: category?.id,
-    },
-    { enabled: category?.id !== undefined }
-  );
+  const { data: resultOffers, isLoading: isLoadingOffers } =
+    api.offer.getList.useQuery(
+      {
+        page: 1,
+        perPage: 50,
+        sort: "createdAt",
+        categoryId: category?.id,
+      },
+      { enabled: category?.id !== undefined }
+    );
 
   const { data: offers } = resultOffers || {};
 
@@ -67,6 +69,7 @@ export default function Dashboard() {
         flexDir="column"
         gap={6}
         mt={8}
+        h="full"
         overflowY="auto"
         pb={12}
         sx={{
@@ -75,58 +78,70 @@ export default function Dashboard() {
           },
         }}
       >
-        {offers
-          ?.filter((offer) => offer.kind === "code")
-          ?.map((offer) => (
-            <Link
-              key={offer.id}
-              href={`/dashboard/offer/${
-                offer.kind === "code" ? "online" : "in-store"
-              }/${offer.id}`}
-            >
-              <Flex flexDir="column">
-                <Flex
-                  bgColor={offer.partner.color}
-                  py={5}
-                  borderTopRadius={12}
-                  position="relative"
-                  justifyContent="center"
-                  alignItems="center"
-                  sx={{ ...dottedPattern("#ffffff") }}
-                >
+        {isLoadingOffers || !offers ? (
+          <Center w="full" h="full">
+            <LoadingLoader />
+          </Center>
+        ) : (
+          offers
+            ?.filter((offer) => offer.kind === "code")
+            ?.map((offer) => (
+              <Link
+                key={offer.id}
+                onClick={() =>
+                  localStorage.setItem(
+                    "cje-current-partner-color",
+                    offer.partner.color
+                  )
+                }
+                href={`/dashboard/offer/${
+                  offer.kind === "code" ? "online" : "in-store"
+                }/${offer.id}`}
+              >
+                <Flex flexDir="column">
                   <Flex
+                    bgColor={offer.partner.color}
+                    py={5}
+                    borderTopRadius={12}
+                    position="relative"
+                    justifyContent="center"
                     alignItems="center"
-                    borderRadius="full"
-                    p={1}
-                    bgColor="white"
+                    sx={{ ...dottedPattern("#ffffff") }}
                   >
-                    <Image
-                      src={offer.partner.icon.url ?? ""}
-                      alt={offer.partner.icon.alt ?? ""}
-                      width={32}
-                      height={32}
-                    />
+                    <Flex
+                      alignItems="center"
+                      borderRadius="full"
+                      p={1}
+                      bgColor="white"
+                    >
+                      <Image
+                        src={offer.partner.icon.url ?? ""}
+                        alt={offer.partner.icon.alt ?? ""}
+                        width={32}
+                        height={32}
+                      />
+                    </Flex>
+                  </Flex>
+                  <Flex
+                    flexDir="column"
+                    p={3}
+                    bgColor="white"
+                    borderBottomRadius={8}
+                    gap={2}
+                    boxShadow="md"
+                  >
+                    <Text fontSize="sm" fontWeight="medium">
+                      {offer.partner.name}
+                    </Text>
+                    <Text fontWeight="bold" fontSize="sm" noOfLines={2}>
+                      {offer.title}
+                    </Text>
+                    <OfferKindBadge kind={offer.kind} variant="light" />
                   </Flex>
                 </Flex>
-                <Flex
-                  flexDir="column"
-                  p={3}
-                  bgColor="white"
-                  borderBottomRadius={8}
-                  gap={2}
-                  boxShadow="md"
-                >
-                  <Text fontSize="sm" fontWeight="medium">
-                    {offer.partner.name}
-                  </Text>
-                  <Text fontWeight="bold" fontSize="sm" noOfLines={2}>
-                    {offer.title}
-                  </Text>
-                  <OfferKindBadge kind={offer.kind} variant="light" />
-                </Flex>
-              </Flex>
-            </Link>
-          ))}
+              </Link>
+            ))
+        )}
       </Flex>
     </Flex>
   );

@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   Divider,
   Drawer,
   DrawerBody,
@@ -43,6 +44,8 @@ import ToastComponent from "~/components/ToastComponent";
 import { OfferIncluded } from "~/server/api/routers/offer";
 import Link from "next/link";
 import Head from "next/head";
+import LoadingLoader from "~/components/LoadingLoader";
+import { useLocalStorage } from "usehooks-ts";
 
 const DrawerContentComponent = ({
   onClose,
@@ -110,25 +113,29 @@ export default function Dashboard() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [isOnlyCgu, setIsOnlyCgu] = useState(false);
-
-  const { data: resultOffer } = api.offer.getById.useQuery(
-    {
-      id: parseInt(id as string),
-    },
-    { enabled: id !== undefined }
-  );
-
-  const { data: resultCoupon, refetch: refetchCoupon } =
-    api.coupon.getOne.useQuery(
+  const { data: resultOffer, isLoading: isLoadingOffer } =
+    api.offer.getById.useQuery(
       {
-        offer_id: parseInt(id as string),
+        id: parseInt(id as string),
       },
       { enabled: id !== undefined }
     );
 
+  const {
+    data: resultCoupon,
+    isLoading: isLoadingCoupon,
+    refetch: refetchCoupon,
+  } = api.coupon.getOne.useQuery(
+    {
+      offer_id: parseInt(id as string),
+    },
+    { enabled: id !== undefined }
+  );
+
   const { data: offer } = resultOffer || {};
   const { data: coupon } = resultCoupon || {};
+
+  const [isOnlyCgu, setIsOnlyCgu] = useState(false);
 
   const { mutate: mutateCouponToUser } = api.coupon.assignToUser.useMutation({
     onSuccess: () => refetchCoupon(),
@@ -201,157 +208,170 @@ export default function Dashboard() {
             </Text>
           </Flex>
         </Flex>
-        <Flex
-          flexDir="column"
-          bgColor="bgWhite"
-          overflowY="auto"
-          px={8}
-          h="full"
-          gap={6}
-          pb={12}
-        >
-          <Heading
-            as="h3"
-            fontSize="2xl"
-            fontWeight="bold"
-            textAlign="center"
-            mt={6}
-          >
-            {offer?.title}
-          </Heading>
-          <Flex flexDir="column">
-            <Box
-              position="relative"
-              borderRadius="xl"
-              w="full"
-              bgColor={coupon ? "white" : "cje-gray.500"}
-              textAlign="center"
-              py={10}
+        {isLoadingOffer || !offer || isLoadingCoupon || !coupon ? (
+          <Center h="full">
+            <LoadingLoader />
+          </Center>
+        ) : (
+          <>
+            <Flex
+              flexDir="column"
+              bgColor="bgWhite"
+              overflowY="auto"
+              px={8}
+              h="full"
+              gap={6}
+              pb={12}
             >
-              <Text
+              <Heading
+                as="h3"
                 fontSize="2xl"
                 fontWeight="bold"
-                letterSpacing={4}
-                sx={!coupon ? { filter: "blur(4.5px)" } : {}}
+                textAlign="center"
+                mt={6}
               >
-                {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
-              </Text>
-              {!coupon && (
-                <Flex
-                  position="absolute"
-                  p={5}
-                  shadow="md"
-                  borderRadius="full"
-                  bgColor="white"
-                  justifyContent="center"
-                  alignItems="center"
-                  top="50%"
-                  left="50%"
-                  transform="translate(-50%, -50%)"
+                {offer?.title}
+              </Heading>
+              <Flex flexDir="column">
+                <Box
+                  position="relative"
+                  borderRadius="xl"
+                  w="full"
+                  bgColor={coupon ? "white" : "cje-gray.500"}
+                  textAlign="center"
+                  py={10}
                 >
-                  <Icon
-                    as={FiLock}
-                    w={6}
-                    h={6}
-                    aria-label="Copier le code promo"
-                  />
-                </Flex>
-              )}
-            </Box>
-            {coupon && (
-              <Flex
-                flexDir="column"
-                alignItems="center"
-                py={4}
-                gap={1}
-                bgColor="white"
-                borderRadius="xl"
-                sx={{
-                  backgroundImage:
-                    "linear-gradient(to right, #E9E9E9 55%, #fff 0%)",
-                  backgroundSize: "27.5px 2px",
-                  backgroundRepeat: "repeat-x",
-                }}
-              >
-                <Flex alignItems="center" gap={2}>
-                  <Text fontSize="lg" fontWeight="bold">
-                    Code promo activé
+                  <Text
+                    fontSize="2xl"
+                    fontWeight="bold"
+                    letterSpacing={4}
+                    sx={!coupon ? { filter: "blur(4.5px)" } : {}}
+                  >
+                    {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
                   </Text>
-                  <Flex bgColor="success" borderRadius="full" p={1}>
-                    <Icon as={CheckIcon} w={3} h={3} color="white" />
+                  {!coupon && (
+                    <Flex
+                      position="absolute"
+                      p={5}
+                      shadow="md"
+                      borderRadius="full"
+                      bgColor="white"
+                      justifyContent="center"
+                      alignItems="center"
+                      top="50%"
+                      left="50%"
+                      transform="translate(-50%, -50%)"
+                    >
+                      <Icon
+                        as={FiLock}
+                        w={6}
+                        h={6}
+                        aria-label="Copier le code promo"
+                      />
+                    </Flex>
+                  )}
+                </Box>
+                {coupon && (
+                  <Flex
+                    flexDir="column"
+                    alignItems="center"
+                    py={4}
+                    gap={1}
+                    bgColor="white"
+                    borderRadius="xl"
+                    sx={{
+                      backgroundImage:
+                        "linear-gradient(to right, #E9E9E9 55%, #fff 0%)",
+                      backgroundSize: "27.5px 2px",
+                      backgroundRepeat: "repeat-x",
+                    }}
+                  >
+                    <Flex alignItems="center" gap={2}>
+                      <Text fontSize="lg" fontWeight="bold">
+                        Code promo activé
+                      </Text>
+                      <Flex bgColor="success" borderRadius="full" p={1}>
+                        <Icon as={CheckIcon} w={3} h={3} color="white" />
+                      </Flex>
+                    </Flex>
+                    <Text as="span" fontSize="sm" color="disabled">
+                      Utilisable jusqu'au:{" "}
+                      <Text as="span" color="black" fontWeight="bold">
+                        {new Date(coupon.offer.validityTo).toLocaleDateString()}
+                      </Text>
+                    </Text>
                   </Flex>
-                </Flex>
-                <Text as="span" fontSize="sm" color="disabled">
-                  Utilisable jusqu'au:{" "}
-                  <Text as="span" color="black" fontWeight="bold">
-                    {new Date(coupon.offer.validityTo).toLocaleDateString()}
-                  </Text>
-                </Text>
+                )}
               </Flex>
-            )}
-          </Flex>
-          {!coupon ? (
-            <>
-              <Button rightIcon={<CouponIcon />} py={8} onClick={onOpen}>
-                Activer le code promo
-              </Button>
-              <Divider />
-            </>
-          ) : (
-            <ButtonGroup gap={3}>
-              <Button size="sm" colorScheme="cje-gray" color="black" w="full">
-                <Link href={coupon.offer.partner.url} target="_blank">
-                  <Flex flexDir="column" alignItems="center" gap={3}>
-                    <Icon as={FiLink} w={6} h={6} />
-                    Aller sur le site du partenaire
-                  </Flex>
-                </Link>
-              </Button>
+              {!coupon ? (
+                <>
+                  <Button rightIcon={<CouponIcon />} py={8} onClick={onOpen}>
+                    Activer le code promo
+                  </Button>
+                  <Divider />
+                </>
+              ) : (
+                <ButtonGroup gap={3}>
+                  <Button
+                    size="sm"
+                    colorScheme="cje-gray"
+                    color="black"
+                    w="full"
+                  >
+                    <Link href={coupon.offer.partner.url} target="_blank">
+                      <Flex flexDir="column" alignItems="center" gap={3}>
+                        <Icon as={FiLink} w={6} h={6} />
+                        Aller sur le site du partenaire
+                      </Flex>
+                    </Link>
+                  </Button>
+                  <Button
+                    size="sm"
+                    colorScheme="cje-gray"
+                    color="black"
+                    w="full"
+                    onClick={() => handleCopyToClipboard(coupon.code)}
+                  >
+                    <Flex flexDir="column" alignItems="center" gap={3}>
+                      <Icon as={FiCopy} w={6} h={6} />
+                      Copier le code promo
+                    </Flex>
+                  </Button>
+                </ButtonGroup>
+              )}
               <Button
                 size="sm"
                 colorScheme="cje-gray"
                 color="black"
-                w="full"
-                onClick={() => handleCopyToClipboard(coupon.code)}
+                onClick={() => {
+                  setIsOnlyCgu(true);
+                  onOpen();
+                }}
               >
-                <Flex flexDir="column" alignItems="center" gap={3}>
-                  <Icon as={FiCopy} w={6} h={6} />
-                  Copier le code promo
+                <Flex flexDir="column" alignItems="center" gap={6}>
+                  <Icon as={FiBook} w={6} h={6} />
+                  Voir les conditions d'utilisation
                 </Flex>
               </Button>
-            </ButtonGroup>
-          )}
-          <Button
-            size="sm"
-            colorScheme="cje-gray"
-            color="black"
-            onClick={() => {
-              setIsOnlyCgu(true);
-              onOpen();
-            }}
-          >
-            <Flex flexDir="column" alignItems="center" gap={6}>
-              <Icon as={FiBook} w={6} h={6} />
-              Voir les conditions d'utilisation
             </Flex>
-          </Button>
-        </Flex>
-        <Drawer
-          placement="bottom"
-          size="full"
-          onClose={onClose}
-          isOpen={isOpen}
-        >
-          <DrawerOverlay />
-          {offer && (
-            <DrawerContentComponent
+            <Drawer
+              placement="bottom"
+              size="full"
               onClose={onClose}
-              onlyCgu={isOnlyCgu}
-              offer={offer}
-              mutateCouponToUser={mutateCouponToUser}
-            />
-          )}
-        </Drawer>
+              isOpen={isOpen}
+            >
+              <DrawerOverlay />
+              {offer && (
+                <DrawerContentComponent
+                  onClose={onClose}
+                  onlyCgu={isOnlyCgu}
+                  offer={offer}
+                  mutateCouponToUser={mutateCouponToUser}
+                />
+              )}
+            </Drawer>
+          </>
+        )}
       </Flex>
     </>
   );
