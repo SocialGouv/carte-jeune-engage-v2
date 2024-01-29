@@ -1,3 +1,10 @@
+## [0.3.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.3.0...v0.3.1) (2024-01-29)
+
+
+### Bug Fixes
+
+* wording README ([1674374](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/16743743a23d1468b492b4c03e75f69bba43c4d5))
+
 # [0.3.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.2.0...v0.3.0) (2024-01-29)
 
 
