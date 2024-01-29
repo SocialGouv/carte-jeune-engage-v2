@@ -6,6 +6,9 @@ export const Partners: CollectionConfig = {
     singular: "Partenaire",
     plural: "Partenaires",
   },
+  admin: {
+    useAsTitle: "name",
+  },
   fields: [
     {
       name: "name",

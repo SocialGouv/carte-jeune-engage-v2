@@ -7,6 +7,9 @@ export const Users: CollectionConfig = {
     singular: "Utilisateur",
     plural: "Utilisateurs",
   },
+  admin: {
+    useAsTitle: "email",
+  },
   fields: [
     {
       name: "email",

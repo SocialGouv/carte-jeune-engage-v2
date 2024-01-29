@@ -6,6 +6,9 @@ export const Categories: CollectionConfig = {
     singular: "Catégorie",
     plural: "Catégories",
   },
+  admin: {
+    useAsTitle: "label",
+  },
   fields: [
     {
       name: "slug",

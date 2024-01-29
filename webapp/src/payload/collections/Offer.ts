@@ -6,6 +6,9 @@ export const Offers: CollectionConfig = {
     singular: "Offre",
     plural: "Offres",
   },
+  admin: {
+    useAsTitle: "title",
+  },
   fields: [
     {
       name: "title",
