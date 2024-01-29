@@ -1,3 +1,10 @@
+## [0.3.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.3.1...v0.3.2) (2024-01-29)
+
+
+### Bug Fixes
+
+* offer name in coupon wrapper ([f48f225](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f48f225e9c0c92ae6f2e0474511824893d9b68c2))
+
 ## [0.3.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.3.0...v0.3.1) (2024-01-29)
 
 
