@@ -4,6 +4,14 @@
 
 ## Developpement
 
+## Base de donnée
+
+Lancez la base de donnée Postgres via docker compose :
+
+```bash
+docker compose up -d
+```
+
 ### Webapp
 
 Accédez au dossier de l'application NextJS webapp :
