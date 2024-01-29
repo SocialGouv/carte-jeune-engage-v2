@@ -1,3 +1,51 @@
+# [0.3.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.2.0...v0.3.0) (2024-01-29)
+
+
+### Bug Fixes
+
+* add close icon to installation banner ([15b281c](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/15b281c492987165665ee034f214b362b715f6a6))
+* add migrations and new default command for seed ([c70d2b3](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/c70d2b3c4ad9b6680bf69876fa1c0f3eb2625c28))
+* add name of relation instead of id ([582288f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/582288fbf174a7021abefda0040e7eae5c09d15c))
+* add papaparse dependency ([6bb691b](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/6bb691beb5633bf8049ed0f39af27cc20e3873e7))
+* animation export error ([4cbeb2f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/4cbeb2fad9ee660d4d25464fd5b4fb33d6134121))
+* back btn colorScheme ([5e13489](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/5e1348968bcb9b2418de89413277e94f770ad053))
+* chakra btn hover state issue on mobile ([53804c1](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/53804c14615fc24269e9654102f1418787f8c1ea))
+* change theme color with partner color for offer page and change default color in manifest ([b70e321](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/b70e321b2386830cb26dcf683f0af0e9654d7a59))
+* cleanup landing page with login, remove register page and update dependencies for migration issues ([dae9d62](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/dae9d625328fc504f26d05f8ddc5b300675f0987))
+* database connection string ([2205fb8](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/2205fb81305019ef76cdfc556ec74752e2116ce6))
+* env example & readme ([a0c9ab3](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/a0c9ab327730660b543932f3b51c57b9110ec4ca))
+* installation banner btn styling ([33f041e](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/33f041edcf48aa36c52a214db85593fd52cf57b9))
+* loading block on offer ([c1f6c23](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/c1f6c23bdf1edb511b5b437decd110ec90aa66dc))
+* missing env variable from configmap ([84492f2](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/84492f239d06cec1d3c787d692f5353ac78ffee2))
+* order offers by partners names ([897ffc3](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/897ffc34e5cc02875fdadc28402619efa9d29ddc))
+* readme add docker compose up ([e3664d0](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/e3664d03b041355baa97d7e8ea0ed44bfd56d2d3))
+* remove in-store offer card display, remove offer from list if no coupon and remove back btn from login page ([b34c06a](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/b34c06aca27a1e41ca0973c7baf8c419ffcd5c5c))
+* remove unused cross-env package ([cc267ab](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/cc267abeb7daa84968624e7257f426699fca82cd))
+* remove unusued code ([4c5e1bd](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/4c5e1bd4951bf77d09ba187577d801e3192da4ad))
+* seed cmd in readme ([9cbc82d](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/9cbc82de371a2625286f7fe6e4608c006920461c))
+* tap highlight color for mobile ([b2265a3](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/b2265a324a490039d67a59f226c859c3b242cf83))
+* tmp fix for testing purpose ([bd95341](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/bd95341e50402e0012b204c1d3303cfda1f86343))
+
+
+### Features
+
+* add and modify category with new images in seeds, add categories page and dynamic page by category ([f7972ec](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f7972eca717589ac07afbb5bc239cbf38ea9b80d))
+* add animation on coupon activation ([31a5809](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/31a5809b6a99bd597b1d291a8199912b38cd34f8))
+* add loading spinner for pages categories, offer list and offer ([b0c0e2e](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/b0c0e2eb276764c8d1091867bdb0b8b5633003de))
+* add logout link on account page ([d097ddf](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/d097ddfdcc0e67b3fdf0057b539b43bef85587f1))
+* add new collection coupon, add url to partner and coupon router ([577b02f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/577b02f883e658e95386ff1388c5b8558cf8ad80))
+* add toast & tooltip ([03ff455](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/03ff455e7a4a6a3810c26f6f7651a2f661064cb6))
+* attach coupon on activation, add interactivity with current coupon for partner url, copy of coupon code and validity from offer ([42168be](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/42168beb1b6fa06cc92a2bd8c444fe90aa61d52f))
+* begin page offer online, default layout cleanup and layout for offer page ([dc408bc](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/dc408bcf62ff8cdfb3ab71bb5aba2be56df6bc64))
+* change from drawer component to modal for offer page ([34f19cd](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/34f19cd5b56fa2d4f736d851f3ffbb6d05186355))
+* coupons import csv with hardcoded offer_id ([a2492f1](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/a2492f1b63a10ae871cf3c1904bd49646e535281))
+* finish static flow for online coupon, fix scroll on categories and list of offers ([d51c6c3](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/d51c6c362d48fa8d5ce47bc5177c9b98240c75d9))
+* modal to choose offer when importing coupons ([6441d0e](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/6441d0e38e0736a716bba4b094728516bcc2c7ae))
+* use payload REST API to import coupons ([a9f41a7](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/a9f41a7248f3490757fe7aafc16cd16d5de54fa6))
+* wrapper for categories page ([b7d5494](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/b7d549478fdba2e1fe3a1a60facd44dcfe434929))
+* wrapper for category page ([f4e3cdd](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f4e3cdde4eb939c1cacc3fb012c8b8e90c97ea80))
+* wrapper for offer page - offer & coupon wrapper - animation exported ([fe345d0](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/fe345d080ab5e9484bf7e627e50c44452a4db36d))
+
 # [0.2.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.1.0...v0.2.0) (2024-01-22)
 
 
