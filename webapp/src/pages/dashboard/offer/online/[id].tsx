@@ -8,22 +8,22 @@ import {
   Modal,
   ModalOverlay,
   useDisclosure,
-  useToast
-} from '@chakra-ui/react';
-import { useGSAP } from '@gsap/react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { FiBook, FiCopy, FiLink } from 'react-icons/fi';
-import { IoCloseCircleOutline } from 'react-icons/io5';
-import LoadingLoader from '~/components/LoadingLoader';
-import ToastComponent from '~/components/ToastComponent';
-import { CouponIcon } from '~/components/icons/coupon';
-import OfferActivationModal from '~/components/modals/OfferActivationModal';
-import CouponWrapper from '~/components/wrappers/CouponWrapper';
-import OfferWrapper from '~/components/wrappers/OfferWrapper';
-import { couponAnimation } from '~/utils/animations';
-import { api } from '~/utils/api';
+  useToast,
+} from "@chakra-ui/react";
+import { useGSAP } from "@gsap/react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { FiBook, FiCopy, FiLink } from "react-icons/fi";
+import { IoCloseCircleOutline } from "react-icons/io5";
+import LoadingLoader from "~/components/LoadingLoader";
+import ToastComponent from "~/components/ToastComponent";
+import { CouponIcon } from "~/components/icons/coupon";
+import OfferActivationModal from "~/components/modals/OfferActivationModal";
+import CouponWrapper from "~/components/wrappers/CouponWrapper";
+import OfferWrapper from "~/components/wrappers/OfferWrapper";
+import { couponAnimation } from "~/utils/animations";
+import { api } from "~/utils/api";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -32,7 +32,7 @@ export default function Dashboard() {
   const { data: resultOffer, isLoading: isLoadingOffer } =
     api.offer.getById.useQuery(
       {
-        id: parseInt(id as string)
+        id: parseInt(id as string),
       },
       { enabled: id !== undefined }
     );
@@ -40,10 +40,10 @@ export default function Dashboard() {
   const {
     data: resultCoupon,
     isLoading: isLoadingCoupon,
-    refetch: refetchCoupon
+    refetch: refetchCoupon,
   } = api.coupon.getOne.useQuery(
     {
-      offer_id: parseInt(id as string)
+      offer_id: parseInt(id as string),
     },
     { enabled: id !== undefined }
   );
@@ -56,9 +56,9 @@ export default function Dashboard() {
   const {
     mutate: mutateCouponToUser,
     isLoading,
-    isSuccess
+    isSuccess,
   } = api.coupon.assignToUser.useMutation({
-    onSuccess: () => refetchCoupon()
+    onSuccess: () => refetchCoupon(),
   });
 
   const toast = useToast();
@@ -66,9 +66,9 @@ export default function Dashboard() {
   const {
     isOpen: isModalOpen,
     onOpen,
-    onClose
+    onClose,
   } = useDisclosure({
-    onClose: () => setIsOnlyCgu(false)
+    onClose: () => setIsOnlyCgu(false),
   });
 
   const handleCopyToClipboard = (text: string) => {
@@ -79,7 +79,7 @@ export default function Dashboard() {
           icon={IoCloseCircleOutline}
         />
       ),
-      duration: 2000
+      duration: 2000,
     });
     navigator.clipboard.writeText(text);
   };
@@ -102,7 +102,7 @@ export default function Dashboard() {
 
   return (
     <OfferWrapper offer={offer} isModalOpen={isModalOpen}>
-      <CouponWrapper coupon={coupon}>
+      <CouponWrapper coupon={coupon} offer={offer}>
         {!coupon ? (
           <>
             <Button rightIcon={<CouponIcon />} py={8} onClick={onOpen}>

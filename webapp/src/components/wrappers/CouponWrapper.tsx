@@ -1,15 +1,17 @@
-import { CheckIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Heading, Icon, Text } from '@chakra-ui/react';
-import { ReactNode } from 'react';
-import { FiLock, FiUnlock } from 'react-icons/fi';
-import { CouponIncluded } from '~/server/api/routers/coupon';
+import { CheckIcon } from "@chakra-ui/icons";
+import { Box, Button, Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import { ReactNode } from "react";
+import { FiLock, FiUnlock } from "react-icons/fi";
+import { CouponIncluded } from "~/server/api/routers/coupon";
+import { OfferIncluded } from "~/server/api/routers/offer";
 
 type CouponWrapperProps = {
   children: ReactNode;
   coupon?: CouponIncluded;
+  offer: OfferIncluded;
 };
 
-const CouponWrapper = ({ children, coupon }: CouponWrapperProps) => {
+const CouponWrapper = ({ children, coupon, offer }: CouponWrapperProps) => {
   return (
     <Flex
       flexDir="column"
@@ -27,14 +29,14 @@ const CouponWrapper = ({ children, coupon }: CouponWrapperProps) => {
         textAlign="center"
         mt={6}
       >
-        {coupon?.offer.title}
+        {offer.title}
       </Heading>
       <Flex flexDir="column">
         <Box
           position="relative"
           borderRadius="xl"
           w="full"
-          bgColor={coupon ? 'white' : 'cje-gray.500'}
+          bgColor={coupon ? "white" : "cje-gray.500"}
           textAlign="center"
           py={10}
         >
@@ -44,7 +46,7 @@ const CouponWrapper = ({ children, coupon }: CouponWrapperProps) => {
             fontWeight="bold"
             letterSpacing={4}
           >
-            {coupon?.code ? coupon.code : '6FHDJFHEIDJF'}
+            {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
           </Text>
           <Flex
             id="coupon-code-icon"
@@ -80,9 +82,9 @@ const CouponWrapper = ({ children, coupon }: CouponWrapperProps) => {
             borderRadius="xl"
             sx={{
               backgroundImage:
-                'linear-gradient(to right, #E9E9E9 55%, #fff 0%)',
-              backgroundSize: '27.5px 2px',
-              backgroundRepeat: 'repeat-x'
+                "linear-gradient(to right, #E9E9E9 55%, #fff 0%)",
+              backgroundSize: "27.5px 2px",
+              backgroundRepeat: "repeat-x",
             }}
           >
             <Flex alignItems="center" gap={2}>
@@ -94,7 +96,7 @@ const CouponWrapper = ({ children, coupon }: CouponWrapperProps) => {
               </Flex>
             </Flex>
             <Text as="span" fontSize="sm" color="disabled">
-              Utilisable jusqu'au:{' '}
+              Utilisable jusqu'au:{" "}
               <Text as="span" color="black" fontWeight="bold">
                 {new Date(coupon.offer.validityTo).toLocaleDateString()}
               </Text>
