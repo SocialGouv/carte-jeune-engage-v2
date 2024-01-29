@@ -4,9 +4,9 @@
 
 ## Developpement
 
-## Base de donnée
+## Base de données
 
-Lancez la base de donnée Postgres via docker compose :
+Lancez la base de données Postgres via docker compose :
 
 ```bash
 docker compose up -d
