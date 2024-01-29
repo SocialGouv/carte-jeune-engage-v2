@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button, Flex, Icon, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Icon, Text, useToast } from "@chakra-ui/react";
 import { useAuth } from "~/providers/Auth";
 import { useLocalStorage } from "usehooks-ts";
+import { CloseIcon } from "@chakra-ui/icons";
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -81,7 +82,7 @@ const InstallationBanner: React.FC = () => {
     return null;
 
   return (
-    <Flex
+    <Box
       position="absolute"
       bottom={24}
       left={6}
@@ -91,21 +92,39 @@ const InstallationBanner: React.FC = () => {
       p={4}
       borderRadius={8}
       bgColor="primary.500"
-      alignItems="center"
-      justifyContent="space-between"
     >
-      <Flex flexDir="column" gap={1}>
-        <Text fontSize="md" fontWeight="bold" color="white">
-          Installer l'application
-        </Text>
-        <Text fontSize="xs" color="white" noOfLines={2}>
-          Pour une meilleure expérience, installez l'app sur votre téléphone.
-        </Text>
+      <Flex
+        alignItems="center"
+        justifyContent="space-between"
+        position="relative"
+      >
+        <Flex flexDir="column" gap={1} w="70%">
+          <Text fontSize="md" fontWeight="bold" color="white">
+            Installer l'application
+          </Text>
+          <Text fontSize="xs" color="white" noOfLines={2}>
+            Pour une meilleure expérience, installez l'app sur votre téléphone.
+          </Text>
+        </Flex>
+        <Button
+          size="md"
+          variant="ghost"
+          color="white"
+          onClick={handleInstallClick}
+        >
+          Installer
+        </Button>
+        <CloseIcon
+          position="absolute"
+          h={3}
+          w={3}
+          right={-1}
+          top={-1}
+          color="white"
+          onClick={() => setUserOutcome("dismissed")}
+        />
       </Flex>
-      <Button size="lg" mx="auto" mr={1} onClick={handleInstallClick}>
-        Installer
-      </Button>
-    </Flex>
+    </Box>
   );
 };
 

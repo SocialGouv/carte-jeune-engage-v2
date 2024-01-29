@@ -6,6 +6,9 @@ export const Offers: CollectionConfig = {
     singular: "Offre",
     plural: "Offres",
   },
+  admin: {
+    useAsTitle: "title",
+  },
   fields: [
     {
       name: "title",
@@ -27,6 +30,12 @@ export const Offers: CollectionConfig = {
       label: "Catégorie",
       relationTo: "categories",
       hasMany: false,
+      required: true,
+    },
+    {
+      name: "validityTo",
+      type: "date",
+      label: "Validité jusqu'au",
       required: true,
     },
     {

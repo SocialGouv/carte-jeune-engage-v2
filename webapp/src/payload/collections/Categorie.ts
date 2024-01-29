@@ -6,6 +6,9 @@ export const Categories: CollectionConfig = {
     singular: "Catégorie",
     plural: "Catégories",
   },
+  admin: {
+    useAsTitle: "label",
+  },
   fields: [
     {
       name: "slug",
@@ -26,12 +29,6 @@ export const Categories: CollectionConfig = {
       label: "Icône",
       required: true,
       relationTo: "media",
-    },
-    {
-      name: "color",
-      type: "text",
-      label: "Couleur",
-      required: true,
     },
   ],
 };

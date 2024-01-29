@@ -12,6 +12,7 @@ import { Media } from "./collections/Media";
 import { Categories } from "./collections/Categorie";
 import { Partners } from "./collections/Partner";
 import { Offers } from "./collections/Offer";
+import { Coupons } from "./collections/Coupon";
 
 const adapter = s3Adapter({
   config: {
@@ -27,11 +28,12 @@ const adapter = s3Adapter({
 
 export default buildConfig({
   db: postgresAdapter({
+    migrationDir: path.resolve(__dirname, "./migrations"),
     pool: {
       connectionString:
         process.env.NODE_ENV !== "production"
           ? process.env.DATABASE_URL
-          : `postgresql://${process.env.PGDATABASE}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}?sslmode=disable`,
+          : `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}?sslmode=disable`,
     },
   }),
   plugins: [
@@ -51,7 +53,7 @@ export default buildConfig({
     bundler: webpackBundler(),
     user: "admins",
   },
-  collections: [Admins, Users, Media, Categories, Partners, Offers],
+  collections: [Admins, Users, Media, Categories, Partners, Offers, Coupons],
   localization: {
     locales: ["fr"],
     defaultLocale: "fr",

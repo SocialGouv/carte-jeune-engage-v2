@@ -14,6 +14,7 @@ export interface Config {
     categories: Category;
     partners: Partner;
     offers: Offer;
+    coupons: Coupon;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -60,39 +61,12 @@ export interface Media {
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    card?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    tablet?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
 }
 export interface Category {
   id: number;
   slug: string;
   label: string;
   icon: number | Media;
-  color: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -100,6 +74,8 @@ export interface Partner {
   id: number;
   name: string;
   description: string;
+  url: string;
+  color: string;
   icon: number | Media;
   updatedAt: string;
   createdAt: string;
@@ -109,7 +85,17 @@ export interface Offer {
   title: string;
   partner: number | Partner;
   category: number | Category;
+  validityTo: string;
   kind: 'voucher' | 'code';
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Coupon {
+  id: number;
+  code: string;
+  status: 'available' | 'archived';
+  user?: (number | null) | User;
+  offer: number | Offer;
   updatedAt: string;
   createdAt: string;
 }

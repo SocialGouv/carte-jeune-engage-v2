@@ -4,6 +4,14 @@
 
 ## Developpement
 
+## Base de donnée
+
+Lancez la base de donnée Postgres via docker compose :
+
+```bash
+docker compose up -d
+```
+
 ### Webapp
 
 Accédez au dossier de l'application NextJS webapp :
@@ -27,7 +35,7 @@ yarn
 Générez les données de test :
 
 ```bash
-yarn seed
+yarn seed:dev
 ```
 
 Lancez l'application, qui sera accessible sur le port 3000 :
@@ -35,3 +43,9 @@ Lancez l'application, qui sera accessible sur le port 3000 :
 ```bash
 yarn dev
 ```
+
+Voici les informations des utilisateurs prêts à être utilisés en développement grâce aux données de test :
+| Email | Type de compte | Mot de passe |
+| -------- | -------- | -------- |
+| user@test.loc | Utilisateur | user123 |
+| admin@test.loc | Administrateur | admin123 |

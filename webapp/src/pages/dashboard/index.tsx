@@ -5,74 +5,31 @@ import { api } from "~/utils/api";
 import { OfferKindBadge } from "~/components/OfferKindBadge";
 
 export default function Dashboard() {
-  const { data: resultCategories, isLoading: isLoadingCategories } =
-    api.category.getList.useQuery({
-      page: 1,
-      perPage: 50,
-      sort: "createdAt",
-    });
+  // const { data: resultCategories, isLoading: isLoadingCategories } =
+  //   api.category.getList.useQuery({
+  //     page: 1,
+  //     perPage: 50,
+  //     sort: "createdAt",
+  //   });
 
-  const { data: resultOffers, isLoading: isLoadingOffers } =
-    api.offer.getList.useQuery({
-      page: 1,
-      perPage: 50,
-    });
+  // const { data: resultOffers, isLoading: isLoadingOffers } =
+  //   api.offer.getList.useQuery({
+  //     page: 1,
+  //     perPage: 50,
+  //   });
 
-  const { data: categories } = resultCategories || {};
+  // const { data: categories } = resultCategories || {};
 
-  const { data: offers } = resultOffers || {};
+  // const { data: offers } = resultOffers || {};
 
   return (
-    <Box>
-      <Flex flexDir="column" pt={12}>
-        <Flex alignItems="center" justifyContent="space-between" px={8}>
-          <Heading as="h3" fontSize="xl">
-            Catégories
-          </Heading>
-          <Link href="/dashboard/categories">
-            <Text fontWeight="medium" color="primary.500">
-              Tout voir
-            </Text>
-          </Link>
-        </Flex>
-        <Flex
-          alignItems="center"
-          px={8}
-          mt={4}
-          gap={4}
-          overflowX="auto"
-          sx={{
-            "::-webkit-scrollbar": {
-              display: "none",
-            },
-          }}
-        >
-          {isLoadingCategories ? (
-            <Text>Loading...</Text>
-          ) : (
-            categories?.map((category) => (
-              <Flex key={category.id} flexDir="column" textAlign="center">
-                <Flex
-                  justifyContent="center"
-                  alignItems="center"
-                  bgColor={category.color}
-                  borderRadius={8}
-                  width="82px"
-                  height="74px"
-                >
-                  <Image
-                    src={category.icon.url ?? ""}
-                    alt={category.icon.alt ?? ""}
-                    width={40}
-                    height={40}
-                  />
-                </Flex>
-                <Text mt={2}>{category.label}</Text>
-              </Flex>
-            ))
-          )}
-        </Flex>
-      </Flex>
+    <Box pt={12} px={8}>
+      <Link href="/dashboard/categories" color="blue">
+        <Text fontWeight="medium" color="primary.500">
+          Catégories
+        </Text>
+      </Link>
+      {/* <Flex flexDir="column" pt={12}>
       <Flex flexDir="column" mt={10}>
         <Flex alignItems="center" justifyContent="space-between" px={8}>
           <Heading as="h3" fontSize="xl">
@@ -152,7 +109,7 @@ export default function Dashboard() {
             ))
           )}
         </Flex>
-      </Flex>
+      </Flex> */}
     </Box>
   );
 }

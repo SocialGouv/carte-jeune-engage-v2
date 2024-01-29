@@ -5,27 +5,38 @@ export const categories = [
   {
     slug: "shop",
     label: "Courses",
-    color: "#FACBD1",
-  },
-  {
-    slug: "care",
-    label: "Soins",
-    color: "#CDE0FF",
-  },
-  {
-    slug: "services",
-    label: "Services",
-    color: "#DBF0EB",
-  },
-  {
-    slug: "telephony",
-    label: "Téléphonie",
-    color: "#FEDF6B",
   },
   {
     slug: "mobility",
     label: "Mobilité",
-    color: "#CACAFB",
+  },
+  {
+    slug: "hobby",
+    label: "Loisirs",
+  },
+  {
+    slug: "sport",
+    label: "Sport",
+  },
+  {
+    slug: "hygiene",
+    label: "Hygiène",
+  },
+  {
+    slug: "equipment",
+    label: "Équipement",
+  },
+  {
+    slug: "hosting",
+    label: "Hébergement",
+  },
+  {
+    slug: "bank",
+    label: "Banque, mutuelle, assurance",
+  },
+  {
+    slug: "telephony",
+    label: "Téléphone, internet",
   },
 ] as const;
 
@@ -35,9 +46,7 @@ export async function seedCategories(payload: Payload) {
       collection: "media",
       filePath: path.join(
         __dirname,
-        `../../../public/images/seeds/categories/${category.slug}.${
-          category.slug === "mobility" ? "png" : "svg"
-        }`
+        `../../../public/images/seeds/categories/${category.slug}.png`
       ),
       data: {
         alt: `${category.slug} icon`,

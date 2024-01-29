@@ -1,5 +1,9 @@
 /* theme.ts */
-import { extendTheme } from "@chakra-ui/react";
+import {
+  StyleFunctionProps,
+  extendTheme,
+  theme as defaultTheme,
+} from "@chakra-ui/react";
 import localFont from "next/font/local";
 
 export const Marianne = localFont({
@@ -37,18 +41,49 @@ export const Marianne = localFont({
   ],
 });
 
+export const dottedPattern = (bgColor: string) => ({
+  _after: {
+    content: `""`,
+    position: "absolute",
+    bottom: -2, // Adjust this value as needed to align with your design
+    left: 0,
+    right: 0,
+    height: "40px", // This is the height of the pseudo-element
+    backgroundImage: `radial-gradient(circle, ${bgColor} 8px, rgba(0, 0, 0, 0) 8px)`, // The color should be the same as the border color
+    backgroundSize: "23px 17px", // Adjust the size of the dots
+    backgroundRepeat: "repeat-x",
+    backgroundPosition: "bottom",
+  },
+});
+
 export const theme = extendTheme({
   components: {
     Button: {
       sizes: {
         lg: {
-          px: "1.5rem",
-          borderRadius: "6.25rem",
+          borderRadius: "2xl",
+          py: 8,
+          fontWeight: "medium",
+        },
+        sm: {
+          borderRadius: "lg",
+          py: 12,
+          fontWeight: "medium",
+          whiteSpace: "normal",
         },
       },
       defaultProps: {
         size: "lg",
-        colorScheme: "primary",
+        colorScheme: "blackBtn",
+      },
+      variants: {
+        solid: (props: StyleFunctionProps) => ({
+          "@media(hover: none)": {
+            _hover: {
+              bg: defaultTheme.components.Button.variants?.solid(props).bg,
+            },
+          },
+        }),
       },
     },
   },
@@ -65,7 +100,44 @@ export const theme = extendTheme({
       "900": "#282a87",
       "950": "#18184e",
     },
-    bgWhite: "#F7F7FA",
+    whiteBtn: {
+      "50": "#FFFFFF",
+      "100": "#FFFFFF",
+      "200": "#FFFFFF",
+      "300": "#FFFFFF",
+      "400": "#FFFFFF",
+      "500": "#FFFFFF",
+      "600": "#FFFFFF",
+      "700": "#FFFFFF",
+      "800": "#FFFFFF",
+      "900": "#FFFFFF",
+    },
+    blackBtn: {
+      "50": "#000000",
+      "100": "#000000",
+      "200": "#000000",
+      "300": "#000000",
+      "400": "#000000",
+      "500": "#000000",
+      "600": "#000000",
+      "700": "#000000",
+      "800": "#000000",
+      "900": "#000000",
+    },
+    "cje-gray": {
+      "50": "#f6f7f9",
+      "100": "#c5c7cb",
+      "200": "#cfd1d5",
+      "300": "#d9dbdf",
+      "400": "#e3e5e9",
+      "500": "#edeff3",
+      "600": "#f7f9fd",
+      "700": "#ffffff",
+      "800": "#ffffff",
+      "900": "#ffffff",
+    },
+    success: "#42B918",
+    bgWhite: "#F7F7F7",
     disabled: "#9595B1",
   },
   fonts: {
