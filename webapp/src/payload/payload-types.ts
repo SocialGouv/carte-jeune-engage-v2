@@ -94,6 +94,7 @@ export interface Coupon {
   id: number;
   code: string;
   status: 'available' | 'archived';
+  used?: boolean | null;
   user?: (number | null) | User;
   offer: number | Offer;
   updatedAt: string;

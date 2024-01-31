@@ -25,7 +25,7 @@ export const offerRouter = createTRPCRouter({
       let where = {} as Record<keyof Offer, Where | WhereField>;
 
       where.validityTo = {
-        greater_than_equal: new Date(),
+        greater_than_equal: new Date().toISOString().split("T")[0],
       };
 
       if (categoryId) {
@@ -61,14 +61,15 @@ export const offerRouter = createTRPCRouter({
 
         if (isCurrentUser) {
           couponCount = couponFiltered.filter(
-            (coupon) => coupon.user === ctx.session.id
+            (coupon) => coupon.user === ctx.session.id && coupon.used === false
           ).length;
         } else {
           couponCount = couponFiltered.filter(
             (coupon) =>
-              coupon.user === undefined ||
-              coupon.user === null ||
-              coupon.user === ctx.session.id
+              (coupon.user === undefined ||
+                coupon.user === null ||
+                coupon.user === ctx.session.id) &&
+              coupon.used === false
           ).length;
         }
 
