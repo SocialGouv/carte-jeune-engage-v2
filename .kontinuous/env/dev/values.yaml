@@ -20,5 +20,3 @@ jobs:
       envFrom:
         - secretRef:
             name: pg-app
-        - secretRef:
-            name: app-sealed-secret
