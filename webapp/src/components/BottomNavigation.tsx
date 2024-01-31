@@ -18,7 +18,7 @@ const BottomNavigation = () => {
     {
       label: "Mes réductions",
       icon: WalletIcon,
-      href: "/dashboard/wallet",
+      href: "/dashboard/wallet?offerKind=in-store",
     },
     {
       label: "Profil",

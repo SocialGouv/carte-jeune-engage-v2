@@ -4,6 +4,8 @@ import OfferCard from "~/components/cards/OfferCard";
 import WalletWrapper from "~/components/wrappers/WalletWrapper";
 import { api } from "~/utils/api";
 import { PiSmileySadFill } from "react-icons/pi";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const WalletNoData = ({ kind }: { kind: "in-store" | "online" }) => {
   return (
@@ -22,6 +24,36 @@ const WalletNoData = ({ kind }: { kind: "in-store" | "online" }) => {
 };
 
 export default function Wallet() {
+  const router = useRouter();
+  const { offerKind } = router.query as {
+    offerKind?: "in-store" | "online";
+  };
+
+  const [tabIndex, setTabIndex] = useState(2);
+
+  useEffect(() => {
+    setTabIndex(offerKind === "in-store" ? 0 : offerKind === "online" ? 1 : 2);
+  }, [offerKind]);
+
+  const handleTabsChange = (index: number) => {
+    router.replace({
+      query: { offerKind: index === 0 ? "in-store" : "online" },
+    });
+    setTabIndex(index);
+  };
+
+  if (
+    (!offerKind || (offerKind !== "in-store" && offerKind !== "online")) &&
+    router.isReady
+  ) {
+    router.replace({
+      query: {
+        ...router.query,
+        offerKind: "in-store",
+      },
+    });
+  }
+
   const { data: resultUserOffers, isLoading: isLoadingUserOffers } =
     api.offer.getListOfAvailables.useQuery({
       page: 1,
@@ -32,28 +64,26 @@ export default function Wallet() {
 
   const { data: currentUserOffers } = resultUserOffers || {};
 
-  const onlineOffers = currentUserOffers?.filter(
-    (offer) => offer.kind === "code"
-  );
-
   const inStoreOffers = currentUserOffers?.filter(
     (offer) => offer.kind === "voucher"
   );
 
+  const onlineOffers = currentUserOffers?.filter(
+    (offer) => offer.kind === "code"
+  );
+
   if (isLoadingUserOffers) {
     return (
-      <WalletWrapper>
-        <TabPanel p={0}>
-          <Center h="full" w="full">
-            <LoadingLoader />
-          </Center>
-        </TabPanel>
+      <WalletWrapper tabIndex={tabIndex} handleTabsChange={handleTabsChange}>
+        <Center h="full" w="full">
+          <LoadingLoader />
+        </Center>
       </WalletWrapper>
     );
   }
 
   return (
-    <WalletWrapper>
+    <WalletWrapper tabIndex={tabIndex} handleTabsChange={handleTabsChange}>
       <TabPanel p={0}>
         {inStoreOffers && inStoreOffers.length > 0 ? (
           inStoreOffers?.map((offer) => (

@@ -22,11 +22,11 @@ export const offerRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { perPage, page, sort, categoryId, isCurrentUser } = input;
 
-      let where = {} as Record<keyof Offer, Where | WhereField>;
-
-      where.validityTo = {
-        greater_than_equal: new Date().toISOString().split("T")[0],
-      };
+      let where = {
+        validityTo: {
+          greater_than_equal: new Date().toISOString().split("T")[0],
+        },
+      } as Record<keyof Offer, Where | WhereField>;
 
       if (categoryId) {
         where.category = {

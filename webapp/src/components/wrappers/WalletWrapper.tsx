@@ -14,15 +14,23 @@ import { FiMousePointer } from "react-icons/fi";
 
 type WalletWrapperProps = {
   children: ReactNode;
+  tabIndex: number;
+  handleTabsChange: (index: number) => void;
 };
 
-const WalletWrapper = ({ children }: WalletWrapperProps) => {
+const WalletWrapper = ({
+  children,
+  tabIndex,
+  handleTabsChange,
+}: WalletWrapperProps) => {
   return (
     <Box pt={12} px={8} h="full">
       <Heading as="h2" textAlign="center">
         Mes Réductions
       </Heading>
       <Tabs
+        index={tabIndex}
+        onChange={handleTabsChange}
         isFitted
         variant="solid-rounded"
         colorScheme="whiteBtn"
