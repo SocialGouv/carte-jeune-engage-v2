@@ -1,3 +1,4 @@
+import { Where, WhereField } from "payload/types";
 import { z } from "zod";
 import { Category, Offer, Media, Partner } from "~/payload/payload-types";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
@@ -9,24 +10,35 @@ export interface OfferIncluded extends Offer {
 }
 
 export const offerRouter = createTRPCRouter({
-  getList: protectedProcedure
+  getListOfAvailables: protectedProcedure
     .input(
-      ZGetListParams.merge(z.object({ categoryId: z.number().optional() }))
+      ZGetListParams.merge(
+        z.object({
+          categoryId: z.number().optional(),
+          isCurrentUser: z.boolean().optional(),
+        })
+      )
     )
     .query(async ({ ctx, input }) => {
-      const { perPage, page, sort, categoryId } = input;
+      const { perPage, page, sort, categoryId, isCurrentUser } = input;
+
+      let where = {} as Record<keyof Offer, Where | WhereField>;
+
+      where.validityTo = {
+        greater_than_equal: new Date(),
+      };
+
+      if (categoryId) {
+        where.category = {
+          equals: categoryId,
+        };
+      }
 
       const offers = await ctx.payload.find({
         collection: "offers",
         limit: perPage,
         page: page,
-        where: categoryId
-          ? {
-              category: {
-                equals: categoryId,
-              },
-            }
-          : {},
+        where: where as Where,
         sort,
       });
 
@@ -41,14 +53,24 @@ export const offerRouter = createTRPCRouter({
       });
 
       const offersFiltered = offers.docs.filter((offer) => {
-        const couponCount = couponCountOfOffers.docs.filter(
-          (coupon) =>
-            coupon.offer === offer.id &&
-            coupon.status === "available" &&
-            (coupon.user === undefined ||
+        const couponFiltered = couponCountOfOffers.docs.filter(
+          (coupon) => coupon.offer === offer.id && coupon.status === "available"
+        );
+
+        let couponCount = 0;
+
+        if (isCurrentUser) {
+          couponCount = couponFiltered.filter(
+            (coupon) => coupon.user === ctx.session.id
+          ).length;
+        } else {
+          couponCount = couponFiltered.filter(
+            (coupon) =>
+              coupon.user === undefined ||
               coupon.user === null ||
-              coupon.user === ctx.session.id)
-        ).length;
+              coupon.user === ctx.session.id
+          ).length;
+        }
 
         if (couponCount > 0) return offer;
       });

@@ -33,7 +33,7 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
           {children}
         </Container>
         {(pathname === "/dashboard" ||
-          pathname === "/dashboard/offers" ||
+          pathname === "/dashboard/wallet" ||
           pathname === "/dashboard/account") && <BottomNavigation />}
         <InstallationBanner />
       </Box>
