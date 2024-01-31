@@ -9,3 +9,5 @@ app:
         name: app-configmap
     - secretRef:
         name: carte-jeune-engage-dev-app-access-key
+
+maildev: {}
