@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, Text, useToast } from "@chakra-ui/react";
-import { useAuth } from "~/providers/Auth";
+import { BeforeInstallPromptEvent, useAuth } from "~/providers/Auth";
 import { useLocalStorage } from "usehooks-ts";
 import { CloseIcon } from "@chakra-ui/icons";
 import { FiX } from "react-icons/fi";
 
-interface BeforeInstallPromptEvent extends Event {
-  readonly platforms: Array<string>;
-  readonly userChoice: Promise<{
-    outcome: "accepted" | "dismissed";
-    platform: string;
-  }>;
-  prompt(): Promise<void>;
-}
 const InstallationBanner: React.FC = () => {
   // overlay show state
   const toast = useToast();
@@ -22,20 +14,7 @@ const InstallationBanner: React.FC = () => {
     "accepted" | "dismissed" | null
   >("cje-pwa-user-outcome", null);
 
-  const [showing, setShowing] = useState(false);
-
-  const [deferredEvent, setDeferredEvent] =
-    useState<BeforeInstallPromptEvent | null>(null);
-
-  const handleBeforeInstallPrompt = (event: Event) => {
-    // Prevent the default behavior to keep the event available for later use
-    event.preventDefault();
-
-    // Save the event for later use
-    setDeferredEvent(event as BeforeInstallPromptEvent);
-
-    setShowing(true);
-  };
+  const { showing, deferredEvent, setShowing, setDeferredEvent } = useAuth();
 
   async function handleInstallClick() {
     if (deferredEvent) {
@@ -54,25 +33,6 @@ const InstallationBanner: React.FC = () => {
 
     setShowing(false);
   }
-
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      "serviceWorker" in navigator &&
-      (window as any)?.workbox !== undefined
-    ) {
-      // const wb = (window as any)?.workbox;
-      // add event listeners to handle PWA lifecycle events
-      window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    }
-
-    return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
-    };
-  }, [user]);
 
   if (
     overlayShowing ||

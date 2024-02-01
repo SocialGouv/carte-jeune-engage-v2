@@ -144,6 +144,7 @@ export default function Dashboard() {
         <SimpleGrid columns={4} gap={4} mt={5}>
           {partners?.map((partner) => (
             <Flex
+              key={partner.id}
               flexDir="column"
               alignItems="center"
               justifyContent="center"
