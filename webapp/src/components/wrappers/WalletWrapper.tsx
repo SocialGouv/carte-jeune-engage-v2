@@ -51,7 +51,9 @@ const WalletWrapper = ({
             </Text>
           </Tab>
         </TabList>
-        <TabPanels mt={8}>{children}</TabPanels>
+        <TabPanels mt={8} pb={32}>
+          {children}
+        </TabPanels>
       </Tabs>
     </Box>
   );

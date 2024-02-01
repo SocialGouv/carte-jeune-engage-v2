@@ -3,6 +3,7 @@ import { Box, Button, Flex, Icon, Text, useToast } from "@chakra-ui/react";
 import { useAuth } from "~/providers/Auth";
 import { useLocalStorage } from "usehooks-ts";
 import { CloseIcon } from "@chakra-ui/icons";
+import { FiX } from "react-icons/fi";
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -82,49 +83,43 @@ const InstallationBanner: React.FC = () => {
     return null;
 
   return (
-    <Box
-      position="absolute"
-      bottom={24}
-      left={6}
-      right={6}
-      bg="white"
-      zIndex={49}
+    <Flex
+      flexDir="column"
+      mb={4}
       p={4}
-      borderRadius={8}
-      bgColor="primary.500"
+      gap={4}
+      borderRadius="xl"
+      bgColor="cje-gray.500"
     >
-      <Flex
-        alignItems="center"
-        justifyContent="space-between"
-        position="relative"
-      >
-        <Flex flexDir="column" gap={1} w="70%">
-          <Text fontSize="md" fontWeight="bold" color="white">
-            Installer l'application
-          </Text>
-          <Text fontSize="xs" color="white" noOfLines={2}>
-            Pour une meilleure expérience, installez l'app sur votre téléphone.
-          </Text>
-        </Flex>
-        <Button
-          size="md"
-          variant="ghost"
-          color="white"
-          onClick={handleInstallClick}
-        >
-          Installer
-        </Button>
-        <CloseIcon
-          position="absolute"
-          h={3}
-          w={3}
-          right={-1}
-          top={-1}
-          color="white"
+      <Flex alignItems="flex-start">
+        <Text fontSize="xl" fontWeight="bold" w="85%">
+          Ajouter l’application sur votre téléphone
+        </Text>
+        <Icon
+          as={FiX}
+          ml="auto"
+          h={7}
+          w={7}
           onClick={() => setUserOutcome("dismissed")}
         />
       </Flex>
-    </Box>
+      <Text fontWeight="medium">
+        Créer un raccourci sur votre téléphone pour pouvoir accéder à toutes vos
+        promotions simplement et rapidement.
+      </Text>
+      <Button
+        size="lg"
+        mt={3}
+        py={3}
+        fontSize="md"
+        fontWeight="medium"
+        color="black"
+        colorScheme="whiteBtn"
+        onClick={handleInstallClick}
+      >
+        Ajouter l’application sur l’accueil
+      </Button>
+    </Flex>
   );
 };
 

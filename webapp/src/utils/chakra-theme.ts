@@ -87,6 +87,13 @@ export const theme = extendTheme({
       },
     },
   },
+  styles: {
+    global: () => ({
+      body: {
+        bg: "bgWhite",
+      },
+    }),
+  },
   colors: {
     primary: {
       "50": "#dee8ff",

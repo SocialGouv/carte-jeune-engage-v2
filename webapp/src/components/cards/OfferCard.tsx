@@ -47,7 +47,7 @@ const OfferCard = ({ offer, displayExpiryDate = false }: OfferCardProps) => {
           <Text fontSize="sm" fontWeight="medium">
             {offer.partner.name}
           </Text>
-          <Text fontWeight="bold" fontSize="sm" noOfLines={2}>
+          <Text fontWeight="bold" fontSize="sm" noOfLines={2} h="42px">
             {offer.title}
           </Text>
           <OfferKindBadge kind={offer.kind} variant="light" />

@@ -1,4 +1,12 @@
-import { Box, Center, Heading, Icon, TabPanel, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  Heading,
+  Icon,
+  TabPanel,
+  Text,
+} from "@chakra-ui/react";
 import LoadingLoader from "~/components/LoadingLoader";
 import OfferCard from "~/components/cards/OfferCard";
 import WalletWrapper from "~/components/wrappers/WalletWrapper";
@@ -86,18 +94,22 @@ export default function Wallet() {
     <WalletWrapper tabIndex={tabIndex} handleTabsChange={handleTabsChange}>
       <TabPanel p={0}>
         {inStoreOffers && inStoreOffers.length > 0 ? (
-          inStoreOffers?.map((offer) => (
-            <OfferCard key={offer.id} offer={offer} displayExpiryDate />
-          ))
+          <Flex flexDir="column" gap={6}>
+            {inStoreOffers?.map((offer) => (
+              <OfferCard key={offer.id} offer={offer} displayExpiryDate />
+            ))}
+          </Flex>
         ) : (
           <WalletNoData kind="in-store" />
         )}
       </TabPanel>
       <TabPanel p={0}>
         {onlineOffers && onlineOffers.length > 0 ? (
-          onlineOffers?.map((offer) => (
-            <OfferCard key={offer.id} offer={offer} displayExpiryDate />
-          ))
+          <Flex flexDir="column" gap={6}>
+            {onlineOffers?.map((offer) => (
+              <OfferCard key={offer.id} offer={offer} displayExpiryDate />
+            ))}
+          </Flex>
         ) : (
           <WalletNoData kind="online" />
         )}

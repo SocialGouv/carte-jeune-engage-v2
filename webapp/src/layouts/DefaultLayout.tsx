@@ -2,7 +2,6 @@ import { Box, Container } from "@chakra-ui/react";
 import Head from "next/head";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
-import InstallationBanner from "~/components/InstallationBanner";
 import BottomNavigation from "~/components/BottomNavigation";
 
 export default function DefaultLayout({ children }: { children: ReactNode }) {
@@ -24,7 +23,7 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </Head>
-      <Box as="main" role="main" bgColor="bgWhite">
+      <Box as="main" role="main">
         <Container
           maxWidth={{ base: "container.sm", lg: "container.sm" }}
           px={0}
@@ -34,8 +33,8 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
         </Container>
         {(pathname === "/dashboard" ||
           pathname === "/dashboard/wallet" ||
+          pathname === "/dashboard/categories" ||
           pathname === "/dashboard/account") && <BottomNavigation />}
-        <InstallationBanner />
       </Box>
     </>
   );
