@@ -24,6 +24,9 @@ export default function Dashboard() {
       sort: "createdAt",
     });
 
+  const { data: resultQuickAccess, isLoading: isLoadingQuickAccess } =
+    api.quickAccess.getAll.useQuery();
+
   const { data: resultOffers, isLoading: isLoadingOffers } =
     api.offer.getListOfAvailables.useQuery({
       page: 1,
@@ -37,10 +40,16 @@ export default function Dashboard() {
     });
 
   const { data: categories } = resultCategories || {};
+  const { data: quickAccessPartners } = resultQuickAccess || {};
   const { data: offers } = resultOffers || {};
   const { data: partners } = resultPartners || {};
 
-  if (isLoadingCategories || isLoadingOffers || isLoadingPartners) {
+  if (
+    isLoadingCategories ||
+    isLoadingQuickAccess ||
+    isLoadingOffers ||
+    isLoadingPartners
+  ) {
     return (
       <Box pt={12} px={8} h="full">
         <Center h="full" w="full">
@@ -115,9 +124,55 @@ export default function Dashboard() {
           </Link>
         </SimpleGrid>
         <Heading as="h2" fontSize="2xl" mt={6}>
-          Les réductions pour vous
+          Accès rapides
         </Heading>
       </Box>
+      <Flex
+        alignItems="center"
+        mt={5}
+        px={8}
+        gap={4}
+        overflowX="auto"
+        sx={{
+          "::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
+      >
+        {quickAccessPartners?.map((quickAccess) => (
+          <Link
+            key={quickAccess.id}
+            href={`/dashboard/offer/${
+              quickAccess.offer.kind === "voucher" ? "in-store" : "online"
+            }/${quickAccess.offer.id}`}
+            passHref
+          >
+            <Box bgColor="white" borderRadius="full" border="2px solid #EDEDED">
+              <Flex
+                justifyContent="center"
+                alignItems="center"
+                borderRadius="full"
+                border="3px solid"
+                borderColor="#F7F8FA"
+                w={65}
+                h={65}
+              >
+                <Image
+                  src={quickAccess.partner.icon.url as string}
+                  alt={quickAccess.partner.icon.alt as string}
+                  width={45}
+                  height={45}
+                />
+              </Flex>
+            </Box>
+          </Link>
+        ))}
+      </Flex>
+      {offers && offers?.length > 0 && (
+        <Heading as="h2" fontSize="2xl" mt={6} px={8}>
+          Les réductions pour vous
+        </Heading>
+      )}
       <Grid
         templateColumns="repeat(auto-fit, minmax(285px, 1fr))"
         gridAutoFlow="column"

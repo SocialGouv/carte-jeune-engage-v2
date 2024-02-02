@@ -1,5 +1,5 @@
 import { type AppType } from "next/app";
-import { Box, ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import DefaultLayout from "~/layouts/DefaultLayout";
 import "~/styles/globals.css";
 

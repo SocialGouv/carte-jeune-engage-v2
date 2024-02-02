@@ -18,7 +18,9 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  globals: {};
+  globals: {
+    quickAccess: QuickAccess;
+  };
 }
 export interface Admin {
   id: number;
@@ -130,6 +132,16 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+export interface QuickAccess {
+  id: number;
+  items: {
+    partner: number | Partner;
+    offer: number | Offer;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 
 
