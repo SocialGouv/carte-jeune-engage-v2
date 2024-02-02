@@ -14,8 +14,9 @@ import { api } from "~/utils/api";
 import { PiSmileySadFill } from "react-icons/pi";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { Offer } from "~/payload/payload-types";
 
-const WalletNoData = ({ kind }: { kind: "in-store" | "online" }) => {
+const WalletNoData = ({ kind }: { kind: Offer["kind"] }) => {
   return (
     <Box textAlign="center" mt={40}>
       <Icon as={PiSmileySadFill} w={10} h={10} />
@@ -23,9 +24,9 @@ const WalletNoData = ({ kind }: { kind: "in-store" | "online" }) => {
         Aucune offre actuellement ici
       </Heading>
       <Text color="gray.500">
-        Activez les{" "}
-        {kind === "in-store" ? "bons de réductions" : "codes promos"} qui vous
-        intéressent il s’afficheront ici pour que vous puissiez les utiliser
+        Activez les {kind === "voucher" ? "bons de réductions" : "codes promos"}{" "}
+        qui vous intéressent il s’afficheront ici pour que vous puissiez les
+        utiliser
       </Text>
     </Box>
   );
@@ -34,30 +35,30 @@ const WalletNoData = ({ kind }: { kind: "in-store" | "online" }) => {
 export default function Wallet() {
   const router = useRouter();
   const { offerKind } = router.query as {
-    offerKind?: "in-store" | "online";
+    offerKind?: Offer["kind"];
   };
 
   const [tabIndex, setTabIndex] = useState(2);
 
   useEffect(() => {
-    setTabIndex(offerKind === "in-store" ? 0 : offerKind === "online" ? 1 : 2);
+    setTabIndex(offerKind === "voucher" ? 0 : offerKind === "code" ? 1 : 2);
   }, [offerKind]);
 
   const handleTabsChange = (index: number) => {
     router.replace({
-      query: { offerKind: index === 0 ? "in-store" : "online" },
+      query: { offerKind: index === 0 ? "voucher" : "code" },
     });
     setTabIndex(index);
   };
 
   if (
-    (!offerKind || (offerKind !== "in-store" && offerKind !== "online")) &&
+    (!offerKind || (offerKind !== "voucher" && offerKind !== "code")) &&
     router.isReady
   ) {
     router.replace({
       query: {
         ...router.query,
-        offerKind: "in-store",
+        offerKind: "voucher",
       },
     });
   }
@@ -100,7 +101,7 @@ export default function Wallet() {
             ))}
           </Flex>
         ) : (
-          <WalletNoData kind="in-store" />
+          <WalletNoData kind="voucher" />
         )}
       </TabPanel>
       <TabPanel p={0}>
@@ -111,7 +112,7 @@ export default function Wallet() {
             ))}
           </Flex>
         ) : (
-          <WalletNoData kind="online" />
+          <WalletNoData kind="code" />
         )}
       </TabPanel>
     </WalletWrapper>
