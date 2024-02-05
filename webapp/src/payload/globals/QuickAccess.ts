@@ -34,6 +34,7 @@ export const QuickAccess: GlobalConfig = {
               return !!siblingData.partner;
             },
           },
+          required: true,
           relationTo: "offers",
           label: "Offre",
         },
