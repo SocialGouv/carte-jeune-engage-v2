@@ -3,9 +3,22 @@ import { useRouter } from "next/router";
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { User } from "~/payload/payload-types";
 
+export interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: Array<string>;
+  readonly userChoice: Promise<{
+    outcome: "accepted" | "dismissed";
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+
 type AuthContext = {
   user: User | null;
   setUser: (user: User | null) => void;
+  showing: boolean;
+  setShowing: (showing: boolean) => void;
+  deferredEvent: BeforeInstallPromptEvent | null;
+  setDeferredEvent: (event: BeforeInstallPromptEvent | null) => void;
 };
 
 const Context = createContext({} as AuthContext);
@@ -14,6 +27,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
+
+  const [showing, setShowing] = useState(false);
+  const [deferredEvent, setDeferredEvent] =
+    useState<BeforeInstallPromptEvent | null>(null);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -42,6 +60,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         user,
         setUser,
+        showing,
+        setShowing,
+        deferredEvent,
+        setDeferredEvent,
       }}
     >
       {children}

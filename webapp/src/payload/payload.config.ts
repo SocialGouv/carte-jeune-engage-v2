@@ -6,6 +6,8 @@ import { webpackBundler } from "@payloadcms/bundler-webpack";
 import { cloudStorage } from "@payloadcms/plugin-cloud-storage";
 import { s3Adapter } from "@payloadcms/plugin-cloud-storage/s3";
 
+import { QuickAccess } from "./globals/QuickAccess";
+
 import { Admins } from "./collections/Admin";
 import { Users } from "./collections/User";
 import { Media } from "./collections/Media";
@@ -58,7 +60,7 @@ export default buildConfig({
     locales: ["fr"],
     defaultLocale: "fr",
   },
-  globals: [],
+  globals: [QuickAccess],
   typescript: {
     outputFile: path.resolve(__dirname, "./payload-types.ts"),
   },

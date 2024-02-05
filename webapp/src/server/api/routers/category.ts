@@ -1,8 +1,8 @@
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
-import type { Category, Media } from '~/payload/payload-types';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
-import { ZGetListParams } from '~/server/types';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import type { Category, Media } from "~/payload/payload-types";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { ZGetListParams } from "~/server/types";
 
 export interface CategoryIncluded extends Category {
   icon: Media;
@@ -15,15 +15,15 @@ export const categoryRouter = createTRPCRouter({
       const { perPage, page, sort } = input;
 
       const categories = await ctx.payload.find({
-        collection: 'categories',
+        collection: "categories",
         limit: perPage,
         page: page,
-        sort
+        sort,
       });
 
       return {
         data: categories.docs as CategoryIncluded[],
-        metadata: { page, count: categories.docs.length }
+        metadata: { page, count: categories.docs.length },
       };
     }),
 
@@ -33,21 +33,21 @@ export const categoryRouter = createTRPCRouter({
       const { slug } = input;
 
       const category = await ctx.payload.find({
-        collection: 'categories',
+        collection: "categories",
         where: {
           slug: {
-            equals: slug
-          }
-        }
+            equals: slug,
+          },
+        },
       });
 
       if (!category.docs.length) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Category not found'
+          code: "NOT_FOUND",
+          message: "Category not found",
         });
       }
 
       return { data: category.docs[0] as CategoryIncluded };
-    })
+    }),
 });

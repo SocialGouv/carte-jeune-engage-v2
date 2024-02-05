@@ -15,8 +15,12 @@ const CouponWrapper = ({ children, coupon, offer }: CouponWrapperProps) => {
   return (
     <Flex
       flexDir="column"
-      bgColor="bgWhite"
       overflowY="auto"
+      sx={{
+        "::-webkit-scrollbar": {
+          display: "none",
+        },
+      }}
       px={8}
       h="full"
       gap={6}
