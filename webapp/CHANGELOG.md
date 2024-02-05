@@ -1,3 +1,25 @@
+# [0.4.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.3.2...v0.4.0) (2024-02-05)
+
+
+### Bug Fixes
+
+* add query params for switch in-store and online on wallet page ([1bb029f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/1bb029f4c31c4f85894cf585ea9d888a1e48922f))
+* add validityTo check of offer to  coupon getOne and assignToUser routes ([68bc183](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/68bc183dae9d52edfe40d8ce78afa53335c1d8f9))
+* beforeinstallprompt for pwa in default layout and in auth context ([4c24d31](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/4c24d31119cf8ade7050136eb63215d51df44c95))
+* change custom type in-store / online to offer model kind voucher / code for standardization ([9b8a046](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/9b8a046b3f7ac1b87b1db5bb8937dd7d934b231d))
+* missing secrets on setup of new dev environnement ([eae36e3](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/eae36e32c82eb42f361126b882957821d99ea16f))
+* pwa service worker redirect because of the middleware ([8ee6a4b](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/8ee6a4b6b2c956b3e1b834bd1538380847657ecd))
+* remove chakra theme on admin component ([7ef9e6a](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/7ef9e6a2edb86e50de4b8480fb0e96c930a479df))
+* revert using sealed secret for build cmd for testing purpose ([532632f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/532632f2eac9c2a0dde66415b642d54505529408))
+
+
+### Features
+
+* add new wallet page for current users coupons, with loading and no data state and switch between in-store and online offers ([06157ad](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/06157ad3aaaff98b507a3872776ef5a27cec100a))
+* add property used to coupon, hide coupon when used on list and wallet ([be217ef](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/be217efb303423aa5ea3a70f08a1b5d2bd806a93))
+* add quickAccess to global payload and display quickAccess in homepage ([5f81d34](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/5f81d341e3d9d33f39fa2a8cfadb1961aae0eb1a))
+* begin homepage with list of categories, list of offers, list of partner, fix bg color add categories to bottom navigation ([cf712d5](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/cf712d5c713f9fab74a0162a58bab9da185b66e4))
+
 ## [0.3.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.3.1...v0.3.2) (2024-01-29)
 
 
