@@ -5,11 +5,15 @@ import { useLocalStorage } from "usehooks-ts";
 import { CloseIcon } from "@chakra-ui/icons";
 import { FiX } from "react-icons/fi";
 
-const InstallationBanner: React.FC = () => {
+type Props = {
+  withoutUserOutcome: boolean;
+  theme: "light" | "dark";
+};
+
+const InstallationBanner: React.FC<Props> = ({ withoutUserOutcome, theme }) => {
   // overlay show state
   const toast = useToast();
   const { user } = useAuth();
-  const [overlayShowing, setOverlayShowing] = useState(false);
   const [userOutcome, setUserOutcome] = useLocalStorage<
     "accepted" | "dismissed" | null
   >("cje-pwa-user-outcome", null);
@@ -18,11 +22,9 @@ const InstallationBanner: React.FC = () => {
 
   async function handleInstallClick() {
     if (deferredEvent) {
-      setOverlayShowing(true);
       await deferredEvent.prompt();
       const { outcome } = await deferredEvent.userChoice;
       setUserOutcome(outcome);
-      setOverlayShowing(false);
       setDeferredEvent(null);
     } else {
       toast({
@@ -35,10 +37,9 @@ const InstallationBanner: React.FC = () => {
   }
 
   if (
-    overlayShowing ||
     !showing ||
     user === null ||
-    userOutcome === "dismissed"
+    (!withoutUserOutcome && userOutcome === "dismissed")
   )
     return null;
 
@@ -47,23 +48,26 @@ const InstallationBanner: React.FC = () => {
       flexDir="column"
       mb={4}
       p={4}
-      gap={4}
-      borderRadius="xl"
-      bgColor="cje-gray.500"
+      gap={3}
+      borderRadius="1.5xl"
+      bgColor={theme === "light" ? "cje-gray.500" : "blackLight"}
+      color={theme === "light" ? "black" : "white"}
     >
       <Flex alignItems="flex-start">
-        <Text fontSize="xl" fontWeight="bold" w="85%">
+        <Text fontSize="lg" fontWeight="bold" w="85%">
           Ajouter l’application sur votre téléphone
         </Text>
-        <Icon
-          as={FiX}
-          ml="auto"
-          h={7}
-          w={7}
-          onClick={() => setUserOutcome("dismissed")}
-        />
+        {!withoutUserOutcome && (
+          <Icon
+            as={FiX}
+            ml="auto"
+            h={7}
+            w={7}
+            onClick={() => setUserOutcome("dismissed")}
+          />
+        )}
       </Flex>
-      <Text fontWeight="medium">
+      <Text fontSize="sm" fontWeight="medium">
         Créer un raccourci sur votre téléphone pour pouvoir accéder à toutes vos
         promotions simplement et rapidement.
       </Text>
@@ -72,7 +76,7 @@ const InstallationBanner: React.FC = () => {
         mt={3}
         py={3}
         fontSize="md"
-        fontWeight="medium"
+        fontWeight="bold"
         color="black"
         colorScheme="whiteBtn"
         onClick={handleInstallClick}
