@@ -1,3 +1,10 @@
+## [0.4.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.4.1...v0.4.2) (2024-02-05)
+
+
+### Bug Fixes
+
+* change icons from custom to hero icons 2 and switch explorer and discount in order ([45670e0](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/45670e02b9ac76c128af683eb342ed32fda92fd5))
+
 ## [0.4.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.4.0...v0.4.1) (2024-02-05)
 
 
