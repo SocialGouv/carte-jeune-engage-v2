@@ -1,20 +1,68 @@
-import { Box, Flex, Icon, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Icon, Text } from "@chakra-ui/react";
 import { deleteCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { User } from "~/payload/payload-types";
 import { useMemo } from "react";
 import {
   HiBuildingLibrary,
   HiChatBubbleOvalLeftEllipsis,
   HiCurrencyEuro,
+  HiExclamationTriangle,
+  HiCheckBadge,
   HiMiniChevronRight,
   HiMiniPower,
   HiUser,
   HiUserCircle,
+  HiShieldCheck,
 } from "react-icons/hi2";
 import { IconType } from "react-icons/lib";
 import InstallationBanner from "~/components/InstallationBanner";
 import { useAuth } from "~/providers/Auth";
+import LoadingLoader from "~/components/LoadingLoader";
+
+const displayDynamicCJECardMessage = (user: User) => {
+  if (!user.image) {
+    return (
+      <>
+        <Flex alignItems="center" color="error">
+          <Icon as={HiExclamationTriangle} w={5} h={5} mr={1.5} />
+          <Text fontSize="xs" fontWeight="bold">
+            Photo manquante
+          </Text>
+        </Flex>
+        <Text fontSize="sm" fontWeight="medium">
+          Finalisez votre carte CJE pour profiter des offres en magasin
+        </Text>
+      </>
+    );
+  } else if (user.image && user.status_image === "pending") {
+    return (
+      <>
+        <Flex alignItems="center" color="primary.500">
+          <Icon as={HiShieldCheck} w={5} h={5} mr={1.5} />
+          <Text fontSize="xs" fontWeight="bold">
+            Notre équipe est en train de créer votre carte...
+          </Text>
+        </Flex>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Text fontSize="sm" fontWeight="medium">
+        À présenter pour bénéficier des réductions en magasin
+      </Text>
+      <Flex alignItems="center" color="primary.500">
+        <Icon as={HiCheckBadge} w={5} h={5} mr={1.5} />
+        <Text fontSize="xs" fontWeight="bold">
+          Carte vérifiée
+        </Text>
+      </Flex>
+    </>
+  );
+};
 
 export default function Account() {
   const router = useRouter();
@@ -34,21 +82,28 @@ export default function Account() {
     label: string;
     href: string;
     icon: IconType;
+    slug: string;
   }[] = [
     {
       label: "Suivre mes économies",
       href: "/dashboard/account/history",
       icon: HiCurrencyEuro,
+      slug: "history",
     },
     {
       label: "Ma carte CJE",
-      href: "/dashboard/account/card",
+      href:
+        user?.image && user?.status_image === "approved"
+          ? "/dashboard/account/card"
+          : "",
       icon: HiUserCircle,
+      slug: "card",
     },
     {
       label: "J'ai besoin d'aide",
       href: "/dashboard/account/help",
       icon: HiChatBubbleOvalLeftEllipsis,
+      slug: "help",
     },
   ];
 
@@ -86,6 +141,13 @@ export default function Account() {
     router.push("/");
   };
 
+  if (!user)
+    return (
+      <Center h="full" w="full">
+        <LoadingLoader />
+      </Center>
+    );
+
   return (
     <Box pt={12} pb={36} px={8}>
       <Box textAlign="center">
@@ -105,7 +167,7 @@ export default function Account() {
         {itemsPrimary.map((item) => (
           <Link href={item.href} key={item.icon.toString()} color="blue">
             <Flex
-              alignItems="center"
+              alignItems="start"
               gap={4}
               bgColor="cje-gray.500"
               p={4}
@@ -114,11 +176,23 @@ export default function Account() {
               <Flex bgColor="blackLight" p={1} borderRadius="lg">
                 <Icon as={item.icon} fill="white" w={6} h={6} />
               </Flex>
-              <Flex flexDir="column">
+              <Flex flexDir="column" gap={2} mt={1}>
                 <Text fontWeight="bold" noOfLines={1}>
                   {item.label}
                 </Text>
+                {item.slug === "card" && displayDynamicCJECardMessage(user)}
               </Flex>
+              {item.slug === "card" && user.status_image !== "approved" && (
+                <Box w={8} mt={3}>
+                  <Box
+                    borderRadius="full"
+                    w={2}
+                    h={2}
+                    bgColor={!user.image ? "error" : "primary.500"}
+                    ml="auto"
+                  />
+                </Box>
+              )}
             </Flex>
           </Link>
         ))}

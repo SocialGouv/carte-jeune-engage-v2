@@ -41,6 +41,8 @@ export interface User {
   id: number;
   firstName: string;
   lastName: string;
+  image?: number | Media | null;
+  status_image?: ('pending' | 'approved' | 'rejected') | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -137,7 +139,7 @@ export interface QuickAccess {
   id: number;
   items: {
     partner: number | Partner;
-    offer: number | Offer;
+    offer?: (number | null) | Offer;
     id?: string | null;
   }[];
   updatedAt?: string | null;
