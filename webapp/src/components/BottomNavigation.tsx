@@ -1,10 +1,12 @@
 import { Flex, Icon, SimpleGrid, Text } from "@chakra-ui/react";
-import { WalletIcon } from "./icons/wallet";
-import { HomeIcon } from "./icons/home";
-import { AccountIcon } from "./icons/account";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
-import { FiLayers } from "react-icons/fi";
+import {
+  HiHome,
+  HiMiniSquares2X2,
+  HiMiniSwatch,
+  HiMiniUser,
+} from "react-icons/hi2";
 
 const BottomNavigation = () => {
   const router = useRouter();
@@ -13,22 +15,22 @@ const BottomNavigation = () => {
   const navigationItems = [
     {
       label: "Accueil",
-      icon: HomeIcon,
+      icon: HiHome,
       href: "/dashboard",
     },
     {
-      label: "Mes réductions",
-      icon: WalletIcon,
-      href: "/dashboard/wallet",
-    },
-    {
       label: "Explorer",
-      icon: FiLayers,
+      icon: HiMiniSquares2X2,
       href: "/dashboard/categories",
     },
     {
+      label: "Mes réductions",
+      icon: HiMiniSwatch,
+      href: "/dashboard/wallet",
+    },
+    {
       label: "Profil",
-      icon: AccountIcon,
+      icon: HiMiniUser,
       href: "/dashboard/account",
     },
   ];
@@ -50,16 +52,15 @@ const BottomNavigation = () => {
           key={label}
           flexDir="column"
           alignItems="center"
-          gap={1}
+          gap={0.5}
           cursor="pointer"
           onClick={() => router.push(href)}
         >
           <Icon
             as={icon}
-            fill="none"
             color={pathname === href ? "black" : "disabled"}
-            width="24px"
-            height="24px"
+            width={6}
+            height={6}
           />
           <Text
             fontSize="2xs"
