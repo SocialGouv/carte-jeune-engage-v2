@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.4.0...v0.4.1) (2024-02-05)
+
+
+### Bug Fixes
+
+* add required for offer relation in quickAcess global ([07b1025](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/07b10257462365eda81e6f4f4a412eca188253d8))
+
 # [0.4.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.3.2...v0.4.0) (2024-02-05)
 
 
