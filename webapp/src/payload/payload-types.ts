@@ -15,6 +15,7 @@ export interface Config {
     partners: Partner;
     offers: Offer;
     coupons: Coupon;
+    savings: Saving;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -22,6 +23,10 @@ export interface Config {
     quickAccess: QuickAccess;
   };
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "admins".
+ */
 export interface Admin {
   id: number;
   firstName: string;
@@ -37,6 +42,10 @@ export interface Admin {
   lockUntil?: string | null;
   password: string | null;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
 export interface User {
   id: number;
   firstName: string;
@@ -54,6 +63,10 @@ export interface User {
   lockUntil?: string | null;
   password: string | null;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
 export interface Media {
   id: number;
   alt?: string | null;
@@ -66,6 +79,10 @@ export interface Media {
   width?: number | null;
   height?: number | null;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
 export interface Category {
   id: number;
   slug: string;
@@ -74,6 +91,10 @@ export interface Category {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners".
+ */
 export interface Partner {
   id: number;
   name: string;
@@ -84,6 +105,10 @@ export interface Partner {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "offers".
+ */
 export interface Offer {
   id: number;
   title: string;
@@ -94,16 +119,36 @@ export interface Offer {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "coupons".
+ */
 export interface Coupon {
   id: number;
   code: string;
-  status: 'available' | 'archived';
   used?: boolean | null;
+  usedAt?: string | null;
   user?: (number | null) | User;
+  assignUserAt?: string | null;
   offer: number | Offer;
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "savings".
+ */
+export interface Saving {
+  id: number;
+  amount?: number | null;
+  coupon: number | Coupon;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences".
+ */
 export interface PayloadPreference {
   id: number;
   user:
@@ -128,6 +173,10 @@ export interface PayloadPreference {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations".
+ */
 export interface PayloadMigration {
   id: number;
   name?: string | null;
@@ -135,6 +184,10 @@ export interface PayloadMigration {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quickAccess".
+ */
 export interface QuickAccess {
   id: number;
   items: {

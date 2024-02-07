@@ -18,7 +18,13 @@ export default function AccountCard() {
 
   return (
     <Box pt={12} pb={36} px={8}>
-      <Icon as={HiArrowLeft} w={6} h={6} onClick={() => router.back()} />
+      <Icon
+        as={HiArrowLeft}
+        w={6}
+        h={6}
+        onClick={() => router.back()}
+        cursor="pointer"
+      />
       <Heading
         as="h2"
         size="lg"

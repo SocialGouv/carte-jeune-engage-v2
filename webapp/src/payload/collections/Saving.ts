@@ -15,7 +15,6 @@ export const Savings: CollectionConfig = {
       admin: {
         step: 0.5,
       },
-      required: true,
     },
     {
       name: "coupon",

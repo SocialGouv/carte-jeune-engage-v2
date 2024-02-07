@@ -20,6 +20,8 @@ import { IconType } from "react-icons/lib";
 import InstallationBanner from "~/components/InstallationBanner";
 import { useAuth } from "~/providers/Auth";
 import LoadingLoader from "~/components/LoadingLoader";
+import { api } from "~/utils/api";
+import { UserIncluded } from "~/server/api/routers/user";
 
 const displayDynamicCJECardMessage = (user: User) => {
   if (!user.image) {
@@ -68,6 +70,20 @@ export default function Account() {
   const router = useRouter();
 
   const { user } = useAuth();
+
+  const {
+    data: resultUserSavingTotalAmount,
+    isLoading: isLoadingUserSavingTotalAmount,
+  } = api.saving.getTotalAmountByUserId.useQuery(
+    {
+      userId: (user as UserIncluded)?.id,
+    },
+    {
+      enabled: !!user,
+    }
+  );
+
+  const { data: userSavingTotalAmount } = resultUserSavingTotalAmount ?? {};
 
   const userCreatedAtFormatted = useMemo(() => {
     if (!user) return "";
@@ -141,7 +157,7 @@ export default function Account() {
     router.push("/");
   };
 
-  if (!user)
+  if (!user || isLoadingUserSavingTotalAmount || !userSavingTotalAmount)
     return (
       <Center h="full" w="full">
         <LoadingLoader />
@@ -157,7 +173,7 @@ export default function Account() {
           vous avez économisé
         </Text>
         <Text fontSize="5xl" fontWeight="extrabold">
-          0€
+          {userSavingTotalAmount}€
         </Text>
         <Text fontSize="xs" fontWeight="medium" mt={2}>
           Depuis que vous utilisez la carte jeune : {userCreatedAtFormatted}

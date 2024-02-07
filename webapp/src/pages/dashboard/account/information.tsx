@@ -25,7 +25,13 @@ export default function AccountInformation() {
 
   return (
     <Flex flexDir="column" pt={12} px={8} h="full">
-      <Icon as={HiArrowLeft} w={6} h={6} onClick={() => router.back()} />
+      <Icon
+        as={HiArrowLeft}
+        w={6}
+        h={6}
+        onClick={() => router.back()}
+        cursor="pointer"
+      />
       <Heading
         as="h2"
         size="lg"
@@ -33,7 +39,8 @@ export default function AccountInformation() {
         mt={4}
         textAlign="center"
       >
-        Mes informations personnelles
+        Mes informations <br />
+        personnelles
       </Heading>
       <Flex flexDir="column" mt={10} gap={6}>
         <Flex flexDir="column" gap={1}>
