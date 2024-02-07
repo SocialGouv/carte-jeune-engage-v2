@@ -9,6 +9,8 @@ app:
     - secretRef:
         name: carte-jeune-engage-dev-app-access-key
 
+maildev: {}
+
 jobs:
   runs:
     seed:
