@@ -157,7 +157,11 @@ export default function Account() {
     router.push("/");
   };
 
-  if (!user || isLoadingUserSavingTotalAmount || !userSavingTotalAmount)
+  if (
+    !user ||
+    isLoadingUserSavingTotalAmount ||
+    userSavingTotalAmount === undefined
+  )
     return (
       <Center h="full" w="full">
         <LoadingLoader />
