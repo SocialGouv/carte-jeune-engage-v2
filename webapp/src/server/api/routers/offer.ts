@@ -54,7 +54,7 @@ export const offerRouter = createTRPCRouter({
 
       const offersFiltered = offers.docs.filter((offer) => {
         const couponFiltered = couponCountOfOffers.docs.filter(
-          (coupon) => coupon.offer === offer.id && coupon.status === "available"
+          (coupon) => coupon.offer === offer.id
         );
 
         let couponCount = 0;

@@ -23,17 +23,6 @@ export const Coupons: CollectionConfig = {
       required: true,
     },
     {
-      name: "status",
-      type: "select",
-      label: "Statut",
-      options: [
-        { label: "Disponible", value: "available" },
-        { label: "Archivé", value: "archived" },
-      ],
-      defaultValue: "available",
-      required: true,
-    },
-    {
       name: "used",
       type: "checkbox",
       label: "Utilisé",
