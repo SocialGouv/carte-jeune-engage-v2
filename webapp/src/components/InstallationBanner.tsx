@@ -1,48 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, Icon, Text, useToast } from "@chakra-ui/react";
-import { useAuth } from "~/providers/Auth";
+import { BeforeInstallPromptEvent, useAuth } from "~/providers/Auth";
 import { useLocalStorage } from "usehooks-ts";
 import { CloseIcon } from "@chakra-ui/icons";
+import { FiX } from "react-icons/fi";
 
-interface BeforeInstallPromptEvent extends Event {
-  readonly platforms: Array<string>;
-  readonly userChoice: Promise<{
-    outcome: "accepted" | "dismissed";
-    platform: string;
-  }>;
-  prompt(): Promise<void>;
-}
-const InstallationBanner: React.FC = () => {
+type Props = {
+  withoutUserOutcome: boolean;
+  theme: "light" | "dark";
+};
+
+const InstallationBanner: React.FC<Props> = ({ withoutUserOutcome, theme }) => {
   // overlay show state
   const toast = useToast();
   const { user } = useAuth();
-  const [overlayShowing, setOverlayShowing] = useState(false);
   const [userOutcome, setUserOutcome] = useLocalStorage<
     "accepted" | "dismissed" | null
   >("cje-pwa-user-outcome", null);
 
-  const [showing, setShowing] = useState(false);
-
-  const [deferredEvent, setDeferredEvent] =
-    useState<BeforeInstallPromptEvent | null>(null);
-
-  const handleBeforeInstallPrompt = (event: Event) => {
-    // Prevent the default behavior to keep the event available for later use
-    event.preventDefault();
-
-    // Save the event for later use
-    setDeferredEvent(event as BeforeInstallPromptEvent);
-
-    setShowing(true);
-  };
+  const { showing, deferredEvent, setShowing, setDeferredEvent } = useAuth();
 
   async function handleInstallClick() {
     if (deferredEvent) {
-      setOverlayShowing(true);
       await deferredEvent.prompt();
       const { outcome } = await deferredEvent.userChoice;
       setUserOutcome(outcome);
-      setOverlayShowing(false);
       setDeferredEvent(null);
     } else {
       toast({
@@ -54,77 +36,54 @@ const InstallationBanner: React.FC = () => {
     setShowing(false);
   }
 
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      "serviceWorker" in navigator &&
-      (window as any)?.workbox !== undefined
-    ) {
-      // const wb = (window as any)?.workbox;
-      // add event listeners to handle PWA lifecycle events
-      window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    }
-
-    return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
-    };
-  }, [user]);
-
   if (
-    overlayShowing ||
     !showing ||
     user === null ||
-    userOutcome === "dismissed"
+    (!withoutUserOutcome && userOutcome === "dismissed")
   )
     return null;
 
   return (
-    <Box
-      position="absolute"
-      bottom={24}
-      left={6}
-      right={6}
-      bg="white"
-      zIndex={49}
+    <Flex
+      flexDir="column"
+      mb={4}
       p={4}
-      borderRadius={8}
-      bgColor="primary.500"
+      gap={3}
+      borderRadius="1.5xl"
+      bgColor={theme === "light" ? "cje-gray.500" : "blackLight"}
+      color={theme === "light" ? "black" : "white"}
     >
-      <Flex
-        alignItems="center"
-        justifyContent="space-between"
-        position="relative"
-      >
-        <Flex flexDir="column" gap={1} w="70%">
-          <Text fontSize="md" fontWeight="bold" color="white">
-            Installer l'application
-          </Text>
-          <Text fontSize="xs" color="white" noOfLines={2}>
-            Pour une meilleure expérience, installez l'app sur votre téléphone.
-          </Text>
-        </Flex>
-        <Button
-          size="md"
-          variant="ghost"
-          color="white"
-          onClick={handleInstallClick}
-        >
-          Installer
-        </Button>
-        <CloseIcon
-          position="absolute"
-          h={3}
-          w={3}
-          right={-1}
-          top={-1}
-          color="white"
-          onClick={() => setUserOutcome("dismissed")}
-        />
+      <Flex alignItems="flex-start">
+        <Text fontSize="lg" fontWeight="bold" w="85%">
+          Ajouter l’application sur votre téléphone
+        </Text>
+        {!withoutUserOutcome && (
+          <Icon
+            as={FiX}
+            ml="auto"
+            h={7}
+            w={7}
+            onClick={() => setUserOutcome("dismissed")}
+          />
+        )}
       </Flex>
-    </Box>
+      <Text fontSize="sm" fontWeight="medium">
+        Créer un raccourci sur votre téléphone pour pouvoir accéder à toutes vos
+        promotions simplement et rapidement.
+      </Text>
+      <Button
+        size="lg"
+        mt={3}
+        py={3}
+        fontSize="md"
+        fontWeight="bold"
+        color="black"
+        colorScheme="whiteBtn"
+        onClick={handleInstallClick}
+      >
+        Ajouter l’application sur l’accueil
+      </Button>
+    </Flex>
   );
 };
 

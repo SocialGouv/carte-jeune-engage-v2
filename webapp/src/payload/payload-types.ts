@@ -18,7 +18,9 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  globals: {};
+  globals: {
+    quickAccess: QuickAccess;
+  };
 }
 export interface Admin {
   id: number;
@@ -39,6 +41,8 @@ export interface User {
   id: number;
   firstName: string;
   lastName: string;
+  image?: number | Media | null;
+  status_image?: ('pending' | 'approved' | 'rejected') | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -94,6 +98,7 @@ export interface Coupon {
   id: number;
   code: string;
   status: 'available' | 'archived';
+  used?: boolean | null;
   user?: (number | null) | User;
   offer: number | Offer;
   updatedAt: string;
@@ -129,6 +134,16 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+export interface QuickAccess {
+  id: number;
+  items: {
+    partner: number | Partner;
+    offer?: (number | null) | Offer;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 
 

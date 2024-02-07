@@ -1,17 +1,16 @@
-import { Center, Flex, Text } from '@chakra-ui/react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import LoadingLoader from '~/components/LoadingLoader';
-import CategoriesWrapper from '~/components/wrappers/CategoriesWrapper';
-import { api } from '~/utils/api';
+import { Center, Flex, Text } from "@chakra-ui/react";
+import Image from "next/image";
+import Link from "next/link";
+import LoadingLoader from "~/components/LoadingLoader";
+import CategoriesWrapper from "~/components/wrappers/CategoriesWrapper";
+import { api } from "~/utils/api";
 
 export default function Dashboard() {
   const { data: resultCategories, isLoading: isLoadingCategories } =
     api.category.getList.useQuery({
       page: 1,
       perPage: 50,
-      sort: 'createdAt'
+      sort: "createdAt",
     });
 
   const { data: categories } = resultCategories || {};
@@ -27,7 +26,7 @@ export default function Dashboard() {
 
   return (
     <CategoriesWrapper>
-      {categories.map(category => (
+      {categories.map((category) => (
         <Link key={category.id} href={`/dashboard/category/${category.slug}`}>
           <Flex
             flexDir="column"

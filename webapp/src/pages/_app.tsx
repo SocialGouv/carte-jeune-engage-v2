@@ -31,15 +31,17 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     if (pathname?.startsWith("/admin")) {
       return children;
     } else {
-      return <DefaultLayout>{children}</DefaultLayout>;
+      return (
+        <ChakraProvider theme={theme}>
+          <AuthProvider>
+            <DefaultLayout>{children}</DefaultLayout>
+          </AuthProvider>
+        </ChakraProvider>
+      );
     }
   };
 
-  return (
-    <ChakraProvider theme={theme}>
-      <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
-    </ChakraProvider>
-  );
+  return getLayout(<Component {...pageProps} />);
 };
 
 export default api.withTRPC(MyApp);

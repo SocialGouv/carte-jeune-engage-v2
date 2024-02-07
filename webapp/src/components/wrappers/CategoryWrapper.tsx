@@ -1,9 +1,9 @@
-import { ChevronLeftIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Heading } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { ReactNode } from 'react';
-import { CategoryIncluded } from '~/server/api/routers/category';
-import Image from 'next/image';
+import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { ReactNode } from "react";
+import { CategoryIncluded } from "~/server/api/routers/category";
+import Image from "next/image";
 
 type CategoryWrapperProps = {
   children: ReactNode;
@@ -43,19 +43,7 @@ const CategoryWrapper = ({ children, category }: CategoryWrapperProps) => {
           </Heading>
         </Flex>
       </Box>
-      <Flex
-        flexDir="column"
-        gap={6}
-        mt={8}
-        h="full"
-        overflowY="auto"
-        pb={12}
-        sx={{
-          '::-webkit-scrollbar': {
-            display: 'none'
-          }
-        }}
-      >
+      <Flex flexDir="column" gap={6} mt={8} h="full" pb={12}>
         {children}
       </Flex>
     </Flex>
