@@ -61,6 +61,7 @@ export default function AccountHistory() {
       {userSavings.length > 0 ? (
         <Flex flexDir="column" mt={8}>
           {userSavings.map((userSaving, index) => {
+            const currentDate = new Date();
             const currentCouponUsedAt = new Date(userSaving.usedAt as string);
             const previousCouponUsedAt = new Date(
               userSavings[index - 1]?.usedAt as string
@@ -72,9 +73,17 @@ export default function AccountHistory() {
 
             const formatedCurrentMonth =
               index === 0 &&
-              new Date().getMonth() === currentCouponUsedAt.getMonth()
+              currentDate.getMonth() === currentCouponUsedAt.getMonth() &&
+              currentDate.getFullYear() === currentCouponUsedAt.getFullYear()
                 ? "Ce mois-ci"
-                : currentMonth.charAt(0).toUpperCase() + currentMonth.slice(1);
+                : `${
+                    currentMonth.charAt(0).toUpperCase() + currentMonth.slice(1)
+                  } ${
+                    currentDate.getFullYear() !==
+                    currentCouponUsedAt.getFullYear()
+                      ? currentCouponUsedAt.getFullYear()
+                      : ""
+                  }`;
 
             return (
               <>
