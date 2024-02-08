@@ -31,6 +31,16 @@ export const Users: CollectionConfig = {
       required: true,
     },
     {
+      name: "phone_number",
+      type: "text",
+      label: "Numéro de téléphone",
+    },
+    {
+      name: "address",
+      type: "text",
+      label: "Adresse",
+    },
+    {
       name: "image",
       type: "upload",
       label: "Photo de profil",

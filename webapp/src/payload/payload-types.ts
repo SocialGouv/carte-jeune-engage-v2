@@ -50,6 +50,8 @@ export interface User {
   id: number;
   firstName: string;
   lastName: string;
+  phone_number?: string | null;
+  address?: string | null;
   image?: number | Media | null;
   status_image?: ('pending' | 'approved' | 'rejected') | null;
   updatedAt: string;
@@ -140,7 +142,7 @@ export interface Coupon {
  */
 export interface Saving {
   id: number;
-  amount?: number | null;
+  amount: number;
   coupon: number | Coupon;
   updatedAt: string;
   createdAt: string;

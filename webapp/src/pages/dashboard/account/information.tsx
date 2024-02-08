@@ -57,11 +57,11 @@ export default function AccountInformation() {
         </Flex>
         <Flex flexDir="column" gap={1}>
           <Text fontWeight="medium">Numéro de télephone</Text>
-          <Text fontWeight="bold">-</Text>
+          <Text fontWeight="bold">{user?.phone_number ?? "-"}</Text>
         </Flex>
         <Flex flexDir="column" gap={1}>
           <Text fontWeight="medium">Adresse</Text>
-          <Text fontWeight="bold">-</Text>
+          <Text fontWeight="bold">{user?.address ?? "-"}</Text>
         </Flex>
       </Flex>
       <Flex flexDir="column" mt="auto" gap={4} mb={10}>
