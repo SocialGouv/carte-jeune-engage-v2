@@ -16,18 +16,25 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { FiBook, FiCopy, FiLink } from "react-icons/fi";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { useLocalStorage } from "usehooks-ts";
 import LoadingLoader from "~/components/LoadingLoader";
 import ToastComponent from "~/components/ToastComponent";
 import { CouponIcon } from "~/components/icons/coupon";
 import OfferActivationModal from "~/components/modals/OfferActivationModal";
 import CouponWrapper from "~/components/wrappers/CouponWrapper";
 import OfferWrapper from "~/components/wrappers/OfferWrapper";
+import { OfferIncluded } from "~/server/api/routers/offer";
 import { couponAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
 
 export default function Dashboard() {
   const router = useRouter();
   const { id } = router.query;
+
+  const [userOffers, setUserOffers] = useLocalStorage<OfferIncluded[]>(
+    "cje-user-offers",
+    []
+  );
 
   const { data: resultOffer, isLoading: isLoadingOffer } =
     api.offer.getById.useQuery(
@@ -58,7 +65,17 @@ export default function Dashboard() {
     isLoading,
     isSuccess,
   } = api.coupon.assignToUser.useMutation({
-    onSuccess: () => refetchCoupon(),
+    onSuccess: (response) => {
+      if (offer)
+        setUserOffers([
+          ...userOffers,
+          {
+            ...offer,
+            coupons: [response.data],
+          },
+        ]);
+      refetchCoupon();
+    },
   });
 
   const toast = useToast();

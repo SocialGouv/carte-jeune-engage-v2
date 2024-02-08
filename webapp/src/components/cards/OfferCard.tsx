@@ -8,62 +8,96 @@ import { OfferKindBadge } from "../OfferKindBadge";
 type OfferCardProps = {
   offer: OfferIncluded;
   displayExpiryDate?: boolean;
+  userOffline?: boolean;
 };
 
-const OfferCard = ({ offer, displayExpiryDate = false }: OfferCardProps) => {
+const OfferCard = ({
+  offer,
+  displayExpiryDate = false,
+  userOffline = false,
+}: OfferCardProps) => {
   return (
     <Link
-      href={`/dashboard/offer/${
-        offer.kind === "code" ? "online" : "in-store"
-      }/${offer.id}`}
+      href={
+        userOffline
+          ? {}
+          : `/dashboard/offer/${
+              offer.kind === "code" ? "online" : "in-store"
+            }/${offer.id}`
+      }
     >
       <Flex flexDir="column">
-        <Flex
-          bgColor={offer.partner.color}
-          py={5}
-          borderTopRadius={12}
-          position="relative"
-          justifyContent="center"
-          alignItems="center"
-          sx={{ ...dottedPattern("#ffffff") }}
-        >
-          <Flex alignItems="center" borderRadius="full" p={1} bgColor="white">
-            <Image
-              src={offer.partner.icon.url ?? ""}
-              alt={offer.partner.icon.alt ?? ""}
-              width={32}
-              height={32}
-            />
+        {!userOffline && (
+          <Flex
+            bgColor={offer.partner.color}
+            py={5}
+            borderTopRadius={12}
+            position="relative"
+            justifyContent="center"
+            alignItems="center"
+            sx={{ ...dottedPattern("#ffffff") }}
+          >
+            <Flex alignItems="center" borderRadius="full" p={1} bgColor="white">
+              <Image
+                src={offer.partner.icon.url ?? ""}
+                alt={offer.partner.icon.alt ?? ""}
+                width={32}
+                height={32}
+              />
+            </Flex>
           </Flex>
-        </Flex>
+        )}
         <Flex
           flexDir="column"
           p={3}
           bgColor="white"
-          borderBottomRadius={8}
+          borderRadius={8}
+          borderTopRadius={userOffline ? 8 : 0}
           gap={2}
           boxShadow="md"
         >
-          <Text fontSize="sm" fontWeight="medium">
+          <Text
+            fontSize="sm"
+            fontWeight="medium"
+            textDecor={userOffline ? "underline" : "none"}
+            textDecorationColor={offer.partner.color}
+            textDecorationThickness={"2px"}
+          >
             {offer.partner.name}
           </Text>
-          <Text fontWeight="bold" fontSize="sm" noOfLines={2} h="42px">
+          <Text
+            fontWeight={userOffline ? "normal" : "bold"}
+            fontSize="sm"
+            noOfLines={2}
+            h="42px"
+          >
             {offer.title}
           </Text>
-          <OfferKindBadge kind={offer.kind} variant="light" />
-          {displayExpiryDate && (
-            <Flex
-              alignSelf="start"
-              borderRadius="2xl"
-              bgColor="bgWhite"
-              py={2}
-              px={3}
-            >
-              <Text fontSize="xs" fontWeight="medium">
-                Expire le : {new Date(offer.validityTo).toLocaleDateString()}
-              </Text>
-            </Flex>
+          {userOffline && offer.coupons && offer.coupons[0] && (
+            <Text my={4} fontWeight={"bold"} fontSize="xl" textAlign={"center"}>
+              {offer.coupons[0].code}
+            </Text>
           )}
+          <Flex
+            flexDirection={userOffline ? "row" : "column"}
+            gap={2}
+            justifyContent={"space-between"}
+          >
+            <OfferKindBadge kind={offer.kind} variant="light" />
+            {displayExpiryDate && (
+              <Flex
+                alignSelf="start"
+                borderRadius="2xl"
+                bgColor="bgWhite"
+                py={2}
+                px={3}
+              >
+                <Text fontSize="xs" fontWeight="medium">
+                  Expire le : {new Date(offer.validityTo).toLocaleDateString()}
+                </Text>
+              </Flex>
+            )}
+          </Flex>
         </Flex>
       </Flex>
     </Link>
