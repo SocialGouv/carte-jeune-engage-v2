@@ -60,7 +60,7 @@ export default function AccountCard() {
             {user.firstName} {user.lastName}
           </Text>
           <Text fontSize="sm" fontWeight="medium">
-            ID 123 - 456
+            ID {user.id}
           </Text>
         </Flex>
         <Flex
