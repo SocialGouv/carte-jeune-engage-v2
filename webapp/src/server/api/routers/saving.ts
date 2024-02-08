@@ -18,12 +18,16 @@ export const savingRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const { userId } = input;
+
       const userCouponsDocs = await ctx.payload.find({
         collection: "coupons",
         depth: 5,
         where: {
           user: {
             equals: userId,
+          },
+          used: {
+            equals: true,
           },
         },
         sort: "-usedAt",
@@ -41,19 +45,14 @@ export const savingRouter = createTRPCRouter({
         },
       });
 
-      userCoupons = userCoupons
-        .filter(
-          (coupon) => !!userSavings.docs.find((s) => s.coupon === coupon.id)
-        )
-        .map((coupon) => {
-          const saving = userSavings.docs.find((s) => s.coupon === coupon.id);
-          if (saving)
-            coupon.savingAmount =
-              typeof saving.amount === "number"
-                ? Math.round(saving.amount * 100) / 100
-                : null;
-          return coupon;
-        });
+      userCoupons = userCoupons.map((coupon) => {
+        const saving = userSavings.docs.find((s) => s.coupon === coupon.id);
+        coupon.savingAmount =
+          typeof saving?.amount === "number"
+            ? Math.round(saving.amount * 100) / 100
+            : null;
+        return coupon;
+      });
 
       return {
         data: userCoupons,
