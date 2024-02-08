@@ -94,7 +94,7 @@ export const Coupons: CollectionConfig = {
               id: doc.id,
               data: {
                 assignUserAt,
-                user: doc.user,
+                user: typeof doc.user === "object" ? doc.user.id : doc.user,
               },
               context: {
                 triggerAfterChange: false,
