@@ -4,5 +4,9 @@ metadata:
   name: app-configmap
 data:
   PAYLOAD_CONFIG_PATH: payload/payload.config.ts
+  SMTP_HOST: maildev
+  SMTP_PORT: 1025
+  SMTP_FROM_NAME: carte-jeune-engagé
+  SMTP_FROM_ADDRESS: test@carte-jeune-engagé.loc
   NEXT_PUBLIC_JWT_NAME: cje-jwt
   NEXT_PUBLIC_MATOMO_TRACKING_ENABLED: "false"
