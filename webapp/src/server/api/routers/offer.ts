@@ -87,8 +87,6 @@ export const offerRouter = createTRPCRouter({
         })
         .filter((offer) => !offer.coupons || offer.coupons.length > 0);
 
-      console.log(offersFiltered);
-
       return {
         data: offersFiltered,
         metadata: { page, count: offers.docs.length },
