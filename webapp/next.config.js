@@ -2,6 +2,8 @@
 const path = require("path");
 const { withPayload } = require("@payloadcms/next-payload");
 
+const { version } = require("./package.json");
+
 const withPWA = require("@ducanh2912/next-pwa").default({
   dest: "public",
   cacheOnFrontEndNav: true,
@@ -20,6 +22,9 @@ module.exports = withPayload(
     reactStrictMode: true,
     images: {
       domains: ["localhost"],
+    },
+    env: {
+      CURRENT_PACKAGE_VERSION: version,
     },
   }),
   {
