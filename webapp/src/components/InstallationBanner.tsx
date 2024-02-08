@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Flex, Icon, Text, useToast } from "@chakra-ui/react";
-import { BeforeInstallPromptEvent, useAuth } from "~/providers/Auth";
+import React from "react";
+import { Button, Flex, Icon, Text, useToast } from "@chakra-ui/react";
+import { useAuth } from "~/providers/Auth";
 import { useLocalStorage } from "usehooks-ts";
-import { CloseIcon } from "@chakra-ui/icons";
 import { FiX } from "react-icons/fi";
 
 type Props = {
-  withoutUserOutcome: boolean;
-  theme: "light" | "dark";
+  ignoreUserOutcome: boolean;
+  theme?: "light" | "dark";
 };
 
-const InstallationBanner: React.FC<Props> = ({ withoutUserOutcome, theme }) => {
+const InstallationBanner: React.FC<Props> = ({
+  ignoreUserOutcome,
+  theme = "light",
+}) => {
   // overlay show state
   const toast = useToast();
   const { user } = useAuth();
@@ -39,7 +41,7 @@ const InstallationBanner: React.FC<Props> = ({ withoutUserOutcome, theme }) => {
   if (
     !showing ||
     user === null ||
-    (!withoutUserOutcome && userOutcome === "dismissed")
+    (!ignoreUserOutcome && userOutcome === "dismissed")
   )
     return null;
 
@@ -57,7 +59,7 @@ const InstallationBanner: React.FC<Props> = ({ withoutUserOutcome, theme }) => {
         <Text fontSize="lg" fontWeight="bold" w="85%">
           Ajouter l’application sur votre téléphone
         </Text>
-        {!withoutUserOutcome && (
+        {!ignoreUserOutcome && (
           <Icon
             as={FiX}
             ml="auto"

@@ -217,7 +217,7 @@ export default function Account() {
           </Link>
         ))}
       </Flex>
-      <InstallationBanner withoutUserOutcome={true} theme="dark" />
+      <InstallationBanner ignoreUserOutcome={true} theme="dark" />
       <Flex flexDir="column" mt={8} gap={8} px={5}>
         {itemsSecondary.map((item) => (
           <Link

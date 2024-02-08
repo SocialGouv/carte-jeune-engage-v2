@@ -62,7 +62,7 @@ export default function Dashboard() {
   return (
     <Box pt={12} pb={32}>
       <Box px={8}>
-        <InstallationBanner theme="light" withoutUserOutcome={false} />
+        <InstallationBanner ignoreUserOutcome={false} />
         <Heading as="h2" fontSize="2xl">
           Quelles économies tu vas faire aujourd’hui ?
         </Heading>
