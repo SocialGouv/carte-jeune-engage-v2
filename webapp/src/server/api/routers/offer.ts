@@ -1,12 +1,20 @@
+import { PaginatedDocs } from "payload/database";
 import { Where, WhereField } from "payload/types";
 import { z } from "zod";
-import { Category, Offer, Media, Partner } from "~/payload/payload-types";
+import {
+  Category,
+  Offer,
+  Media,
+  Partner,
+  Coupon,
+} from "~/payload/payload-types";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { ZGetListParams } from "~/server/types";
 
 export interface OfferIncluded extends Offer {
   partner: Partner & { icon: Media };
   category: Category & { icon: Media };
+  coupons?: Coupon[];
 }
 
 export const offerRouter = createTRPCRouter({
@@ -34,17 +42,19 @@ export const offerRouter = createTRPCRouter({
         };
       }
 
-      const offers = await ctx.payload.find({
+      const offers = (await ctx.payload.find({
         collection: "offers",
         limit: perPage,
         page: page,
         where: where as Where,
         sort,
-      });
+      })) as PaginatedDocs<OfferIncluded>;
 
       const couponCountOfOffers = await ctx.payload.find({
         collection: "coupons",
         depth: 0,
+        limit: 10000,
+        page: 1,
         where: {
           offer: {
             in: offers.docs.map((offer) => offer.id),
@@ -52,32 +62,33 @@ export const offerRouter = createTRPCRouter({
         },
       });
 
-      const offersFiltered = offers.docs.filter((offer) => {
-        const couponFiltered = couponCountOfOffers.docs.filter(
-          (coupon) => coupon.offer === offer.id
-        );
+      const offersFiltered = offers.docs
+        .map((offer) => {
+          const couponFiltered = couponCountOfOffers.docs.filter(
+            (coupon) => coupon.offer === offer.id
+          );
 
-        let couponCount = 0;
+          if (isCurrentUser) {
+            offer.coupons = couponFiltered.filter(
+              (coupon) =>
+                coupon.user === ctx.session.id && coupon.used === false
+            );
+          } else {
+            offer.coupons = couponFiltered.filter(
+              (coupon) =>
+                (coupon.user === undefined ||
+                  coupon.user === null ||
+                  coupon.user === ctx.session.id) &&
+                coupon.used === false
+            );
+          }
 
-        if (isCurrentUser) {
-          couponCount = couponFiltered.filter(
-            (coupon) => coupon.user === ctx.session.id && coupon.used === false
-          ).length;
-        } else {
-          couponCount = couponFiltered.filter(
-            (coupon) =>
-              (coupon.user === undefined ||
-                coupon.user === null ||
-                coupon.user === ctx.session.id) &&
-              coupon.used === false
-          ).length;
-        }
-
-        if (couponCount > 0) return offer;
-      });
+          return offer;
+        })
+        .filter((offer) => !offer.coupons || offer.coupons.length > 0);
 
       return {
-        data: offersFiltered as OfferIncluded[],
+        data: offersFiltered,
         metadata: { page, count: offers.docs.length },
       };
     }),

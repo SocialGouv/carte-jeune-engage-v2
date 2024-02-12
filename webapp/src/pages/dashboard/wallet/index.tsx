@@ -7,14 +7,16 @@ import {
   TabPanel,
   Text,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { PiSmileySadFill } from "react-icons/pi";
+import { useLocalStorage } from "usehooks-ts";
 import LoadingLoader from "~/components/LoadingLoader";
 import OfferCard from "~/components/cards/OfferCard";
 import WalletWrapper from "~/components/wrappers/WalletWrapper";
-import { api } from "~/utils/api";
-import { PiSmileySadFill } from "react-icons/pi";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { Offer } from "~/payload/payload-types";
+import { OfferIncluded } from "~/server/api/routers/offer";
+import { api } from "~/utils/api";
 
 const WalletNoData = ({ kind }: { kind: Offer["kind"] }) => {
   return (
@@ -38,6 +40,10 @@ export default function Wallet() {
     offerKind?: Offer["kind"];
   };
 
+  const [userOffers, setUserOffers] = useLocalStorage<OfferIncluded[]>(
+    "cje-user-offers",
+    []
+  );
   const [tabIndex, setTabIndex] = useState(2);
 
   useEffect(() => {
@@ -80,6 +86,10 @@ export default function Wallet() {
   const onlineOffers = currentUserOffers?.filter(
     (offer) => offer.kind === "code"
   );
+
+  useEffect(() => {
+    if (currentUserOffers) setUserOffers(currentUserOffers);
+  }, [currentUserOffers]);
 
   if (isLoadingUserOffers) {
     return (
