@@ -62,7 +62,7 @@ export default function Dashboard() {
   return (
     <Box pt={12} pb={32}>
       <Box px={8}>
-        <InstallationBanner />
+        <InstallationBanner ignoreUserOutcome={false} />
         <Heading as="h2" fontSize="2xl">
           Quelles économies tu vas faire aujourd’hui ?
         </Heading>
@@ -123,75 +123,85 @@ export default function Dashboard() {
             </Text>
           </Link>
         </SimpleGrid>
-        <Heading as="h2" fontSize="2xl" mt={6}>
-          Accès rapides
-        </Heading>
+        {quickAccessPartners && quickAccessPartners?.length > 0 && (
+          <Heading as="h2" fontSize="2xl" mt={6}>
+            Accès rapides
+          </Heading>
+        )}
       </Box>
-      <Flex
-        alignItems="center"
-        mt={5}
-        px={8}
-        gap={4}
-        overflowX="auto"
-        sx={{
-          "::-webkit-scrollbar": {
-            display: "none",
-          },
-        }}
-      >
-        {quickAccessPartners?.map((quickAccess) => (
-          <Link
-            key={quickAccess.id}
-            href={`/dashboard/offer/${
-              quickAccess.offer.kind === "voucher" ? "in-store" : "online"
-            }/${quickAccess.offer.id}`}
-            passHref
-          >
-            <Box bgColor="white" borderRadius="full" border="2px solid #EDEDED">
-              <Flex
-                justifyContent="center"
-                alignItems="center"
+      {quickAccessPartners && quickAccessPartners?.length > 0 && (
+        <Flex
+          alignItems="center"
+          mt={5}
+          px={8}
+          gap={4}
+          overflowX="auto"
+          sx={{
+            "::-webkit-scrollbar": {
+              display: "none",
+            },
+          }}
+        >
+          {quickAccessPartners?.map((quickAccess) => (
+            <Link
+              key={quickAccess.id}
+              href={`/dashboard/offer/${
+                quickAccess.offer.kind === "voucher" ? "in-store" : "online"
+              }/${quickAccess.offer.id}`}
+              passHref
+            >
+              <Box
+                bgColor="white"
                 borderRadius="full"
-                border="3px solid"
-                borderColor="#F7F8FA"
-                w={65}
-                h={65}
+                border="2px solid #EDEDED"
               >
-                <Image
-                  src={quickAccess.partner.icon.url as string}
-                  alt={quickAccess.partner.icon.alt as string}
-                  width={45}
-                  height={45}
-                />
-              </Flex>
-            </Box>
-          </Link>
-        ))}
-      </Flex>
-      {offers && offers?.length > 0 && (
-        <Heading as="h2" fontSize="2xl" mt={6} px={8}>
-          Les réductions pour vous
-        </Heading>
+                <Flex
+                  justifyContent="center"
+                  alignItems="center"
+                  borderRadius="full"
+                  border="3px solid"
+                  borderColor="#F7F8FA"
+                  w={65}
+                  h={65}
+                >
+                  <Image
+                    src={quickAccess.partner.icon.url as string}
+                    alt={quickAccess.partner.icon.alt as string}
+                    width={45}
+                    height={45}
+                  />
+                </Flex>
+              </Box>
+            </Link>
+          ))}
+        </Flex>
       )}
-      <Grid
-        templateColumns="repeat(auto-fit, minmax(285px, 1fr))"
-        gridAutoFlow="column"
-        gridAutoColumns="minmax(285px, 1fr)"
-        mt={4}
-        px={8}
-        gap={4}
-        pb={2}
-        overflowX="auto"
-        sx={{
-          "::-webkit-scrollbar": {
-            display: "none",
-          },
-        }}
-      >
-        {offers?.map((offer) => (
-          <OfferCard key={offer.id} offer={offer} />
-        ))}
-      </Grid>
+      {offers && offers?.length > 0 && (
+        <>
+          <Heading as="h2" fontSize="2xl" mt={6} px={8}>
+            Les réductions pour vous
+          </Heading>
+          <Grid
+            templateColumns="repeat(auto-fit, minmax(285px, 1fr))"
+            gridAutoFlow="column"
+            gridAutoColumns="minmax(285px, 1fr)"
+            mt={4}
+            px={8}
+            gap={4}
+            pb={2}
+            overflowX="auto"
+            sx={{
+              "::-webkit-scrollbar": {
+                display: "none",
+              },
+            }}
+          >
+            {offers?.map((offer) => (
+              <OfferCard key={offer.id} offer={offer} />
+            ))}
+          </Grid>
+        </>
+      )}
       <Box px={8}>
         <Heading as="h2" fontSize="2xl" mt={6}>
           Nos partenaires

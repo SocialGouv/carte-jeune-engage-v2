@@ -1,7 +1,7 @@
 import { getCookie, setCookie, deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { User } from "~/payload/payload-types";
+import { UserIncluded } from "~/server/api/routers/user";
 
 export interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -13,8 +13,8 @@ export interface BeforeInstallPromptEvent extends Event {
 }
 
 type AuthContext = {
-  user: User | null;
-  setUser: (user: User | null) => void;
+  user: UserIncluded | null;
+  setUser: (user: UserIncluded | null) => void;
   showing: boolean;
   setShowing: (showing: boolean) => void;
   deferredEvent: BeforeInstallPromptEvent | null;
@@ -26,7 +26,7 @@ const Context = createContext({} as AuthContext);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserIncluded | null>(null);
 
   const [showing, setShowing] = useState(false);
   const [deferredEvent, setDeferredEvent] =

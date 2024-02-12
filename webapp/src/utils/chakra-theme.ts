@@ -144,8 +144,13 @@ export const theme = extendTheme({
       "900": "#ffffff",
     },
     success: "#42B918",
+    error: "#DE190C",
     bgWhite: "#F7F7F7",
     disabled: "#9595B1",
+    blackLight: "#20202C",
+  },
+  radii: {
+    "1.5xl": "1.25rem",
   },
   fonts: {
     heading: Marianne.style.fontFamily,

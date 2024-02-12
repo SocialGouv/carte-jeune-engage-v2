@@ -20,7 +20,6 @@ export const couponRouter = createTRPCRouter({
         where: {
           and: [
             { offer: { equals: offer_id } },
-            { status: { equals: "available" } },
             { user: { equals: ctx.session.id } },
             {
               "offer.validityTo": {
@@ -45,7 +44,6 @@ export const couponRouter = createTRPCRouter({
         where: {
           and: [
             { offer: { equals: offer_id } },
-            { status: { equals: "available" } },
             {
               "offer.validityTo": {
                 greater_than_equal: new Date().toISOString().split("T")[0],

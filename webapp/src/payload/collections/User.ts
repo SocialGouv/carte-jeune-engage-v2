@@ -30,5 +30,41 @@ export const Users: CollectionConfig = {
       label: "Nom",
       required: true,
     },
+    {
+      name: "phone_number",
+      type: "text",
+      label: "Numéro de téléphone",
+    },
+    {
+      name: "address",
+      type: "text",
+      label: "Adresse",
+    },
+    {
+      name: "image",
+      type: "upload",
+      label: "Photo de profil",
+      relationTo: "media",
+    },
+    {
+      name: "status_image",
+      type: "select",
+      label: "Statut de la photo de profil",
+      defaultValue: "pending",
+      options: [
+        {
+          label: "En attente",
+          value: "pending",
+        },
+        {
+          label: "Validée",
+          value: "approved",
+        },
+        {
+          label: "Refusée",
+          value: "rejected",
+        },
+      ],
+    },
   ],
 };

@@ -15,6 +15,7 @@ import { Categories } from "./collections/Categorie";
 import { Partners } from "./collections/Partner";
 import { Offers } from "./collections/Offer";
 import { Coupons } from "./collections/Coupon";
+import { Savings } from "./collections/Saving";
 
 const adapter = s3Adapter({
   config: {
@@ -55,7 +56,16 @@ export default buildConfig({
     bundler: webpackBundler(),
     user: "admins",
   },
-  collections: [Admins, Users, Media, Categories, Partners, Offers, Coupons],
+  collections: [
+    Admins,
+    Users,
+    Media,
+    Categories,
+    Partners,
+    Offers,
+    Coupons,
+    Savings,
+  ],
   localization: {
     locales: ["fr"],
     defaultLocale: "fr",

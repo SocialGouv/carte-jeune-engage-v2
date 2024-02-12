@@ -67,7 +67,6 @@ const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
 						.map((row: any) => {
 							return {
 								code: row.code as string,
-								status: "available",
 								offer: -1,
 							} as Coupon;
 						});
