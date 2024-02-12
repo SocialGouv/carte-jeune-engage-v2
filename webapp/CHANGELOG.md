@@ -1,3 +1,10 @@
+## [0.5.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.5.0...v0.5.1) (2024-02-12)
+
+
+### Bug Fixes
+
+* next_public for version env ([63b0820](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/63b0820167f342b36082e6bf2e6ec1d78c2cd4a5))
+
 # [0.5.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.4.2...v0.5.0) (2024-02-12)
 
 
