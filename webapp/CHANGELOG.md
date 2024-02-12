@@ -1,3 +1,31 @@
+# [0.5.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.4.2...v0.5.0) (2024-02-12)
+
+
+### Bug Fixes
+
+* account page loader infinite ([88eb6fd](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/88eb6fd6fdb7f0ba9571ce5840ecbb4630cb6c32))
+* add migration file for payload change ([f7fb5e8](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f7fb5e8d421b37b671044bc86b0911af208b4109))
+* add required to amount in saving collection and display coupon when used even if no saving yet ([bff3c8c](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/bff3c8cf845dbbcb99480130be7a0548ab96e3de))
+* add user id instead of fake value in card cje ([d033ec3](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/d033ec355a97d6987ee52a36a3fa049d4187216c))
+* add year for month when it's not the month from the current year ([4136772](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/4136772149e0aa0b2f3378cd3ba73f5d10f3c2d2))
+* afteChange hook on coupon collection, check user variable if is populate or not ([8cf377e](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/8cf377e133ff9b879ea524f64a12cc4899df172d))
+* change smpt from name and address ([f390cc0](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f390cc09eb161e3b86c7c75a42d9763a4dd5dbce))
+* change smtp port from number to string ([6256c2d](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/6256c2d62c8b862b210a8b160ccfa0520ef2f0aa))
+* do not display quickAccess title if no quickAccess in database ([bfe001e](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/bfe001efb68d0c5c6482caf9260cbe35ba361e30))
+* rename props withoutUserOutcome into ignoreUserOutcome and give InstallationBanner default light theme ([19a1c4d](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/19a1c4d2215d90d4a8ce7ad2016c9185679ecbd0))
+
+
+### Features
+
+* add current version of package instead of fake version in account page ([857c63e](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/857c63e803e4be8ff2973782178a3716c6ee5cca))
+* add email smtp config for maildev ([29bba43](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/29bba438f85cd4d072252b98c1458934c689c9f9))
+* add page follow saving for user, add total amount of saving in page account and add hook for asignedUserAt and usedAt for coupon collection ([9505ff7](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/9505ff759df3770ca9a469e727bfb35b0d76f702))
+* add phone_number and address to user collection and display them in information page ([732b34d](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/732b34d9387fd26829c2aeff04718b169170e4ff))
+* add saving collection and remove unnecessary status from coupon and filter ([f5594bd](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f5594bd18f472843027ccb3ae39e0b398aaed911))
+* begin layout of page informations for account ([fae3b47](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/fae3b477efcadeaeb50dd365826b82528e091259))
+* handle image and image status in backoffice and in account and create page for cje card ([61c236b](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/61c236bf575a9183f94699f52b69789022b2bdf0))
+* setting up account page layout ([d5d54c0](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/d5d54c01fb588122fea4ddb803388667c1577128))
+
 ## [0.4.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.4.1...v0.4.2) (2024-02-05)
 
 
