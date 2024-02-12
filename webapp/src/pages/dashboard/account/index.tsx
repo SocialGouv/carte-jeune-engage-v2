@@ -237,7 +237,8 @@ export default function Account() {
         ))}
       </Flex>
       <Text fontSize="xs" fontWeight="medium" textAlign="center" mt={12}>
-        Version appli beta test V{process.env.CURRENT_PACKAGE_VERSION}
+        Version appli beta test V
+        {process.env.NEXT_PUBLIC_CURRENT_PACKAGE_VERSION}
       </Text>
     </Box>
   );

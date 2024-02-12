@@ -24,7 +24,7 @@ module.exports = withPayload(
       domains: ["localhost"],
     },
     env: {
-      CURRENT_PACKAGE_VERSION: version,
+      NEXT_PUBLIC_CURRENT_PACKAGE_VERSION: version,
     },
   }),
   {
