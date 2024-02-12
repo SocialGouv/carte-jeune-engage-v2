@@ -45,6 +45,7 @@ export const offerRouter = createTRPCRouter({
       const couponCountOfOffers = await ctx.payload.find({
         collection: "coupons",
         depth: 0,
+        limit: 10000,
         where: {
           offer: {
             in: offers.docs.map((offer) => offer.id),
