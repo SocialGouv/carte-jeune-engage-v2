@@ -20,5 +20,5 @@ jobs:
         context: ./webapp
         secrets:
           sentry_auth_token:
-            secretName: app
+            secretName: app-sealed-secret
             secretKey: SENTRY_AUTH_TOKEN
