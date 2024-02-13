@@ -16,6 +16,7 @@ export interface Config {
     offers: Offer;
     coupons: Coupon;
     savings: Saving;
+    supervisors: Supervisor;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -48,9 +49,9 @@ export interface Admin {
  */
 export interface User {
   id: number;
-  firstName: string;
-  lastName: string;
-  phone_number?: string | null;
+  phone_number: string;
+  firstName?: string | null;
+  lastName?: string | null;
   address?: string | null;
   image?: number | Media | null;
   status_image?: ('pending' | 'approved' | 'rejected') | null;
@@ -149,6 +150,23 @@ export interface Saving {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supervisors".
+ */
+export interface Supervisor {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
@@ -161,6 +179,10 @@ export interface PayloadPreference {
     | {
         relationTo: 'users';
         value: number | User;
+      }
+    | {
+        relationTo: 'supervisors';
+        value: number | Supervisor;
       };
   key?: string | null;
   value?:

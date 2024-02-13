@@ -1,10 +1,10 @@
-import { api } from "~/utils/api";
 import { Box, Button, Flex, Heading, Icon } from "@chakra-ui/react";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import FormInput from "~/components/FormInput";
-import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
-import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
+import { useRouter } from "next/router";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { HiOutlineArrowRight } from "react-icons/hi";
+import FormInput from "~/components/FormInput";
+import { api } from "~/utils/api";
 
 type LoginForm = {
 	email: string;
@@ -20,14 +20,14 @@ export default function Home() {
 		formState: { errors },
 	} = useForm<LoginForm>();
 
-	const { mutate: loginUser, isLoading } = api.user.loginUser.useMutation({
+	const { mutate: loginUser, isLoading } = api.user.loginSupervisor.useMutation({
 		onSuccess: async ({ data }) => {
 			setCookie(
 				process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt",
 				data.token || ""
 			);
 			router.reload();
-			router.push("/dashboard");
+			router.push("/supervisor");
 		},
 	});
 
