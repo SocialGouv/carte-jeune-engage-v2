@@ -14,13 +14,13 @@ import { savingRouter } from "./routers/saving";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  user: userRouter,
-  category: categoryRouter,
-  offer: offerRouter,
-  coupon: couponRouter,
-  partner: partnerRouter,
-  quickAccess: quickAccessRouter,
-  saving: savingRouter,
+	user: userRouter,
+	category: categoryRouter,
+	offer: offerRouter,
+	coupon: couponRouter,
+	partner: partnerRouter,
+	quickAccess: quickAccessRouter,
+	saving: savingRouter,
 });
 
 // export type definition of API
