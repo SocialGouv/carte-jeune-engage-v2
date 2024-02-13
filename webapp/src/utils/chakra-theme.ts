@@ -56,6 +56,11 @@ export const dottedPattern = (bgColor: string) => ({
   },
 });
 
+const activeLabelStyles = {
+  transform: "scale(1) translateY(-14px)",
+  fontSize: "xs",
+};
+
 export const theme = extendTheme({
   components: {
     Button: {
@@ -84,6 +89,33 @@ export const theme = extendTheme({
             },
           },
         }),
+      },
+    },
+    Form: {
+      variants: {
+        floating: {
+          container: {
+            _focusWithin: {
+              label: {
+                ...activeLabelStyles,
+              },
+            },
+            "input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label":
+              {
+                ...activeLabelStyles,
+              },
+            label: {
+              top: 0,
+              left: 0,
+              zIndex: 2,
+              position: "absolute",
+              pointerEvents: "none",
+              mx: 5,
+              my: 5,
+              transformOrigin: "left top",
+            },
+          },
+        },
       },
     },
   },
@@ -145,8 +177,10 @@ export const theme = extendTheme({
     },
     success: "#42B918",
     error: "#DE190C",
+    errorLight: "#FFE8E8",
     bgWhite: "#F7F7F7",
     disabled: "#9595B1",
+    secondaryText: "#5C5C70",
     blackLight: "#20202C",
   },
   radii: {

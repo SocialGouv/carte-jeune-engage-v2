@@ -12,28 +12,27 @@ export const Users: CollectionConfig = {
   },
   fields: [
     {
-      name: "email",
-      type: "email",
-      label: "Email",
+      name: "phone_number",
+      type: "text",
       required: true,
       unique: true,
+      label: "Numéro de téléphone",
+    },
+    {
+      name: "email",
+      type: "email",
+      unique: true,
+      label: "Email",
     },
     {
       name: "firstName",
       type: "text",
       label: "Prénom",
-      required: true,
     },
     {
       name: "lastName",
       type: "text",
       label: "Nom",
-      required: true,
-    },
-    {
-      name: "phone_number",
-      type: "text",
-      label: "Numéro de téléphone",
     },
     {
       name: "address",

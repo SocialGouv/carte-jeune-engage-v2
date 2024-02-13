@@ -5,7 +5,11 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { HTMLInputTypeAttribute } from "react";
-import { FieldError, UseFormRegister } from "react-hook-form";
+import {
+  FieldError,
+  UseFormRegister,
+  ValidationValueMessage,
+} from "react-hook-form";
 
 type Props = {
   label: string;
@@ -13,7 +17,7 @@ type Props = {
   kind: HTMLInputTypeAttribute;
   register: UseFormRegister<any>;
   fieldError: FieldError | undefined;
-  rules?: { [key: string]: string };
+  rules?: { [key: string]: string | ValidationValueMessage };
 };
 
 const FormInput = ({
@@ -25,16 +29,29 @@ const FormInput = ({
   rules,
 }: Props) => {
   return (
-    <FormControl isRequired isInvalid={!!fieldError}>
-      <FormLabel htmlFor={name}>{label}</FormLabel>
+    <FormControl isRequired isInvalid={!!fieldError} variant="floating">
       <Input
         id={name}
         type={kind}
-        bgColor="white"
+        placeholder=""
         borderRadius={16}
-        p={5}
+        border="none"
+        errorBorderColor="transparent"
+        autoComplete="off"
+        backgroundColor={!fieldError ? "cje-gray.500" : "errorLight"}
+        px={5}
+        pt={9}
+        autoFocus
+        pb={7}
+        _focusVisible={{
+          borderColor: "transparent",
+          boxShadow: "none",
+        }}
         {...register(name, { ...rules })}
       />
+      <FormLabel fontWeight="medium" color="disabled">
+        {label}
+      </FormLabel>
       <FormErrorMessage>{fieldError?.message}</FormErrorMessage>
     </FormControl>
   );
