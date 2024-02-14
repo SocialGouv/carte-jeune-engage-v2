@@ -16,7 +16,6 @@ import LoadingLoader from "~/components/LoadingLoader";
 import FormBlock from "~/components/forms/FormBlock";
 import FormAutocompleteInput from "~/components/forms/FormAutocompleteInput";
 import { useQuery } from "@tanstack/react-query";
-import { useDebounceValue } from "usehooks-ts";
 import useDebounceValueWithState from "~/hooks/useDebounceCallbackWithPending";
 
 type SignUpForm = {
@@ -130,11 +129,13 @@ export default function Signup() {
     handleSubmit,
     register,
     getValues,
+    setError,
+    clearErrors,
     watch,
     control,
     formState: { errors },
   } = useForm<SignUpForm>({
-    mode: "all",
+    mode: "onBlur",
     defaultValues,
   });
 
@@ -162,8 +163,8 @@ export default function Signup() {
 
   const {
     data: addressOptions,
-    isRefetching: isLoadingAddressOptions,
-    isStale,
+    isLoading,
+    isRefetching: isRefectingAddressOptions,
   } = useQuery(
     ["getAddressOptions", debouncedAddress],
     async () => {
@@ -172,21 +173,21 @@ export default function Signup() {
       );
       const data = await response.json();
       return data.features.map((feature: any) =>
-        [feature.properties.name, feature.properties.city, "France"].join(", ")
+        [feature.properties.name, feature.properties.city].join(", ")
       ) as string[];
     },
     {
-      initialData: [],
+      enabled: !!debouncedAddress,
     }
   );
 
   useEffect(() => {
-    console.log("isStale", isStale);
-  }, [isStale]);
-
-  useEffect(() => {
-    localStorage.setItem("cje-signup-form", JSON.stringify(formValues));
-  }, [formValues]);
+    const { address, ...tmpFormValues } = formValues;
+    localStorage.setItem(
+      "cje-signup-form",
+      JSON.stringify({ ...tmpFormValues, address: debouncedAddress })
+    );
+  }, [formValues, debouncedAddress]);
 
   useEffect(() => {
     if (!signupStep || typeof signupStep !== "string") {
@@ -265,15 +266,20 @@ export default function Signup() {
                 />
               </Flex>
             ) : currentSignupStep.field.name === "address" ? (
-              <FormAutocompleteInput
-                control={control}
-                options={addressOptions}
-                isLoading={isLoadingAddressOptions || isDebouncePending}
-                field={currentSignupStep.field}
-                fieldError={
-                  errors[currentSignupStep?.field.name as keyof SignUpForm]
-                }
-              />
+              addressOptions &&
+              addressOptions.length > 0 && (
+                <FormAutocompleteInput
+                  control={control}
+                  options={addressOptions}
+                  setError={setError}
+                  clearErrors={clearErrors}
+                  isLoading={isRefectingAddressOptions || isDebouncePending}
+                  field={currentSignupStep.field}
+                  fieldError={
+                    errors[currentSignupStep?.field.name as keyof SignUpForm]
+                  }
+                />
+              )
             ) : (
               <FormInput
                 register={register}
@@ -287,7 +293,11 @@ export default function Signup() {
         </Flex>
         <Button
           colorScheme="blackBtn"
-          isDisabled={!currentFieldValue || currentFieldValue === ""}
+          isDisabled={
+            !currentFieldValue ||
+            errors[currentSignupStep.field.name as keyof SignUpForm]
+              ?.message !== undefined
+          }
           type="submit"
           rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
         >
