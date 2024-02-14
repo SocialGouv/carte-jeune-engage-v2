@@ -4,7 +4,7 @@ import payload from "payload";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { HiArrowRight } from "react-icons/hi2";
-import FormInput from "~/components/FormInput";
+import FormInput from "~/components/forms/FormInput";
 import SupervisorFormWrapper from "~/components/wrappers/SupervisorFormWrapper";
 import { api } from "~/utils/api";
 
@@ -83,18 +83,20 @@ export default function Home() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box my={6}>
           <FormInput
-            label={"Numéro"}
-            name={"phone"}
-            kind={"tel"}
-            register={register}
-            fieldError={errors["phone"]}
-            rules={{
-              required: "Ce champ est obligatoire",
-              pattern: {
-                value: frenchPhoneNumberRegex,
-                message: "Numéro de téléphone invalide",
+            field={{
+              label: "Numéro",
+              kind: "tel",
+              name: "phone",
+              rules: {
+                required: "Ce champ est obligatoire",
+                pattern: {
+                  value: frenchPhoneNumberRegex,
+                  message: "Numéro de téléphone invalide",
+                },
               },
             }}
+            register={register}
+            fieldError={errors["phone"]}
           />
         </Box>
         <Button

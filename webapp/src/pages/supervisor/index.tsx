@@ -3,7 +3,7 @@ import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import FormInput from "~/components/FormInput";
+import FormInput from "~/components/forms/FormInput";
 import { api } from "~/utils/api";
 
 type LoginForm = {
@@ -50,20 +50,24 @@ export default function Home() {
           <Heading>Connexion référents</Heading>
           <Flex flexDir="column" mt={12} borderRadius={8} gap={6}>
             <FormInput
-              name="email"
-              label="Email"
-              kind="email"
+              field={{
+                name: "email",
+                label: "Email",
+                kind: "email",
+                rules: { required: "Ce champ est obligatoire" },
+              }}
               fieldError={errors.email}
               register={register}
-              rules={{ required: "Ce champ est obligatoire" }}
             />
             <FormInput
-              name="password"
-              label="Mot de passe"
-              kind="password"
+              field={{
+                name: "password",
+                label: "Mot de passe",
+                kind: "password",
+                rules: { required: "Ce champ est obligatoire" },
+              }}
               fieldError={errors.password}
               register={register}
-              rules={{ required: "Ce champ est obligatoire" }}
             />
           </Flex>
         </Box>
