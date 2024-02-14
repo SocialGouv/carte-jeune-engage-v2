@@ -10,6 +10,8 @@ export interface Config {
   collections: {
     admins: Admin;
     users: User;
+    supervisors: Supervisor;
+    permissions: Permission;
     media: Media;
     categories: Category;
     partners: Partner;
@@ -48,9 +50,9 @@ export interface Admin {
  */
 export interface User {
   id: number;
-  firstName: string;
-  lastName: string;
-  phone_number?: string | null;
+  phone_number: string;
+  firstName?: string | null;
+  lastName?: string | null;
   address?: string | null;
   image?: number | Media | null;
   status_image?: ('pending' | 'approved' | 'rejected') | null;
@@ -80,6 +82,33 @@ export interface Media {
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supervisors".
+ */
+export interface Supervisor {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "permissions".
+ */
+export interface Permission {
+  id: number;
+  phone?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -161,6 +190,10 @@ export interface PayloadPreference {
     | {
         relationTo: 'users';
         value: number | User;
+      }
+    | {
+        relationTo: 'supervisors';
+        value: number | Supervisor;
       };
   key?: string | null;
   value?:

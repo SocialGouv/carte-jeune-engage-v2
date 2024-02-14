@@ -13,6 +13,7 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         email: z.string().email(),
+        phone_number: z.string(),
         firstName: z.string(),
         lastName: z.string(),
         password: z.string(),
@@ -47,7 +48,7 @@ export const userRouter = createTRPCRouter({
       }
     }),
 
-  login: publicProcedure
+  loginUser: publicProcedure
     .input(
       z.object({
         email: z.string().email(),
@@ -58,6 +59,40 @@ export const userRouter = createTRPCRouter({
       try {
         const user = await ctx.payload.login({
           collection: "users",
+          data: userInput,
+        });
+
+        return { data: user };
+      } catch (error) {
+        if (error && typeof error === "object" && "status" in error) {
+          if (error.status === 401) {
+            throw new TRPCError({
+              code: "UNAUTHORIZED",
+              message: "Invalid email or password",
+              cause: error,
+            });
+          }
+        }
+
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Unknown error",
+          cause: error,
+        });
+      }
+    }),
+
+  loginSupervisor: publicProcedure
+    .input(
+      z.object({
+        email: z.string().email(),
+        password: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input: userInput }) => {
+      try {
+        const user = await ctx.payload.login({
+          collection: "supervisors",
           data: userInput,
         });
 
