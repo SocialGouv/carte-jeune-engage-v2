@@ -7,18 +7,17 @@ import {
   Icon,
   Text,
 } from "@chakra-ui/react";
-import {
-  useForm,
-  type SubmitHandler,
-  ValidationValueMessage,
-  Controller,
-} from "react-hook-form";
+import { useForm, type SubmitHandler, Controller } from "react-hook-form";
 import FormInput, { type FieldProps } from "~/components/forms/FormInput";
 import { useRouter } from "next/router";
-import { HTMLInputTypeAttribute, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { HiArrowRight } from "react-icons/hi2";
 import LoadingLoader from "~/components/LoadingLoader";
 import FormBlock from "~/components/forms/FormBlock";
+import FormAutocompleteInput from "~/components/forms/FormAutocompleteInput";
+import { useQuery } from "@tanstack/react-query";
+import { useDebounceValue } from "usehooks-ts";
+import useDebounceValueWithState from "~/hooks/useDebounceCallbackWithPending";
 
 type SignUpForm = {
   civility: string;
@@ -156,6 +155,35 @@ export default function Signup() {
 
   const formValues = watch();
 
+  const [debouncedAddress, isDebouncePending] = useDebounceValueWithState(
+    formValues.address,
+    500
+  );
+
+  const {
+    data: addressOptions,
+    isRefetching: isLoadingAddressOptions,
+    isStale,
+  } = useQuery(
+    ["getAddressOptions", debouncedAddress],
+    async () => {
+      const response = await fetch(
+        `https://api-adresse.data.gouv.fr/search/?q=${debouncedAddress}&limit=4&autocomplete=1&type=housenumber`
+      );
+      const data = await response.json();
+      return data.features.map((feature: any) =>
+        [feature.properties.name, feature.properties.city, "France"].join(", ")
+      ) as string[];
+    },
+    {
+      initialData: [],
+    }
+  );
+
+  useEffect(() => {
+    console.log("isStale", isStale);
+  }, [isStale]);
+
   useEffect(() => {
     localStorage.setItem("cje-signup-form", JSON.stringify(formValues));
   }, [formValues]);
@@ -236,6 +264,16 @@ export default function Signup() {
                   )}
                 />
               </Flex>
+            ) : currentSignupStep.field.name === "address" ? (
+              <FormAutocompleteInput
+                control={control}
+                options={addressOptions}
+                isLoading={isLoadingAddressOptions || isDebouncePending}
+                field={currentSignupStep.field}
+                fieldError={
+                  errors[currentSignupStep?.field.name as keyof SignUpForm]
+                }
+              />
             ) : (
               <FormInput
                 register={register}
