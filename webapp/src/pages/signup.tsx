@@ -11,12 +11,14 @@ import {
   useForm,
   type SubmitHandler,
   ValidationValueMessage,
+  Controller,
 } from "react-hook-form";
-import FormInput from "~/components/FormInput";
+import FormInput, { type FieldProps } from "~/components/forms/FormInput";
 import { useRouter } from "next/router";
 import { HTMLInputTypeAttribute, useEffect, useMemo, useState } from "react";
 import { HiArrowRight } from "react-icons/hi2";
 import LoadingLoader from "~/components/LoadingLoader";
+import FormBlock from "~/components/forms/FormBlock";
 
 type SignUpForm = {
   civility: string;
@@ -27,18 +29,10 @@ type SignUpForm = {
   address: string;
 };
 
-type SignUpFormStep = {
+export type SignUpFormStep = {
   title: string;
   description?: string;
-  field: {
-    name: keyof SignUpForm;
-    kind: HTMLInputTypeAttribute;
-    unique?: boolean;
-    label: string;
-    rules: {
-      [key: string]: string | ValidationValueMessage;
-    };
-  };
+  field: FieldProps;
 };
 
 export default function Home() {
@@ -54,7 +48,7 @@ export default function Home() {
       : {};
   }, [typeof window !== "undefined"]);
 
-  const { handleSubmit, register, getValues, watch, formState } =
+  const { handleSubmit, register, getValues, watch, control, formState } =
     useForm<SignUpForm>({
       mode: "all",
       defaultValues,
@@ -70,18 +64,12 @@ export default function Home() {
 
   const onSubmit: SubmitHandler<SignUpForm> = (data) => {
     if (!currentSignupStep) return;
-    if (
-      signupSteps.findIndex(
-        (step) => step.field.name === currentSignupStep.field.name
-      ) ===
-      signupSteps.length - 1
-    ) {
+    const currentStepIndex = signupSteps.findIndex(
+      (step) => step.field.name === currentSignupStep.field.name
+    );
+    if (currentStepIndex === signupSteps.length - 1) {
       console.log("Submit", data);
-      return;
     } else {
-      const currentStepIndex = signupSteps.findIndex(
-        (step) => step.field.name === currentSignupStep.field.name
-      );
       const nextStep = signupSteps[currentStepIndex + 1];
       if (!nextStep) return;
       router.push({ query: { signupStep: nextStep.field.name } });
@@ -196,7 +184,9 @@ export default function Home() {
       </Center>
     );
 
-  const currentFieldValue = getValues(currentSignupStep.field.name);
+  const currentFieldValue = getValues(
+    currentSignupStep.field.name as keyof SignUpForm
+  );
 
   return (
     <Flex
@@ -215,16 +205,41 @@ export default function Home() {
           {currentSignupStep?.description ||
             "Saisissez la même information que sur vos documents administratifs officiels."}
         </Text>
-        <Box mt={6}>
-          <FormInput
-            key={currentSignupStep.field.name}
-            label={currentSignupStep.field.label}
-            name={currentSignupStep.field.name}
-            kind={currentSignupStep?.field.kind}
-            register={register}
-            fieldError={errors[currentSignupStep?.field.name]}
-            rules={currentSignupStep?.field.rules}
-          />
+        <Box mt={6} key={currentSignupStep.field.name}>
+          {currentSignupStep.field.name === "civility" ? (
+            <Flex alignItems="center" w="full" gap={6}>
+              <Controller
+                control={control}
+                name="civility"
+                render={({ field: { onChange, value } }) => (
+                  <>
+                    <FormBlock
+                      value="man"
+                      currentValue={value}
+                      onChange={onChange}
+                    >
+                      Monsieur
+                    </FormBlock>
+                    <FormBlock
+                      value="woman"
+                      currentValue={value}
+                      onChange={onChange}
+                    >
+                      Madame
+                    </FormBlock>
+                  </>
+                )}
+              />
+            </Flex>
+          ) : (
+            <FormInput
+              register={register}
+              field={currentSignupStep.field}
+              fieldError={
+                errors[currentSignupStep?.field.name as keyof SignUpForm]
+              }
+            />
+          )}
         </Box>
       </Flex>
       <Button

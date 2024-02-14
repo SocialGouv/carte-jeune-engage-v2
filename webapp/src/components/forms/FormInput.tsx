@@ -11,22 +11,23 @@ import {
   ValidationValueMessage,
 } from "react-hook-form";
 
-type Props = {
+export type FieldProps = {
   label: string;
   name: string;
   kind: HTMLInputTypeAttribute;
-  register: UseFormRegister<any>;
-  fieldError: FieldError | undefined;
   rules?: { [key: string]: string | ValidationValueMessage };
 };
 
+interface Props {
+  field: FieldProps;
+  register: UseFormRegister<any>;
+  fieldError: FieldError | undefined;
+}
+
 const FormInput = ({
-  label,
-  name,
-  kind,
+  field: { name, kind, rules, label },
   register,
   fieldError,
-  rules,
 }: Props) => {
   return (
     <FormControl isRequired isInvalid={!!fieldError} variant="floating">

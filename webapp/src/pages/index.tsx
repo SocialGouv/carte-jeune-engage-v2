@@ -1,7 +1,7 @@
 import { api } from "~/utils/api";
 import { Box, Button, Flex, Heading, Icon } from "@chakra-ui/react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import FormInput from "~/components/FormInput";
+import FormInput from "~/components/forms/FormInput";
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
