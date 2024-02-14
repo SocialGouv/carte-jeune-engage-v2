@@ -10,13 +10,14 @@ export interface Config {
   collections: {
     admins: Admin;
     users: User;
+    supervisors: Supervisor;
+    permissions: Permission;
     media: Media;
     categories: Category;
     partners: Partner;
     offers: Offer;
     coupons: Coupon;
     savings: Saving;
-    supervisors: Supervisor;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -84,6 +85,33 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supervisors".
+ */
+export interface Supervisor {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "permissions".
+ */
+export interface Permission {
+  id: number;
+  phone?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
@@ -147,23 +175,6 @@ export interface Saving {
   coupon: number | Coupon;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "supervisors".
- */
-export interface Supervisor {
-  id: number;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
