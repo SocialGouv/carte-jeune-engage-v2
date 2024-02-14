@@ -1,4 +1,5 @@
 import { getCookie, setCookie, deleteCookie } from "cookies-next";
+import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/router";
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { UserIncluded } from "~/server/api/routers/user";
@@ -36,13 +37,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const fetchMe = async () => {
-      const token = getCookie(process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt");
-      if (!token) return;
-      const result = await fetch("/api/users/me", {
+      const jwtToken = getCookie(process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt");
+      if (!jwtToken) return;
+
+      const decoded = jwtDecode(jwtToken);
+      const collection = (decoded as any)["collection"] as string;
+      const result = await fetch(`/api/${collection}/me`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${jwtToken}`,
         },
       }).then((req) => req.json());
+
       if (result && result.user !== null) {
         setUser(result.user);
       } else {
