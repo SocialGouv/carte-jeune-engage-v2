@@ -5,7 +5,6 @@ import FormInput from "~/components/forms/FormInput";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { useRouter } from "next/router";
 import { setCookie } from "cookies-next";
-import { HiArrowRight } from "react-icons/hi2";
 
 type LoginForm = {
   email: string;
@@ -33,57 +32,58 @@ export default function Home() {
   });
 
   const handleLogin: SubmitHandler<LoginForm> = async (values) => {
-    console.log(values);
+    await loginUser(values);
   };
 
   return (
-    <Flex flexDir="column" py={12} h="full">
-      <Heading
-        textAlign={"center"}
-        mt={8}
-        mb={12}
-        fontSize={"xl"}
-        fontWeight={"bold"}
-      >
-        Ma carte
-        <br />
-        jeune engagé
-      </Heading>
-      <Flex
-        flexDir={"column"}
-        borderTopWidth={1}
-        borderTopColor={"cje-gray.300"}
-        borderTopRadius={"3xl"}
-        px={8}
-        py={12}
-      >
-        <Heading fontSize={"2xl"} fontWeight={"bold"} mb={6}>
-          Connectez-vous avec votre n° de téléphone
-        </Heading>
-        <form onSubmit={handleSubmit(handleLogin)}>
+    <Flex
+      display="flex"
+      flexDir="column"
+      py={12}
+      px={6}
+      justifyContent="space-between"
+      h="full"
+    >
+      <Box>
+        <Heading>Connexion</Heading>
+        <Flex
+          as="form"
+          flexDir="column"
+          mt={12}
+          borderRadius={8}
+          gap={6}
+          onSubmit={handleSubmit(handleLogin)}
+        >
           <FormInput
             field={{
-              name: "phone",
-              kind: "tel",
+              name: "email",
+              label: "Email",
+              kind: "email",
               rules: { required: "Ce champ est obligatoire" },
-              placeholder: "Votre numéro de téléphone",
-              prefix: "🇫🇷",
             }}
             fieldError={errors.email}
             register={register}
           />
-          <Button
-            mt={4}
-            colorScheme="blackBtn"
-            type={"submit"}
-            float="right"
-            w="full"
-            isLoading={isLoading}
-            rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
-          >
-            Accéder aux réductions
-          </Button>
-        </form>
+          <FormInput
+            field={{
+              name: "password",
+              label: "Mot de passe",
+              kind: "password",
+              rules: { required: "Ce champ est obligatoire" },
+            }}
+            fieldError={errors.password}
+            register={register}
+          />
+        </Flex>
+      </Box>
+      <Flex justifyContent="end">
+        <Button
+          rightIcon={<Icon as={HiOutlineArrowRight} />}
+          onClick={handleSubmit(handleLogin)}
+          isLoading={isLoading}
+        >
+          Se connecter
+        </Button>
       </Flex>
     </Flex>
   );
