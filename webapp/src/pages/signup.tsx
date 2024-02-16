@@ -17,6 +17,7 @@ import FormBlock from "~/components/forms/FormBlock";
 import FormAutocompleteInput from "~/components/forms/FormAutocompleteInput";
 import { useQuery } from "@tanstack/react-query";
 import useDebounceValueWithState from "~/hooks/useDebounceCallbackWithPending";
+import StepsWrapper from "~/components/wrappers/StepsWrapper";
 
 type SignUpForm = {
   civility: string;
@@ -194,25 +195,22 @@ export default function Signup() {
     500
   );
 
-  const {
-    data: addressOptions,
-    isLoading,
-    isRefetching: isRefectingAddressOptions,
-  } = useQuery(
-    ["getAddressOptions", debouncedAddress],
-    async () => {
-      const response = await fetch(
-        `https://api-adresse.data.gouv.fr/search/?q=${debouncedAddress}&limit=4&autocomplete=1&type=housenumber`
-      );
-      const data = await response.json();
-      return data.features.map((feature: any) =>
-        [feature.properties.name, feature.properties.city].join(", ")
-      ) as string[];
-    },
-    {
-      enabled: !!debouncedAddress,
-    }
-  );
+  const { data: addressOptions, isRefetching: isRefectingAddressOptions } =
+    useQuery(
+      ["getAddressOptions", debouncedAddress],
+      async () => {
+        const response = await fetch(
+          `https://api-adresse.data.gouv.fr/search/?q=${debouncedAddress}&limit=4&autocomplete=1&type=housenumber`
+        );
+        const data = await response.json();
+        return data.features.map((feature: any) =>
+          [feature.properties.name, feature.properties.city].join(", ")
+        ) as string[];
+      },
+      {
+        enabled: !!debouncedAddress,
+      }
+    );
 
   useEffect(() => {
     const { address, ...tmpFormValues } = formValues;
@@ -255,52 +253,60 @@ export default function Signup() {
   );
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-      <Flex
-        display="flex"
-        flexDir="column"
-        py={12}
-        px={6}
-        justifyContent="space-between"
-        h="full"
-      >
-        <Flex flexDir="column" justifyContent="center">
-          <Heading as="h1" size="md" fontWeight="extrabold" mb={4}>
-            {currentSignupStep?.title}
-          </Heading>
-          <Text fontSize="sm" fontWeight="medium" color="secondaryText">
-            {currentSignupStep?.description ||
-              "Saisissez la même information que sur vos documents administratifs officiels."}
-          </Text>
-          <Box mt={6} key={currentSignupStep.field.name}>
-            {currentSignupStep.field.name === "civility" ? (
-              <Flex alignItems="center" w="full" gap={6}>
-                <Controller
-                  control={control}
-                  name={currentSignupStep.field.name}
-                  render={({ field: { onChange, value } }) => (
-                    <>
-                      <FormBlock
-                        value="man"
-                        currentValue={value}
-                        onChange={onChange}
-                      >
-                        Monsieur
-                      </FormBlock>
-                      <FormBlock
-                        value="woman"
-                        currentValue={value}
-                        onChange={onChange}
-                      >
-                        Madame
-                      </FormBlock>
-                    </>
-                  )}
-                />
-              </Flex>
-            ) : currentSignupStep.field.name === "address" ? (
-              addressOptions &&
-              addressOptions.length > 0 && (
+    <StepsWrapper
+      stepContext={{
+        current:
+          signupSteps.findIndex(
+            (step) => step.field.name === currentSignupStep.field.name
+          ) + 1,
+        total: signupSteps.length + 2,
+      }}
+    >
+      <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
+        <Flex
+          display="flex"
+          flexDir="column"
+          pt={8}
+          pb={12}
+          px={6}
+          justifyContent="space-between"
+          h="full"
+        >
+          <Flex flexDir="column" justifyContent="center">
+            <Heading as="h1" size="md" fontWeight="extrabold" mb={4}>
+              {currentSignupStep?.title}
+            </Heading>
+            <Text fontSize="sm" fontWeight="medium" color="secondaryText">
+              {currentSignupStep?.description ||
+                "Saisissez la même information que sur vos documents administratifs officiels."}
+            </Text>
+            <Box mt={6} key={currentSignupStep.field.name}>
+              {currentSignupStep.field.name === "civility" ? (
+                <Flex alignItems="center" w="full" gap={6}>
+                  <Controller
+                    control={control}
+                    name={currentSignupStep.field.name}
+                    render={({ field: { onChange, value } }) => (
+                      <>
+                        <FormBlock
+                          value="man"
+                          currentValue={value}
+                          onChange={onChange}
+                        >
+                          Monsieur
+                        </FormBlock>
+                        <FormBlock
+                          value="woman"
+                          currentValue={value}
+                          onChange={onChange}
+                        >
+                          Madame
+                        </FormBlock>
+                      </>
+                    )}
+                  />
+                </Flex>
+              ) : currentSignupStep.field.name === "address" ? (
                 <FormAutocompleteInput
                   control={control}
                   options={addressOptions}
@@ -312,31 +318,31 @@ export default function Signup() {
                     errors[currentSignupStep?.field.name as keyof SignUpForm]
                   }
                 />
-              )
-            ) : (
-              <FormInput
-                register={register}
-                field={currentSignupStep.field}
-                fieldError={
-                  errors[currentSignupStep?.field.name as keyof SignUpForm]
-                }
-              />
-            )}
-          </Box>
+              ) : (
+                <FormInput
+                  register={register}
+                  field={currentSignupStep.field}
+                  fieldError={
+                    errors[currentSignupStep?.field.name as keyof SignUpForm]
+                  }
+                />
+              )}
+            </Box>
+          </Flex>
+          <Button
+            colorScheme="blackBtn"
+            isDisabled={
+              !currentFieldValue ||
+              errors[currentSignupStep.field.name as keyof SignUpForm]
+                ?.message !== undefined
+            }
+            type="submit"
+            rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
+          >
+            Continuer
+          </Button>
         </Flex>
-        <Button
-          colorScheme="blackBtn"
-          isDisabled={
-            !currentFieldValue ||
-            errors[currentSignupStep.field.name as keyof SignUpForm]
-              ?.message !== undefined
-          }
-          type="submit"
-          rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
-        >
-          Continuer
-        </Button>
-      </Flex>
-    </form>
+      </form>
+    </StepsWrapper>
   );
 }

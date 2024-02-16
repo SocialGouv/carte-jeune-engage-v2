@@ -18,7 +18,7 @@ import { FieldProps } from "./FormInput";
 
 interface Props {
   field: FieldProps;
-  options: string[];
+  options: string[] | undefined;
   setError: any;
   clearErrors: any;
   isLoading: boolean;
@@ -43,7 +43,7 @@ const FormAutocompleteInput = ({
         control={control}
         name={name}
         render={({ field: { onChange, value } }) => {
-          if (value && !options.includes(value) && fieldError === undefined) {
+          if (value && !options?.includes(value) && fieldError === undefined) {
             console.log(options);
             console.log("setting error");
             setError(name, {
@@ -94,7 +94,7 @@ const FormAutocompleteInput = ({
                   autoFocus
                   onChange={(e: any) => {
                     onChange(e.target.value);
-                    if (!options.includes(e.target.value)) {
+                    if (!options?.includes(e.target.value)) {
                       setError(name, {
                         type: "autocompleteValue",
                         message: "",
