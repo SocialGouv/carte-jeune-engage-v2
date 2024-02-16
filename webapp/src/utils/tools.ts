@@ -19,5 +19,4 @@ export const convertFrenchDateToEnglish = (
 	return null;
 };
 
-export const frenchPhoneNumberWithDialingCodeRegex = /^\+33[1-9](\d{8})$/;
-export const frenchPhoneNumberWithoutDialingCodeRegex = /^(?!.*\+\d{2}).{10}$/;
+export const frenchPhoneNumber = /^(?:\+33[1-9](\d{8})|(?!.*\+\d{2}).{10})$/;

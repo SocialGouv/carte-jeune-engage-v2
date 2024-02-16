@@ -1,15 +1,14 @@
-import { Button, Divider, Flex, Heading, Icon, Link, Image, Box } from "@chakra-ui/react";
-import NextImage from 'next/image'
+import { Box, Button, Divider, Flex, Heading, Icon, Link } from "@chakra-ui/react";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { HiArrowRight } from "react-icons/hi2";
+import ChakraNextImage from "~/components/ChakraNextImage";
 import FormInput from "~/components/forms/FormInput";
 import { loginAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
-import { frenchPhoneNumberWithoutDialingCodeRegex } from "~/utils/tools";
-import ChakraNextImage from "~/components/ChakraNextImage";
+import { frenchPhoneNumber } from "~/utils/tools";
 
 type LoginForm = {
 	phone: string;
@@ -91,7 +90,7 @@ export default function Home() {
 							rules: {
 								required: "Ce champ est obligatoire",
 								pattern: {
-									value: frenchPhoneNumberWithoutDialingCodeRegex,
+									value: frenchPhoneNumber,
 									message: "On dirait que ce numéro de téléphone n’est pas valide. Vérifiez votre numéro",
 								},
 							},

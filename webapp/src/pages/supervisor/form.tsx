@@ -1,13 +1,11 @@
-import { Box, Button, Flex, Heading, Icon, Text } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import payload from "payload";
+import { Box, Button, Icon, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { HiArrowRight } from "react-icons/hi2";
 import FormInput from "~/components/forms/FormInput";
 import SupervisorFormWrapper from "~/components/wrappers/SupervisorFormWrapper";
 import { api } from "~/utils/api";
-import { frenchPhoneNumberWithDialingCodeRegex } from "~/utils/tools";
+import { frenchPhoneNumber } from "~/utils/tools";
 
 type SignUpForm = {
 	phone: string;
@@ -26,7 +24,7 @@ export default function Home() {
 	} = useForm<SignUpForm>({
 		mode: "onSubmit",
 		defaultValues: {
-			phone: "+33",
+			phone: "",
 		},
 	});
 
@@ -77,7 +75,7 @@ export default function Home() {
 	return (
 		<SupervisorFormWrapper>
 			<Text fontSize="sm" fontWeight="medium" color="secondaryText">
-				Saisissez le numéro de téléphone du jeune sous la forme +33XXXXXXXXX
+				Saisissez le numéro de téléphone du jeune sous la forme +33X ou 0X
 			</Text>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Box my={6}>
@@ -89,7 +87,7 @@ export default function Home() {
 							rules: {
 								required: "Ce champ est obligatoire",
 								pattern: {
-									value: frenchPhoneNumberWithDialingCodeRegex,
+									value: frenchPhoneNumber,
 									message: "Numéro de téléphone invalide",
 								},
 							},
