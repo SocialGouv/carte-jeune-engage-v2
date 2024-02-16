@@ -53,6 +53,14 @@ const signupSteps = [
       label: "Prénom",
       rules: {
         required: "Ce champ est obligatoire",
+        minLength: {
+          value: 2,
+          message: "Votre prénom doit contenir au moins 2 caractères",
+        },
+        maxLength: {
+          value: 50,
+          message: "Votre prénom ne peut pas contenir plus de 50 caractères",
+        },
       },
     },
   },
@@ -64,6 +72,14 @@ const signupSteps = [
       label: "Nom de famille",
       rules: {
         required: "Ce champ est obligatoire",
+        minLength: {
+          value: 2,
+          message: "Votre nom doit contenir au moins 2 caractères",
+        },
+        maxLength: {
+          value: 50,
+          message: "Votre nom ne peut pas contenir plus de 32 caractères",
+        },
       },
     },
   },
@@ -77,6 +93,20 @@ const signupSteps = [
       label: "Date de naissance",
       rules: {
         required: "Ce champ est obligatoire",
+        // rules to validate from 16 years old to 26 years old
+        validate: (value: string | number) => {
+          const currentDate = new Date(value);
+          const now = new Date();
+          const age = now.getFullYear() - currentDate.getFullYear();
+          const has26YearsPassed =
+            currentDate.getMonth() <= now.getMonth() &&
+            currentDate.getDate() < now.getDate();
+          return age >= 16 &&
+            age <= 26 &&
+            (age !== 26 ? true : has26YearsPassed)
+            ? true
+            : "Vous devez avoir entre 16 et 26 ans pour vous inscrire";
+        },
       },
     },
   },
@@ -90,7 +120,10 @@ const signupSteps = [
       label: "Email",
       rules: {
         required: "Ce champ est obligatoire",
-        email: "Veuillez saisir une adresse email valide",
+        pattern: {
+          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+          message: "Veuillez saisir une adresse email valide",
+        },
       },
     },
   },

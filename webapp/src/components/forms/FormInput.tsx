@@ -15,7 +15,13 @@ export type FieldProps = {
   label: string;
   name: string;
   kind: HTMLInputTypeAttribute;
-  rules?: { [key: string]: string | ValidationValueMessage };
+  rules?: {
+    [key: string]:
+      | string
+      | number
+      | ((value: string | number) => boolean | string)
+      | ValidationValueMessage;
+  };
 };
 
 interface Props {
