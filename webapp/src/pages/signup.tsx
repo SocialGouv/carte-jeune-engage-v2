@@ -16,8 +16,8 @@ import LoadingLoader from "~/components/LoadingLoader";
 import FormBlock from "~/components/forms/FormBlock";
 import FormAutocompleteInput from "~/components/forms/FormAutocompleteInput";
 import { useQuery } from "@tanstack/react-query";
-import { useDebounceValue } from "usehooks-ts";
 import useDebounceValueWithState from "~/hooks/useDebounceCallbackWithPending";
+import StepsWrapper from "~/components/wrappers/StepsWrapper";
 
 type SignUpForm = {
   civility: string;
@@ -54,6 +54,14 @@ const signupSteps = [
       label: "Prénom",
       rules: {
         required: "Ce champ est obligatoire",
+        minLength: {
+          value: 2,
+          message: "Votre prénom doit contenir au moins 2 caractères",
+        },
+        maxLength: {
+          value: 50,
+          message: "Votre prénom ne peut pas contenir plus de 50 caractères",
+        },
       },
     },
   },
@@ -65,6 +73,14 @@ const signupSteps = [
       label: "Nom de famille",
       rules: {
         required: "Ce champ est obligatoire",
+        minLength: {
+          value: 2,
+          message: "Votre nom doit contenir au moins 2 caractères",
+        },
+        maxLength: {
+          value: 50,
+          message: "Votre nom ne peut pas contenir plus de 32 caractères",
+        },
       },
     },
   },
@@ -78,6 +94,20 @@ const signupSteps = [
       label: "Date de naissance",
       rules: {
         required: "Ce champ est obligatoire",
+        // rules to validate from 16 years old to 26 years old
+        validate: (value: string | number) => {
+          const currentDate = new Date(value);
+          const now = new Date();
+          const age = now.getFullYear() - currentDate.getFullYear();
+          const has26YearsPassed =
+            currentDate.getMonth() <= now.getMonth() &&
+            currentDate.getDate() < now.getDate();
+          return age >= 16 &&
+            age <= 26 &&
+            (age !== 26 ? true : has26YearsPassed)
+            ? true
+            : "Vous devez avoir entre 16 et 26 ans pour vous inscrire";
+        },
       },
     },
   },
@@ -91,7 +121,10 @@ const signupSteps = [
       label: "Email",
       rules: {
         required: "Ce champ est obligatoire",
-        email: "Veuillez saisir une adresse email valide",
+        pattern: {
+          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+          message: "Veuillez saisir une adresse email valide",
+        },
       },
     },
   },
@@ -130,11 +163,13 @@ export default function Signup() {
     handleSubmit,
     register,
     getValues,
+    setError,
+    clearErrors,
     watch,
     control,
     formState: { errors },
   } = useForm<SignUpForm>({
-    mode: "all",
+    mode: "onBlur",
     defaultValues,
   });
 
@@ -160,33 +195,30 @@ export default function Signup() {
     500
   );
 
-  const {
-    data: addressOptions,
-    isRefetching: isLoadingAddressOptions,
-    isStale,
-  } = useQuery(
-    ["getAddressOptions", debouncedAddress],
-    async () => {
-      const response = await fetch(
-        `https://api-adresse.data.gouv.fr/search/?q=${debouncedAddress}&limit=4&autocomplete=1&type=housenumber`
-      );
-      const data = await response.json();
-      return data.features.map((feature: any) =>
-        [feature.properties.name, feature.properties.city, "France"].join(", ")
-      ) as string[];
-    },
-    {
-      initialData: [],
-    }
-  );
+  const { data: addressOptions, isRefetching: isRefectingAddressOptions } =
+    useQuery(
+      ["getAddressOptions", debouncedAddress],
+      async () => {
+        const response = await fetch(
+          `https://api-adresse.data.gouv.fr/search/?q=${debouncedAddress}&limit=4&autocomplete=1&type=housenumber`
+        );
+        const data = await response.json();
+        return data.features.map((feature: any) =>
+          [feature.properties.name, feature.properties.city].join(", ")
+        ) as string[];
+      },
+      {
+        enabled: !!debouncedAddress,
+      }
+    );
 
   useEffect(() => {
-    console.log("isStale", isStale);
-  }, [isStale]);
-
-  useEffect(() => {
-    localStorage.setItem("cje-signup-form", JSON.stringify(formValues));
-  }, [formValues]);
+    const { address, ...tmpFormValues } = formValues;
+    localStorage.setItem(
+      "cje-signup-form",
+      JSON.stringify({ ...tmpFormValues, address: debouncedAddress })
+    );
+  }, [formValues, debouncedAddress]);
 
   useEffect(() => {
     if (!signupStep || typeof signupStep !== "string") {
@@ -221,79 +253,96 @@ export default function Signup() {
   );
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
-      <Flex
-        display="flex"
-        flexDir="column"
-        py={12}
-        px={6}
-        justifyContent="space-between"
-        h="full"
-      >
-        <Flex flexDir="column" justifyContent="center">
-          <Heading as="h1" size="md" fontWeight="extrabold" mb={4}>
-            {currentSignupStep?.title}
-          </Heading>
-          <Text fontSize="sm" fontWeight="medium" color="secondaryText">
-            {currentSignupStep?.description ||
-              "Saisissez la même information que sur vos documents administratifs officiels."}
-          </Text>
-          <Box mt={6} key={currentSignupStep.field.name}>
-            {currentSignupStep.field.name === "civility" ? (
-              <Flex alignItems="center" w="full" gap={6}>
-                <Controller
-                  control={control}
-                  name={currentSignupStep.field.name}
-                  render={({ field: { onChange, value } }) => (
-                    <>
-                      <FormBlock
-                        value="man"
-                        currentValue={value}
-                        onChange={onChange}
-                      >
-                        Monsieur
-                      </FormBlock>
-                      <FormBlock
-                        value="woman"
-                        currentValue={value}
-                        onChange={onChange}
-                      >
-                        Madame
-                      </FormBlock>
-                    </>
-                  )}
-                />
-              </Flex>
-            ) : currentSignupStep.field.name === "address" ? (
-              <FormAutocompleteInput
-                control={control}
-                options={addressOptions}
-                isLoading={isLoadingAddressOptions || isDebouncePending}
-                field={currentSignupStep.field}
-                fieldError={
-                  errors[currentSignupStep?.field.name as keyof SignUpForm]
-                }
-              />
-            ) : (
-              <FormInput
-                register={register}
-                field={currentSignupStep.field}
-                fieldError={
-                  errors[currentSignupStep?.field.name as keyof SignUpForm]
-                }
-              />
-            )}
-          </Box>
-        </Flex>
-        <Button
-          colorScheme="blackBtn"
-          isDisabled={!currentFieldValue || currentFieldValue === ""}
-          type="submit"
-          rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
+    <StepsWrapper
+      stepContext={{
+        current:
+          signupSteps.findIndex(
+            (step) => step.field.name === currentSignupStep.field.name
+          ) + 1,
+        total: signupSteps.length + 2,
+      }}
+    >
+      <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>
+        <Flex
+          display="flex"
+          flexDir="column"
+          pt={8}
+          pb={12}
+          px={6}
+          justifyContent="space-between"
+          h="full"
         >
-          Continuer
-        </Button>
-      </Flex>
-    </form>
+          <Flex flexDir="column" justifyContent="center">
+            <Heading as="h1" size="md" fontWeight="extrabold" mb={4}>
+              {currentSignupStep?.title}
+            </Heading>
+            <Text fontSize="sm" fontWeight="medium" color="secondaryText">
+              {currentSignupStep?.description ||
+                "Saisissez la même information que sur vos documents administratifs officiels."}
+            </Text>
+            <Box mt={6} key={currentSignupStep.field.name}>
+              {currentSignupStep.field.name === "civility" ? (
+                <Flex alignItems="center" w="full" gap={6}>
+                  <Controller
+                    control={control}
+                    name={currentSignupStep.field.name}
+                    render={({ field: { onChange, value } }) => (
+                      <>
+                        <FormBlock
+                          value="man"
+                          currentValue={value}
+                          onChange={onChange}
+                        >
+                          Monsieur
+                        </FormBlock>
+                        <FormBlock
+                          value="woman"
+                          currentValue={value}
+                          onChange={onChange}
+                        >
+                          Madame
+                        </FormBlock>
+                      </>
+                    )}
+                  />
+                </Flex>
+              ) : currentSignupStep.field.name === "address" ? (
+                <FormAutocompleteInput
+                  control={control}
+                  options={addressOptions}
+                  setError={setError}
+                  clearErrors={clearErrors}
+                  isLoading={isRefectingAddressOptions || isDebouncePending}
+                  field={currentSignupStep.field}
+                  fieldError={
+                    errors[currentSignupStep?.field.name as keyof SignUpForm]
+                  }
+                />
+              ) : (
+                <FormInput
+                  register={register}
+                  field={currentSignupStep.field}
+                  fieldError={
+                    errors[currentSignupStep?.field.name as keyof SignUpForm]
+                  }
+                />
+              )}
+            </Box>
+          </Flex>
+          <Button
+            colorScheme="blackBtn"
+            isDisabled={
+              !currentFieldValue ||
+              errors[currentSignupStep.field.name as keyof SignUpForm]
+                ?.message !== undefined
+            }
+            type="submit"
+            rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
+          >
+            Continuer
+          </Button>
+        </Flex>
+      </form>
+    </StepsWrapper>
   );
 }

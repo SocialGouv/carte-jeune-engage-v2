@@ -189,5 +189,5 @@ export const theme = extendTheme({
 	fonts: {
 		heading: Marianne.style.fontFamily,
 		body: Marianne.style.fontFamily,
-	},
+	}
 });

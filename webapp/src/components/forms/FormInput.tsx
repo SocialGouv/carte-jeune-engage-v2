@@ -12,12 +12,18 @@ import {
 } from "react-hook-form";
 
 export type FieldProps = {
-	label?: string;
-	name: string;
-	kind: HTMLInputTypeAttribute;
+  label?: string;
+  name: string;
+  kind: HTMLInputTypeAttribute;
 	placeholder?: string;
 	prefix?: string;
-	rules?: { [key: string]: string | ValidationValueMessage };
+  rules?: {
+    [key: string]:
+      | string
+      | number
+      | ((value: string | number) => boolean | string)
+      | ValidationValueMessage;
+  };
 };
 
 interface Props {
