@@ -49,6 +49,41 @@ export const userRouter = createTRPCRouter({
 			}
 		}),
 
+	oldLoginUser: publicProcedure
+		.input(
+			z.object({
+				email: z.string().email(),
+				password: z.string(),
+			})
+		)
+		.mutation(async ({ ctx, input: userInput }) => {
+			try {
+				const user = await ctx.payload.login({
+					collection: "users",
+					data: userInput,
+				});
+
+				return { data: user };
+			} catch (error) {
+				if (error && typeof error === "object" && "status" in error) {
+					if (error.status === 401) {
+						throw new TRPCError({
+							code: "UNAUTHORIZED",
+							message: "Invalid email or password",
+							cause: error,
+						});
+					}
+				}
+
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "Unknown error",
+					cause: error,
+				});
+			}
+		}),
+
+
 	loginUser: publicProcedure
 		.input(
 			z.object({
