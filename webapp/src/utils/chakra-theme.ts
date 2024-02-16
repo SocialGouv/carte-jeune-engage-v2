@@ -176,7 +176,7 @@ export const theme = extendTheme({
 			"900": "#ffffff",
 		},
 		success: "#42B918",
-		error: "#DE190C",
+		error: "#FF5959",
 		errorLight: "#FFE8E8",
 		bgWhite: "#F7F7F7",
 		disabled: "#9595B1",

@@ -1,7 +1,7 @@
-import { Box, Button, Divider, Flex, Heading, Icon, Link } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, FormErrorMessage, HStack, Heading, Icon, Link, PinInput, PinInputField, Text } from "@chakra-ui/react";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { HiArrowRight } from "react-icons/hi2";
 import ChakraNextImage from "~/components/ChakraNextImage";
@@ -14,27 +14,31 @@ type LoginForm = {
 	phone_number: string;
 };
 
+const pinProps = {
+	w: 12, h: 12, borderColor: 'transparent', _hover: { borderColor: 'transparent' }, _focus: { borderColor: 'blackLight', borderWidth: '2px' }, _focusVisible: { boxShadow: 'none' }
+}
+
 export default function Home() {
 	const router = useRouter();
+
+	const [isOtpGenerated, setIsOtpGenerated] = useState(false)
+	const [hasOtpError, setHasOtpError] = useState(false)
 
 	const {
 		handleSubmit,
 		register,
 		setError,
+		watch,
 		formState: { errors },
 	} = useForm<LoginForm>({
 		mode: 'onSubmit'
 	});
 
-	const { mutate: loginUser, isLoading } = api.user.loginUser.useMutation({
+	const formValues = watch();
+
+	const { mutate: generateOtp, isLoading: isLoadingOtp } = api.user.generateOTP.useMutation({
 		onSuccess: async ({ data }) => {
-			console.log('OK')
-			// setCookie(
-			// 	process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt",
-			// 	data.token || ""
-			// );
-			// router.reload();
-			// router.push("/dashboard");
+			setIsOtpGenerated(true)
 		},
 		onError: async ({ data }) => {
 			if (data?.httpStatus === 401) {
@@ -46,13 +50,76 @@ export default function Home() {
 		}
 	});
 
-	const handleLogin: SubmitHandler<LoginForm> = async (values) => {
-		loginUser({ phone_number: values.phone_number })
+	const { mutate: loginUser, isLoading: isLoadingLogin } = api.user.loginUser.useMutation({
+		onSuccess: async ({ data }) => {
+			setCookie(
+				process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt",
+				data.token || ""
+			);
+			router.reload();
+			router.push("/dashboard");
+		},
+		onError: async ({ data }) => {
+			if (data?.httpStatus === 401) {
+				setHasOtpError(true)
+			}
+		}
+	});
+
+	const handleGenerateOtp: SubmitHandler<LoginForm> = async (values) => {
+		generateOtp({ phone_number: values.phone_number })
 	};
+
+	const handleLoginUser = async (otp: string) => {
+		console.log(otp)
+		loginUser({
+			phone_number: formValues.phone_number,
+			otp
+		})
+	}
 
 	useEffect(() => {
 		loginAnimation()
 	}, [])
+
+	if (isOtpGenerated) {
+		return (
+			<Flex
+				py={8}
+				px={8}
+				flexDir={"column"}
+			>
+				<Heading fontSize={"2xl"} fontWeight={"extrabold"} mb={6}>
+					Vous avez reçu un code à 4 chiffres par SMS
+				</Heading>
+				<Text fontSize={"sm"} fontWeight="medium" color="secondaryText">
+					Saisissez le code envoyé au 06 15 29 20 93 pour pouvoir créer votre compte
+				</Text>
+				<Box my={8}>
+					<HStack>
+						<PinInput placeholder="-" otp onComplete={handleLoginUser} onChange={() => {
+							setHasOtpError(false)
+						}}>
+							<PinInputField {...pinProps} bg={hasOtpError ? "errorLight" : "cje-gray.500"} />
+							<PinInputField {...pinProps} bg={hasOtpError ? "errorLight" : "cje-gray.500"} />
+							<PinInputField {...pinProps} bg={hasOtpError ? "errorLight" : "cje-gray.500"} />
+							<PinInputField {...pinProps} bg={hasOtpError ? "errorLight" : "cje-gray.500"} />
+						</PinInput>
+					</HStack>
+					{
+						hasOtpError && (
+							<Text color="error" fontSize={"sm"} mt={2}>On dirait que ce code n’est pas le bon</Text>
+						)
+					}
+				</Box>
+				<Link mt={6} textDecor={"underline"} fontWeight={"medium"} onClick={() => {
+					handleGenerateOtp({ phone_number: formValues.phone_number })
+				}}>
+					Me renvoyer un code par SMS
+				</Link>
+			</Flex>
+		)
+	}
 
 	return (
 		<Flex flexDir="column" py={8} h="full">
@@ -90,7 +157,7 @@ export default function Home() {
 				<Heading fontSize={"2xl"} fontWeight={"extrabold"} mb={6}>
 					Connectez-vous avec votre n° de téléphone
 				</Heading>
-				<form onSubmit={handleSubmit(handleLogin)}>
+				<form onSubmit={handleSubmit(handleGenerateOtp)}>
 					<FormInput
 						field={{
 							name: "phone_number",
@@ -114,7 +181,7 @@ export default function Home() {
 						type={"submit"}
 						float="right"
 						w="full"
-						isLoading={isLoading}
+						isLoading={isLoadingOtp}
 						rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
 					>
 						Accéder aux réductions

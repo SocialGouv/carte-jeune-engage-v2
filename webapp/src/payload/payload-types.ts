@@ -56,6 +56,7 @@ export interface User {
   address?: string | null;
   image?: number | Media | null;
   status_image?: ('pending' | 'approved' | 'rejected') | null;
+  preferences?: (number | Category)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -85,6 +86,18 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  slug: string;
+  label: string;
+  icon: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "supervisors".
  */
 export interface Supervisor {
@@ -107,18 +120,6 @@ export interface Supervisor {
 export interface Permission {
   id: number;
   phone_number?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: number;
-  slug: string;
-  label: string;
-  icon: number | Media;
   updatedAt: string;
   createdAt: string;
 }

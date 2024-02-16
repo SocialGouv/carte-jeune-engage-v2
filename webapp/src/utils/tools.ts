@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export const convertFrenchDateToEnglish = (
 	frenchDate: string
 ): string | null => {
@@ -30,4 +32,20 @@ export const payloadOrPhoneNumberCheck = (phone_number: string) => {
 			{ phone_number: { equals: hasDialingCode ? `0${phone_number.substring(3)}` : phone_number } },
 		]
 	}
+}
+
+export const generateRandomCode = (): string => {
+	const min = 1000;
+	const max = 9999;
+	const randomCode = Math.floor(Math.random() * (max - min + 1) + min);
+	return randomCode.toString();
+}
+
+export const generateRandomPassword = (length: number): string => {
+	const buffer = crypto.randomBytes(length);
+	const password = buffer.toString('base64')
+		.replace(/[/+=]/g, '')
+		.slice(0, length);
+
+	return password;
 }
