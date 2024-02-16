@@ -18,6 +18,7 @@ import FormAutocompleteInput from "~/components/forms/FormAutocompleteInput";
 import { useQuery } from "@tanstack/react-query";
 import useDebounceValueWithState from "~/hooks/useDebounceCallbackWithPending";
 import StepsWrapper from "~/components/wrappers/StepsWrapper";
+import { onBoardingSteps } from "./onboarding";
 
 type SignUpForm = {
   civility: string;
@@ -34,7 +35,7 @@ export type SignUpFormStep = {
   field: FieldProps;
 };
 
-const signupSteps = [
+export const signupSteps = [
   {
     title: "Bienvenue ! Comment peut-on vous appeler ?",
     field: {
@@ -180,6 +181,7 @@ export default function Signup() {
     );
     if (currentStepIndex === signupSteps.length - 1) {
       console.log("Submit", data);
+      router.push("/onboarding");
     } else {
       const nextStep = signupSteps[currentStepIndex + 1];
       if (!nextStep) return;
@@ -259,7 +261,7 @@ export default function Signup() {
           signupSteps.findIndex(
             (step) => step.field.name === currentSignupStep.field.name
           ) + 1,
-        total: signupSteps.length + 2,
+        total: signupSteps.length + onBoardingSteps.length,
       }}
     >
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "100%" }}>

@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Icon } from "@chakra-ui/react";
+import { Box, Flex, Icon } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
@@ -23,15 +23,17 @@ const StepsWrapper = ({
         justifyContent="center"
         pt={8}
       >
-        <Icon
-          as={HiChevronLeft}
-          w={6}
-          h={6}
-          onClick={() => router.back()}
-          cursor="pointer"
-          position="absolute"
-          left={6}
-        />
+        {current > 1 && (
+          <Icon
+            as={HiChevronLeft}
+            w={6}
+            h={6}
+            onClick={() => router.back()}
+            cursor="pointer"
+            position="absolute"
+            left={6}
+          />
+        )}
         <Box bgColor="cje-gray.300" borderRadius="xl" w="30%" h="6px">
           <Box
             as={motion.div}

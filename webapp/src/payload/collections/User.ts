@@ -65,5 +65,12 @@ export const Users: CollectionConfig = {
         },
       ],
     },
+    {
+      name: "preferences",
+      type: "relationship",
+      label: "Préférences",
+      relationTo: "categories",
+      hasMany: true,
+    },
   ],
 };
