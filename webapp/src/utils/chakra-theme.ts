@@ -100,7 +100,7 @@ export const theme = extendTheme({
 								...activeLabelStyles,
 							},
 						},
-						"input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, textarea:not(:placeholder-shown) ~ label":
+						"input:not(:placeholder-shown) + label, .chakra-select__wrapper + label, .chakra-autocomplete-has-value + label, textarea:not(:placeholder-shown) ~ label":
 						{
 							...activeLabelStyles,
 						},
