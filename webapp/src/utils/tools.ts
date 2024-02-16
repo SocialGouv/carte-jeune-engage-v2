@@ -20,3 +20,14 @@ export const convertFrenchDateToEnglish = (
 };
 
 export const frenchPhoneNumber = /^(?:\+33[1-9](\d{8})|(?!.*\+\d{2}).{10})$/;
+
+export const payloadOrPhoneNumberCheck = (phone_number: string) => {
+	const hasDialingCode = phone_number.startsWith('+')
+
+	return {
+		or: [
+			{ phone_number: { equals: hasDialingCode ? phone_number : `+33${phone_number.substring(1)}` } },
+			{ phone_number: { equals: hasDialingCode ? `0${phone_number.substring(3)}` : phone_number } },
+		]
+	}
+}

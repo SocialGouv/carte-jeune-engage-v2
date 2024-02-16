@@ -11,7 +11,7 @@ import { api } from "~/utils/api";
 import { frenchPhoneNumber } from "~/utils/tools";
 
 type LoginForm = {
-	phone: string;
+	phone_number: string;
 };
 
 export default function Home() {
@@ -20,6 +20,7 @@ export default function Home() {
 	const {
 		handleSubmit,
 		register,
+		setError,
 		formState: { errors },
 	} = useForm<LoginForm>({
 		mode: 'onSubmit'
@@ -27,17 +28,26 @@ export default function Home() {
 
 	const { mutate: loginUser, isLoading } = api.user.loginUser.useMutation({
 		onSuccess: async ({ data }) => {
-			setCookie(
-				process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt",
-				data.token || ""
-			);
-			router.reload();
-			router.push("/dashboard");
+			console.log('OK')
+			// setCookie(
+			// 	process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt",
+			// 	data.token || ""
+			// );
+			// router.reload();
+			// router.push("/dashboard");
 		},
+		onError: async ({ data }) => {
+			if (data?.httpStatus === 401) {
+				setError("phone_number", {
+					type: "conflict",
+					message: "Votre numéro de téléphone n'est pas autorisé à accéder à l'application",
+				});
+			}
+		}
 	});
 
 	const handleLogin: SubmitHandler<LoginForm> = async (values) => {
-		console.log(values);
+		loginUser({ phone_number: values.phone_number })
 	};
 
 	useEffect(() => {
@@ -83,7 +93,7 @@ export default function Home() {
 				<form onSubmit={handleSubmit(handleLogin)}>
 					<FormInput
 						field={{
-							name: "phone",
+							name: "phone_number",
 							kind: "tel",
 							placeholder: "Votre numéro de téléphone",
 							prefix: "🇫🇷",
@@ -95,7 +105,7 @@ export default function Home() {
 								},
 							},
 						}}
-						fieldError={errors.phone}
+						fieldError={errors.phone_number}
 						register={register}
 					/>
 					<Button

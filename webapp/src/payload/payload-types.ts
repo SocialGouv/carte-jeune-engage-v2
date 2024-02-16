@@ -106,7 +106,7 @@ export interface Supervisor {
  */
 export interface Permission {
   id: number;
-  phone?: string | null;
+  phone_number?: string | null;
   updatedAt: string;
   createdAt: string;
 }

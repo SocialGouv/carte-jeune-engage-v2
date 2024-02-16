@@ -8,7 +8,7 @@ import { api } from "~/utils/api";
 import { frenchPhoneNumber } from "~/utils/tools";
 
 type SignUpForm = {
-	phone: string;
+	phone_number: string;
 };
 
 export default function Home() {
@@ -24,7 +24,7 @@ export default function Home() {
 	} = useForm<SignUpForm>({
 		mode: "onSubmit",
 		defaultValues: {
-			phone: "",
+			phone_number: "",
 		},
 	});
 
@@ -35,7 +35,7 @@ export default function Home() {
 			},
 			onError: (e) => {
 				if (e.data && e.data.httpStatus === 409) {
-					setError("phone", {
+					setError("phone_number", {
 						type: "conflict",
 						message: "Ce numéro existe déjà dans la base de donnée",
 					});
@@ -44,14 +44,14 @@ export default function Home() {
 		});
 
 	const onSubmit: SubmitHandler<SignUpForm> = (data) => {
-		createPermission({ phone: data.phone });
+		createPermission({ phone_number: data.phone_number });
 	};
 
 	if (submitted) {
 		return (
 			<SupervisorFormWrapper>
 				<Text>
-					Le numéro <Text as="b">{getValues("phone")}</Text> a bien été ajouté,
+					Le numéro <Text as="b">{getValues("phone_number")}</Text> a bien été ajouté,
 					le jeune peut désormais se connecter à l'application et configurer son
 					compte.
 				</Text>
@@ -83,7 +83,7 @@ export default function Home() {
 						field={{
 							label: "Numéro",
 							kind: "tel",
-							name: "phone",
+							name: "phone_number",
 							rules: {
 								required: "Ce champ est obligatoire",
 								pattern: {
@@ -93,7 +93,7 @@ export default function Home() {
 							},
 						}}
 						register={register}
-						fieldError={errors["phone"]}
+						fieldError={errors["phone_number"]}
 					/>
 				</Box>
 				<Button
