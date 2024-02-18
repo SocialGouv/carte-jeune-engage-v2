@@ -16,7 +16,7 @@ import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { HiArrowRight } from "react-icons/hi2";
+import { HiArrowRight, HiChevronLeft } from "react-icons/hi2";
 import BigLoader from "~/components/BigLoader";
 import ChakraNextImage from "~/components/ChakraNextImage";
 import FormInput from "~/components/forms/FormInput";
@@ -37,12 +37,17 @@ const pinProps = {
   _focusVisible: { boxShadow: "none" },
 };
 
+const defaultTimeToResend = 30;
+
 export default function Home() {
   const router = useRouter();
 
   const [isOtpGenerated, setIsOtpGenerated] = useState(false);
   const [hasOtpError, setHasOtpError] = useState(false);
   const [forceLoader, setForceLoader] = useState(false);
+
+  const [timeToResend, setTimeToResend] = useState(defaultTimeToResend);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
   const {
     handleSubmit,
@@ -56,10 +61,20 @@ export default function Home() {
 
   const formValues = watch();
 
+  const resetTimer = () => {
+    if (intervalId) clearInterval(intervalId);
+    setTimeToResend(defaultTimeToResend);
+    const id = setInterval(() => {
+      setTimeToResend((prevTime) => prevTime - 1);
+    }, 1000);
+    setIntervalId(id);
+  };
+
   const { mutate: generateOtp, isLoading: isLoadingOtp } =
     api.user.generateOTP.useMutation({
       onSuccess: async ({ data }) => {
         setIsOtpGenerated(true);
+        resetTimer();
       },
       onError: async ({ data }) => {
         if (data?.httpStatus === 401) {
@@ -106,63 +121,97 @@ export default function Home() {
     loginAnimation();
   }, []);
 
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTimeToResend((prevTime) => prevTime - 1);
+    }, 1000);
+
+    setIntervalId(id);
+
+    return () => clearInterval(id);
+  }, []);
+
   if (isLoadingOtp || isLoadingLogin || forceLoader) return <BigLoader />;
 
   if (isOtpGenerated) {
     return (
-      <Flex py={8} px={8} flexDir={"column"}>
-        <Heading fontSize={"2xl"} fontWeight={"extrabold"} mb={6}>
-          Vous avez reçu un code à 4 chiffres par SMS
-        </Heading>
-        <Text fontSize={"sm"} fontWeight="medium" color="secondaryText">
-          Saisissez le code envoyé au 06 15 29 20 93 pour pouvoir créer votre
-          compte
-        </Text>
-        <Box my={8}>
-          <HStack>
-            <PinInput
-              placeholder="-"
-              otp
-              onComplete={handleLoginUser}
-              onChange={() => {
-                setHasOtpError(false);
-              }}
-            >
-              <PinInputField
-                {...pinProps}
-                bg={hasOtpError ? "errorLight" : "cje-gray.500"}
-              />
-              <PinInputField
-                {...pinProps}
-                bg={hasOtpError ? "errorLight" : "cje-gray.500"}
-              />
-              <PinInputField
-                {...pinProps}
-                bg={hasOtpError ? "errorLight" : "cje-gray.500"}
-              />
-              <PinInputField
-                {...pinProps}
-                bg={hasOtpError ? "errorLight" : "cje-gray.500"}
-              />
-            </PinInput>
-          </HStack>
-          {hasOtpError && (
-            <Text color="error" fontSize={"sm"} mt={2}>
-              On dirait que ce code n’est pas le bon
-            </Text>
-          )}
-        </Box>
-        <Link
-          mt={6}
-          textDecor={"underline"}
-          fontWeight={"medium"}
-          onClick={() => {
-            handleGenerateOtp({ phone_number: formValues.phone_number });
-          }}
+      <>
+        <Flex
+          position="relative"
+          alignItems="center"
+          justifyContent="center"
+          pt={8}
         >
-          Me renvoyer un code par SMS
-        </Link>
-      </Flex>
+          <Icon
+            as={HiChevronLeft}
+            w={6}
+            h={6}
+            onClick={() => router.back()}
+            cursor="pointer"
+            position="absolute"
+            left={6}
+          />
+          <Text fontWeight={"extrabold"} fontSize={"sm"}>
+            Connexion
+          </Text>
+        </Flex>
+        <Flex py={8} px={8} flexDir={"column"}>
+          <Heading fontSize={"2xl"} fontWeight={"extrabold"} mb={6}>
+            Vous avez reçu un code à 4 chiffres par SMS
+          </Heading>
+          <Text fontSize={"sm"} fontWeight="medium" color="secondaryText">
+            Saisissez le code envoyé au 06 15 29 20 93 pour pouvoir créer votre
+            compte
+          </Text>
+          <Box my={8}>
+            <HStack>
+              <PinInput
+                placeholder="-"
+                otp
+                onComplete={handleLoginUser}
+                onChange={() => {
+                  setHasOtpError(false);
+                }}
+              >
+                <PinInputField
+                  {...pinProps}
+                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
+                />
+                <PinInputField
+                  {...pinProps}
+                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
+                />
+                <PinInputField
+                  {...pinProps}
+                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
+                />
+                <PinInputField
+                  {...pinProps}
+                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
+                />
+              </PinInput>
+            </HStack>
+            {hasOtpError && (
+              <Text color="error" fontSize={"sm"} mt={2}>
+                On dirait que ce code n’est pas le bon
+              </Text>
+            )}
+          </Box>
+          <Link
+            mt={6}
+            textDecor={"underline"}
+            fontWeight={"medium"}
+            color={timeToResend <= 0 ? "initial" : "gray.500"}
+            onClick={() => {
+              if (timeToResend <= 0)
+                handleGenerateOtp({ phone_number: formValues.phone_number });
+            }}
+          >
+            Me renvoyer un code par SMS{" "}
+            {timeToResend <= 0 ? "" : `(${timeToResend}s)`}
+          </Link>
+        </Flex>
+      </>
     );
   }
 
