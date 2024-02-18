@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { HiArrowRight } from "react-icons/hi2";
+import BigLoader from "~/components/BigLoader";
 import ChakraNextImage from "~/components/ChakraNextImage";
 import FormInput from "~/components/forms/FormInput";
 import { loginAnimation } from "~/utils/animations";
@@ -41,6 +42,7 @@ export default function Home() {
 
   const [isOtpGenerated, setIsOtpGenerated] = useState(false);
   const [hasOtpError, setHasOtpError] = useState(false);
+  const [forceLoader, setForceLoader] = useState(false);
 
   const {
     handleSubmit,
@@ -84,6 +86,7 @@ export default function Home() {
         if (data?.httpStatus === 401) {
           setHasOtpError(true);
         }
+        setForceLoader(false);
       },
     });
 
@@ -92,7 +95,7 @@ export default function Home() {
   };
 
   const handleLoginUser = async (otp: string) => {
-    console.log(otp);
+    setForceLoader(true);
     loginUser({
       phone_number: formValues.phone_number,
       otp,
@@ -102,6 +105,8 @@ export default function Home() {
   useEffect(() => {
     loginAnimation();
   }, []);
+
+  if (isLoadingOtp || isLoadingLogin || forceLoader) return <BigLoader />;
 
   if (isOtpGenerated) {
     return (
