@@ -217,7 +217,7 @@ export default function Home() {
 
   return (
     <Flex flexDir="column" py={8} h="full" overflow={"hidden"}>
-      <Box id="login-gov-image" opacity={0} ml={4}>
+      <Box id="login-gov-image" ml={4}>
         <ChakraNextImage
           src="/images/marianne.svg"
           alt="Logo marianne du gouvernement français"
@@ -227,7 +227,6 @@ export default function Home() {
       </Box>
       <Heading
         id="login-heading"
-        transform="translateY(35vh)"
         textAlign={"center"}
         mt={8}
         mb={12}
@@ -240,8 +239,6 @@ export default function Home() {
       </Heading>
       <Flex
         id="login-form"
-        transform="translateY(70vh)"
-        opacity={0}
         flexDir={"column"}
         borderTopWidth={1}
         borderTopColor={"cje-gray.300"}
