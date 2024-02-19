@@ -217,6 +217,10 @@ export default function OnBoarding() {
   return (
     <StepsWrapper
       stepContext={{
+        isFirstStep:
+          onBoardingSteps.findIndex(
+            (step) => step.field.name === currentOnBoardingStep.field.name
+          ) === 0,
         current:
           onBoardingSteps.findIndex(
             (step) => step.field.name === currentOnBoardingStep.field.name
