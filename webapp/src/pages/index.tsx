@@ -53,6 +53,7 @@ export default function Home() {
     handleSubmit,
     register,
     setError,
+    setValue,
     watch,
     formState: { errors },
   } = useForm<LoginForm>({
@@ -146,7 +147,10 @@ export default function Home() {
             as={HiChevronLeft}
             w={6}
             h={6}
-            onClick={() => router.back()}
+            onClick={() => {
+              setIsOtpGenerated(false);
+              setValue("phone_number", "");
+            }}
             cursor="pointer"
             position="absolute"
             left={6}
