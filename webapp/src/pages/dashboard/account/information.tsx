@@ -53,7 +53,7 @@ export default function AccountInformation() {
         </Flex>
         <Flex flexDir="column" gap={1}>
           <Text fontWeight="medium">Adresse email</Text>
-          <Text fontWeight="bold">{user.email}</Text>
+          <Text fontWeight="bold">{user.userEmail}</Text>
         </Flex>
         <Flex flexDir="column" gap={1}>
           <Text fontWeight="medium">Numéro de télephone</Text>

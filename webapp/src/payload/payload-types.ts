@@ -51,10 +51,14 @@ export interface Admin {
 export interface User {
   id: number;
   phone_number: string;
+  civility?: ('man' | 'woman') | null;
+  birthDate?: string | null;
   firstName?: string | null;
   lastName?: string | null;
   address?: string | null;
   image?: number | Media | null;
+  timeAtCEJ?: ('started' | 'lessThan3Months' | 'moreThan3Months') | null;
+  userEmail?: string | null;
   status_image?: ('pending' | 'approved' | 'rejected') | null;
   preferences?: (number | Category)[] | null;
   updatedAt: string;
