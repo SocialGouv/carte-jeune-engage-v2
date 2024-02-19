@@ -1,3 +1,49 @@
+# [0.6.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.5.2...v0.6.0) (2024-02-19)
+
+
+### Bug Fixes
+
+* add specific validation for signup form fields ([b163ecd](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/b163ecd9e7405d3a4a2be7f02634b5f579184698))
+* add timeAtCEJ value to user update ([ff820c5](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/ff820c5395ff054cdbcbd597838357faca296f12))
+* allow several french phone format ([4af0c61](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/4af0c61db6968b72f85197bff4a955636544557d))
+* animation flick home ([2dad9a3](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/2dad9a301bb2008e063dc9e9336ad38bcde7ea7f))
+* auth /me dynamic with supervisor implementation ([5a714e6](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/5a714e6955ff15cc077d3ddf9d57e3d8f3cbd2c2))
+* autocomplete ([8ff4b94](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/8ff4b945ca734b56c7589fbe6604227551f9242a))
+* back button otp ([ce0f9e8](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/ce0f9e8f761f121139e21fbc7136aa3870bb2a45))
+* change email to userEmail in account informations and generate types ([5b53540](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/5b5354018958be3c8a1f2edb2f511afdb1526a62))
+* floating label for autocomplete and disabled button if address is not in list ([f0ed57f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f0ed57f1affa6128c8848d48da4f38439a760dc6))
+* label chakra theme regression ([546a2c7](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/546a2c70c3be64b1da572b0d3bd60ed3eb819a1b))
+* match new props field on FormInput ([c9d15c2](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/c9d15c208fd9f422f1817575e9db627544160d6e))
+* missing migration file for user new properties ([3a3a49b](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/3a3a49b6eb4c3e7306aecd34031934ed5d3ad67f))
+* missing package ([5df6897](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/5df6897d87c5aa0536f656a1dc00a611bd6a0388))
+* omit credentials on fetch for refresh-token to prevent admin token to expire ([f066643](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f066643df75819d5a2c7f62ec3c1f02dbe937fce))
+* redirection in middleware for unauthenticated user for signup and onboarding and remove back btn on onboarding first step ([740d965](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/740d9650b3a729ca1cfd05e90d3f7dd1bc402826))
+* reorganize signup page and add form tag for native validation ([dc3b8ed](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/dc3b8edbc7b2243da2c6458066c3ff2678357f2f))
+* resolve conflicts ([58653a0](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/58653a0a10e339b6c751bdf4686d8b546dce87c7))
+* restore old login route ([bbbf32f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/bbbf32f4a76d10caad35355be73396025588c71e))
+* types for users ([e11994b](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/e11994b05087bfdcc79a20b7853a135f21a76e01))
+* update yarn.lock ([f6a071a](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f6a071a26d0a2eccee5388ca7a30a74a3adcf933))
+
+
+### Features
+
+* add new form autocomplete input with debounce for address field ([27649a1](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/27649a1ccced47728d1ee8954f07e4060481421c))
+* add new form component block for select choice and fix typescript types errors ([480cbbc](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/480cbbc0e9101602a2b3977edfbf7ceb627e1654))
+* add onboarding with preferences to select and finished component ([daaffe2](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/daaffe2cdccb544ba62f682d221d91873a7c6db0))
+* add redirection for signup and onboarding ([13bc4f6](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/13bc4f6262403e39d4f02f9206b87891dc372d89))
+* add secrets & selead secrets for envs ([42f26d8](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/42f26d86c3bc8b7c444284f18f630efe15e1b922))
+* add steps wrapper for signup with progress bar ([00201e2](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/00201e2424c4113b356b3756412782d00ba9d68e))
+* add supervisor auth and rename userProtectedProcedures ([6af5b8b](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/6af5b8b798fb853d33f57e9f357d5970ccbc2f43))
+* add unauthorized page ([4d5f96a](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/4d5f96a870bdd429bc7a043fb951c04035f50e29))
+* add users phones to whitelist ([f1b088a](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f1b088a5a91ede2f5501f5df3c5f20f11546b844))
+* authorize several phone number format and check authorization route ([b8ad939](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/b8ad9390e674285a1042013e08bd7f8106e074cd))
+* begin signup page with multiple steps form and re-design FormInput component ([21a5ef6](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/21a5ef682de080533a47fcc5bcd95e2b99ac63c2))
+* big loader at login ([44f7335](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/44f7335062196480356c3542314516bb1b2fae65))
+* disable resend link with timer ([62e201e](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/62e201e20a1168708c74da7c8f0dd65b178129d3))
+* home page integration ([55ecf45](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/55ecf458617fa00b3211ee4e64973884d83f8d3f))
+* logout supervisor ([840ad83](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/840ad83319854dbfe4fcd40b731754a471f810fb))
+* OTP logic ([4b9f943](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/4b9f9434b47346bbc9b69b350beba7fe81b3df44))
+
 ## [0.5.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.5.1...v0.5.2) (2024-02-12)
 
 
