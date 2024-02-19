@@ -8,9 +8,14 @@ export function middleware(request: NextRequest) {
     process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt"
   );
   let jwtRole: null | "user" | "supervisor" = null;
+  let isUserComplete = false;
 
   if (jwtCookie?.value) {
     const decoded = jwtDecode(jwtCookie.value) as { [key: string]: any };
+    isUserComplete =
+      decoded.firstName !== null &&
+      decoded.firstName !== "" &&
+      decoded.preferences.length > 0;
     const collection = (decoded as any)["collection"] as string;
     switch (collection) {
       case "users":
@@ -52,8 +57,7 @@ export function middleware(request: NextRequest) {
     !!jwtCookie &&
     jwtRole === "user" &&
     !request.nextUrl.pathname.startsWith("/dashboard") &&
-    !request.nextUrl.pathname.startsWith("/signup") &&
-    !request.nextUrl.pathname.startsWith("/onboarding")
+    isUserComplete
   ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
