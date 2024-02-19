@@ -102,6 +102,8 @@ export default function OnBoarding() {
         if (!jwtToken) return;
 
         fetch("/api/users/refresh-token", {
+          method: "POST",
+          credentials: "omit",
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
