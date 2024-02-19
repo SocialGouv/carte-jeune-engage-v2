@@ -1,3 +1,10 @@
+## [0.6.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.6.0...v0.6.1) (2024-02-19)
+
+
+### Bug Fixes
+
+* redirect user on signup and onboarding page when user is complete ([9abb287](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/9abb287a4a8ae6346aaf6177542f980fb969ae61))
+
 # [0.6.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.5.2...v0.6.0) (2024-02-19)
 
 
