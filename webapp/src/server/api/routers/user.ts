@@ -16,7 +16,6 @@ import {
 } from "~/utils/tools";
 import { generatePasswordSaltHash } from "payload/dist/auth/strategies/local/generatePasswordSaltHash";
 import twilio from "twilio";
-import { getCookie } from "cookies-next";
 
 export interface UserIncluded extends User {
   image: Media;
@@ -116,6 +115,7 @@ export const userRouter = createTRPCRouter({
       z.object({
         civility: z.string().optional(),
         birthDate: z.string().optional(),
+        timeAtCEJ: z.string().optional(),
         firstName: z.string().optional(),
         lastName: z.string().optional(),
         userEmail: z.string().email().optional(),
