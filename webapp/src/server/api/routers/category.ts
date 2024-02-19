@@ -1,7 +1,11 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import type { Category, Media } from "~/payload/payload-types";
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  userProtectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { ZGetListParams } from "~/server/types";
 
 export interface CategoryIncluded extends Category {
@@ -9,7 +13,7 @@ export interface CategoryIncluded extends Category {
 }
 
 export const categoryRouter = createTRPCRouter({
-  getList: protectedProcedure
+  getList: publicProcedure
     .input(ZGetListParams)
     .query(async ({ ctx, input }) => {
       const { perPage, page, sort } = input;
@@ -27,7 +31,7 @@ export const categoryRouter = createTRPCRouter({
       };
     }),
 
-  getBySlug: protectedProcedure
+  getBySlug: userProtectedProcedure
     .input(z.object({ slug: z.string() }))
     .query(async ({ ctx, input }) => {
       const { slug } = input;

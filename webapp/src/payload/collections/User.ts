@@ -12,28 +12,42 @@ export const Users: CollectionConfig = {
   },
   fields: [
     {
-      name: "email",
-      type: "email",
-      label: "Email",
+      name: "phone_number",
+      type: "text",
       required: true,
       unique: true,
+      label: "Numéro de téléphone",
+    },
+    {
+      name: "civility",
+      type: "select",
+      label: "Civilité",
+      options: [
+        {
+          label: "Monsieur",
+          value: "man",
+        },
+        {
+          label: "Madame",
+          value: "woman",
+        },
+      ],
+    },
+    {
+      name: "birthDate",
+      type: "date",
+      label: "Date de naissance",
     },
     {
       name: "firstName",
       type: "text",
+      saveToJWT: true,
       label: "Prénom",
-      required: true,
     },
     {
       name: "lastName",
       type: "text",
       label: "Nom",
-      required: true,
-    },
-    {
-      name: "phone_number",
-      type: "text",
-      label: "Numéro de téléphone",
     },
     {
       name: "address",
@@ -45,6 +59,30 @@ export const Users: CollectionConfig = {
       type: "upload",
       label: "Photo de profil",
       relationTo: "media",
+    },
+    {
+      name: "timeAtCEJ",
+      type: "select",
+      label: "Temps passé au CEJ",
+      options: [
+        {
+          label: "Viens de s'inscrire",
+          value: "started",
+        },
+        {
+          label: "Moins de 3 mois",
+          value: "lessThan3Months",
+        },
+        {
+          label: "Plus de 3 mois",
+          value: "moreThan3Months",
+        },
+      ],
+    },
+    {
+      name: "userEmail",
+      type: "text",
+      label: "Email de l'utilisateur",
     },
     {
       name: "status_image",
@@ -65,6 +103,14 @@ export const Users: CollectionConfig = {
           value: "rejected",
         },
       ],
+    },
+    {
+      name: "preferences",
+      saveToJWT: true,
+      type: "relationship",
+      label: "Préférences",
+      relationTo: "categories",
+      hasMany: true,
     },
   ],
 };

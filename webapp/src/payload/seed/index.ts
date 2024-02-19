@@ -28,7 +28,16 @@ export const seedData = async () => {
         email: "user@test.loc",
         firstName: "User",
         lastName: "Test",
+        phone_number: "0666666666",
         password: "user123",
+      },
+    });
+
+    await payload.create({
+      collection: "supervisors",
+      data: {
+        email: "referent@test.loc",
+        password: "referent123",
       },
     });
 
