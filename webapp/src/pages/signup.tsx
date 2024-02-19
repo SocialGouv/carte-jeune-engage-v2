@@ -21,9 +21,10 @@ import StepsWrapper from "~/components/wrappers/StepsWrapper";
 import { onBoardingSteps } from "./onboarding";
 import { api } from "~/utils/api";
 import { getCookie, setCookie } from "cookies-next";
+import { User } from "~/payload/payload-types";
 
 type SignUpForm = {
-  civility: string;
+  civility: "man" | "woman";
   firstName: string;
   lastName: string;
   birthDate: string;

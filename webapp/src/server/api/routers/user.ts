@@ -113,9 +113,11 @@ export const userRouter = createTRPCRouter({
   update: userProtectedProcedure
     .input(
       z.object({
-        civility: z.string().optional(),
+        civility: z.enum(["man", "woman"]).optional(),
         birthDate: z.string().optional(),
-        timeAtCEJ: z.string().optional(),
+        timeAtCEJ: z
+          .enum(["started", "lessThan3Months", "moreThan3Months"])
+          .optional(),
         firstName: z.string().optional(),
         lastName: z.string().optional(),
         userEmail: z.string().email().optional(),
