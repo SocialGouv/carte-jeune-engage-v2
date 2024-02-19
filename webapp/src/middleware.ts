@@ -10,11 +10,23 @@ export function middleware(request: NextRequest) {
   let jwtRole: null | "user" | "supervisor" = null;
 
   if (jwtCookie?.value) {
-    const decoded = jwtDecode(jwtCookie.value);
+    const decoded = jwtDecode(jwtCookie.value) as { [key: string]: any };
     const collection = (decoded as any)["collection"] as string;
     switch (collection) {
       case "users":
         jwtRole = "user";
+        if (
+          decoded.firstName === null &&
+          !request.nextUrl.pathname.startsWith("/signup")
+        ) {
+          return NextResponse.redirect(new URL("/signup", request.url));
+        } else if (
+          decoded.firstName !== null &&
+          decoded.preferences.length === 0 &&
+          !request.nextUrl.pathname.startsWith("/onboarding")
+        ) {
+          return NextResponse.redirect(new URL("/onboarding", request.url));
+        }
         break;
       case "supervisors":
         jwtRole = "supervisor";
@@ -33,7 +45,9 @@ export function middleware(request: NextRequest) {
   if (
     !!jwtCookie &&
     jwtRole === "user" &&
-    !request.nextUrl.pathname.startsWith("/dashboard")
+    !request.nextUrl.pathname.startsWith("/dashboard") &&
+    !request.nextUrl.pathname.startsWith("/signup") &&
+    !request.nextUrl.pathname.startsWith("/onboarding")
   ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }

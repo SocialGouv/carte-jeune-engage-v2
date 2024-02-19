@@ -18,9 +18,11 @@ import FormBlock from "~/components/forms/FormBlock";
 import StepsWrapper from "~/components/wrappers/StepsWrapper";
 import { signupSteps } from "./signup";
 import { api } from "~/utils/api";
+import { getCookie, setCookie } from "cookies-next";
+import { useAuth } from "~/providers/Auth";
 
 type OnBoardingForm = {
-  timeAtCJE: string;
+  timeAtCEJ: string;
   preferences: string[];
 };
 
@@ -35,7 +37,7 @@ export const onBoardingSteps = [
     title:
       "Depuis combien de temps êtes vous en CEJ à la Mission locale de Sarcelles ?",
     field: {
-      name: "timeAtCJE",
+      name: "timeAtCEJ",
       kind: "select",
       label: "Depuis combien de temps",
     },
@@ -55,9 +57,14 @@ export const onBoardingSteps = [
 export default function OnBoarding() {
   const router = useRouter();
 
+  const { user } = useAuth();
+
   const { onBoardingStep } = router.query as {
     onBoardingStep: keyof OnBoardingForm | undefined;
   };
+
+  const { mutateAsync: updateUser, isLoading: isLoadingUpdateUser } =
+    api.user.update.useMutation();
 
   const [finishedOnBoarding, setFinishedOnBoarding] = useState(false);
   const [currentOnBoardingStep, setCurrentOnBoardingStep] =
@@ -86,8 +93,28 @@ export default function OnBoarding() {
       (step) => step.field.name === currentOnBoardingStep.field.name
     );
     if (currentStepIndex === onBoardingSteps.length - 1) {
-      console.log("Submit", data);
-      setFinishedOnBoarding(true);
+      const tmpData: any = data;
+      tmpData.preferences = data.preferences.filter(Boolean).map(Number);
+      updateUser(tmpData).then(() => {
+        const jwtToken = getCookie(
+          process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt"
+        );
+        if (!jwtToken) return;
+
+        fetch("/api/users/refresh-token", {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }).then((req) => {
+          req.json().then((data) => {
+            setCookie(
+              process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt",
+              data.refreshedToken as string
+            );
+            setFinishedOnBoarding(true);
+          });
+        });
+      });
     } else {
       const nextStep = onBoardingSteps[currentStepIndex + 1];
       if (!nextStep) return;
@@ -161,7 +188,7 @@ export default function OnBoarding() {
           >
             <Icon as={HiCheckCircle} w={12} h={12} color="blackLight" />
             <Text fontWeight="extrabold" fontSize="2xl">
-              Tout est bon Lucas !
+              Tout est bon {user?.firstName} !
             </Text>
             <Text fontWeight="medium" color="secondaryText">
               Vous allez maintenant pouvoir accéder à toutes les réductions
@@ -218,7 +245,7 @@ export default function OnBoarding() {
                 "Saisissez la même information que sur vos documents administratifs officiels."}
             </Text>
             <Box mt={6} key={currentOnBoardingStep.field.name}>
-              {currentOnBoardingStep.field.name === "timeAtCJE" ? (
+              {currentOnBoardingStep.field.name === "timeAtCEJ" ? (
                 <Flex flexDir="column" alignItems="center" w="full" gap={6}>
                   <Controller
                     control={control}
@@ -325,6 +352,7 @@ export default function OnBoarding() {
             hidden={
               onBoardingStep === "preferences" && filteredPreferences.length < 3
             }
+            isLoading={isLoadingUpdateUser}
             type="submit"
             rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
           >
