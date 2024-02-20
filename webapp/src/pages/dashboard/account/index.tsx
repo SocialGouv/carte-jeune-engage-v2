@@ -3,7 +3,7 @@ import { deleteCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { User } from "~/payload/payload-types";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   HiBuildingLibrary,
   HiChatBubbleOvalLeftEllipsis,
@@ -22,6 +22,7 @@ import { useAuth } from "~/providers/Auth";
 import LoadingLoader from "~/components/LoadingLoader";
 import { api } from "~/utils/api";
 import { UserIncluded } from "~/server/api/routers/user";
+import NewPassComponent from "~/components/NewPassComponent";
 
 const displayDynamicCJECardMessage = (user: User) => {
   if (!user.image) {
@@ -71,6 +72,8 @@ export default function Account() {
 
   const { user } = useAuth();
 
+  const [isOpenNewPassComponent, setIsOpenNewPassComponent] = useState(false);
+
   const {
     data: resultUserSavingTotalAmount,
     isLoading: isLoadingUserSavingTotalAmount,
@@ -96,7 +99,8 @@ export default function Account() {
 
   const itemsPrimary: {
     label: string;
-    href: string;
+    href?: string;
+    onClick?: () => void;
     icon: IconType;
     slug: string;
   }[] = [
@@ -111,7 +115,8 @@ export default function Account() {
       href:
         user?.image && user?.status_image === "approved"
           ? "/dashboard/account/card"
-          : "",
+          : undefined,
+      onClick: !user?.image ? () => setIsOpenNewPassComponent(true) : undefined,
       icon: HiUserCircle,
       slug: "card",
     },
@@ -185,8 +190,9 @@ export default function Account() {
       </Box>
       <Flex flexDir="column" mt={8} mb={6} gap={4}>
         {itemsPrimary.map((item) => (
-          <Link href={item.href} key={item.icon.toString()} color="blue">
+          <Link href={item.href ?? ""} key={item.icon.toString()} color="blue">
             <Flex
+              onClick={item.onClick}
               alignItems="start"
               gap={4}
               bgColor="cje-gray.500"
@@ -240,6 +246,10 @@ export default function Account() {
         Version appli beta test V
         {process.env.NEXT_PUBLIC_CURRENT_PACKAGE_VERSION}
       </Text>
+      <NewPassComponent
+        isOpen={isOpenNewPassComponent}
+        onClose={() => setIsOpenNewPassComponent(false)}
+      />
     </Box>
   );
 }

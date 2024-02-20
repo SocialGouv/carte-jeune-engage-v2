@@ -57,16 +57,18 @@ const generateAndSendOTP = async (
   }
 
   // SEND SMS
-  const accountSid = process.env.TWILIO_ACCOUNT_SID as string;
-  const token = process.env.TWILIO_AUTH_TOKEN as string;
-  const fromNumber = process.env.TWILIO_FROM_NUMBER as string;
-  const client = twilio(accountSid, token);
+  if (process.env.NODE_ENV === "production") {
+    const accountSid = process.env.TWILIO_ACCOUNT_SID as string;
+    const token = process.env.TWILIO_AUTH_TOKEN as string;
+    const fromNumber = process.env.TWILIO_FROM_NUMBER as string;
+    const client = twilio(accountSid, token);
 
-  await client.messages.create({
-    body: `Votre code de vérification Carte Jeune Engagé est ${code}`,
-    from: fromNumber,
-    to: hasDialingCode ? phone_number : `+33${phone_number.substring(1)}`,
-  });
+    await client.messages.create({
+      body: `Votre code de vérification Carte Jeune Engagé est ${code}`,
+      from: fromNumber,
+      to: hasDialingCode ? phone_number : `+33${phone_number.substring(1)}`,
+    });
+  }
   console.log(`Code for ${phone_number} : ${code}`);
 };
 
@@ -123,6 +125,7 @@ export const userRouter = createTRPCRouter({
         userEmail: z.string().email().optional(),
         address: z.string().optional(),
         preferences: z.array(z.number()).optional(),
+        image: z.number().optional(),
       })
     )
     .mutation(async ({ ctx, input: userInput }) => {
