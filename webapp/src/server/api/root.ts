@@ -7,6 +7,7 @@ import { couponRouter } from "./routers/coupon";
 import { partnerRouter } from "./routers/partner";
 import { quickAccessRouter } from "./routers/quickAccess";
 import { savingRouter } from "./routers/saving";
+import { permissionRouter } from "./routers/permission";
 
 /**
  * This is the primary router for your server.
@@ -21,6 +22,7 @@ export const appRouter = createTRPCRouter({
   partner: partnerRouter,
   quickAccess: quickAccessRouter,
   saving: savingRouter,
+  permission: permissionRouter,
 });
 
 // export type definition of API

@@ -16,6 +16,8 @@ import { Partners } from "./collections/Partner";
 import { Offers } from "./collections/Offer";
 import { Coupons } from "./collections/Coupon";
 import { Savings } from "./collections/Saving";
+import { Supervisors } from "./collections/Supervisor";
+import { Permissions } from "./collections/Permission";
 
 const adapter = s3Adapter({
   config: {
@@ -59,6 +61,8 @@ export default buildConfig({
   collections: [
     Admins,
     Users,
+    Supervisors,
+    Permissions,
     Media,
     Categories,
     Partners,

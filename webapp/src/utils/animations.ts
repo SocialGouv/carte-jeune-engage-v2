@@ -1,83 +1,126 @@
-import gsap, { Cubic } from 'gsap';
+import gsap, { Cubic } from "gsap";
+
+export const loginAnimation = () => {
+  gsap.fromTo(
+    "#login-heading",
+    {
+      transform: "translateY(35vh)",
+    },
+    {
+      transform: "translateY(0)",
+      delay: 0.5,
+      ease: Cubic.easeIn,
+      duration: 0.75,
+    }
+  );
+
+  gsap.fromTo(
+    "#login-form",
+    {
+      transform: "translateY(70vh)",
+      opacity: 0,
+    },
+    {
+      transform: "translateY(0)",
+      opacity: 1,
+      ease: Cubic.easeIn,
+      delay: 0.5,
+      duration: 0.75,
+    }
+  );
+
+  gsap.fromTo(
+    "#login-gov-image",
+    {
+      opacity: 0,
+    },
+    {
+      opacity: 1,
+      ease: Cubic.easeIn,
+      delay: 1.2,
+      duration: 0.3,
+    }
+  );
+};
 
 export const couponAnimation = (isSuccess: boolean, couponExists: boolean) => {
   if (isSuccess) {
-    gsap.to('#coupon-code-icon', {
-      backgroundColor: '#42B918',
-      color: 'white',
-      duration: 1
+    gsap.to("#coupon-code-icon", {
+      backgroundColor: "#42B918",
+      color: "white",
+      duration: 1,
     });
 
-    gsap.to('#coupon-code-icon-lock', {
-      display: 'none',
+    gsap.to("#coupon-code-icon-lock", {
+      display: "none",
       duration: 0,
-      delay: 0.5
+      delay: 0.5,
     });
 
-    gsap.to('#coupon-code-icon-unlock', {
-      display: 'block',
+    gsap.to("#coupon-code-icon-unlock", {
+      display: "block",
       duration: 0,
-      delay: 0.5
+      delay: 0.5,
     });
   }
 
-  gsap.to('#coupon-code-icon', {
+  gsap.to("#coupon-code-icon", {
     opacity: couponExists ? 0 : 1,
     duration: isSuccess ? 0.5 : 0,
-    delay: isSuccess ? 1.25 : 0
+    delay: isSuccess ? 1.25 : 0,
   });
 
-  gsap.to('#coupon-code-text', {
-    filter: couponExists ? 'blur(0px)' : 'blur(4.5px)',
+  gsap.to("#coupon-code-text", {
+    filter: couponExists ? "blur(0px)" : "blur(4.5px)",
     duration: isSuccess ? 1 : 0,
-    delay: isSuccess ? 1.75 : 0
+    delay: isSuccess ? 1.75 : 0,
   });
 
   if (isSuccess) {
     gsap.fromTo(
-      '.coupon-info',
+      ".coupon-info",
       {
         scaleY: 0,
         opacity: 0,
-        transformOrigin: 'top'
+        transformOrigin: "top",
       },
       {
         scaleY: 1,
-        transformOrigin: 'top',
+        transformOrigin: "top",
         opacity: 1,
         ease: Cubic.easeIn,
         duration: 0.75,
-        delay: 1.5
+        delay: 1.5,
       }
     );
 
     gsap.fromTo(
-      '.btn-utils',
+      ".btn-utils",
       {
         opacity: 0,
-        translateY: -35
+        translateY: -35,
       },
       {
         opacity: 1,
         translateY: 0,
         duration: 1,
         ease: Cubic.easeIn,
-        delay: 1.5
+        delay: 1.5,
       }
     );
 
     gsap.fromTo(
-      '.btn-conditions',
+      ".btn-conditions",
       {
         translateY: -35,
-        delay: 1
+        delay: 1,
       },
       {
         opacity: 1,
         duration: 1,
         translateY: 0,
         ease: Cubic.easeIn,
-        delay: 1.5
+        delay: 1.5,
       }
     );
   }
