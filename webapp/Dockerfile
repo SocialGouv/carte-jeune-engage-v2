@@ -9,7 +9,9 @@ COPY .yarn .yarn
 RUN yarn fetch
 
 COPY . .
-RUN yarn build
+RUN --mount=type=secret,id=sentry_auth_token export SENTRY_AUTH_TOKEN="$(cat /run/secrets/sentry_auth_token)"; \
+  yarn build
+
 
 # prepare runtime dependencies
 RUN yarn workspaces focus --production
