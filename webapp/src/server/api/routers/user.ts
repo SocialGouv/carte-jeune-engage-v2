@@ -1,13 +1,81 @@
 import { TRPCError } from "@trpc/server";
+import { Payload } from "payload";
 import APIError from "payload/dist/errors/APIError";
+import { use } from "react";
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { Media, User } from "~/payload/payload-types";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  userProtectedProcedure,
+} from "~/server/api/trpc";
+import {
+  generateRandomCode,
+  generateRandomPassword,
+  payloadOrPhoneNumberCheck,
+} from "~/utils/tools";
+import { generatePasswordSaltHash } from "payload/dist/auth/strategies/local/generatePasswordSaltHash";
+import twilio from "twilio";
+
+export interface UserIncluded extends User {
+  image: Media;
+}
+
+const generateAndSendOTP = async (
+  payload: Payload,
+  phone_number: string,
+  firstLogin: boolean
+) => {
+  const code = generateRandomCode();
+
+  const hasDialingCode = phone_number.startsWith("+");
+  const email = `${
+    hasDialingCode ? `0${phone_number.substring(3)}` : phone_number
+  }@cje.loc`;
+
+  if (firstLogin) {
+    await payload.create({
+      collection: "users",
+      data: {
+        email: email,
+        password: code,
+        phone_number: phone_number,
+      },
+    });
+  } else {
+    const { hash, salt } = await generatePasswordSaltHash({ password: code });
+    await payload.update({
+      collection: "users",
+      where: {
+        email: { equals: email },
+      },
+      data: {
+        hash,
+        salt,
+      },
+    });
+  }
+
+  // SEND SMS
+  const accountSid = process.env.TWILIO_ACCOUNT_SID as string;
+  const token = process.env.TWILIO_AUTH_TOKEN as string;
+  const fromNumber = process.env.TWILIO_FROM_NUMBER as string;
+  const client = twilio(accountSid, token);
+
+  await client.messages.create({
+    body: `Votre code de vérification Carte Jeune Engagé est ${code}`,
+    from: fromNumber,
+    to: hasDialingCode ? phone_number : `+33${phone_number.substring(1)}`,
+  });
+  console.log(`Code for ${phone_number} : ${code}`);
+};
 
 export const userRouter = createTRPCRouter({
   register: publicProcedure
     .input(
       z.object({
         email: z.string().email(),
+        phone_number: z.string(),
         firstName: z.string(),
         lastName: z.string(),
         password: z.string(),
@@ -42,7 +110,40 @@ export const userRouter = createTRPCRouter({
       }
     }),
 
-  login: publicProcedure
+  update: userProtectedProcedure
+    .input(
+      z.object({
+        civility: z.enum(["man", "woman"]).optional(),
+        birthDate: z.string().optional(),
+        timeAtCEJ: z
+          .enum(["started", "lessThan3Months", "moreThan3Months"])
+          .optional(),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+        userEmail: z.string().email().optional(),
+        address: z.string().optional(),
+        preferences: z.array(z.number()).optional(),
+      })
+    )
+    .mutation(async ({ ctx, input: userInput }) => {
+      try {
+        const user = await ctx.payload.update({
+          collection: "users",
+          id: ctx.session?.id,
+          data: userInput,
+        });
+
+        return { data: user };
+      } catch (error) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Unknown error",
+          cause: error,
+        });
+      }
+    }),
+
+  oldLoginUser: publicProcedure
     .input(
       z.object({
         email: z.string().email(),
@@ -50,26 +151,160 @@ export const userRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input: userInput }) => {
-      const user = await ctx.payload.login({
-        collection: "users",
-        data: userInput,
-      });
+      try {
+        const user = await ctx.payload.login({
+          collection: "users",
+          data: userInput,
+        });
 
-      return { data: user };
+        return { data: user };
+      } catch (error) {
+        if (error && typeof error === "object" && "status" in error) {
+          if (error.status === 401) {
+            throw new TRPCError({
+              code: "UNAUTHORIZED",
+              message: "Invalid email or password",
+              cause: error,
+            });
+          }
+        }
+
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Unknown error",
+          cause: error,
+        });
+      }
     }),
 
-  logout: publicProcedure.mutation(async ({ ctx }) => {
-    await fetch("/api/users/logout");
+  loginUser: publicProcedure
+    .input(
+      z.object({
+        phone_number: z.string(),
+        otp: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input: userInput }) => {
+      const { phone_number, otp } = userInput;
+      const hasDialingCode = phone_number.startsWith("+");
 
-    return { data: true };
-  }),
+      try {
+        const session = await ctx.payload.login({
+          collection: "users",
+          data: {
+            email: `${
+              hasDialingCode ? `0${phone_number.substring(3)}` : phone_number
+            }@cje.loc`,
+            password: otp,
+          },
+        });
 
-  getList: publicProcedure.query(async ({ ctx }) => {
-    const users = await ctx.payload.find({
-      collection: "users",
-      limit: 100,
-    });
+        const { hash, salt } = await generatePasswordSaltHash({
+          password: generateRandomPassword(16),
+        });
+        await ctx.payload.update({
+          collection: "users",
+          id: session.user.id,
+          data: {
+            hash,
+            salt,
+          },
+        });
 
-    return { data: users.docs };
-  }),
+        return { data: session };
+      } catch (error) {
+        if (error && typeof error === "object" && "status" in error) {
+          if (error.status === 401) {
+            throw new TRPCError({
+              code: "UNAUTHORIZED",
+              message: "Invalid email or password",
+              cause: error,
+            });
+          }
+        }
+
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Unknown error",
+          cause: error,
+        });
+      }
+    }),
+
+  generateOTP: publicProcedure
+    .input(
+      z.object({
+        phone_number: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input: userInput }) => {
+      const { phone_number } = userInput;
+
+      const users = await ctx.payload.find({
+        collection: "users",
+        limit: 1,
+        page: 1,
+        where: {
+          ...payloadOrPhoneNumberCheck(phone_number),
+        },
+      });
+
+      if (!users.docs.length) {
+        const permissions = await ctx.payload.find({
+          collection: "permissions",
+          limit: 1,
+          page: 1,
+          where: {
+            ...payloadOrPhoneNumberCheck(phone_number),
+          },
+        });
+
+        if (!permissions.docs.length) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Phone number does not exists on the database",
+          });
+        } else {
+          await generateAndSendOTP(ctx.payload, phone_number, true);
+          return { data: "ok" };
+        }
+      } else {
+        await generateAndSendOTP(ctx.payload, phone_number, false);
+        return { data: "ok" };
+      }
+    }),
+
+  loginSupervisor: publicProcedure
+    .input(
+      z.object({
+        email: z.string().email(),
+        password: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input: userInput }) => {
+      try {
+        const user = await ctx.payload.login({
+          collection: "supervisors",
+          data: userInput,
+        });
+
+        return { data: user };
+      } catch (error) {
+        if (error && typeof error === "object" && "status" in error) {
+          if (error.status === 401) {
+            throw new TRPCError({
+              code: "UNAUTHORIZED",
+              message: "Invalid email or password",
+              cause: error,
+            });
+          }
+        }
+
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Unknown error",
+          cause: error,
+        });
+      }
+    }),
 });

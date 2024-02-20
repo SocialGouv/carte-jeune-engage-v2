@@ -1,108 +1,294 @@
 import {
-  AspectRatio,
   Box,
   Button,
+  Divider,
   Flex,
+  FormErrorMessage,
+  HStack,
   Heading,
   Icon,
-  Image,
+  Link,
+  PinInput,
+  PinInputField,
   Text,
 } from "@chakra-ui/react";
+import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
+import { useEffect, useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { HiArrowRight, HiChevronLeft } from "react-icons/hi2";
+import BigLoader from "~/components/BigLoader";
+import ChakraNextImage from "~/components/ChakraNextImage";
+import FormInput from "~/components/forms/FormInput";
+import { loginAnimation } from "~/utils/animations";
+import { api } from "~/utils/api";
+import { frenchPhoneNumber } from "~/utils/tools";
+
+type LoginForm = {
+  phone_number: string;
+};
+
+const pinProps = {
+  w: 12,
+  h: 12,
+  borderColor: "transparent",
+  _hover: { borderColor: "transparent" },
+  _focus: { borderColor: "blackLight", borderWidth: "2px" },
+  _focusVisible: { boxShadow: "none" },
+};
+
+const defaultTimeToResend = 30;
 
 export default function Home() {
   const router = useRouter();
 
-  const onBoardingItems = [
-    {
-      title: "Des réductions pour vous accompagner au quotidien",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-      image: "/images/onboarding/discount.svg",
-    },
-    {
-      title: "Générer facilement la promo associé à l’offre",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-      image: "/images/onboarding/box.svg",
-    },
-    {
-      title:
-        "Utilisez la promo en ligne ou directement chez l’enseigne partenaire",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-      image: "/images/onboarding/computer.svg",
-    },
-  ];
+  const [isOtpGenerated, setIsOtpGenerated] = useState(false);
+  const [hasOtpError, setHasOtpError] = useState(false);
+  const [forceLoader, setForceLoader] = useState(false);
 
-  const [onBoardingItemIndex, setOnBoardingItemIndex] = useState(0);
+  const [timeToResend, setTimeToResend] = useState(defaultTimeToResend);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+
+  const {
+    handleSubmit,
+    register,
+    setError,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<LoginForm>({
+    mode: "onSubmit",
+  });
+
+  const formValues = watch();
+
+  const resetTimer = () => {
+    if (intervalId) clearInterval(intervalId);
+    setTimeToResend(defaultTimeToResend);
+    const id = setInterval(() => {
+      setTimeToResend((prevTime) => prevTime - 1);
+    }, 1000);
+    setIntervalId(id);
+  };
+
+  const { mutate: generateOtp, isLoading: isLoadingOtp } =
+    api.user.generateOTP.useMutation({
+      onSuccess: async ({ data }) => {
+        setIsOtpGenerated(true);
+        resetTimer();
+      },
+      onError: async ({ data }) => {
+        if (data?.httpStatus === 401) {
+          setError("phone_number", {
+            type: "conflict",
+            message:
+              "Votre numéro de téléphone n'est pas autorisé à accéder à l'application",
+          });
+        }
+      },
+    });
+
+  const { mutate: loginUser, isLoading: isLoadingLogin } =
+    api.user.loginUser.useMutation({
+      onSuccess: async ({ data }) => {
+        setCookie(
+          process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt",
+          data.token || ""
+        );
+        router.reload();
+        router.push("/dashboard");
+      },
+      onError: async ({ data }) => {
+        if (data?.httpStatus === 401) {
+          setHasOtpError(true);
+        }
+        setForceLoader(false);
+      },
+    });
+
+  const handleGenerateOtp: SubmitHandler<LoginForm> = async (values) => {
+    generateOtp({ phone_number: values.phone_number });
+  };
+
+  const handleLoginUser = async (otp: string) => {
+    setForceLoader(true);
+    loginUser({
+      phone_number: formValues.phone_number,
+      otp,
+    });
+  };
+
+  useEffect(() => {
+    loginAnimation();
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTimeToResend((prevTime) => prevTime - 1);
+    }, 1000);
+
+    setIntervalId(id);
+
+    return () => clearInterval(id);
+  }, []);
+
+  if (isLoadingOtp || isLoadingLogin || forceLoader) return <BigLoader />;
+
+  if (isOtpGenerated) {
+    return (
+      <>
+        <Flex
+          position="relative"
+          alignItems="center"
+          justifyContent="center"
+          pt={8}
+        >
+          <Icon
+            as={HiChevronLeft}
+            w={6}
+            h={6}
+            onClick={() => {
+              setIsOtpGenerated(false);
+              setValue("phone_number", "");
+            }}
+            cursor="pointer"
+            position="absolute"
+            left={6}
+          />
+          <Text fontWeight={"extrabold"} fontSize={"sm"}>
+            Connexion
+          </Text>
+        </Flex>
+        <Flex py={8} px={8} flexDir={"column"}>
+          <Heading fontSize={"2xl"} fontWeight={"extrabold"} mb={6}>
+            Vous avez reçu un code à 4 chiffres par SMS
+          </Heading>
+          <Text fontSize={"sm"} fontWeight="medium" color="secondaryText">
+            Saisissez le code envoyé au 06 15 29 20 93 pour pouvoir créer votre
+            compte
+          </Text>
+          <Box my={8}>
+            <HStack>
+              <PinInput
+                placeholder="-"
+                otp
+                onComplete={handleLoginUser}
+                onChange={() => {
+                  setHasOtpError(false);
+                }}
+              >
+                <PinInputField
+                  {...pinProps}
+                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
+                />
+                <PinInputField
+                  {...pinProps}
+                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
+                />
+                <PinInputField
+                  {...pinProps}
+                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
+                />
+                <PinInputField
+                  {...pinProps}
+                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
+                />
+              </PinInput>
+            </HStack>
+            {hasOtpError && (
+              <Text color="error" fontSize={"sm"} mt={2}>
+                On dirait que ce code n’est pas le bon
+              </Text>
+            )}
+          </Box>
+          <Link
+            mt={6}
+            textDecor={"underline"}
+            fontWeight={"medium"}
+            color={timeToResend <= 0 ? "initial" : "gray.500"}
+            onClick={() => {
+              if (timeToResend <= 0)
+                handleGenerateOtp({ phone_number: formValues.phone_number });
+            }}
+          >
+            Me renvoyer un code par SMS{" "}
+            {timeToResend <= 0 ? "" : `(${timeToResend}s)`}
+          </Link>
+        </Flex>
+      </>
+    );
+  }
 
   return (
-    <Flex flexDir="column" h="full" justifyContent="space-between">
-      <Image
-        src={onBoardingItems[onBoardingItemIndex]?.image}
-        alt={onBoardingItems[onBoardingItemIndex]?.title}
-        w="full"
-        my="auto"
-        h="350px"
-        objectPosition="bottom"
-        objectFit="cover"
-      />
-      <Box w="full" px={6} mb={6}>
-        <Flex
-          px={6}
-          py={8}
-          flexDir="column"
-          h="45vh"
-          borderRadius="3xl"
-          textAlign="center"
-          background="linear-gradient(217deg, rgba(252, 252, 253, 0.50) -0.01%, rgba(252, 252, 253, 0.30) 100%)"
-        >
-          <Heading as="h2" fontSize="xl" fontWeight="semibold">
-            {onBoardingItems[onBoardingItemIndex]?.title}
-          </Heading>
-          <Text my={4} fontSize="sm">
-            {onBoardingItems[onBoardingItemIndex]?.description}
-          </Text>
-          <Flex flexDir="column" mt="auto" mx="auto">
-            <Flex
-              bgColor="white"
-              mt={5}
-              p={4}
-              gap={6}
-              shadow="sm"
-              borderRadius="6.25rem"
-            >
-              <Icon
-                as={HiOutlineArrowLeft}
-                w="24px"
-                h="24px"
-                onClick={() => {
-                  if (onBoardingItemIndex !== 0)
-                    setOnBoardingItemIndex((prev) => prev - 1);
-                }}
-                color={onBoardingItemIndex === 0 ? "gray.300" : "primary.500"}
-              />
-              <Box h="24px" w="0.5px" bgColor="gray.200" />
-              <Icon
-                as={HiOutlineArrowRight}
-                w="24px"
-                h="24px"
-                onClick={() => {
-                  if (onBoardingItemIndex !== onBoardingItems.length - 1) {
-                    setOnBoardingItemIndex((prev) => prev + 1);
-                  } else {
-                    router.push("/login");
-                  }
-                }}
-                color="primary.500"
-              />
-            </Flex>
-          </Flex>
-        </Flex>
+    <Flex flexDir="column" py={8} h="full" overflow={"hidden"}>
+      <Box id="login-gov-image" ml={4}>
+        <ChakraNextImage
+          src="/images/marianne.svg"
+          alt="Logo marianne du gouvernement français"
+          width={74}
+          height={49}
+        />
       </Box>
+      <Heading
+        id="login-heading"
+        textAlign={"center"}
+        mt={8}
+        mb={12}
+        fontSize={"xl"}
+        fontWeight={"extrabold"}
+      >
+        Ma carte
+        <br />
+        jeune engagé
+      </Heading>
+      <Flex
+        id="login-form"
+        flexDir={"column"}
+        borderTopWidth={1}
+        borderTopColor={"cje-gray.300"}
+        borderTopRadius={"3xl"}
+        px={8}
+        py={12}
+      >
+        <Heading fontSize={"2xl"} fontWeight={"extrabold"} mb={6}>
+          Connectez-vous avec votre n° de téléphone
+        </Heading>
+        <form onSubmit={handleSubmit(handleGenerateOtp)}>
+          <FormInput
+            field={{
+              name: "phone_number",
+              kind: "tel",
+              placeholder: "Votre numéro de téléphone",
+              prefix: "🇫🇷",
+              rules: {
+                required: "Ce champ est obligatoire",
+                pattern: {
+                  value: frenchPhoneNumber,
+                  message:
+                    "On dirait que ce numéro de téléphone n’est pas valide. Vérifiez votre numéro",
+                },
+              },
+            }}
+            fieldError={errors.phone_number}
+            register={register}
+          />
+          <Button
+            mt={4}
+            colorScheme="blackBtn"
+            type={"submit"}
+            float="right"
+            w="full"
+            isLoading={isLoadingOtp}
+            rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
+          >
+            Accéder aux réductions
+          </Button>
+        </form>
+        <Divider my={6} />
+        <Link textAlign="center" textDecor={"underline"}>
+          J'ai changé de numéro de téléphone
+        </Link>
+      </Flex>
     </Flex>
   );
 }

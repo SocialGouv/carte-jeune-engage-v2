@@ -6,18 +6,19 @@ import { OnlineIcon } from "~/components/icons/online";
 export const OfferKindBadge = ({
   kind,
   variant,
+  chakraProps,
 }: {
   kind: Offer["kind"];
   variant: "light" | "dark";
+  chakraProps?: Record<string, unknown>;
 }) => {
   return (
     <Flex
-      py={1}
-      px={3}
       borderRadius="full"
       gap={2}
       alignItems="center"
       bgColor={variant === "light" ? "white" : "black"}
+      {...chakraProps}
     >
       {kind === "voucher" ? (
         <Icon

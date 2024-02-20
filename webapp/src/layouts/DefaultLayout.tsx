@@ -1,18 +1,44 @@
 import { Box, Container } from "@chakra-ui/react";
 import Head from "next/head";
 import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
-import InstallationBanner from "~/components/InstallationBanner";
+import { ReactNode, useEffect } from "react";
 import BottomNavigation from "~/components/BottomNavigation";
+import { BeforeInstallPromptEvent, useAuth } from "~/providers/Auth";
 
-export default function DefaultLayout({
-  children,
-  classname,
-}: {
-  children: ReactNode;
-  classname?: string;
-}) {
+export default function DefaultLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+
+  const { setDeferredEvent, setShowing, user } = useAuth();
+
+  const handleBeforeInstallPrompt = (event: Event) => {
+    // Prevent the default behavior to keep the event available for later use
+    event.preventDefault();
+
+    // // Save the event for later use
+    setDeferredEvent(event as BeforeInstallPromptEvent);
+
+    setShowing(true);
+  };
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      "serviceWorker" in navigator &&
+      (window as any)?.workbox !== undefined
+    ) {
+      // const wb = (window as any)?.workbox;
+      // add event listeners to handle PWA lifecycle events
+      // console.log("PWA is supported");
+      window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    }
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
+  }, [user]);
 
   return (
     <>
@@ -22,49 +48,27 @@ export default function DefaultLayout({
         <meta name="description" content="Carte Jeune Engagé" />
         <link rel="shortcut icon" href="/pwa/appIcon/maskable_icon_x48.png" />
         <link rel="manifest" href="/pwa/manifest.json" />
+        <meta name="theme-color" content="#F7F7F7" />
         /* iOS */
-        <meta name="apple-mobile-web-app-status-bar-style" content="#F7F7FA" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="#F7F7F7" />
         <link
           rel="apple-touch-icon"
           href="/pwa/appIcon/maskable_icon_x192.png"
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </Head>
-      <Box
-        as="main"
-        role="main"
-        className={classname}
-        background={
-          !pathname.startsWith("/dashboard")
-            ? "linear-gradient(192deg, rgba(226, 227, 255, 0.50) 50.5%, rgba(234, 222, 255, 0.50) 100%), #FFF;"
-            : "transparent"
-        }
-        bgColor={!pathname.startsWith("/dashboard") ? "transparent" : "bgWhite"}
-      >
-        <Box
-          style={
-            !pathname.startsWith("/dashboard")
-              ? {
-                  backgroundImage: "url('/images/onboarding/background.svg')",
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  height: "100%",
-                }
-              : { height: "100%" }
-          }
+      <Box as="main" role="main">
+        <Container
+          maxWidth={{ base: "container.sm", lg: "container.sm" }}
+          px={0}
+          h="full"
         >
-          <Container
-            maxWidth={{ base: "container.sm", lg: "container.sm" }}
-            px={0}
-            h="full"
-          >
-            {children}
-          </Container>
-          {(pathname === "/dashboard" ||
-            pathname === "/dashboard/offers" ||
-            pathname === "/dashboard/account") && <BottomNavigation />}
-          <InstallationBanner />
-        </Box>
+          {children}
+        </Container>
+        {(pathname === "/dashboard" ||
+          pathname === "/dashboard/wallet" ||
+          pathname === "/dashboard/categories" ||
+          pathname === "/dashboard/account") && <BottomNavigation />}
       </Box>
     </>
   );

@@ -7,13 +7,6 @@ app:
   env:
     - name: DATABASE_URL
       value: "$(DATABASE_URL)"
-  envFrom:
-    - secretRef:
-        name: pg-app
-    - secretRef:
-        name: app-sealed-secret
-    - configMapRef:
-        name: app-configmap
 
 pg:
   ~chart: pg

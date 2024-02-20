@@ -1,0 +1,24 @@
+app:
+  envFrom:
+    - secretRef:
+        name: pg-app
+    - secretRef:
+        name: app-sealed-secret
+    - configMapRef:
+        name: app-configmap
+    - secretRef:
+        name: carte-jeune-engage-dev-app-access-key
+
+maildev: {}
+
+jobs:
+  runs:
+    seed:
+      ~needs: [build-app, pg]
+      checkout: false
+      shell: sh
+      image: "{{ .Values.global.registry }}{{ if .Values.global.imageProject }}{{ print `/` .Values.global.imageProject }}{{ end }}/{{ .Values.global.imageRepository }}/app:{{ .Values.global.imageTag }}"
+      run: "yarn payload migrate && yarn seed:prod"
+      envFrom:
+        - secretRef:
+            name: pg-app

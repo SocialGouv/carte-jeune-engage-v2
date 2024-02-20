@@ -7,12 +7,19 @@
  * need to use are documented accordingly near the end.
  */
 
-import { initTRPC } from "@trpc/server";
+import { TRPCError, initTRPC } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 import getPayloadClient from "~/payload/payloadClient";
-import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
+import { jwtDecode } from "jwt-decode";
+
+type PayloadJwtSession = {
+	id: number;
+	email: string;
+	iat: string;
+	exp: string;
+} | null;
 
 /**
  * 1. CONTEXT
@@ -45,13 +52,26 @@ type CreateContextOptions = Record<string, never>;
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
-  const payload = await getPayloadClient({
-    seed: false,
-  });
+	const payload = await getPayloadClient({
+		seed: false,
+	});
 
-  return {
-    payload,
-  };
+	const jwtCookie =
+		_opts.req.cookies[process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt"];
+
+	if (!jwtCookie) {
+		return {
+			payload,
+			session: null,
+		};
+	}
+
+	const session = jwtDecode<PayloadJwtSession>(jwtCookie);
+
+	return {
+		payload,
+		session,
+	};
 };
 
 /**
@@ -63,17 +83,65 @@ export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
  */
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
-  transformer: superjson,
-  errorFormatter({ shape, error }) {
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
-      },
-    };
-  },
+	transformer: superjson,
+	errorFormatter({ shape, error }) {
+		return {
+			...shape,
+			data: {
+				...shape.data,
+				zodError:
+					error.cause instanceof ZodError ? error.cause.flatten() : null,
+			},
+		};
+	},
+});
+
+const isAuthedAsSupervisor = t.middleware(async ({ next, ctx }) => {
+	const user = await ctx.payload.find({
+		collection: "users",
+		where: {
+			email: {
+				equals: ctx.session?.email,
+			},
+		},
+	});
+
+	if (ctx.session?.email === undefined || !user) {
+		throw new TRPCError({
+			code: "UNAUTHORIZED",
+			message: "You are not authorized to perform this action",
+		});
+	}
+
+	return next({
+		ctx: {
+			session: ctx.session,
+		},
+	});
+});
+
+const isAuthedAsUser = t.middleware(async ({ next, ctx }) => {
+	const user = await ctx.payload.find({
+		collection: "users",
+		where: {
+			email: {
+				equals: ctx.session?.email,
+			},
+		},
+	});
+
+	if (ctx.session?.email === undefined || !user) {
+		throw new TRPCError({
+			code: "UNAUTHORIZED",
+			message: "You are not authorized to perform this action",
+		});
+	}
+
+	return next({
+		ctx: {
+			session: ctx.session,
+		},
+	});
 });
 
 /**
@@ -98,3 +166,6 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+export const userProtectedProcedure = t.procedure.use(isAuthedAsUser);
+export const supervisorProtectedProcedure = t.procedure.use(isAuthedAsSupervisor);

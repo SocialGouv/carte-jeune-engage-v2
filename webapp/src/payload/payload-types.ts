@@ -10,15 +10,25 @@ export interface Config {
   collections: {
     admins: Admin;
     users: User;
+    supervisors: Supervisor;
+    permissions: Permission;
     media: Media;
     categories: Category;
     partners: Partner;
     offers: Offer;
+    coupons: Coupon;
+    savings: Saving;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  globals: {};
+  globals: {
+    quickAccess: QuickAccess;
+  };
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "admins".
+ */
 export interface Admin {
   id: number;
   firstName: string;
@@ -34,10 +44,23 @@ export interface Admin {
   lockUntil?: string | null;
   password: string | null;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
 export interface User {
   id: number;
-  firstName: string;
-  lastName: string;
+  phone_number: string;
+  civility?: ('man' | 'woman') | null;
+  birthDate?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  address?: string | null;
+  image?: number | Media | null;
+  timeAtCEJ?: ('started' | 'lessThan3Months' | 'moreThan3Months') | null;
+  userEmail?: string | null;
+  status_image?: ('pending' | 'approved' | 'rejected') | null;
+  preferences?: (number | Category)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -49,6 +72,10 @@ export interface User {
   lockUntil?: string | null;
   password: string | null;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
 export interface Media {
   id: number;
   alt?: string | null;
@@ -60,59 +87,104 @@ export interface Media {
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    card?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    tablet?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
 export interface Category {
   id: number;
   slug: string;
   label: string;
   icon: number | Media;
-  color: string;
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supervisors".
+ */
+export interface Supervisor {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "permissions".
+ */
+export interface Permission {
+  id: number;
+  phone_number?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners".
+ */
 export interface Partner {
   id: number;
   name: string;
   description: string;
+  url: string;
+  color: string;
   icon: number | Media;
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "offers".
+ */
 export interface Offer {
   id: number;
   title: string;
   partner: number | Partner;
   category: number | Category;
+  validityTo: string;
   kind: 'voucher' | 'code';
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "coupons".
+ */
+export interface Coupon {
+  id: number;
+  code: string;
+  used?: boolean | null;
+  usedAt?: string | null;
+  user?: (number | null) | User;
+  assignUserAt?: string | null;
+  offer: number | Offer;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "savings".
+ */
+export interface Saving {
+  id: number;
+  amount: number;
+  coupon: number | Coupon;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences".
+ */
 export interface PayloadPreference {
   id: number;
   user:
@@ -123,6 +195,10 @@ export interface PayloadPreference {
     | {
         relationTo: 'users';
         value: number | User;
+      }
+    | {
+        relationTo: 'supervisors';
+        value: number | Supervisor;
       };
   key?: string | null;
   value?:
@@ -137,12 +213,30 @@ export interface PayloadPreference {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations".
+ */
 export interface PayloadMigration {
   id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quickAccess".
+ */
+export interface QuickAccess {
+  id: number;
+  items: {
+    partner: number | Partner;
+    offer?: (number | null) | Offer;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 
 

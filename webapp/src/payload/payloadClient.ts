@@ -1,7 +1,5 @@
 import { Payload, getPayload } from "payload/dist/payload";
 import config from "./payload.config";
-import { env } from "~/env";
-
 /**
  * Global is used here to maintain a cached connection across hot reloads
  * in development. This prevents connections growing exponentially
@@ -33,6 +31,14 @@ export const getPayloadClient = async (args: Args): Promise<Payload> => {
       secret: process.env.PAYLOAD_SECRET as string,
       config: config,
       local: args?.seed ?? false,
+      email: {
+        transportOptions: {
+          host: process.env.SMTP_HOST,
+          port: parseInt(process.env.SMTP_PORT as string),
+        },
+        fromName: process.env.SMTP_FROM_NAME as string,
+        fromAddress: process.env.SMTP_FROM_ADDRESS as string,
+      },
     });
   }
 

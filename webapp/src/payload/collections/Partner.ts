@@ -6,6 +6,9 @@ export const Partners: CollectionConfig = {
     singular: "Partenaire",
     plural: "Partenaires",
   },
+  admin: {
+    useAsTitle: "name",
+  },
   fields: [
     {
       name: "name",
@@ -18,6 +21,18 @@ export const Partners: CollectionConfig = {
       name: "description",
       type: "textarea",
       label: "Description",
+      required: true,
+    },
+    {
+      name: "url",
+      type: "text",
+      label: "URL",
+      required: true,
+    },
+    {
+      name: "color",
+      type: "text",
+      label: "Couleur",
       required: true,
     },
     {
