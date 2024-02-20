@@ -1,3 +1,10 @@
+## [0.6.4](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.6.3...v0.6.4) (2024-02-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency framer-motion to v11 ([4806f7a](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/4806f7ae82d6a224da7555bdd478068c95ba4493))
+
 ## [0.6.3](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.6.2...v0.6.3) (2024-02-20)
 
 
