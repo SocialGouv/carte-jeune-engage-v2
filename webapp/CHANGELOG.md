@@ -1,3 +1,10 @@
+## [0.6.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.6.1...v0.6.2) (2024-02-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency next to v13.5.6 ([723b717](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/723b717ec1288444c05a56d14631a6b10977ab5a))
+
 ## [0.6.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.6.0...v0.6.1) (2024-02-19)
 
 
