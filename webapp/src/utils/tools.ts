@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { Where } from 'payload/types';
 
 export const convertFrenchDateToEnglish = (
 	frenchDate: string
@@ -23,13 +24,42 @@ export const convertFrenchDateToEnglish = (
 
 export const frenchPhoneNumber = /^(?:\+33[1-9](\d{8})|(?!.*\+\d{2}).{10})$/;
 
-export const payloadOrPhoneNumberCheck = (phone_number: string) => {
+export const payloadOrPhoneNumberCheck = (phone_number: string): Where => {
 	const hasDialingCode = phone_number.startsWith('+')
 
 	return {
 		or: [
 			{ phone_number: { equals: hasDialingCode ? phone_number : `+33${phone_number.substring(1)}` } },
 			{ phone_number: { equals: hasDialingCode ? `0${phone_number.substring(3)}` : phone_number } },
+		]
+	}
+}
+
+export const payloadWhereOfferIsValid = (prefix?: string): Where => {
+	const nowDate = new Date().toISOString().split("T")[0] as string
+	let finalPrefix = prefix ? `${prefix}.` : ''
+
+	return {
+		and: [
+			{
+				[`${finalPrefix}validityTo`]: {
+					greater_than_equal: nowDate,
+				},
+			},
+			{
+				or: [
+					{
+						[`${finalPrefix}validityFrom`]: {
+							exists: false
+						}
+					},
+					{
+						[`${finalPrefix}validityFrom`]: {
+							less_than_equal: nowDate
+						}
+					}
+				]
+			}
 		]
 	}
 }

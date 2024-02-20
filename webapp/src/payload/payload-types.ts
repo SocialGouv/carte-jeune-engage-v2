@@ -150,6 +150,7 @@ export interface Offer {
   title: string;
   partner: number | Partner;
   category: number | Category;
+  validityFrom?: string | null;
   validityTo: string;
   kind: 'voucher' | 'code';
   updatedAt: string;
