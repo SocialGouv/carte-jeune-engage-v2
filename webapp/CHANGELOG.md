@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.7.0...v0.8.0) (2024-02-21)
+
+
+### Features
+
+* replace twilio OTP by Octopush service ([06be12d](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/06be12d58e3ebcfb27fc7fb0806ac0940d0b4e71))
+
 # [0.7.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.6.4...v0.7.0) (2024-02-21)
 
 
