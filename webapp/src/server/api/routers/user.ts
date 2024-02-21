@@ -1,310 +1,378 @@
 import { TRPCError } from "@trpc/server";
 import { Payload } from "payload";
+import { generatePasswordSaltHash } from "payload/dist/auth/strategies/local/generatePasswordSaltHash";
 import APIError from "payload/dist/errors/APIError";
-import { use } from "react";
 import { z } from "zod";
 import { Media, User } from "~/payload/payload-types";
 import {
-  createTRPCRouter,
-  publicProcedure,
-  userProtectedProcedure,
+	createTRPCRouter,
+	publicProcedure,
+	userProtectedProcedure,
 } from "~/server/api/trpc";
 import {
-  generateRandomCode,
-  generateRandomPassword,
-  payloadOrPhoneNumberCheck,
+	generateRandomPassword,
+	payloadOrPhoneNumberCheck
 } from "~/utils/tools";
-import { generatePasswordSaltHash } from "payload/dist/auth/strategies/local/generatePasswordSaltHash";
-import twilio from "twilio";
 
 export interface UserIncluded extends User {
-  image: Media;
+	image: Media;
+}
+
+const changeUserPassword = async (payload: Payload, id: number, password: string, removeOtpRequestToken?: boolean) => {
+	const { hash, salt } = await generatePasswordSaltHash({
+		password
+	});
+
+	let updateData: { hash: string; salt: string; otp_request_token?: null } = {
+		hash,
+		salt,
+	}
+
+	if (removeOtpRequestToken) updateData.otp_request_token = null
+
+	await payload.update({
+		collection: "users",
+		id,
+		data: updateData,
+	});
 }
 
 const generateAndSendOTP = async (
-  payload: Payload,
-  phone_number: string,
-  firstLogin: boolean
+	payload: Payload,
+	phone_number: string,
+	firstLogin: boolean
 ) => {
-  const code = generateRandomCode();
+	const hasDialingCode = phone_number.startsWith("+");
+	const email = `${hasDialingCode ? `0${phone_number.substring(3)}` : phone_number
+		}@cje.loc`;
 
-  const hasDialingCode = phone_number.startsWith("+");
-  const email = `${
-    hasDialingCode ? `0${phone_number.substring(3)}` : phone_number
-  }@cje.loc`;
+	const octopushResponse = await fetch('https://api.octopush.com/v1/public/service/otp/generate', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'api-login': process.env.OCTOPUSH_API_LOGIN as string,
+			'api-key': process.env.OCTOPUSH_API_KEY as string
+		},
+		body: JSON.stringify({
+			phone_number: hasDialingCode ? phone_number : `+33${phone_number.substring(1)}`,
+			text: 'Votre code de vérification Carte Jeune Engagé est ',
+			code_length: 4,
+			validity_period: 86400 // 24H
+		})
+	})
+		.then(response => response.json())
+		.then(data => data)
 
-  if (firstLogin) {
-    await payload.create({
-      collection: "users",
-      data: {
-        email: email,
-        password: code,
-        phone_number: phone_number,
-      },
-    });
-  } else {
-    const { hash, salt } = await generatePasswordSaltHash({ password: code });
-    await payload.update({
-      collection: "users",
-      where: {
-        email: { equals: email },
-      },
-      data: {
-        hash,
-        salt,
-      },
-    });
-  }
-
-  // SEND SMS
-  const accountSid = process.env.TWILIO_ACCOUNT_SID as string;
-  const token = process.env.TWILIO_AUTH_TOKEN as string;
-  const fromNumber = process.env.TWILIO_FROM_NUMBER as string;
-  const client = twilio(accountSid, token);
-
-  await client.messages.create({
-    body: `Votre code de vérification Carte Jeune Engagé est ${code}`,
-    from: fromNumber,
-    to: hasDialingCode ? phone_number : `+33${phone_number.substring(1)}`,
-  });
-  console.log(`Code for ${phone_number} : ${code}`);
+	if (octopushResponse.code !== 0) {
+		throw new TRPCError({
+			code: "BAD_REQUEST",
+			message: "Octopush error",
+			cause: octopushResponse.message,
+		});
+	} else if (!!octopushResponse.otp_request_token) {
+		if (firstLogin) {
+			await payload.create({
+				collection: "users",
+				data: {
+					email: email,
+					otp_request_token: octopushResponse.otp_request_token,
+					password: generateRandomPassword(16),
+					phone_number: phone_number,
+				},
+			});
+		} else {
+			await payload.update({
+				collection: "users",
+				where: {
+					email: { equals: email },
+				},
+				data: {
+					otp_request_token: octopushResponse.otp_request_token
+				},
+			});
+		}
+	}
 };
 
 export const userRouter = createTRPCRouter({
-  register: publicProcedure
-    .input(
-      z.object({
-        email: z.string().email(),
-        phone_number: z.string(),
-        firstName: z.string(),
-        lastName: z.string(),
-        password: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input: userInput }) => {
-      try {
-        const newUser = await ctx.payload.create({
-          collection: "users",
-          data: userInput,
-        });
+	register: publicProcedure
+		.input(
+			z.object({
+				email: z.string().email(),
+				phone_number: z.string(),
+				firstName: z.string(),
+				lastName: z.string(),
+				password: z.string(),
+			})
+		)
+		.mutation(async ({ ctx, input: userInput }) => {
+			try {
+				const newUser = await ctx.payload.create({
+					collection: "users",
+					data: userInput,
+				});
 
-        return { data: newUser };
-      } catch (error: unknown) {
-        if (error instanceof APIError) {
-          if (
-            error.data[0].field === "email" &&
-            error.data[0].message.includes("registered")
-          ) {
-            throw new TRPCError({
-              code: "CONFLICT",
-              message: "Email already registered",
-              cause: error,
-            });
-          }
-        }
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Unknown error",
-          cause: error,
-        });
-      }
-    }),
+				return { data: newUser };
+			} catch (error: unknown) {
+				if (error instanceof APIError) {
+					if (
+						error.data[0].field === "email" &&
+						error.data[0].message.includes("registered")
+					) {
+						throw new TRPCError({
+							code: "CONFLICT",
+							message: "Email already registered",
+							cause: error,
+						});
+					}
+				}
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "Unknown error",
+					cause: error,
+				});
+			}
+		}),
 
-  update: userProtectedProcedure
-    .input(
-      z.object({
-        civility: z.enum(["man", "woman"]).optional(),
-        birthDate: z.string().optional(),
-        timeAtCEJ: z
-          .enum(["started", "lessThan3Months", "moreThan3Months"])
-          .optional(),
-        firstName: z.string().optional(),
-        lastName: z.string().optional(),
-        userEmail: z.string().email().optional(),
-        address: z.string().optional(),
-        preferences: z.array(z.number()).optional(),
-      })
-    )
-    .mutation(async ({ ctx, input: userInput }) => {
-      try {
-        const user = await ctx.payload.update({
-          collection: "users",
-          id: ctx.session?.id,
-          data: userInput,
-        });
+	update: userProtectedProcedure
+		.input(
+			z.object({
+				civility: z.enum(["man", "woman"]).optional(),
+				birthDate: z.string().optional(),
+				timeAtCEJ: z
+					.enum(["started", "lessThan3Months", "moreThan3Months"])
+					.optional(),
+				firstName: z.string().optional(),
+				lastName: z.string().optional(),
+				userEmail: z.string().email().optional(),
+				address: z.string().optional(),
+				preferences: z.array(z.number()).optional(),
+			})
+		)
+		.mutation(async ({ ctx, input: userInput }) => {
+			try {
+				const user = await ctx.payload.update({
+					collection: "users",
+					id: ctx.session?.id,
+					data: userInput,
+				});
 
-        return { data: user };
-      } catch (error) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Unknown error",
-          cause: error,
-        });
-      }
-    }),
+				return { data: user };
+			} catch (error) {
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "Unknown error",
+					cause: error,
+				});
+			}
+		}),
 
-  oldLoginUser: publicProcedure
-    .input(
-      z.object({
-        email: z.string().email(),
-        password: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input: userInput }) => {
-      try {
-        const user = await ctx.payload.login({
-          collection: "users",
-          data: userInput,
-        });
+	oldLoginUser: publicProcedure
+		.input(
+			z.object({
+				email: z.string().email(),
+				password: z.string(),
+			})
+		)
+		.mutation(async ({ ctx, input: userInput }) => {
+			try {
+				const user = await ctx.payload.login({
+					collection: "users",
+					data: userInput,
+				});
 
-        return { data: user };
-      } catch (error) {
-        if (error && typeof error === "object" && "status" in error) {
-          if (error.status === 401) {
-            throw new TRPCError({
-              code: "UNAUTHORIZED",
-              message: "Invalid email or password",
-              cause: error,
-            });
-          }
-        }
+				return { data: user };
+			} catch (error) {
+				if (error && typeof error === "object" && "status" in error) {
+					if (error.status === 401) {
+						throw new TRPCError({
+							code: "UNAUTHORIZED",
+							message: "Invalid email or password",
+							cause: error,
+						});
+					}
+				}
 
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Unknown error",
-          cause: error,
-        });
-      }
-    }),
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "Unknown error",
+					cause: error,
+				});
+			}
+		}),
 
-  loginUser: publicProcedure
-    .input(
-      z.object({
-        phone_number: z.string(),
-        otp: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input: userInput }) => {
-      const { phone_number, otp } = userInput;
-      const hasDialingCode = phone_number.startsWith("+");
+	loginUser: publicProcedure
+		.input(
+			z.object({
+				phone_number: z.string(),
+				otp: z.string(),
+			})
+		)
+		.mutation(async ({ ctx, input: userInput }) => {
+			const { phone_number, otp } = userInput;
+			const hasDialingCode = phone_number.startsWith("+");
 
-      try {
-        const session = await ctx.payload.login({
-          collection: "users",
-          data: {
-            email: `${
-              hasDialingCode ? `0${phone_number.substring(3)}` : phone_number
-            }@cje.loc`,
-            password: otp,
-          },
-        });
+			const users = await ctx.payload.find({
+				collection: "users",
+				page: 1,
+				limit: 1,
+				where: {
+					email: {
+						equals: `${hasDialingCode ? `0${phone_number.substring(3)}` : phone_number
+							}@cje.loc`
+					}
+				},
+			});
 
-        const { hash, salt } = await generatePasswordSaltHash({
-          password: generateRandomPassword(16),
-        });
-        await ctx.payload.update({
-          collection: "users",
-          id: session.user.id,
-          data: {
-            hash,
-            salt,
-          },
-        });
+			const user = users.docs[0]
 
-        return { data: session };
-      } catch (error) {
-        if (error && typeof error === "object" && "status" in error) {
-          if (error.status === 401) {
-            throw new TRPCError({
-              code: "UNAUTHORIZED",
-              message: "Invalid email or password",
-              cause: error,
-            });
-          }
-        }
+			if (!user) {
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "User not found",
+					cause: '',
+				});
+			}
 
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Unknown error",
-          cause: error,
-        });
-      }
-    }),
+			const octopushResponse = await fetch('https://api.octopush.com/v1/public/service/otp/validate', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					'api-login': process.env.OCTOPUSH_API_LOGIN as string,
+					'api-key': process.env.OCTOPUSH_API_KEY as string
+				},
+				body: JSON.stringify({
+					otp_request_token: user.otp_request_token,
+					code: otp
+				})
+			})
+				.then(response => response.json())
+				.then(data => data)
 
-  generateOTP: publicProcedure
-    .input(
-      z.object({
-        phone_number: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input: userInput }) => {
-      const { phone_number } = userInput;
+			if (octopushResponse.code === 197) {
+				throw new TRPCError({
+					code: "TIMEOUT",
+					message: "OTP expired",
+					cause: octopushResponse.message,
+				});
+			} else if (octopushResponse.code !== 0) {
+				throw new TRPCError({
+					code: "UNAUTHORIZED",
+					message: "Invalid OTP",
+					cause: octopushResponse.message,
+				});
+			}
 
-      const users = await ctx.payload.find({
-        collection: "users",
-        limit: 1,
-        page: 1,
-        where: {
-          ...payloadOrPhoneNumberCheck(phone_number),
-        },
-      });
+			try {
+				const email = `${hasDialingCode ? `0${phone_number.substring(3)}` : phone_number
+					}@cje.loc`
 
-      if (!users.docs.length) {
-        const permissions = await ctx.payload.find({
-          collection: "permissions",
-          limit: 1,
-          page: 1,
-          where: {
-            ...payloadOrPhoneNumberCheck(phone_number),
-          },
-        });
+				await changeUserPassword(ctx.payload, user.id, otp)
 
-        if (!permissions.docs.length) {
-          throw new TRPCError({
-            code: "UNAUTHORIZED",
-            message: "Phone number does not exists on the database",
-          });
-        } else {
-          await generateAndSendOTP(ctx.payload, phone_number, true);
-          return { data: "ok" };
-        }
-      } else {
-        await generateAndSendOTP(ctx.payload, phone_number, false);
-        return { data: "ok" };
-      }
-    }),
+				const session = await ctx.payload.login({
+					collection: "users",
+					data: {
+						email,
+						password: otp,
+					},
+				});
 
-  loginSupervisor: publicProcedure
-    .input(
-      z.object({
-        email: z.string().email(),
-        password: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input: userInput }) => {
-      try {
-        const user = await ctx.payload.login({
-          collection: "supervisors",
-          data: userInput,
-        });
+				await changeUserPassword(ctx.payload, user.id, generateRandomPassword(16), true)
 
-        return { data: user };
-      } catch (error) {
-        if (error && typeof error === "object" && "status" in error) {
-          if (error.status === 401) {
-            throw new TRPCError({
-              code: "UNAUTHORIZED",
-              message: "Invalid email or password",
-              cause: error,
-            });
-          }
-        }
+				return { data: session };
+			} catch (error) {
+				if (error && typeof error === "object" && "status" in error) {
+					if (error.status === 401) {
+						throw new TRPCError({
+							code: "UNAUTHORIZED",
+							message: "Invalid phone or OTP",
+							cause: error,
+						});
+					}
+				}
 
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Unknown error",
-          cause: error,
-        });
-      }
-    }),
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "Unknown error",
+					cause: error,
+				});
+			}
+		}),
+
+	generateOTP: publicProcedure
+		.input(
+			z.object({
+				phone_number: z.string(),
+			})
+		)
+		.mutation(async ({ ctx, input: userInput }) => {
+			const { phone_number } = userInput;
+
+			const users = await ctx.payload.find({
+				collection: "users",
+				limit: 1,
+				page: 1,
+				where: {
+					...payloadOrPhoneNumberCheck(phone_number),
+				},
+			});
+
+			if (!users.docs.length) {
+				const permissions = await ctx.payload.find({
+					collection: "permissions",
+					limit: 1,
+					page: 1,
+					where: {
+						...payloadOrPhoneNumberCheck(phone_number),
+					},
+				});
+
+				if (!permissions.docs.length) {
+					throw new TRPCError({
+						code: "UNAUTHORIZED",
+						message: "Phone number does not exists on the database",
+					});
+				} else {
+					await generateAndSendOTP(ctx.payload, phone_number, true);
+					return { data: "ok" };
+				}
+			} else {
+				await generateAndSendOTP(ctx.payload, phone_number, false);
+				return { data: "ok" };
+			}
+		}),
+
+	loginSupervisor: publicProcedure
+		.input(
+			z.object({
+				email: z.string().email(),
+				password: z.string(),
+			})
+		)
+		.mutation(async ({ ctx, input: userInput }) => {
+			try {
+				const user = await ctx.payload.login({
+					collection: "supervisors",
+					data: userInput,
+				});
+
+				return { data: user };
+			} catch (error) {
+				if (error && typeof error === "object" && "status" in error) {
+					if (error.status === 401) {
+						throw new TRPCError({
+							code: "UNAUTHORIZED",
+							message: "Invalid email or password",
+							cause: error,
+						});
+					}
+				}
+
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "Unknown error",
+					cause: error,
+				});
+			}
+		}),
 });
