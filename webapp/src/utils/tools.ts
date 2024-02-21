@@ -39,11 +39,12 @@ export const payloadWhereOfferIsValid = (prefix?: string): Where => {
 	const nowDate = new Date().toISOString().split("T")[0] as string
 	let finalPrefix = prefix ? `${prefix}.` : ''
 
+	console.log(nowDate)
 	return {
 		and: [
 			{
 				[`${finalPrefix}validityTo`]: {
-					greater_than_equal: nowDate,
+					greater_than_equal: `${nowDate}T00:00:00.000`,
 				},
 			},
 			{
@@ -55,7 +56,7 @@ export const payloadWhereOfferIsValid = (prefix?: string): Where => {
 					},
 					{
 						[`${finalPrefix}validityFrom`]: {
-							less_than_equal: nowDate
+							less_than_equal: `${nowDate}T23:59:59.000`
 						}
 					}
 				]
