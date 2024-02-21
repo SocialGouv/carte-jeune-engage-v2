@@ -61,6 +61,7 @@ export interface User {
   userEmail?: string | null;
   status_image?: ('pending' | 'approved' | 'rejected') | null;
   preferences?: (number | Category)[] | null;
+  otp_request_token?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
