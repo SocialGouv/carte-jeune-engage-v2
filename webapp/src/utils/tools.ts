@@ -39,7 +39,6 @@ export const payloadWhereOfferIsValid = (prefix?: string): Where => {
 	const nowDate = new Date().toISOString().split("T")[0] as string
 	let finalPrefix = prefix ? `${prefix}.` : ''
 
-	console.log(nowDate)
 	return {
 		and: [
 			{
