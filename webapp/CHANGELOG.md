@@ -1,3 +1,17 @@
+# [0.7.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.6.4...v0.7.0) (2024-02-21)
+
+
+### Bug Fixes
+
+* remove console logs ([9dc6a48](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/9dc6a48db3bd9bfc7d57ca1fbf88f84b4a00d7be))
+* sentry warning in dev mode ([9d6f152](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/9d6f152a296b86100e23d3ec5902fd492f0330ce))
+* set hours for validity ([3a8e2fa](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/3a8e2fa60b6cf4476e2097cd732aad6dc06647c4))
+
+
+### Features
+
+* validityFrom offer field & refactor shared where ([6feb418](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/6feb41841980cc825a704818051b014cff3b4bdf))
+
 ## [0.6.4](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.6.3...v0.6.4) (2024-02-20)
 
 
