@@ -3,6 +3,7 @@ import { z } from "zod";
 import { Category, Offer, Media, Partner } from "~/payload/payload-types";
 import { createTRPCRouter, userProtectedProcedure } from "~/server/api/trpc";
 import { ZGetListParams } from "~/server/types";
+import { payloadWhereOfferIsValid } from "~/utils/tools";
 
 export interface OfferIncluded extends Offer {
 	partner: Partner & { icon: Media };
@@ -23,10 +24,8 @@ export const offerRouter = createTRPCRouter({
 			const { perPage, page, sort, categoryId, isCurrentUser } = input;
 
 			let where = {
-				validityTo: {
-					greater_than_equal: new Date().toISOString().split("T")[0],
-				},
-			} as Record<keyof Offer, Where | WhereField>;
+				...payloadWhereOfferIsValid()
+			} as Where;
 
 			if (categoryId) {
 				where.category = {

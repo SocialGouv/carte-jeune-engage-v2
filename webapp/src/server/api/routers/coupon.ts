@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { Coupon, Media, Offer, Partner, User } from "~/payload/payload-types";
 import { createTRPCRouter, userProtectedProcedure } from "~/server/api/trpc";
+import { payloadWhereOfferIsValid } from "~/utils/tools";
 
 export interface CouponIncluded extends Coupon {
 	offer: Offer & { icon: Media; partner: Partner };
@@ -14,6 +15,8 @@ export const couponRouter = createTRPCRouter({
 		.query(async ({ ctx, input }) => {
 			const { offer_id } = input;
 
+			const nowDate = new Date().toISOString().split("T")[0];
+
 			const coupons = await ctx.payload.find({
 				collection: "coupons",
 				depth: 2,
@@ -22,9 +25,7 @@ export const couponRouter = createTRPCRouter({
 						{ offer: { equals: offer_id } },
 						{ user: { equals: ctx.session.id } },
 						{
-							"offer.validityTo": {
-								greater_than_equal: new Date().toISOString().split("T")[0],
-							},
+							...payloadWhereOfferIsValid("offer")
 						},
 						{ used: { equals: false } },
 					],
@@ -45,9 +46,7 @@ export const couponRouter = createTRPCRouter({
 					and: [
 						{ offer: { equals: offer_id } },
 						{
-							"offer.validityTo": {
-								greater_than_equal: new Date().toISOString().split("T")[0],
-							},
+							...payloadWhereOfferIsValid("offer")
 						},
 						{ used: { equals: false } },
 					],
