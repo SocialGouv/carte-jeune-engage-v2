@@ -1,17 +1,52 @@
-import { CheckIcon } from "@chakra-ui/icons";
-import { Box, Button, Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import {
+  Divider,
+  Flex,
+  HStack,
+  Heading,
+  Icon,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { FiLock, FiUnlock } from "react-icons/fi";
+import { FiCopy, FiLock, FiUnlock } from "react-icons/fi";
+import {
+  HiCursorArrowRays,
+  HiOutlineInformationCircle,
+  HiReceiptPercent,
+} from "react-icons/hi2";
 import { CouponIncluded } from "~/server/api/routers/coupon";
 import { OfferIncluded } from "~/server/api/routers/offer";
+import ToastComponent from "../ToastComponent";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 type CouponWrapperProps = {
   children: ReactNode;
   coupon?: CouponIncluded;
   offer: OfferIncluded;
+  handleOpenOtherConditions: () => void;
 };
 
-const CouponWrapper = ({ children, coupon, offer }: CouponWrapperProps) => {
+const CouponWrapper = ({
+  children,
+  coupon,
+  offer,
+  handleOpenOtherConditions,
+}: CouponWrapperProps) => {
+  const toast = useToast();
+
+  const handleCopyToClipboard = (text: string) => {
+    toast({
+      render: () => (
+        <ToastComponent
+          text="Code promo copié avec succès"
+          icon={IoCloseCircleOutline}
+        />
+      ),
+      duration: 2000,
+    });
+    navigator.clipboard.writeText(text);
+  };
+
   return (
     <Flex
       flexDir="column"
@@ -23,35 +58,76 @@ const CouponWrapper = ({ children, coupon, offer }: CouponWrapperProps) => {
       }}
       px={8}
       h="full"
-      gap={6}
       pb={12}
     >
       <Heading
         as="h3"
         fontSize="2xl"
-        fontWeight="bold"
+        fontWeight="extrabold"
         textAlign="center"
         mt={6}
       >
         {offer.title}
       </Heading>
-      <Flex flexDir="column">
-        <Box
+      <Flex alignItems="center" alignSelf="center" gap={2} mt={4}>
+        <Icon as={HiCursorArrowRays} w={6} h={6} />
+        <Text fontWeight="medium">En ligne sur {offer.partner.name}</Text>
+      </Flex>
+      <Flex flexDir="column" mt={8}>
+        <Flex
+          flexDir="column"
           position="relative"
+          gap={5}
           borderRadius="xl"
           w="full"
-          bgColor={coupon ? "white" : "cje-gray.500"}
+          bgColor={coupon ? "bgWhite" : "cje-gray.500"}
+          border={coupon ? "1px solid" : "none"}
+          borderColor="#B5BBBD"
           textAlign="center"
-          py={10}
+          px={4}
+          py={5}
         >
-          <Text
+          {coupon && (
+            <HStack spacing={3} align="center" alignSelf="center">
+              <Icon as={HiReceiptPercent} w={6} h={6} />
+              <Text fontSize="lg" fontWeight="bold">
+                Mon code promo à saisir
+              </Text>
+            </HStack>
+          )}
+          <Flex
             id="coupon-code-text"
-            fontSize="2xl"
-            fontWeight="bold"
-            letterSpacing={4}
+            alignItems="center"
+            justifyContent="center"
+            gap={3}
+            borderRadius="lg"
+            bgColor={coupon ? "white" : "cje-gray.500"}
+            py={8}
           >
-            {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
-          </Text>
+            <Text fontSize="2xl" fontWeight="bold" letterSpacing={3}>
+              {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
+            </Text>
+            <Icon
+              as={FiCopy}
+              w={6}
+              h={6}
+              mt={1}
+              onClick={() => handleCopyToClipboard(coupon?.code as string)}
+            />
+          </Flex>
+          {coupon && (
+            <HStack spacing={2} align="center">
+              <Icon as={HiOutlineInformationCircle} w={6} h={6} mt={0.5} />
+              <Text
+                fontWeight="medium"
+                textDecoration="underline"
+                textUnderlineOffset={3}
+                onClick={handleOpenOtherConditions}
+              >
+                Conditions d’utilisation
+              </Text>
+            </HStack>
+          )}
           <Flex
             id="coupon-code-icon"
             position="absolute"
@@ -74,41 +150,12 @@ const CouponWrapper = ({ children, coupon, offer }: CouponWrapperProps) => {
             />
             <Icon id="coupon-code-icon-lock" as={FiLock} w={6} h={6} />
           </Flex>
-        </Box>
-        {coupon && (
-          <Flex
-            className="coupon-info"
-            flexDir="column"
-            alignItems="center"
-            gap={1}
-            py={4}
-            bgColor="white"
-            borderRadius="xl"
-            sx={{
-              backgroundImage:
-                "linear-gradient(to right, #E9E9E9 55%, #fff 0%)",
-              backgroundSize: "27.5px 2px",
-              backgroundRepeat: "repeat-x",
-            }}
-          >
-            <Flex alignItems="center" gap={2}>
-              <Text fontSize="lg" fontWeight="bold">
-                Code promo activé
-              </Text>
-              <Flex bgColor="success" borderRadius="full" p={1}>
-                <Icon as={CheckIcon} w={3} h={3} color="white" />
-              </Flex>
-            </Flex>
-            <Text as="span" fontSize="sm" color="disabled">
-              Utilisable jusqu'au:{" "}
-              <Text as="span" color="black" fontWeight="bold">
-                {new Date(coupon.offer.validityTo).toLocaleDateString()}
-              </Text>
-            </Text>
-          </Flex>
-        )}
+        </Flex>
       </Flex>
-      {children}
+      {!coupon && <Divider mt={6} />}
+      <Flex flexDir="column" mt={coupon ? 6 : 0}>
+        {children}
+      </Flex>
     </Flex>
   );
 };

@@ -48,5 +48,18 @@ export const Offers: CollectionConfig = {
         { label: "Code de réduction", value: "code" },
       ],
     },
+    {
+      name: "conditions",
+      type: "array",
+      label: "Conditions",
+      fields: [
+        {
+          name: "text",
+          type: "text",
+          label: "Texte",
+          required: true,
+        },
+      ],
+    },
   ],
 };

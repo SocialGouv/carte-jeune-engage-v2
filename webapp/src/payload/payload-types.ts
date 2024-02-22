@@ -152,6 +152,12 @@ export interface Offer {
   category: number | Category;
   validityTo: string;
   kind: 'voucher' | 'code';
+  conditions?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }

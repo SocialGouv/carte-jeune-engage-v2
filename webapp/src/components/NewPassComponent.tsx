@@ -40,6 +40,7 @@ import { PassIcon } from "./icons/pass";
 import { api } from "~/utils/api";
 import update from "payload/dist/collections/operations/update";
 import { Media } from "~/payload/payload-types";
+import { getCookie } from "cookies-next";
 
 const WrappperNewPassComponent = ({
   children,
@@ -151,9 +152,14 @@ const NewPassComponent = ({
       formData.append("file", croppedImageFile);
       formData.append("alt", "user-image");
 
+      const jwtToken = getCookie(process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt");
+
       const response = await fetch("/api/media", {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
       });
 
       if (response.ok) {
