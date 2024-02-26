@@ -224,7 +224,7 @@ export default function Dashboard() {
                 sizes="100vw"
                 style={{ width: "100%" }}
               />
-              <Link href="">
+              <Link href={offer.linkOfEligibleStores ?? ""} target="_blank">
                 <HStack align="center" borderBottom="1px solid black">
                   <Text fontWeight="medium">
                     Voir les magasins participants

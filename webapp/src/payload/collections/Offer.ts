@@ -33,10 +33,10 @@ export const Offers: CollectionConfig = {
       required: true,
     },
     {
-			name: "validityFrom",
-			type: "date",
-			label: "Offre valide à partir du",
-		},
+      name: "validityFrom",
+      type: "date",
+      label: "Offre valide à partir du",
+    },
     {
       name: "validityTo",
       type: "date",
@@ -72,6 +72,14 @@ export const Offers: CollectionConfig = {
       },
     },
     {
+      name: "linkOfEligibleStores",
+      type: "text",
+      label: "Lien des magasins éligibles",
+      admin: {
+        condition: (_, siblingData) => siblingData.kind === "voucher",
+      },
+    },
+    {
       name: "conditions",
       type: "array",
       label: "Conditions",
@@ -84,5 +92,5 @@ export const Offers: CollectionConfig = {
         },
       ],
     },
-  ],	
+  ],
 };

@@ -156,6 +156,7 @@ export interface Offer {
   kind: 'voucher' | 'code';
   nbOfEligibleStores?: number | null;
   imageOfEligibleStores?: number | Media | null;
+  linkOfEligibleStores?: string | null;
   conditions?:
     | {
         text: string;
