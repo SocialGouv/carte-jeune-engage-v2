@@ -11709,6 +11709,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsbarcode@npm:^3.8.0":
+  version: 3.11.6
+  resolution: "jsbarcode@npm:3.11.6"
+  checksum: 5603ddaa7f0a65b710af95e29105400d99e4c67655899399ac46965eeb7fef83a8e9378eee4eb27f778fd563917015953261c0f271592f2c705fcc2751754e4d
+  languageName: node
+  linkType: hard
+
 "jsesc@npm:^2.5.1":
   version: 2.5.2
   resolution: "jsesc@npm:2.5.2"
@@ -14751,6 +14758,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-barcode@npm:^1.4.6":
+  version: 1.4.6
+  resolution: "react-barcode@npm:1.4.6"
+  dependencies:
+    jsbarcode: "npm:^3.8.0"
+    prop-types: "npm:^15.6.2"
+  peerDependencies:
+    react: ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 18d98a60d229eeb6041052b84e657d878b709d7a3a69742e64b895e191ff9f6d97543abefe1b4841b268b82209bf70db517c077f1ed279e1ab379b673aaa9039
+  languageName: node
+  linkType: hard
+
 "react-clientside-effect@npm:^1.2.6":
   version: 1.2.6
   resolution: "react-clientside-effect@npm:1.2.6"
@@ -17384,6 +17403,7 @@ __metadata:
     papaparse: "npm:^5.4.1"
     payload: "npm:^2.10.0"
     react: "npm:^18"
+    react-barcode: "npm:^1.4.6"
     react-dom: "npm:^18"
     react-easy-crop: "npm:^5.0.5"
     react-hook-form: "npm:^7.50.1"

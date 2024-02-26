@@ -49,6 +49,24 @@ export const Offers: CollectionConfig = {
       ],
     },
     {
+      name: "nbOfEligibleStores",
+      type: "number",
+      label: "Nombre de magasins éligibles",
+      admin: {
+        condition: (_, siblingData) => siblingData.kind === "voucher",
+      },
+      defaultValue: 1,
+    },
+    {
+      name: "imageOfEligibleStores",
+      type: "upload",
+      label: "Image des magasins éligibles",
+      relationTo: "media",
+      admin: {
+        condition: (_, siblingData) => siblingData.kind === "voucher",
+      },
+    },
+    {
       name: "conditions",
       type: "array",
       label: "Conditions",

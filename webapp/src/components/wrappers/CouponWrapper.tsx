@@ -10,6 +10,7 @@ import {
 import { ReactNode } from "react";
 import { FiCopy, FiLock, FiUnlock } from "react-icons/fi";
 import {
+  HiBuildingStorefront,
   HiCursorArrowRays,
   HiOutlineInformationCircle,
   HiReceiptPercent,
@@ -18,6 +19,7 @@ import { CouponIncluded } from "~/server/api/routers/coupon";
 import { OfferIncluded } from "~/server/api/routers/offer";
 import ToastComponent from "../ToastComponent";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import Barcode from "react-barcode";
 
 type CouponWrapperProps = {
   children: ReactNode;
@@ -69,10 +71,19 @@ const CouponWrapper = ({
       >
         {offer.title}
       </Heading>
-      <Flex alignItems="center" alignSelf="center" gap={2} mt={4}>
-        <Icon as={HiCursorArrowRays} w={6} h={6} />
-        <Text fontWeight="medium">En ligne sur {offer.partner.name}</Text>
-      </Flex>
+      {offer.kind === "code" ? (
+        <Flex alignItems="center" alignSelf="center" gap={2} mt={4}>
+          <Icon as={HiCursorArrowRays} w={6} h={6} />
+          <Text fontWeight="medium">En ligne sur {offer.partner.name}</Text>
+        </Flex>
+      ) : offer.kind === "voucher" ? (
+        <Flex alignItems="center" alignSelf="center" gap={2} mt={4}>
+          <Icon as={HiBuildingStorefront} w={6} h={6} />
+          <Text fontWeight="medium">
+            dans {offer.nbOfEligibleStores ?? 1} magasins participants
+          </Text>
+        </Flex>
+      ) : null}
       <Flex flexDir="column" mt={8}>
         <Flex
           flexDir="column"
@@ -91,7 +102,9 @@ const CouponWrapper = ({
             <HStack spacing={3} align="center" alignSelf="center">
               <Icon as={HiReceiptPercent} w={6} h={6} />
               <Text fontSize="lg" fontWeight="bold">
-                Mon code promo à saisir
+                {offer.kind === "code"
+                  ? "Mon code promo à saisir"
+                  : "Mon code barre à scanner"}
               </Text>
             </HStack>
           )}
@@ -104,16 +117,26 @@ const CouponWrapper = ({
             bgColor={coupon ? "white" : "cje-gray.500"}
             py={8}
           >
-            <Text fontSize="2xl" fontWeight="bold" letterSpacing={3}>
-              {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
-            </Text>
-            <Icon
-              as={FiCopy}
-              w={6}
-              h={6}
-              mt={1}
-              onClick={() => handleCopyToClipboard(coupon?.code as string)}
-            />
+            {offer.kind === "code" ? (
+              <Text fontSize="2xl" fontWeight="bold" letterSpacing={3}>
+                {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
+              </Text>
+            ) : (
+              <Barcode
+                value={coupon?.code ?? "6FHDJFHEIDJF"}
+                background={coupon ? "white" : "#edeff3"}
+                height={70}
+              />
+            )}
+            {coupon && offer.kind === "code" && (
+              <Icon
+                as={FiCopy}
+                w={6}
+                h={6}
+                mt={1}
+                onClick={() => handleCopyToClipboard(coupon?.code as string)}
+              />
+            )}
           </Flex>
           {coupon && (
             <HStack spacing={2} align="center">

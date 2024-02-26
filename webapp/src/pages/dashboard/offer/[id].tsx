@@ -11,56 +11,38 @@ import {
   TabPanels,
   Tabs,
   Text,
+  VStack,
   useDisclosure,
   useSteps,
 } from "@chakra-ui/react";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { FiCopy } from "react-icons/fi";
-import { HiLockClosed } from "react-icons/hi";
+import { useMemo, useState } from "react";
 import {
   HiArrowRight,
-  HiInformationCircle,
-  HiLink,
-  HiMiniCheck,
-  HiOutlineCheckBadge,
+  HiBuildingStorefront,
+  HiOutlineInformationCircle,
   HiQuestionMarkCircle,
+  HiShoppingCart,
 } from "react-icons/hi2";
 import ChakraNextImage from "~/components/ChakraNextImage";
 import LoadingLoader from "~/components/LoadingLoader";
+import { PassIcon } from "~/components/icons/pass";
 import BaseModal from "~/components/modals/BaseModal";
-import StackItems, { StackItem } from "~/components/offer/StackItems";
+import StackItems from "~/components/offer/StackItems";
 import StepsButtons from "~/components/offer/StepsButtons";
 import CouponWrapper from "~/components/wrappers/CouponWrapper";
 import OfferWrapper from "~/components/wrappers/OfferWrapper";
 import StepsWrapper from "~/components/wrappers/StepsWrapper";
 import { couponAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
-
-const itemsTermsOfUse = [
-  { text: "Copier le code promo", icon: FiCopy },
-  {
-    text: "Utiliser le lien du site qui est dans mon application",
-    icon: HiLink,
-  },
-  {
-    text: "Coller le code promo au moment du paiement en ligne sur le site",
-    icon: FiCopy,
-  },
-] as StackItem[];
-
-const itemsExternalLink = [
-  {
-    text: "Tous les sites de nos partenaires sont sécurisés",
-    icon: HiLockClosed,
-  },
-  {
-    text: "Vos données sont protégées et ne sont pas diffusées au partenaire",
-    icon: HiOutlineCheckBadge,
-  },
-] as StackItem[];
+import {
+  getItemsExternalLink,
+  getItemsSimpleTermsOfUse,
+  getItemsTermsOfUse,
+} from "~/utils/itemsOffer";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -91,13 +73,25 @@ export default function Dashboard() {
   const { data: offer } = resultOffer || {};
   const { data: coupon } = resultCoupon || {};
 
-  const {
-    mutate: mutateCouponToUser,
-    isLoading,
-    isSuccess,
-  } = api.coupon.assignToUser.useMutation({
-    onSuccess: () => refetchCoupon(),
-  });
+  const { mutate: mutateCouponToUser, isSuccess } =
+    api.coupon.assignToUser.useMutation({
+      onSuccess: () => refetchCoupon(),
+    });
+
+  const itemsSimpleTermsOfUse = useMemo(() => {
+    if (!offer) return [];
+    return getItemsSimpleTermsOfUse(offer.kind, !!coupon);
+  }, [offer, coupon]);
+
+  const itemsTermsOfUse = useMemo(() => {
+    if (!offer) return [];
+    return getItemsTermsOfUse(offer.kind);
+  }, [offer]);
+
+  const itemsExternalLink = useMemo(() => {
+    if (!offer) return [];
+    return getItemsExternalLink(offer.kind);
+  }, [offer]);
 
   const nbSteps = 2;
 
@@ -162,19 +156,18 @@ export default function Dashboard() {
         offer={offer}
         handleOpenOtherConditions={onOpenOtherConditions}
       >
-        {coupon && (
+        {coupon && offer.kind === "code" ? (
           <Button onClick={onOpenExternalLink}>Aller sur le site</Button>
+        ) : (
+          <Link href="/dashboard/account/card">
+            <Button leftIcon={<Icon as={PassIcon} w={6} h={6} />} w="full">
+              Présenter mon pass CJE
+            </Button>
+          </Link>
         )}
         <StackItems
           active={!!coupon}
-          items={[
-            {
-              text: !coupon ? "J'active cette offre" : "Cette offre est active",
-              icon: HiMiniCheck,
-            },
-            { text: "Je copie mon code promo", icon: FiCopy },
-            { text: "Je vais sur le site de l’offre", icon: HiLink },
-          ]}
+          items={itemsSimpleTermsOfUse}
           title="Comment ça marche ?"
           props={{ mt: 6, spacing: 3 }}
           propsItem={{ color: !coupon ? "disabled" : undefined }}
@@ -184,25 +177,78 @@ export default function Dashboard() {
             J'active mon offre
           </Button>
         )}
+
+        {offer.kind === "voucher" && (
+          <>
+            <Divider my={6} />
+            <VStack spacing={3} align="start">
+              <HStack spacing={4}>
+                <Icon as={HiBuildingStorefront} w={6} h={6} />
+                <Text fontWeight="extrabold">Magasins participants</Text>
+              </HStack>
+              <Text fontWeight="medium">
+                {offer.nbOfEligibleStores ?? 1} magasins {offer.partner.name}{" "}
+                participants
+              </Text>
+              <Image
+                src={offer.imageOfEligibleStores.url as string}
+                alt={offer.imageOfEligibleStores.alt as string}
+                width="0"
+                height={114}
+                sizes="100vw"
+                style={{ width: "100%" }}
+              />
+              <Link href="">
+                <HStack align="center" borderBottom="1px solid black">
+                  <Text fontWeight="medium">
+                    Voir les magasins participants
+                  </Text>
+                  <Icon as={HiArrowRight} w={4} h={4} />
+                </HStack>
+              </Link>
+            </VStack>
+          </>
+        )}
         <Divider my={6} />
-        <Button
-          className="btn-conditions"
-          size="sm"
-          colorScheme="cje-gray"
-          color="black"
-          onClick={onOpenTermsOfUse}
-        >
-          <Flex flexDir="column" alignItems="center" gap={3}>
-            <Icon as={HiQuestionMarkCircle} w={6} h={6} />
-            <Text fontWeight="bold" fontSize="sm">
-              Comment ça marche ?
-            </Text>
-          </Flex>
-        </Button>
+        <HStack spacing={4}>
+          <Button
+            className="btn-conditions"
+            size="sm"
+            w="full"
+            colorScheme="cje-gray"
+            color="black"
+            onClick={onOpenTermsOfUse}
+          >
+            <Flex flexDir="column" alignItems="center" gap={3}>
+              <Icon as={HiQuestionMarkCircle} w={6} h={6} />
+              <Text fontWeight="bold" fontSize="sm" px={4}>
+                Comment ça marche ?
+              </Text>
+            </Flex>
+          </Button>
+          {offer.kind === "voucher" && (
+            <Button
+              isDisabled
+              className="btn-conditions"
+              size="sm"
+              w="full"
+              colorScheme="cje-gray"
+              color="black"
+              onClick={onOpenTermsOfUse}
+            >
+              <Flex flexDir="column" alignItems="center" gap={3}>
+                <Icon as={HiShoppingCart} w={6} h={6} />
+                <Text fontWeight="bold" fontSize="sm" px={4}>
+                  Articles éligibles
+                </Text>
+              </Flex>
+            </Button>
+          )}
+        </HStack>
         <Divider my={6} />
         <Flex flexDir="column" gap={2}>
           <HStack spacing={4}>
-            <Icon as={HiInformationCircle} w={6} h={6} />
+            <Icon as={HiOutlineInformationCircle} w={6} h={6} />
             <Text fontWeight="extrabold">Conditions</Text>
           </HStack>
           <Text fontWeight="medium">

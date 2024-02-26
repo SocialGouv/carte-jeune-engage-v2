@@ -152,6 +152,8 @@ export interface Offer {
   category: number | Category;
   validityTo: string;
   kind: 'voucher' | 'code';
+  nbOfEligibleStores?: number | null;
+  imageOfEligibleStores?: number | Media | null;
   conditions?:
     | {
         text: string;
