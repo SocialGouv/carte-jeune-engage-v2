@@ -1,3 +1,10 @@
+# [0.11.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.10.1...v0.11.0) (2024-02-26)
+
+
+### Features
+
+* add migrations for termsOfUse ([f57d803](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f57d80381c60d1b399895587baba1988d55dfaa8))
+
 ## [0.10.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.10.0...v0.10.1) (2024-02-26)
 
 
