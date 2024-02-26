@@ -14,12 +14,15 @@ import {
   HiCursorArrowRays,
   HiOutlineInformationCircle,
   HiReceiptPercent,
+  HiWrenchScrewdriver,
 } from "react-icons/hi2";
 import { CouponIncluded } from "~/server/api/routers/coupon";
 import { OfferIncluded } from "~/server/api/routers/offer";
 import ToastComponent from "../ToastComponent";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import Barcode from "react-barcode";
+import { useAuth } from "~/providers/Auth";
+import { PassIcon } from "../icons/pass";
 
 type CouponWrapperProps = {
   children: ReactNode;
@@ -34,6 +37,7 @@ const CouponWrapper = ({
   offer,
   handleOpenOtherConditions,
 }: CouponWrapperProps) => {
+  const { user } = useAuth();
   const toast = useToast();
 
   const handleCopyToClipboard = (text: string) => {
@@ -84,98 +88,137 @@ const CouponWrapper = ({
           </Text>
         </Flex>
       ) : null}
-      <Flex flexDir="column" mt={8}>
+      {(offer.kind === "voucher" &&
+        ((user?.image !== undefined && user?.status_image === "approved") ||
+          (user?.image === undefined && user?.status_image === "pending"))) ||
+      offer.kind !== "voucher" ? (
+        <>
+          <Flex flexDir="column" mt={8}>
+            <Flex
+              flexDir="column"
+              position="relative"
+              gap={5}
+              borderRadius="xl"
+              w="full"
+              bgColor={coupon ? "bgWhite" : "cje-gray.500"}
+              border={coupon ? "1px solid" : "none"}
+              borderColor="#B5BBBD"
+              textAlign="center"
+              px={4}
+              py={5}
+            >
+              {coupon && (
+                <HStack spacing={3} align="center" alignSelf="center">
+                  <Icon as={HiReceiptPercent} w={6} h={6} />
+                  <Text fontSize="lg" fontWeight="bold">
+                    {offer.kind === "code"
+                      ? "Mon code promo à saisir"
+                      : "Mon code barre à scanner"}
+                  </Text>
+                </HStack>
+              )}
+              <Flex
+                id="coupon-code-text"
+                alignItems="center"
+                justifyContent="center"
+                gap={3}
+                borderRadius="lg"
+                bgColor={coupon ? "white" : "cje-gray.500"}
+                py={8}
+              >
+                {offer.kind === "code" ? (
+                  <Text fontSize="2xl" fontWeight="bold" letterSpacing={3}>
+                    {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
+                  </Text>
+                ) : (
+                  <Barcode
+                    value={coupon?.code ?? "6FHDJFHEIDJF"}
+                    background={coupon ? "white" : "#edeff3"}
+                    height={70}
+                  />
+                )}
+                {coupon && offer.kind === "code" && (
+                  <Icon
+                    as={FiCopy}
+                    w={6}
+                    h={6}
+                    mt={1}
+                    onClick={() =>
+                      handleCopyToClipboard(coupon?.code as string)
+                    }
+                  />
+                )}
+              </Flex>
+              {coupon && (
+                <HStack spacing={2} align="center">
+                  <Icon as={HiOutlineInformationCircle} w={6} h={6} mt={0.5} />
+                  <Text
+                    fontWeight="medium"
+                    textDecoration="underline"
+                    textUnderlineOffset={3}
+                    onClick={handleOpenOtherConditions}
+                  >
+                    Conditions d’utilisation
+                  </Text>
+                </HStack>
+              )}
+              <Flex
+                id="coupon-code-icon"
+                position="absolute"
+                bgColor="white"
+                p={5}
+                shadow="md"
+                borderRadius="full"
+                justifyContent="center"
+                alignItems="center"
+                top="50%"
+                left="50%"
+                transform="translate(-50%, -50%)"
+              >
+                <Icon
+                  id="coupon-code-icon-unlock"
+                  as={FiUnlock}
+                  display="none"
+                  w={6}
+                  h={6}
+                />
+                <Icon id="coupon-code-icon-lock" as={FiLock} w={6} h={6} />
+              </Flex>
+            </Flex>
+          </Flex>
+          {!coupon && <Divider mt={6} />}
+        </>
+      ) : (
         <Flex
           flexDir="column"
-          position="relative"
-          gap={5}
+          mt={8}
           borderRadius="xl"
           w="full"
-          bgColor={coupon ? "bgWhite" : "cje-gray.500"}
-          border={coupon ? "1px solid" : "none"}
-          borderColor="#B5BBBD"
+          bgColor="cje-gray.500"
           textAlign="center"
-          px={4}
-          py={5}
+          gap={4}
+          alignItems="center"
+          p={8}
         >
-          {coupon && (
-            <HStack spacing={3} align="center" alignSelf="center">
-              <Icon as={HiReceiptPercent} w={6} h={6} />
-              <Text fontSize="lg" fontWeight="bold">
-                {offer.kind === "code"
-                  ? "Mon code promo à saisir"
-                  : "Mon code barre à scanner"}
-              </Text>
-            </HStack>
-          )}
-          <Flex
-            id="coupon-code-text"
-            alignItems="center"
-            justifyContent="center"
-            gap={3}
-            borderRadius="lg"
-            bgColor={coupon ? "white" : "cje-gray.500"}
-            py={8}
-          >
-            {offer.kind === "code" ? (
-              <Text fontSize="2xl" fontWeight="bold" letterSpacing={3}>
-                {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
-              </Text>
-            ) : (
-              <Barcode
-                value={coupon?.code ?? "6FHDJFHEIDJF"}
-                background={coupon ? "white" : "#edeff3"}
-                height={70}
-              />
-            )}
-            {coupon && offer.kind === "code" && (
-              <Icon
-                as={FiCopy}
-                w={6}
-                h={6}
-                mt={1}
-                onClick={() => handleCopyToClipboard(coupon?.code as string)}
-              />
-            )}
+          <Flex alignItems="center" alignSelf="center">
+            <Flex bgColor="blackLight" py={1.5} px={2.5} borderRadius="lg">
+              <PassIcon color="cje-gray.500" />
+            </Flex>
+            <Flex bgColor="cje-gray.500" borderRadius="full" p={2.5} ml={-1}>
+              <Icon as={HiWrenchScrewdriver} w={6} h={6} />
+            </Flex>
           </Flex>
-          {coupon && (
-            <HStack spacing={2} align="center">
-              <Icon as={HiOutlineInformationCircle} w={6} h={6} mt={0.5} />
-              <Text
-                fontWeight="medium"
-                textDecoration="underline"
-                textUnderlineOffset={3}
-                onClick={handleOpenOtherConditions}
-              >
-                Conditions d’utilisation
-              </Text>
-            </HStack>
-          )}
-          <Flex
-            id="coupon-code-icon"
-            position="absolute"
-            bgColor="white"
-            p={5}
-            shadow="md"
-            borderRadius="full"
-            justifyContent="center"
-            alignItems="center"
-            top="50%"
-            left="50%"
-            transform="translate(-50%, -50%)"
-          >
-            <Icon
-              id="coupon-code-icon-unlock"
-              as={FiUnlock}
-              display="none"
-              w={6}
-              h={6}
-            />
-            <Icon id="coupon-code-icon-lock" as={FiLock} w={6} h={6} />
-          </Flex>
+          <Text fontWeight="bold" px={10}>
+            Votre pass CJE est en cours de création
+          </Text>
+          <Text fontWeight="medium" fontSize="sm">
+            Notre équipe vérifie votre photo en ce moment. D’ici 24h vous aurez
+            votre pass CJE pour bénéficier de toutes les offres en magasin
+            disponibles sur l’application.
+          </Text>
         </Flex>
-      </Flex>
-      {!coupon && <Divider mt={6} />}
+      )}
+
       <Flex flexDir="column" mt={coupon ? 6 : 0}>
         {children}
       </Flex>

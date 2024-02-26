@@ -29,6 +29,7 @@ import {
 } from "react-icons/hi2";
 import ChakraNextImage from "~/components/ChakraNextImage";
 import LoadingLoader from "~/components/LoadingLoader";
+import NewPassComponent from "~/components/NewPassComponent";
 import { PassIcon } from "~/components/icons/pass";
 import BaseModal from "~/components/modals/BaseModal";
 import StackItems from "~/components/offer/StackItems";
@@ -36,6 +37,7 @@ import StepsButtons from "~/components/offer/StepsButtons";
 import CouponWrapper from "~/components/wrappers/CouponWrapper";
 import OfferWrapper from "~/components/wrappers/OfferWrapper";
 import StepsWrapper from "~/components/wrappers/StepsWrapper";
+import { useAuth } from "~/providers/Auth";
 import { couponAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
 import {
@@ -45,6 +47,8 @@ import {
 } from "~/utils/itemsOffer";
 
 export default function Dashboard() {
+  const { user } = useAuth();
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -100,6 +104,8 @@ export default function Dashboard() {
     count: nbSteps,
   });
 
+  const [isOpenNewPassComponent, setIsOpenNewPassComponent] = useState(false);
+
   const {
     isOpen: isOpenActivateOffer,
     onOpen: onOpenActivateOffer,
@@ -140,6 +146,14 @@ export default function Dashboard() {
     { dependencies: [isLoadingCoupon, coupon, isSuccess] }
   );
 
+  const handleActivateOffer = () => {
+    if (offer?.kind === "voucher" && user?.status_image !== "approved") {
+      setIsOpenNewPassComponent(true);
+    } else {
+      onOpenActivateOffer();
+    }
+  };
+
   if (isLoadingOffer || !offer || isLoadingCoupon)
     return (
       <OfferWrapper>
@@ -156,26 +170,38 @@ export default function Dashboard() {
         offer={offer}
         handleOpenOtherConditions={onOpenOtherConditions}
       >
-        {coupon && offer.kind === "code" ? (
-          <Button onClick={onOpenExternalLink}>Aller sur le site</Button>
-        ) : (
-          <Link href="/dashboard/account/card">
-            <Button leftIcon={<Icon as={PassIcon} w={6} h={6} />} w="full">
-              Présenter mon pass CJE
-            </Button>
-          </Link>
+        {coupon && (
+          <>
+            {offer.kind === "code" ? (
+              <Button onClick={onOpenExternalLink}>Aller sur le site</Button>
+            ) : (
+              <Link href="/dashboard/account/card">
+                <Button leftIcon={<Icon as={PassIcon} w={6} h={6} />} w="full">
+                  Présenter mon pass CJE
+                </Button>
+              </Link>
+            )}
+          </>
         )}
-        <StackItems
-          active={!!coupon}
-          items={itemsSimpleTermsOfUse}
-          title="Comment ça marche ?"
-          props={{ mt: 6, spacing: 3 }}
-          propsItem={{ color: !coupon ? "disabled" : undefined }}
-        />
-        {!coupon && (
-          <Button onClick={onOpenActivateOffer} mt={6}>
-            J'active mon offre
-          </Button>
+
+        {((offer.kind === "voucher" &&
+          ((user?.image !== undefined && user?.status_image === "approved") ||
+            (user?.image === undefined && user?.status_image === "pending"))) ||
+          offer.kind !== "voucher") && (
+          <>
+            <StackItems
+              active={!!coupon}
+              items={itemsSimpleTermsOfUse}
+              title="Comment ça marche ?"
+              props={{ mt: 6, spacing: 3 }}
+              propsItem={{ color: !coupon ? "disabled" : undefined }}
+            />
+            {!coupon && (
+              <Button onClick={handleActivateOffer} mt={6}>
+                J'active mon offre
+              </Button>
+            )}
+          </>
         )}
 
         {offer.kind === "voucher" && (
@@ -382,6 +408,10 @@ export default function Dashboard() {
           <StackItems items={itemsExternalLink} props={{ mt: 16 }} />
         </Flex>
       </BaseModal>
+      <NewPassComponent
+        isOpen={isOpenNewPassComponent}
+        onClose={() => setIsOpenNewPassComponent(false)}
+      />
     </OfferWrapper>
   );
 }
