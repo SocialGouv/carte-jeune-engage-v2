@@ -61,6 +61,7 @@ export interface User {
   userEmail?: string | null;
   status_image?: ('pending' | 'approved' | 'rejected') | null;
   preferences?: (number | Category)[] | null;
+  otp_request_token?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -150,6 +151,7 @@ export interface Offer {
   title: string;
   partner: number | Partner;
   category: number | Category;
+  validityFrom?: string | null;
   validityTo: string;
   kind: 'voucher' | 'code';
   nbOfEligibleStores?: number | null;

@@ -33,9 +33,14 @@ export const Offers: CollectionConfig = {
       required: true,
     },
     {
+			name: "validityFrom",
+			type: "date",
+			label: "Offre valide à partir du",
+		},
+    {
       name: "validityTo",
       type: "date",
-      label: "Validité jusqu'au",
+      label: "Offre valide jusqu'au (inclus)",
       required: true,
     },
     {
@@ -79,5 +84,5 @@ export const Offers: CollectionConfig = {
         },
       ],
     },
-  ],
+  ],	
 };
