@@ -18,3 +18,7 @@ jobs:
       with:
         imagePackage: app
         context: ./webapp
+        secrets:
+          sentry_auth_token:
+            secretName: app-sealed-secret
+            secretKey: SENTRY_AUTH_TOKEN

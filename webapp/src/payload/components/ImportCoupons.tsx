@@ -126,7 +126,7 @@ const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
 				}}
 				style={{ display: "none" }}
 			/>
-			<Button as="label" htmlFor="csvInput" cursor="pointer">
+			<Button as="label" htmlFor="csvInput" cursor="pointer" className="pill pill--style-light pill--has-link pill--has-action">
 				Importer des bons de réduction
 			</Button>
 			<Tooltip
@@ -162,6 +162,7 @@ const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
 							onClick={() => {
 								toggleModal(modalSlug);
 							}}
+							className="btn btn--style-secondary"
 						>
 							Annuler
 						</Button>
@@ -170,6 +171,7 @@ const ImportCoupons = ({ hasCreatePermission, resetParams }: Props) => {
 							color="black"
 							ml={4}
 							onClick={validate}
+							className="btn btn--style-primary"
 						>
 							Valider
 						</Button>

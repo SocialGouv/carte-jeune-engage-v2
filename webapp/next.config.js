@@ -1,10 +1,21 @@
 // next.config.js
 const path = require("path");
 const { withPayload } = require("@payloadcms/next-payload");
+const { withSentryConfig } = require("@sentry/nextjs");
 
 const { version } = require("./package.json");
 
-const withPWA = require("@ducanh2912/next-pwa").default({
+const nextOptions = {
+  reactStrictMode: true,
+  images: {
+    domains: ["localhost"],
+  },
+  env: {
+    NEXT_PUBLIC_CURRENT_PACKAGE_VERSION: version,
+  },
+};
+
+const pwaOptions = {
   dest: "public",
   cacheOnFrontEndNav: true,
   aggressiveFrontEndNavCaching: true,
@@ -14,32 +25,35 @@ const withPWA = require("@ducanh2912/next-pwa").default({
     maximumFileSizeToCacheInBytes: 10000000,
     disableDevLogs: true,
   },
-});
+};
+
+const payloadOptions = {
+  configPath: path.resolve(__dirname, "./src/payload/payload.config.ts"),
+  payloadPath: path.resolve(process.cwd(), "./src/payload/payloadClient.ts"),
+  adminRoute: "/admin",
+};
+
+const sentryWebpackPluginOptions = {
+  silent: false,
+  org: "incubateur",
+  project: "carte-jeune-engage",
+  url: "https://sentry.fabrique.social.gouv.fr/",
+};
+
+const sentryOptions = {
+  widenClientFileUpload: true,
+  transpileClientSDK: true,
+  tunnelRoute: "/monitoring",
+  hideSourceMaps: true,
+  disableLogger: true,
+  automaticVercelMonitors: true,
+};
+
+const withPWA = require("@ducanh2912/next-pwa").default(pwaOptions);
 
 module.exports = withPayload(
-  withPWA({
-    // your Next config here
-    reactStrictMode: true,
-    images: {
-      domains: ["localhost"],
-    },
-    env: {
-      NEXT_PUBLIC_CURRENT_PACKAGE_VERSION: version,
-    },
-  }),
-  {
-    // The second argument to `withPayload`
-    // allows you to specify paths to your Payload dependencies
-    // and configure the admin route to your Payload CMS.
-
-    // Point to your Payload config (required)
-    configPath: path.resolve(__dirname, "./src/payload/payload.config.ts"),
-
-    // Point to your exported, initialized Payload instance (optional, default shown below`)
-    payloadPath: path.resolve(process.cwd(), "./src/payload/payloadClient.ts"),
-
-    // Set a custom Payload admin route (optional, default is `/admin`)
-    // NOTE: Read the "Set a custom admin route" section in the payload/next-payload README.
-    adminRoute: "/admin",
-  }
+  withPWA(
+    withSentryConfig(nextOptions, sentryWebpackPluginOptions, sentryOptions)
+  ),
+  payloadOptions
 );
