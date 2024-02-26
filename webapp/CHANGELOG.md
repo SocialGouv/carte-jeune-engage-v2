@@ -1,3 +1,10 @@
+## [0.11.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.11.0...v0.11.1) (2024-02-26)
+
+
+### Bug Fixes
+
+* middleware redirect ([f9a82fd](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f9a82fd6de103a2f41045bfc6b7a11f6b5ccd657))
+
 # [0.11.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.10.1...v0.11.0) (2024-02-26)
 
 
