@@ -12,11 +12,7 @@ type OfferCardProps = {
 
 const OfferCard = ({ offer, displayExpiryDate = false }: OfferCardProps) => {
   return (
-    <Link
-      href={`/dashboard/offer/${
-        offer.kind === "code" ? "online" : "in-store"
-      }/${offer.id}`}
-    >
+    <Link href={`/dashboard/offer/${offer.id}`}>
       <Flex flexDir="column">
         <Flex
           bgColor={offer.partner.color}

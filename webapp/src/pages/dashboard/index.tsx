@@ -145,9 +145,7 @@ export default function Dashboard() {
           {quickAccessPartners?.map((quickAccess) => (
             <Link
               key={quickAccess.id}
-              href={`/dashboard/offer/${
-                quickAccess.offer.kind === "voucher" ? "in-store" : "online"
-              }/${quickAccess.offer.id}`}
+              href={`/dashboard/offer/${quickAccess.offer.id}`}
               passHref
             >
               <Box

@@ -154,6 +154,15 @@ export interface Offer {
   validityFrom?: string | null;
   validityTo: string;
   kind: 'voucher' | 'code';
+  nbOfEligibleStores?: number | null;
+  imageOfEligibleStores?: number | Media | null;
+  linkOfEligibleStores?: string | null;
+  conditions?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }

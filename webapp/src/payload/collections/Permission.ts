@@ -13,6 +13,7 @@ export const Permissions: CollectionConfig = {
 		{
 			name: "phone_number",
 			type: "text",
+			required: true,
 			unique: true,
 			label: "Téléphone",
 		},

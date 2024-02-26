@@ -15,7 +15,7 @@ import { useEffect, useMemo, useState } from "react";
 import { HiArrowRight, HiCheck, HiCheckCircle } from "react-icons/hi2";
 import LoadingLoader from "~/components/LoadingLoader";
 import FormBlock from "~/components/forms/FormBlock";
-import StepsWrapper from "~/components/wrappers/StepsWrapper";
+import OnBoardingStepsWrapper from "~/components/wrappers/OnBoardingStepsWrapper";
 import { signupSteps } from "./signup";
 import { api } from "~/utils/api";
 import { getCookie, setCookie } from "cookies-next";
@@ -217,7 +217,7 @@ export default function OnBoarding() {
   );
 
   return (
-    <StepsWrapper
+    <OnBoardingStepsWrapper
       stepContext={{
         isFirstStep:
           onBoardingSteps.findIndex(
@@ -368,6 +368,6 @@ export default function OnBoarding() {
           </Button>
         </Flex>
       </Box>
-    </StepsWrapper>
+    </OnBoardingStepsWrapper>
   );
 }

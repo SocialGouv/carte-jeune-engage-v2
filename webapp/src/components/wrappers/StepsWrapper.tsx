@@ -1,53 +1,47 @@
-import { Box, Flex, Icon } from "@chakra-ui/react";
+import { Box, Flex, HStack, Icon } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
-import { HiChevronLeft } from "react-icons/hi2";
+import { IoChevronBack } from "react-icons/io5";
 
 type StepsWrapperProps = {
-  children: ReactNode;
-  stepContext: { isFirstStep?: boolean; current: number; total: number };
+	children: ReactNode;
+	stepContext: { current: number; total: number };
+	onBack?: () => void;
 };
 
 const StepsWrapper = ({
-  children,
-  stepContext: { isFirstStep, current, total },
+	children,
+	stepContext: { current, total },
+	onBack,
 }: StepsWrapperProps) => {
-  const router = useRouter();
+	const router = useRouter();
 
-  return (
-    <Flex flexDir="column" h="full">
-      <Flex
-        position="relative"
-        alignItems="center"
-        justifyContent="center"
-        pt={8}
-      >
-        {current > 1 && !isFirstStep && (
-          <Icon
-            as={HiChevronLeft}
-            w={6}
-            h={6}
-            onClick={() => router.back()}
-            cursor="pointer"
-            position="absolute"
-            left={6}
-          />
-        )}
-        <Box bgColor="cje-gray.300" borderRadius="xl" w="30%" h="6px">
-          <Box
-            as={motion.div}
-            layout
-            h="6px"
-            w={`${(current / total) * 100}%`}
-            borderRadius="xl"
-            bgColor="blackLight"
-          />
-        </Box>
-      </Flex>
-      {children}
-    </Flex>
-  );
+	return (
+		<Flex flexDir="column" h="full">
+			<Icon
+				as={IoChevronBack}
+				w={6}
+				h={6}
+				onClick={() => (onBack ? onBack() : router.back())}
+				cursor="pointer"
+			/>
+			<HStack w="full" spacing={2} my={6}>
+				{[...Array(total)].map((_, index) => (
+					<Box
+						key={index}
+						as={motion.div}
+						layout
+						bgColor={index < current ? "blackLight" : "cje-gray.500"}
+						borderRadius="md"
+						w={`${100 / total}%`}
+						h="7px"
+					/>
+				))}
+			</HStack>
+			{children}
+		</Flex>
+	);
 };
 
 export default StepsWrapper;

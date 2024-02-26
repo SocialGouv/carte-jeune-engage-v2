@@ -11852,6 +11852,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsbarcode@npm:^3.8.0":
+  version: 3.11.6
+  resolution: "jsbarcode@npm:3.11.6"
+  checksum: 10c0/5603ddaa7f0a65b710af95e29105400d99e4c67655899399ac46965eeb7fef83a8e9378eee4eb27f778fd563917015953261c0f271592f2c705fcc2751754e4d
+  languageName: node
+  linkType: hard
+
 "jsbn@npm:1.1.0":
   version: 1.1.0
   resolution: "jsbn@npm:1.1.0"
@@ -13089,6 +13096,13 @@ __metadata:
   version: 0.1.2
   resolution: "normalize-range@npm:0.1.2"
   checksum: 10c0/bf39b73a63e0a42ad1a48c2bd1bda5a07ede64a7e2567307a407674e595bcff0fa0d57e8e5f1e7fa5e91000797c7615e13613227aaaa4d6d6e87f5bd5cc95de6
+  languageName: node
+  linkType: hard
+
+"normalize-wheel@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "normalize-wheel@npm:1.0.1"
+  checksum: 10c0/5daf4c97e39f36658a5263a6499bbc148676ae2bd85f12c8d03c46ffe7bc3c68d44564c00413d88d0457ac0d94450559bb1c24c2ce7ae0c107031f82d093ac06
   languageName: node
   linkType: hard
 
@@ -14938,6 +14952,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-barcode@npm:^1.4.6":
+  version: 1.4.6
+  resolution: "react-barcode@npm:1.4.6"
+  dependencies:
+    jsbarcode: "npm:^3.8.0"
+    prop-types: "npm:^15.6.2"
+  peerDependencies:
+    react: ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/18d98a60d229eeb6041052b84e657d878b709d7a3a69742e64b895e191ff9f6d97543abefe1b4841b268b82209bf70db517c077f1ed279e1ab379b673aaa9039
+  languageName: node
+  linkType: hard
+
 "react-clientside-effect@npm:^1.2.6":
   version: 1.2.6
   resolution: "react-clientside-effect@npm:1.2.6"
@@ -14991,6 +15017,19 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
   checksum: 10c0/66dfc5f93e13d0674e78ef41f92ed21dfb80f9c4ac4ac25a4b51046d41d4d2186abc915b897f69d3d0ebbffe6184e7c5876f2af26bfa956f179225d921be713a
+  languageName: node
+  linkType: hard
+
+"react-easy-crop@npm:^5.0.5":
+  version: 5.0.5
+  resolution: "react-easy-crop@npm:5.0.5"
+  dependencies:
+    normalize-wheel: "npm:^1.0.1"
+    tslib: "npm:2.0.1"
+  peerDependencies:
+    react: ">=16.4.0"
+    react-dom: ">=16.4.0"
+  checksum: 10c0/fd08dbdcbcb3cd99e4b90c2b10b5a97c8684b54f49f81129c4a880c218420beb7b1173731acff8f044ae95898b901361ad228b7d162ec7f59d2c60079061f588
   languageName: node
   linkType: hard
 
@@ -17059,6 +17098,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tslib@npm:2.0.1":
+  version: 2.0.1
+  resolution: "tslib@npm:2.0.1"
+  checksum: 10c0/5f370da8ac0e9c7f2440a3fd8013682c042a8eeace93849a44a8d4252770e4830fce3201b0bc5a6045c7e28b80eaebe3a3b48e656aa7b4f9681b9a9d7263cfaf
+  languageName: node
+  linkType: hard
+
 "tslib@npm:2.4.0":
   version: 2.4.0
   resolution: "tslib@npm:2.4.0"
@@ -17595,7 +17641,9 @@ __metadata:
     papaparse: "npm:^5.4.1"
     payload: "npm:^2.10.0"
     react: "npm:^18"
+    react-barcode: "npm:^1.4.6"
     react-dom: "npm:^18"
+    react-easy-crop: "npm:^5.0.5"
     react-hook-form: "npm:^7.50.1"
     react-icons: "npm:^5.0.0"
     sharp: "npm:^0.33.2"

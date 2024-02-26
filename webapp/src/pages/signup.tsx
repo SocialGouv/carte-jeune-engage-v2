@@ -17,7 +17,7 @@ import FormBlock from "~/components/forms/FormBlock";
 import FormAutocompleteInput from "~/components/forms/FormAutocompleteInput";
 import { useQuery } from "@tanstack/react-query";
 import useDebounceValueWithState from "~/hooks/useDebounceCallbackWithPending";
-import StepsWrapper from "~/components/wrappers/StepsWrapper";
+import OnBoardingStepsWrapper from "~/components/wrappers/OnBoardingStepsWrapper";
 import { onBoardingSteps } from "./onboarding";
 import { api } from "~/utils/api";
 import { getCookie, setCookie } from "cookies-next";
@@ -282,7 +282,7 @@ export default function Signup() {
   );
 
   return (
-    <StepsWrapper
+    <OnBoardingStepsWrapper
       stepContext={{
         current:
           signupSteps.findIndex(
@@ -373,6 +373,6 @@ export default function Signup() {
           </Button>
         </Flex>
       </form>
-    </StepsWrapper>
+    </OnBoardingStepsWrapper>
   );
 }
