@@ -22,7 +22,7 @@ import ChakraNextImage from "~/components/ChakraNextImage";
 import FormInput from "~/components/forms/FormInput";
 import { loginAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
-import { frenchPhoneNumber } from "~/utils/tools";
+import { addSpaceToTwoCharacters, frenchPhoneNumber } from "~/utils/tools";
 
 type LoginForm = {
 	phone_number: string;
@@ -174,7 +174,7 @@ export default function Home() {
 						Vous avez reçu un code à 4 chiffres par SMS
 					</Heading>
 					<Text fontSize={"sm"} fontWeight="medium" color="secondaryText">
-						Saisissez le code envoyé au 06 15 29 20 93 pour pouvoir créer votre
+						Saisissez le code envoyé au {addSpaceToTwoCharacters(formValues.phone_number)} pour pouvoir créer votre
 						compte
 					</Text>
 					<Box my={8}>
