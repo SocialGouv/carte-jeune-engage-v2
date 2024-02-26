@@ -32,19 +32,16 @@ import LoadingLoader from "~/components/LoadingLoader";
 import NewPassComponent from "~/components/NewPassComponent";
 import { PassIcon } from "~/components/icons/pass";
 import BaseModal from "~/components/modals/BaseModal";
-import StackItems from "~/components/offer/StackItems";
+import StackItems, { StackItem } from "~/components/offer/StackItems";
 import StepsButtons from "~/components/offer/StepsButtons";
 import CouponWrapper from "~/components/wrappers/CouponWrapper";
 import OfferWrapper from "~/components/wrappers/OfferWrapper";
 import StepsWrapper from "~/components/wrappers/StepsWrapper";
+import { getItemsTermsOfUse } from "~/payload/components/CustomSelectField";
 import { useAuth } from "~/providers/Auth";
 import { couponAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
-import {
-  getItemsExternalLink,
-  getItemsSimpleTermsOfUse,
-  getItemsTermsOfUse,
-} from "~/utils/itemsOffer";
+import { getItemsExternalLink } from "~/utils/itemsOffer";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -84,7 +81,9 @@ export default function Dashboard() {
 
   const itemsTermsOfUse = useMemo(() => {
     if (!offer) return [];
-    return getItemsTermsOfUse(offer.kind);
+    return getItemsTermsOfUse(offer.kind).filter((item) =>
+      offer.termsOfUse?.map((termOfUse) => termOfUse.slug).includes(item.slug)
+    ) as StackItem[];
   }, [offer]);
 
   const itemsExternalLink = useMemo(() => {

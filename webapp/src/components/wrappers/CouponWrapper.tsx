@@ -14,6 +14,7 @@ import { FiCopy, FiLock, FiUnlock } from "react-icons/fi";
 import {
   HiBuildingStorefront,
   HiCursorArrowRays,
+  HiMiniCheck,
   HiOutlineInformationCircle,
   HiReceiptPercent,
   HiWrenchScrewdriver,
@@ -25,9 +26,9 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import Barcode from "react-barcode";
 import { useAuth } from "~/providers/Auth";
 import { PassIcon } from "../icons/pass";
-import StackItems from "../offer/StackItems";
+import StackItems, { StackItem } from "../offer/StackItems";
 import Link from "next/link";
-import { getItemsSimpleTermsOfUse } from "~/utils/itemsOffer";
+import { getItemsTermsOfUse } from "~/payload/components/CustomSelectField";
 
 type CouponWrapperProps = {
   children: ReactNode;
@@ -59,7 +60,15 @@ const CouponWrapper = ({
 
   const itemsSimpleTermsOfUse = useMemo(() => {
     if (!offer) return [];
-    return getItemsSimpleTermsOfUse(offer.kind, !!coupon);
+    return [
+      { icon: "HiMiniCheck", text: "J'active cette offre", slug: "activate" },
+      getItemsTermsOfUse(offer.kind).filter((item) =>
+        offer.termsOfUse
+          ?.filter((termOfUse) => termOfUse.isHighlighted)
+          .map((termOfUse) => termOfUse.slug)
+          .includes(item.slug)
+      ) ?? [],
+    ].flat();
   }, [offer, coupon]);
 
   const handleCopyToClipboard = (text: string) => {

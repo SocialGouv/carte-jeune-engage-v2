@@ -157,6 +157,13 @@ export interface Offer {
   nbOfEligibleStores?: number | null;
   imageOfEligibleStores?: number | Media | null;
   linkOfEligibleStores?: string | null;
+  termsOfUse?:
+    | {
+        slug?: string | null;
+        isHighlighted?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
   conditions?:
     | {
         text: string;
