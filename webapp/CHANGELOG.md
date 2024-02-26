@@ -1,3 +1,25 @@
+# [0.9.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.8.2...v0.9.0) (2024-02-26)
+
+
+### Bug Fixes
+
+* add check to permissions conflict ([08973d9](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/08973d9f4fc129f4ceff9e9d56a6d26c34ec1580))
+* add link for store eligible in offer kind voucher ([c3b7c0b](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/c3b7c0b9dc1485938a9333b5ecc5325383656abc))
+* add migrations and fix types ([9e3705a](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/9e3705a503444c0a47cb32745c904433040ff9b4))
+* add migrations for prod ([fb526b8](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/fb526b8b0686fcd76a64572666c4dec0a36e9c6a))
+* conditions instead of hardcoded example ([18334eb](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/18334ebc2636735ff4462d0e9ea6508bbdd0e295))
+* middlware supervisor error ([d14f237](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/d14f2376a43f4281a2cbd760a0996ed7de152b77))
+* permission phone to required ([0f2b573](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/0f2b573da8b991750e585cb69c7fdfc1bbddd7bf))
+* UI when more conditions ([c0dea85](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/c0dea85ce4e1c46ffdbee80ec88448b3bf937739))
+
+
+### Features
+
+* add design for in store offer ([fdebafb](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/fdebafbdc5f3e194a61435d6e9114c6efb592ece))
+* add redirect to new pass for code voucher ([d4af34f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/d4af34f566410d8eb60a1ea06b009d059dcf4ad6))
+* handle create pass with upload and crop photo for user pass ([c44ea3f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/c44ea3f5c1f2ed18835016243440b0d3b0cad31e))
+* redesign page offer online with new component for list of items, modal ([de84029](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/de840298d48a7cc7d4dcc500aa59609d1641a867))
+
 ## [0.8.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.8.1...v0.8.2) (2024-02-26)
 
 
