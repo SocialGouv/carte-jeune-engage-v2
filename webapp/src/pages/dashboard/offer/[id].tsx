@@ -82,11 +82,6 @@ export default function Dashboard() {
       onSuccess: () => refetchCoupon(),
     });
 
-  const itemsSimpleTermsOfUse = useMemo(() => {
-    if (!offer) return [];
-    return getItemsSimpleTermsOfUse(offer.kind, !!coupon);
-  }, [offer, coupon]);
-
   const itemsTermsOfUse = useMemo(() => {
     if (!offer) return [];
     return getItemsTermsOfUse(offer.kind);
@@ -97,7 +92,10 @@ export default function Dashboard() {
     return getItemsExternalLink(offer.kind);
   }, [offer]);
 
-  const nbSteps = 2;
+  const nbSteps = useMemo(() => {
+    if (!offer) return 2;
+    return offer.conditions?.length ? 2 : 1;
+  }, [offer]);
 
   const { activeStep, setActiveStep } = useSteps({
     index: 1,
@@ -169,41 +167,9 @@ export default function Dashboard() {
         coupon={coupon}
         offer={offer}
         handleOpenOtherConditions={onOpenOtherConditions}
+        handleActivateOffer={handleActivateOffer}
+        handleOpenExternalLink={onOpenExternalLink}
       >
-        {coupon && (
-          <>
-            {offer.kind === "code" ? (
-              <Button onClick={onOpenExternalLink}>Aller sur le site</Button>
-            ) : (
-              <Link href="/dashboard/account/card">
-                <Button leftIcon={<Icon as={PassIcon} w={6} h={6} />} w="full">
-                  Présenter mon pass CJE
-                </Button>
-              </Link>
-            )}
-          </>
-        )}
-
-        {((offer.kind === "voucher" &&
-          ((user?.image !== undefined && user?.status_image === "approved") ||
-            (user?.image === undefined && user?.status_image === "pending"))) ||
-          offer.kind !== "voucher") && (
-          <>
-            <StackItems
-              active={!!coupon}
-              items={itemsSimpleTermsOfUse}
-              title="Comment ça marche ?"
-              props={{ mt: 6, spacing: 3 }}
-              propsItem={{ color: !coupon ? "disabled" : undefined }}
-            />
-            {!coupon && (
-              <Button onClick={handleActivateOffer} mt={6}>
-                J'active mon offre
-              </Button>
-            )}
-          </>
-        )}
-
         {offer.kind === "voucher" && (
           <>
             <Divider my={6} />
@@ -271,37 +237,39 @@ export default function Dashboard() {
             </Button>
           )}
         </HStack>
-        <Divider my={6} />
         {!!(offer.conditions ?? []).length && (
-          <Flex flexDir="column" gap={2}>
-            <HStack spacing={4}>
-              <Icon as={HiOutlineInformationCircle} w={6} h={6} />
-              <Text fontWeight="extrabold">Conditions</Text>
-            </HStack>
-            <Text fontWeight="medium" my={2}>
-              <Text>
-                {(offer.conditions ?? []).slice(0, 2).map((condition) => (
-                  <Text mb={2}>
-                    {condition.text}
-                    <br />
-                  </Text>
-                ))}
-              </Text>
-            </Text>
-            {(offer.conditions ?? []).length > 2 && (
-              <HStack
-                spacing={1}
-                w="fit-content"
-                borderBottom="1px solid black"
-                onClick={onOpenOtherConditions}
-              >
-                <Text as="span" fontWeight="medium">
-                  Lire la suite
-                </Text>
-                <Icon as={HiArrowRight} w={4} h={4} />
+          <>
+            <Divider my={6} />
+            <Flex flexDir="column" gap={2}>
+              <HStack spacing={4}>
+                <Icon as={HiOutlineInformationCircle} w={6} h={6} />
+                <Text fontWeight="extrabold">Conditions</Text>
               </HStack>
-            )}
-          </Flex>
+              <Text fontWeight="medium" my={2}>
+                <Text>
+                  {(offer.conditions ?? []).slice(0, 2).map((condition) => (
+                    <Text mb={2}>
+                      {condition.text}
+                      <br />
+                    </Text>
+                  ))}
+                </Text>
+              </Text>
+              {(offer.conditions ?? []).length > 2 && (
+                <HStack
+                  spacing={1}
+                  w="fit-content"
+                  borderBottom="1px solid black"
+                  onClick={onOpenOtherConditions}
+                >
+                  <Text as="span" fontWeight="medium">
+                    Lire la suite
+                  </Text>
+                  <Icon as={HiArrowRight} w={4} h={4} />
+                </HStack>
+              )}
+            </Flex>
+          </>
         )}
       </CouponWrapper>
       <BaseModal
@@ -310,7 +278,7 @@ export default function Dashboard() {
         hideCloseBtn
       >
         <StepsWrapper
-          stepContext={{ current: activeStep, total: 2 }}
+          stepContext={{ current: activeStep, total: nbSteps }}
           onBack={() =>
             activeStep !== 1
               ? setActiveStep(activeStep - 1)
@@ -333,6 +301,10 @@ export default function Dashboard() {
                   setActiveStep={setActiveStep}
                   count={nbSteps}
                   mainBtnText="J'ai compris"
+                  handleValidate={() => {
+                    mutateCouponToUser({ offer_id: offer.id });
+                    onCloseActivateOffer();
+                  }}
                   onClose={onCloseActivateOffer}
                 />
               </TabPanel>
