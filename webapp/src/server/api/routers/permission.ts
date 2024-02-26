@@ -13,6 +13,23 @@ export const permissionRouter = createTRPCRouter({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
+			const existing = await ctx.payload.find({
+				collection: "permissions",
+				where: {
+					phone_number: { equals: input.phone_number }
+				},
+				page: 1,
+				limit: 1
+			})
+
+			if (!!existing.docs.length) {
+				throw new TRPCError({
+					code: "CONFLICT",
+					message: "Phone already whitelisted",
+					cause: 'Existing phone number',
+				});
+			}
+
 			try {
 				const permission = await ctx.payload.create({
 					collection: "permissions",
