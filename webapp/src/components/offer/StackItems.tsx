@@ -8,10 +8,12 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { IconType } from "react-icons/lib";
+import ReactIcon from "~/utils/dynamicIcon";
+import { PassIcon } from "../icons/pass";
 
 export type StackItem = {
   text: string;
-  icon?: As;
+  icon?: As | string;
 };
 
 type StackItemsProps = {
@@ -45,13 +47,27 @@ const StackItems = ({
       )}
       {items.map(({ text, icon }, index) => (
         <HStack
-          key={index}
+          key={`${text}-${index}-${icon}`}
           spacing={3}
           w="full"
           {...(active && index === 0 ? propsActiveText : undefined)}
           {...(index !== 0 ? propsItem : undefined)}
         >
-          {icon && <Icon as={icon} w={6} h={6} />}
+          {icon && (
+            <>
+              {typeof icon === "string" ? (
+                <>
+                  {icon === "PassIcon" ? (
+                    <PassIcon w={6} h={6} color="inherit" />
+                  ) : (
+                    <ReactIcon icon={icon} size={24} color="inherit" />
+                  )}
+                </>
+              ) : (
+                <Icon as={icon as IconType} w={6} h={6} />
+              )}
+            </>
+          )}
           <Text fontWeight="medium">{text}</Text>
         </HStack>
       ))}

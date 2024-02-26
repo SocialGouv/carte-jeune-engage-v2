@@ -1,4 +1,6 @@
 import {
+  Box,
+  Button,
   Divider,
   Flex,
   HStack,
@@ -7,11 +9,12 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { FiCopy, FiLock, FiUnlock } from "react-icons/fi";
 import {
   HiBuildingStorefront,
   HiCursorArrowRays,
+  HiMiniCheck,
   HiOutlineInformationCircle,
   HiReceiptPercent,
   HiWrenchScrewdriver,
@@ -23,12 +26,17 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import Barcode from "react-barcode";
 import { useAuth } from "~/providers/Auth";
 import { PassIcon } from "../icons/pass";
+import StackItems, { StackItem } from "../offer/StackItems";
+import Link from "next/link";
+import { getItemsTermsOfUse } from "~/payload/components/CustomSelectField";
 
 type CouponWrapperProps = {
   children: ReactNode;
   coupon?: CouponIncluded;
   offer: OfferIncluded;
   handleOpenOtherConditions: () => void;
+  handleActivateOffer: () => void;
+  handleOpenExternalLink: () => void;
 };
 
 const CouponWrapper = ({
@@ -36,9 +44,32 @@ const CouponWrapper = ({
   coupon,
   offer,
   handleOpenOtherConditions,
+  handleActivateOffer,
+  handleOpenExternalLink,
 }: CouponWrapperProps) => {
   const { user } = useAuth();
   const toast = useToast();
+
+  const isPassInCreation = useMemo(() => {
+    if (!user) return false;
+    return (
+      (user.image !== undefined && user.status_image === "approved") ||
+      (user.image === undefined && user.status_image === "pending")
+    );
+  }, [user]);
+
+  const itemsSimpleTermsOfUse = useMemo(() => {
+    if (!offer) return [];
+    return [
+      { icon: "HiMiniCheck", text: "J'active cette offre", slug: "activate" },
+      getItemsTermsOfUse(offer.kind).filter((item) =>
+        offer.termsOfUse
+          ?.filter((termOfUse) => termOfUse.isHighlighted)
+          .map((termOfUse) => termOfUse.slug)
+          .includes(item.slug)
+      ) ?? [],
+    ].flat();
+  }, [offer, coupon]);
 
   const handleCopyToClipboard = (text: string) => {
     toast({
@@ -88,9 +119,7 @@ const CouponWrapper = ({
           </Text>
         </Flex>
       ) : null}
-      {(offer.kind === "voucher" &&
-        ((user?.image !== undefined && user?.status_image === "approved") ||
-          (user?.image === undefined && user?.status_image === "pending"))) ||
+      {(offer.kind === "voucher" && isPassInCreation) ||
       offer.kind !== "voucher" ? (
         <>
           <Flex flexDir="column" mt={8}>
@@ -187,6 +216,36 @@ const CouponWrapper = ({
             </Flex>
           </Flex>
           {!coupon && <Divider mt={6} />}
+          {coupon && (
+            <Box mt={6}>
+              {offer.kind === "code" ? (
+                <Button onClick={handleOpenExternalLink} w="full">
+                  Aller sur le site
+                </Button>
+              ) : (
+                <Link href="/dashboard/account/card">
+                  <Button
+                    leftIcon={<Icon as={PassIcon} w={6} h={6} />}
+                    w="full"
+                  >
+                    Présenter mon pass CJE
+                  </Button>
+                </Link>
+              )}
+            </Box>
+          )}
+          <StackItems
+            active={!!coupon}
+            items={itemsSimpleTermsOfUse}
+            title="Comment ça marche ?"
+            props={{ mt: 6, spacing: 3 }}
+            propsItem={{ color: !coupon ? "disabled" : undefined }}
+          />
+          {!coupon && (
+            <Button onClick={handleActivateOffer} mt={6}>
+              J'active mon offre
+            </Button>
+          )}
         </>
       ) : (
         <Flex
@@ -218,10 +277,7 @@ const CouponWrapper = ({
           </Text>
         </Flex>
       )}
-
-      <Flex flexDir="column" mt={coupon ? 6 : 0}>
-        {children}
-      </Flex>
+      <Flex flexDir="column">{children}</Flex>
     </Flex>
   );
 };

@@ -1,3 +1,23 @@
+# [0.10.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.9.1...v0.10.0) (2024-02-26)
+
+
+### Bug Fixes
+
+* middleware redirect issue for onboarding ([afa7406](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/afa740627145451a1c4b9e1aee6dce0045db08f0))
+* regroup offer elements in coupon wrapper, extract condition for pass cje and undisplay other conditions in page and modal if not set ([6308427](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/6308427fa542e95cd7bcfb2c02f24b6fc64356b8))
+
+
+### Features
+
+* add dynamic termsOfUse items with dynamic icon ([8024d3e](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/8024d3e03bb503297dab357b2f1d1bab3d1f362e))
+
+## [0.9.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.9.0...v0.9.1) (2024-02-26)
+
+
+### Bug Fixes
+
+* hardcoded phone number ([7be2308](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/7be2308b68e417a44f1f8781bd7662052de590cc))
+
 # [0.9.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.8.2...v0.9.0) (2024-02-26)
 
 
