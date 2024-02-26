@@ -1,4 +1,8 @@
 import { type CollectionConfig } from "payload/types";
+import {
+  CustomSelectTermsOfUse,
+  getItemsTermsOfUse,
+} from "../components/CustomSelectField";
 
 export const Offers: CollectionConfig = {
   slug: "offers",
@@ -80,9 +84,40 @@ export const Offers: CollectionConfig = {
       },
     },
     {
+      name: "termsOfUse",
+      type: "array",
+      label: "Comment ça marche ?",
+      labels: {
+        singular: "Étape",
+        plural: "Étapes",
+      },
+      defaultValue: [],
+      fields: [
+        {
+          name: "slug",
+          type: "text",
+          label: "Texte",
+          admin: {
+            components: {
+              Field: CustomSelectTermsOfUse,
+            },
+          },
+        },
+        {
+          name: "isHighlighted",
+          type: "checkbox",
+          label: "Mettre en avant ?",
+        },
+      ],
+    },
+    {
       name: "conditions",
       type: "array",
       label: "Conditions",
+      labels: {
+        singular: "Condition",
+        plural: "Conditions",
+      },
       fields: [
         {
           name: "text",
