@@ -11852,17 +11852,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsbarcode@npm:^3.8.0":
+  version: 3.11.6
+  resolution: "jsbarcode@npm:3.11.6"
+  checksum: 10c0/5603ddaa7f0a65b710af95e29105400d99e4c67655899399ac46965eeb7fef83a8e9378eee4eb27f778fd563917015953261c0f271592f2c705fcc2751754e4d
+  languageName: node
+  linkType: hard
+
 "jsbn@npm:1.1.0":
   version: 1.1.0
   resolution: "jsbn@npm:1.1.0"
   checksum: 10c0/4f907fb78d7b712e11dea8c165fe0921f81a657d3443dde75359ed52eb2b5d33ce6773d97985a089f09a65edd80b11cb75c767b57ba47391fee4c969f7215c96
-  languageName: node
-  linkType: hard
-
-"jsbarcode@npm:^3.8.0":
-  version: 3.11.6
-  resolution: "jsbarcode@npm:3.11.6"
-  checksum: 5603ddaa7f0a65b710af95e29105400d99e4c67655899399ac46965eeb7fef83a8e9378eee4eb27f778fd563917015953261c0f271592f2c705fcc2751754e4d
   languageName: node
   linkType: hard
 
@@ -13102,7 +13102,7 @@ __metadata:
 "normalize-wheel@npm:^1.0.1":
   version: 1.0.1
   resolution: "normalize-wheel@npm:1.0.1"
-  checksum: 5daf4c97e39f36658a5263a6499bbc148676ae2bd85f12c8d03c46ffe7bc3c68d44564c00413d88d0457ac0d94450559bb1c24c2ce7ae0c107031f82d093ac06
+  checksum: 10c0/5daf4c97e39f36658a5263a6499bbc148676ae2bd85f12c8d03c46ffe7bc3c68d44564c00413d88d0457ac0d94450559bb1c24c2ce7ae0c107031f82d093ac06
   languageName: node
   linkType: hard
 
@@ -14960,7 +14960,7 @@ __metadata:
     prop-types: "npm:^15.6.2"
   peerDependencies:
     react: ^16.0.0 || ^17.0.0 || ^18.0.0
-  checksum: 18d98a60d229eeb6041052b84e657d878b709d7a3a69742e64b895e191ff9f6d97543abefe1b4841b268b82209bf70db517c077f1ed279e1ab379b673aaa9039
+  checksum: 10c0/18d98a60d229eeb6041052b84e657d878b709d7a3a69742e64b895e191ff9f6d97543abefe1b4841b268b82209bf70db517c077f1ed279e1ab379b673aaa9039
   languageName: node
   linkType: hard
 
@@ -15029,7 +15029,7 @@ __metadata:
   peerDependencies:
     react: ">=16.4.0"
     react-dom: ">=16.4.0"
-  checksum: fd08dbdcbcb3cd99e4b90c2b10b5a97c8684b54f49f81129c4a880c218420beb7b1173731acff8f044ae95898b901361ad228b7d162ec7f59d2c60079061f588
+  checksum: 10c0/fd08dbdcbcb3cd99e4b90c2b10b5a97c8684b54f49f81129c4a880c218420beb7b1173731acff8f044ae95898b901361ad228b7d162ec7f59d2c60079061f588
   languageName: node
   linkType: hard
 
@@ -17101,7 +17101,7 @@ __metadata:
 "tslib@npm:2.0.1":
   version: 2.0.1
   resolution: "tslib@npm:2.0.1"
-  checksum: 5f370da8ac0e9c7f2440a3fd8013682c042a8eeace93849a44a8d4252770e4830fce3201b0bc5a6045c7e28b80eaebe3a3b48e656aa7b4f9681b9a9d7263cfaf
+  checksum: 10c0/5f370da8ac0e9c7f2440a3fd8013682c042a8eeace93849a44a8d4252770e4830fce3201b0bc5a6045c7e28b80eaebe3a3b48e656aa7b4f9681b9a9d7263cfaf
   languageName: node
   linkType: hard
 
