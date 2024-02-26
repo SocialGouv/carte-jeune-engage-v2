@@ -246,27 +246,37 @@ export default function Dashboard() {
           )}
         </HStack>
         <Divider my={6} />
-        <Flex flexDir="column" gap={2}>
-          <HStack spacing={4}>
-            <Icon as={HiOutlineInformationCircle} w={6} h={6} />
-            <Text fontWeight="extrabold">Conditions</Text>
-          </HStack>
-          <Text fontWeight="medium">
-            Les conditions particulières que pourrait ajouter le partenaire. Les
-            conditions particulières que pourrait ajouter le partenaire.
-          </Text>
-          <HStack
-            spacing={1}
-            w="fit-content"
-            borderBottom="1px solid black"
-            onClick={onOpenOtherConditions}
-          >
-            <Text as="span" fontWeight="medium">
-              Lire la suite
+        {!!(offer.conditions ?? []).length && (
+          <Flex flexDir="column" gap={2}>
+            <HStack spacing={4}>
+              <Icon as={HiOutlineInformationCircle} w={6} h={6} />
+              <Text fontWeight="extrabold">Conditions</Text>
+            </HStack>
+            <Text fontWeight="medium" my={2}>
+              <Text>
+                {(offer.conditions ?? []).slice(0, 2).map((condition) => (
+                  <Text mb={2}>
+                    {condition.text}
+                    <br />
+                  </Text>
+                ))}
+              </Text>
             </Text>
-            <Icon as={HiArrowRight} w={4} h={4} />
-          </HStack>
-        </Flex>
+            {(offer.conditions ?? []).length > 2 && (
+              <HStack
+                spacing={1}
+                w="fit-content"
+                borderBottom="1px solid black"
+                onClick={onOpenOtherConditions}
+              >
+                <Text as="span" fontWeight="medium">
+                  Lire la suite
+                </Text>
+                <Icon as={HiArrowRight} w={4} h={4} />
+              </HStack>
+            )}
+          </Flex>
+        )}
       </CouponWrapper>
       <BaseModal
         onClose={onCloseActivateOffer}
