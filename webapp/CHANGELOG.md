@@ -1,3 +1,10 @@
+## [0.11.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.11.1...v0.11.2) (2024-02-27)
+
+
+### Bug Fixes
+
+* next cache in docker ([163aee1](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/163aee19a65482292badb549fdc704d269393476))
+
 ## [0.11.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.11.0...v0.11.1) (2024-02-26)
 
 
