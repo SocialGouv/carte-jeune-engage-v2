@@ -28,6 +28,8 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json .
 COPY --from=builder /app/next.config.js .
 
+RUN mkdir -p /app/.next/cache/images
+
 # Block crawlers for staging deployments
 RUN if [ -z "$PRODUCTION" ]; then mv -f public/robots.staging.txt public/robots.txt; \
   else rm -f public/robots.staging.txt; fi
