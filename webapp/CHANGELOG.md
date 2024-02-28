@@ -1,3 +1,12 @@
+# [0.12.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.11.4...v0.12.0) (2024-02-28)
+
+
+### Features
+
+* add crisp token to configmaps ([03efc4f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/03efc4fd4ea7bbe4c60762b405a1ee7290c755e9))
+* crisp full configuration ([7269b83](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/7269b83f55710cd162c2fc89159cb6ae7d1e7526))
+* crisp integration ([a92fa8b](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/a92fa8b33a35e5fc1bee4d75648791803bde7b0b))
+
 ## [0.11.4](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.11.3...v0.11.4) (2024-02-28)
 
 
