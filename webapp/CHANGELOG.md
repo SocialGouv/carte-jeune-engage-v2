@@ -1,3 +1,10 @@
+## [0.13.4](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.3...v0.13.4) (2024-02-28)
+
+
+### Bug Fixes
+
+* namespace and Dockerfile ([c099a38](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/c099a38ba2495afa6208c048be82ee5a9710cc96))
+
 ## [0.13.3](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.2...v0.13.3) (2024-02-28)
 
 
