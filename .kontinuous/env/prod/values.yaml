@@ -1,6 +1,3 @@
-global:
-  namespace: carte-jeune-engage
-
 jobs:
   runs:
     build-app:

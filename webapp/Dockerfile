@@ -20,23 +20,19 @@ FROM base as runner
 ARG PRODUCTION
 ENV NODE_ENV production
 
+RUN mkdir -p /app/.next/cache/images
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json .
+COPY --from=builder /app/next.config.js .
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/src ./src
 COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
 
-COPY --from=builder /app/package.json .
-COPY --from=builder /app/next.config.js .
-
-RUN mkdir -p /app/.next/cache/images
 
 # Block crawlers for staging deployments
 RUN if [ -z "$PRODUCTION" ]; then mv -f public/robots.staging.txt public/robots.txt; \
   else rm -f public/robots.staging.txt; fi
-
-# may not be necessary
-# RUN chmod 1777 /tmp
-# RUN chmod 1777 /app
 
 USER 1000
 
