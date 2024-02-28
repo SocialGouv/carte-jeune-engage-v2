@@ -178,7 +178,6 @@ export default function Dashboard() {
       >
         {offer.kind.startsWith("voucher") && (
           <>
-            <Divider my={6} />
             <VStack spacing={3} align="start">
               <HStack spacing={4}>
                 <Icon as={HiBuildingStorefront} w={6} h={6} />
@@ -205,9 +204,9 @@ export default function Dashboard() {
                 </HStack>
               </Link>
             </VStack>
+            <Divider my={6} />
           </>
         )}
-        <Divider my={6} />
         <HStack spacing={4}>
           <Button
             className="btn-conditions"
