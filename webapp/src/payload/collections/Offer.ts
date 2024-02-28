@@ -138,7 +138,7 @@ export const Offers: CollectionConfig = {
           depth: 0,
         });
 
-        currentQuickAccess.items = currentQuickAccess.items.filter(
+        currentQuickAccess.items = currentQuickAccess.items?.filter(
           (item) => item.offer !== id
         );
 
