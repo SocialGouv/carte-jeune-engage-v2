@@ -243,6 +243,7 @@ const CouponWrapper = ({
     <Flex
       flexDir="column"
       overflowY="auto"
+      zIndex={1}
       sx={{
         "::-webkit-scrollbar": {
           display: "none",
