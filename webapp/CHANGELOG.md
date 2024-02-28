@@ -1,3 +1,10 @@
+## [0.13.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.0...v0.13.1) (2024-02-28)
+
+
+### Bug Fixes
+
+* force namespace ([1279ee7](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/1279ee79e419f1d5b2492f20893725b23591fb68))
+
 # [0.13.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.12.0...v0.13.0) (2024-02-28)
 
 
