@@ -1,3 +1,10 @@
+## [0.11.4](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.11.3...v0.11.4) (2024-02-28)
+
+
+### Bug Fixes
+
+* issue with type for quickAcces items maybe undefined ([adc91e5](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/adc91e5f1eb54fb22fadc933f1bfddde5c87b1ae))
+
 ## [0.11.3](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.11.2...v0.11.3) (2024-02-28)
 
 
