@@ -260,7 +260,7 @@ export default function Account() {
 				onClose={() => setIsOpenNewPassComponent(false)}
 			/>
 			{
-				isOpenCrisp && (<CrispWithNoSSR onClose={() => {
+				isOpenCrisp && user && (<CrispWithNoSSR user={user} onClose={() => {
 					setIsOpenCrisp(false)
 				}} />)
 			}
