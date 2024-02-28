@@ -10,6 +10,10 @@ jobs:
           PRODUCTION: 1
 app:
   host: cje.fabrique.social.gouv.fr
+  autoscale:
+    minReplicas: 2
+    maxReplicas: 10
+    enabled: true
   envFrom:
     - secretRef:
         name: pg-app
