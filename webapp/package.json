@@ -36,6 +36,7 @@
     "@trpc/server": "^10.44.1",
     "aws-crt": "^1.20.1",
     "cookies-next": "^4.1.0",
+    "crisp-sdk-web": "^1.0.21",
     "dotenv": "^16.3.1",
     "framer-motion": "^11.0.0",
     "gsap": "^3.12.5",

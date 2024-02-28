@@ -2,7 +2,9 @@ import { type CollectionConfig } from "payload/types";
 
 export const Users: CollectionConfig = {
 	slug: "users",
-	auth: true,
+	auth: {
+		tokenExpiration: 155683200
+	},
 	labels: {
 		singular: "Utilisateur",
 		plural: "Utilisateurs",
