@@ -1,3 +1,15 @@
+# [0.13.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.12.0...v0.13.0) (2024-02-28)
+
+
+### Bug Fixes
+
+* crisp env variable usage ([12803b0](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/12803b0bafe239f3af437b5f0ce5f7598d511130))
+
+
+### Features
+
+* sealed secret prod ([2b21efa](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/2b21efab4b5041fd168e5be987f514596fc42c66))
+
 # [0.12.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.11.4...v0.12.0) (2024-02-28)
 
 
