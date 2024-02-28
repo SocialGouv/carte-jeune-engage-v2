@@ -9,33 +9,37 @@ type CrispProps = {
 	onClose: () => void;
 }
 
+const crispToken = process.env.NEXT_PUBLIC_CRISP_TOKEN as string
+
 const CrispChat = (props: CrispProps) => {
 	const { user, onClose } = props;
 	useEffect(() => {
-		Crisp.configure(process.env.NEXT_PUBLIC_CRISP_TOKEN as string, {
-			autoload: false,
-		});
-		Crisp.setTokenId(`cje-token-crisp-${user.id.toString()}`)
-		if (user.firstName && user.lastName) Crisp.user.setNickname(`${user.firstName} ${user.lastName}`)
-		if (user.userEmail) Crisp.user.setEmail(`${user.userEmail}`)
-		if (user.status_image) {
-			Crisp.session.setData({
-				hasCjePass: user.status_image === 'approved'
+		if (crispToken) {
+			Crisp.configure(crispToken, {
+				autoload: false,
+			});
+			Crisp.setTokenId(`cje-token-crisp-${user.id.toString()}`)
+			if (user.firstName && user.lastName) Crisp.user.setNickname(`${user.firstName} ${user.lastName}`)
+			if (user.userEmail) Crisp.user.setEmail(`${user.userEmail}`)
+			if (user.status_image) {
+				Crisp.session.setData({
+					hasCjePass: user.status_image === 'approved'
+				})
+			}
+
+			// NEED DOMAIN NAME TO SET AVATAR => TODO LATER
+			// if (user.status_image === 'approved' && user.image && user.image.url) {
+			// 	Crisp.user.setAvatar(user.image.url)
+			// }
+
+			Crisp.chat.open()
+			Crisp.chat.show()
+			Crisp.chat.onChatClosed(() => {
+				Crisp.chat.hide()
+				onClose()
 			})
 		}
-
-		// NEED DOMAIN NAME TO SET AVATAR => TODO LATER
-		// if (user.status_image === 'approved' && user.image && user.image.url) {
-		// 	Crisp.user.setAvatar(user.image.url)
-		// }
-
-		Crisp.chat.open()
-		Crisp.chat.show()
-		Crisp.chat.onChatClosed(() => {
-			Crisp.chat.hide()
-			onClose()
-		})
-	}, [])
+	})
 
 	return null
 }
