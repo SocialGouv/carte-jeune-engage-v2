@@ -30,7 +30,6 @@ import {
 import ChakraNextImage from "~/components/ChakraNextImage";
 import LoadingLoader from "~/components/LoadingLoader";
 import NewPassComponent from "~/components/NewPassComponent";
-import { PassIcon } from "~/components/icons/pass";
 import BaseModal from "~/components/modals/BaseModal";
 import StackItems, { StackItem } from "~/components/offer/StackItems";
 import StepsButtons from "~/components/offer/StepsButtons";

@@ -109,46 +109,13 @@ const CouponWrapper = ({
     navigator.clipboard.writeText(text);
   };
 
-  return (
-    <Flex
-      flexDir="column"
-      overflowY="auto"
-      sx={{
-        "::-webkit-scrollbar": {
-          display: "none",
-        },
-      }}
-      px={8}
-      h="full"
-      pb={12}
-    >
-      <Heading
-        as="h3"
-        fontSize="2xl"
-        fontWeight="extrabold"
-        textAlign="center"
-        mt={6}
-      >
-        {offer.title}
-      </Heading>
-      {offer.kind.startsWith("code") ? (
-        <Flex alignItems="center" alignSelf="center" gap={2} mt={4}>
-          <Icon as={HiCursorArrowRays} w={6} h={6} />
-          <Text fontWeight="medium">En ligne sur {offer.partner.name}</Text>
-        </Flex>
-      ) : offer.kind.startsWith("voucher") ? (
-        <Flex alignItems="center" alignSelf="center" gap={2} mt={4}>
-          <Icon as={HiBuildingStorefront} w={6} h={6} />
-          <Text fontWeight="medium">
-            dans {offer.nbOfEligibleStores ?? 1} magasins participants
-          </Text>
-        </Flex>
-      ) : null}
-      {(offer.kind === "voucher" && isPassInCreation) ||
-      offer.kind !== "voucher" ? (
+  const getCouponWrapperContent = () => {
+    if (offer.kind === "voucher" || offer.kind === "code") {
+      return (
         <>
-          {(offer.kind === "voucher" || offer.kind === "code") && (
-            <Flex flexDir="column" mt={8}>
+          {(offer.kind === "voucher" && isPassInCreation) ||
+          offer.kind === "code" ? (
+            <>
               <Flex
                 flexDir="column"
                 position="relative"
@@ -161,6 +128,7 @@ const CouponWrapper = ({
                 textAlign="center"
                 px={4}
                 py={5}
+                mt={8}
               >
                 {coupon && (
                   <HStack spacing={3} align="center" alignSelf="center">
@@ -245,17 +213,68 @@ const CouponWrapper = ({
                   <Icon id="coupon-code-icon-lock" as={FiLock} w={6} h={6} />
                 </Flex>
               </Flex>
+              {!coupon ? (
+                <Divider mt={6} />
+              ) : (
+                <CTAButton
+                  offerKind={offer.kind}
+                  handleOpenExternalLink={handleOpenExternalLink}
+                />
+              )}
+              <StackItems
+                active={!!coupon}
+                items={itemsSimpleTermsOfUse}
+                title="Comment ça marche ?"
+                props={{ mt: 6, spacing: 3 }}
+                propsItem={{ color: !coupon ? "disabled" : undefined }}
+              />
+              {!coupon && (
+                <Button onClick={handleActivateOffer} mt={6}>
+                  J'active mon offre
+                </Button>
+              )}
+            </>
+          ) : (
+            <Flex
+              flexDir="column"
+              mt={8}
+              borderRadius="xl"
+              w="full"
+              bgColor="cje-gray.500"
+              textAlign="center"
+              gap={4}
+              alignItems="center"
+              p={8}
+            >
+              <Flex alignItems="center" alignSelf="center">
+                <Flex bgColor="blackLight" py={1.5} px={2.5} borderRadius="lg">
+                  <PassIcon color="cje-gray.500" />
+                </Flex>
+                <Flex
+                  bgColor="cje-gray.500"
+                  borderRadius="full"
+                  p={2.5}
+                  ml={-1}
+                >
+                  <Icon as={HiWrenchScrewdriver} w={6} h={6} />
+                </Flex>
+              </Flex>
+              <Text fontWeight="bold" px={10}>
+                Votre pass CJE est en cours de création
+              </Text>
+              <Text fontWeight="medium" fontSize="sm">
+                Notre équipe vérifie votre photo en ce moment. D’ici 24h vous
+                aurez votre pass CJE pour bénéficier de toutes les offres en
+                magasin disponibles sur l’application.
+              </Text>
             </Flex>
           )}
-          {(!coupon ||
-            offer.kind === "code_space" ||
-            offer.kind === "voucher_pass") && <Divider mt={6} />}
-          {coupon && (offer.kind === "code" || offer.kind === "voucher") && (
-            <CTAButton
-              offerKind={offer.kind}
-              handleOpenExternalLink={handleOpenExternalLink}
-            />
-          )}
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Divider mt={6} />
           <StackItems
             active={!!coupon}
             items={itemsSimpleTermsOfUse}
@@ -263,49 +282,60 @@ const CouponWrapper = ({
             props={{ mt: 6, spacing: 3 }}
             propsItem={{ color: !coupon ? "disabled" : undefined }}
           />
-          {coupon &&
-            (offer.kind === "code_space" || offer.kind === "voucher_pass") && (
-              <CTAButton
-                offerKind={offer.kind}
-                handleOpenExternalLink={handleOpenExternalLink}
-              />
-            )}
-          {!coupon && (
+          {!coupon ? (
             <Button onClick={handleActivateOffer} mt={6}>
               J'active mon offre
             </Button>
+          ) : (
+            <CTAButton
+              offerKind={offer.kind}
+              handleOpenExternalLink={handleOpenExternalLink}
+            />
           )}
         </>
-      ) : (
-        <Flex
-          flexDir="column"
-          mt={8}
-          borderRadius="xl"
-          w="full"
-          bgColor="cje-gray.500"
-          textAlign="center"
-          gap={4}
-          alignItems="center"
-          p={8}
-        >
-          <Flex alignItems="center" alignSelf="center">
-            <Flex bgColor="blackLight" py={1.5} px={2.5} borderRadius="lg">
-              <PassIcon color="cje-gray.500" />
-            </Flex>
-            <Flex bgColor="cje-gray.500" borderRadius="full" p={2.5} ml={-1}>
-              <Icon as={HiWrenchScrewdriver} w={6} h={6} />
-            </Flex>
-          </Flex>
-          <Text fontWeight="bold" px={10}>
-            Votre pass CJE est en cours de création
-          </Text>
-          <Text fontWeight="medium" fontSize="sm">
-            Notre équipe vérifie votre photo en ce moment. D’ici 24h vous aurez
-            votre pass CJE pour bénéficier de toutes les offres en magasin
-            disponibles sur l’application.
-          </Text>
-        </Flex>
-      )}
+      );
+    }
+  };
+
+  return (
+    <Flex
+      flexDir="column"
+      overflowY="auto"
+      sx={{
+        "::-webkit-scrollbar": {
+          display: "none",
+        },
+      }}
+      px={8}
+      h="full"
+      pb={12}
+    >
+      <Heading
+        as="h3"
+        fontSize="2xl"
+        fontWeight="extrabold"
+        textAlign="center"
+        mt={6}
+      >
+        {offer.title}
+      </Heading>
+      <Flex alignItems="center" alignSelf="center" gap={2} mt={4}>
+        <Icon
+          as={
+            offer.kind.startsWith("code")
+              ? HiCursorArrowRays
+              : HiBuildingStorefront
+          }
+          w={6}
+          h={6}
+        />
+        <Text fontWeight="medium">
+          {offer.kind.startsWith("code")
+            ? `En ligne sur ${offer.partner.name}`
+            : `dans ${offer.nbOfEligibleStores ?? 1} magasins participants`}
+        </Text>
+      </Flex>
+      {getCouponWrapperContent()}
       <Flex flexDir="column">{children}</Flex>
     </Flex>
   );
