@@ -1,3 +1,10 @@
+## [0.11.3](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.11.2...v0.11.3) (2024-02-28)
+
+
+### Bug Fixes
+
+* on offer delete, delete cascade relation from quickAccess item and remove required items on quickAccess ([37c9f78](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/37c9f78313ebebd6497cbee6c005bf08b8f294ed))
+
 ## [0.11.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.11.1...v0.11.2) (2024-02-27)
 
 
