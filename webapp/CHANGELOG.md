@@ -1,3 +1,10 @@
+## [0.13.3](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.2...v0.13.3) (2024-02-28)
+
+
+### Bug Fixes
+
+* add app requests and limits ([848a418](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/848a418732c64cc524a39bc6ef7ef5915bda87b9))
+
 ## [0.13.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.1...v0.13.2) (2024-02-28)
 
 
