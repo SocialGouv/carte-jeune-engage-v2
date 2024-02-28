@@ -8407,6 +8407,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"crisp-sdk-web@npm:^1.0.21":
+  version: 1.0.21
+  resolution: "crisp-sdk-web@npm:1.0.21"
+  checksum: 10c0/da82ae26d2059019973ca2ecbf8ffe30d9f31fefce2bdf1ffa4b6974ac8be72e1d7328765444a10d6a80ee40c505d09b59baad7c5483f9cb1694f4614178ca60
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
@@ -17645,6 +17652,7 @@ __metadata:
     "@types/react-dom": "npm:^18"
     aws-crt: "npm:^1.20.1"
     cookies-next: "npm:^4.1.0"
+    crisp-sdk-web: "npm:^1.0.21"
     dotenv: "npm:^16.3.1"
     framer-motion: "npm:^11.0.0"
     gsap: "npm:^3.12.5"
