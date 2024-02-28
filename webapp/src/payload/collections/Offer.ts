@@ -3,6 +3,7 @@ import {
   CustomSelectTermsOfUse,
   getItemsTermsOfUse,
 } from "../components/CustomSelectField";
+import { QuickAccess } from "../payload-types";
 
 export const Offers: CollectionConfig = {
   slug: "offers",
@@ -128,4 +129,24 @@ export const Offers: CollectionConfig = {
       ],
     },
   ],
+  hooks: {
+    afterDelete: [
+      async ({ req, id }) => {
+        // Delete on cascade the related quickAccess item
+        let currentQuickAccess: QuickAccess = await req.payload.findGlobal({
+          slug: "quickAccess",
+          depth: 0,
+        });
+
+        currentQuickAccess.items = currentQuickAccess.items.filter(
+          (item) => item.offer !== id
+        );
+
+        await req.payload.updateGlobal({
+          slug: "quickAccess",
+          data: currentQuickAccess,
+        });
+      },
+    ],
+  },
 };

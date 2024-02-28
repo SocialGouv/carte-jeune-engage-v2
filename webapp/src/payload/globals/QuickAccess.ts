@@ -12,7 +12,6 @@ export const QuickAccess: GlobalConfig = {
         plural: "Accès rapides",
       },
       type: "array",
-      required: true,
       fields: [
         {
           name: "partner",
