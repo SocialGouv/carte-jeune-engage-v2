@@ -25,6 +25,8 @@ import { UserIncluded } from "~/server/api/routers/user";
 import NewPassComponent from "~/components/NewPassComponent";
 import dynamic from "next/dynamic";
 
+const CRISP_TOKEN = process.env.NEXT_PUBLIC_CRISP_TOKEN as string
+
 const displayDynamicCJECardMessage = (user: User) => {
 	if (!user.image) {
 		return (
@@ -260,7 +262,7 @@ export default function Account() {
 				onClose={() => setIsOpenNewPassComponent(false)}
 			/>
 			{
-				isOpenCrisp && user && (<CrispWithNoSSR user={user} onClose={() => {
+				isOpenCrisp && user && (<CrispWithNoSSR crispToken={CRISP_TOKEN} user={user} onClose={() => {
 					setIsOpenCrisp(false)
 				}} />)
 			}

@@ -6,15 +6,14 @@ import { UserIncluded } from "~/server/api/routers/user";
 
 type CrispProps = {
 	user: UserIncluded;
+	crispToken: string;
 	onClose: () => void;
 }
 
-const crispToken = process.env.NEXT_PUBLIC_CRISP_TOKEN as string
 
 const CrispChat = (props: CrispProps) => {
-	const { user, onClose } = props;
+	const { user, onClose, crispToken } = props;
 	useEffect(() => {
-		console.log(crispToken)
 		if (crispToken) {
 			Crisp.configure(crispToken, {
 				autoload: false,
