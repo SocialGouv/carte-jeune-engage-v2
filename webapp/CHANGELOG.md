@@ -1,3 +1,10 @@
+## [0.13.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.1...v0.13.2) (2024-02-28)
+
+
+### Bug Fixes
+
+* add app prod autoscale ([3fa12d8](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/3fa12d8f3030d2877d27977f6e54a4dccf6983f8))
+
 ## [0.13.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.0...v0.13.1) (2024-02-28)
 
 
