@@ -54,8 +54,10 @@ export const Offers: CollectionConfig = {
       label: "Type",
       required: true,
       options: [
-        { label: "Bon d'achat", value: "voucher" },
-        { label: "Code de réduction", value: "code" },
+        { label: "[En magasin] Bon d'achat + pass CJE", value: "voucher" },
+        { label: "[En magasin] Pass CJE", value: "voucher_pass" },
+        { label: "[En ligne] Code de réduction", value: "code" },
+        { label: "[En ligne] Espace de réduction", value: "code_space" },
       ],
     },
     {
@@ -63,7 +65,7 @@ export const Offers: CollectionConfig = {
       type: "number",
       label: "Nombre de magasins éligibles",
       admin: {
-        condition: (_, siblingData) => siblingData.kind === "voucher",
+        condition: (_, siblingData) => siblingData.kind.startsWith("voucher"),
       },
       defaultValue: 1,
     },
@@ -73,7 +75,7 @@ export const Offers: CollectionConfig = {
       label: "Image des magasins éligibles",
       relationTo: "media",
       admin: {
-        condition: (_, siblingData) => siblingData.kind === "voucher",
+        condition: (_, siblingData) => siblingData.kind.startsWith("voucher"),
       },
     },
     {
@@ -81,7 +83,7 @@ export const Offers: CollectionConfig = {
       type: "text",
       label: "Lien des magasins éligibles",
       admin: {
-        condition: (_, siblingData) => siblingData.kind === "voucher",
+        condition: (_, siblingData) => siblingData.kind.startsWith("voucher"),
       },
     },
     {

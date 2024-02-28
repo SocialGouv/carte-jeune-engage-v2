@@ -29,6 +29,7 @@ import { PassIcon } from "../icons/pass";
 import StackItems, { StackItem } from "../offer/StackItems";
 import Link from "next/link";
 import { getItemsTermsOfUse } from "~/payload/components/CustomSelectField";
+import { Offer } from "~/payload/payload-types";
 
 type CouponWrapperProps = {
   children: ReactNode;
@@ -37,6 +38,30 @@ type CouponWrapperProps = {
   handleOpenOtherConditions: () => void;
   handleActivateOffer: () => void;
   handleOpenExternalLink: () => void;
+};
+
+const CTAButton = ({
+  offerKind,
+  handleOpenExternalLink,
+}: {
+  offerKind: Offer["kind"];
+  handleOpenExternalLink: () => void;
+}) => {
+  return (
+    <Box mt={6}>
+      {offerKind.startsWith("code") ? (
+        <Button onClick={handleOpenExternalLink} w="full">
+          Aller sur le site
+        </Button>
+      ) : (
+        <Link href="/dashboard/account/card">
+          <Button leftIcon={<Icon as={PassIcon} w={6} h={6} />} w="full">
+            Présenter mon pass CJE
+          </Button>
+        </Link>
+      )}
+    </Box>
+  );
 };
 
 const CouponWrapper = ({
@@ -106,12 +131,12 @@ const CouponWrapper = ({
       >
         {offer.title}
       </Heading>
-      {offer.kind === "code" ? (
+      {offer.kind.startsWith("code") ? (
         <Flex alignItems="center" alignSelf="center" gap={2} mt={4}>
           <Icon as={HiCursorArrowRays} w={6} h={6} />
           <Text fontWeight="medium">En ligne sur {offer.partner.name}</Text>
         </Flex>
-      ) : offer.kind === "voucher" ? (
+      ) : offer.kind.startsWith("voucher") ? (
         <Flex alignItems="center" alignSelf="center" gap={2} mt={4}>
           <Icon as={HiBuildingStorefront} w={6} h={6} />
           <Text fontWeight="medium">
@@ -122,117 +147,114 @@ const CouponWrapper = ({
       {(offer.kind === "voucher" && isPassInCreation) ||
       offer.kind !== "voucher" ? (
         <>
-          <Flex flexDir="column" mt={8}>
-            <Flex
-              flexDir="column"
-              position="relative"
-              gap={5}
-              borderRadius="xl"
-              w="full"
-              bgColor={coupon ? "bgWhite" : "cje-gray.500"}
-              border={coupon ? "1px solid" : "none"}
-              borderColor="#B5BBBD"
-              textAlign="center"
-              px={4}
-              py={5}
-            >
-              {coupon && (
-                <HStack spacing={3} align="center" alignSelf="center">
-                  <Icon as={HiReceiptPercent} w={6} h={6} />
-                  <Text fontSize="lg" fontWeight="bold">
-                    {offer.kind === "code"
-                      ? "Mon code promo à saisir"
-                      : "Mon code barre à scanner"}
-                  </Text>
-                </HStack>
-              )}
+          {(offer.kind === "voucher" || offer.kind === "code") && (
+            <Flex flexDir="column" mt={8}>
               <Flex
-                id="coupon-code-text"
-                alignItems="center"
-                justifyContent="center"
-                gap={3}
-                borderRadius="lg"
-                bgColor={coupon ? "white" : "cje-gray.500"}
-                py={8}
+                flexDir="column"
+                position="relative"
+                gap={5}
+                borderRadius="xl"
+                w="full"
+                bgColor={coupon ? "bgWhite" : "cje-gray.500"}
+                border={coupon ? "1px solid" : "none"}
+                borderColor="#B5BBBD"
+                textAlign="center"
+                px={4}
+                py={5}
               >
-                {offer.kind === "code" ? (
-                  <Text fontSize="2xl" fontWeight="bold" letterSpacing={3}>
-                    {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
-                  </Text>
-                ) : (
-                  <Barcode
-                    value={coupon?.code ?? "6FHDJFHEIDJF"}
-                    background={coupon ? "white" : "#edeff3"}
-                    height={70}
-                  />
+                {coupon && (
+                  <HStack spacing={3} align="center" alignSelf="center">
+                    <Icon as={HiReceiptPercent} w={6} h={6} />
+                    <Text fontSize="lg" fontWeight="bold">
+                      {offer.kind === "code"
+                        ? "Mon code promo à saisir"
+                        : "Mon code barre à scanner"}
+                    </Text>
+                  </HStack>
                 )}
-                {coupon && offer.kind === "code" && (
+                <Flex
+                  id="coupon-code-text"
+                  alignItems="center"
+                  justifyContent="center"
+                  gap={3}
+                  borderRadius="lg"
+                  bgColor={coupon ? "white" : "cje-gray.500"}
+                  py={8}
+                >
+                  {offer.kind === "code" ? (
+                    <Text fontSize="2xl" fontWeight="bold" letterSpacing={3}>
+                      {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
+                    </Text>
+                  ) : (
+                    <Barcode
+                      value={coupon?.code ?? "6FHDJFHEIDJF"}
+                      background={coupon ? "white" : "#edeff3"}
+                      height={70}
+                    />
+                  )}
+                  {coupon && offer.kind === "code" && (
+                    <Icon
+                      as={FiCopy}
+                      w={6}
+                      h={6}
+                      mt={1}
+                      onClick={() =>
+                        handleCopyToClipboard(coupon?.code as string)
+                      }
+                    />
+                  )}
+                </Flex>
+                {coupon && (
+                  <HStack spacing={2} align="center">
+                    <Icon
+                      as={HiOutlineInformationCircle}
+                      w={6}
+                      h={6}
+                      mt={0.5}
+                    />
+                    <Text
+                      fontWeight="medium"
+                      textDecoration="underline"
+                      textUnderlineOffset={3}
+                      onClick={handleOpenOtherConditions}
+                    >
+                      Conditions d’utilisation
+                    </Text>
+                  </HStack>
+                )}
+                <Flex
+                  id="coupon-code-icon"
+                  position="absolute"
+                  bgColor="white"
+                  p={5}
+                  shadow="md"
+                  borderRadius="full"
+                  justifyContent="center"
+                  alignItems="center"
+                  top="50%"
+                  left="50%"
+                  transform="translate(-50%, -50%)"
+                >
                   <Icon
-                    as={FiCopy}
+                    id="coupon-code-icon-unlock"
+                    as={FiUnlock}
+                    display="none"
                     w={6}
                     h={6}
-                    mt={1}
-                    onClick={() =>
-                      handleCopyToClipboard(coupon?.code as string)
-                    }
                   />
-                )}
-              </Flex>
-              {coupon && (
-                <HStack spacing={2} align="center">
-                  <Icon as={HiOutlineInformationCircle} w={6} h={6} mt={0.5} />
-                  <Text
-                    fontWeight="medium"
-                    textDecoration="underline"
-                    textUnderlineOffset={3}
-                    onClick={handleOpenOtherConditions}
-                  >
-                    Conditions d’utilisation
-                  </Text>
-                </HStack>
-              )}
-              <Flex
-                id="coupon-code-icon"
-                position="absolute"
-                bgColor="white"
-                p={5}
-                shadow="md"
-                borderRadius="full"
-                justifyContent="center"
-                alignItems="center"
-                top="50%"
-                left="50%"
-                transform="translate(-50%, -50%)"
-              >
-                <Icon
-                  id="coupon-code-icon-unlock"
-                  as={FiUnlock}
-                  display="none"
-                  w={6}
-                  h={6}
-                />
-                <Icon id="coupon-code-icon-lock" as={FiLock} w={6} h={6} />
+                  <Icon id="coupon-code-icon-lock" as={FiLock} w={6} h={6} />
+                </Flex>
               </Flex>
             </Flex>
-          </Flex>
-          {!coupon && <Divider mt={6} />}
-          {coupon && (
-            <Box mt={6}>
-              {offer.kind === "code" ? (
-                <Button onClick={handleOpenExternalLink} w="full">
-                  Aller sur le site
-                </Button>
-              ) : (
-                <Link href="/dashboard/account/card">
-                  <Button
-                    leftIcon={<Icon as={PassIcon} w={6} h={6} />}
-                    w="full"
-                  >
-                    Présenter mon pass CJE
-                  </Button>
-                </Link>
-              )}
-            </Box>
+          )}
+          {(!coupon ||
+            offer.kind === "code_space" ||
+            offer.kind === "voucher_pass") && <Divider mt={6} />}
+          {coupon && (offer.kind === "code" || offer.kind === "voucher") && (
+            <CTAButton
+              offerKind={offer.kind}
+              handleOpenExternalLink={handleOpenExternalLink}
+            />
           )}
           <StackItems
             active={!!coupon}
@@ -241,6 +263,13 @@ const CouponWrapper = ({
             props={{ mt: 6, spacing: 3 }}
             propsItem={{ color: !coupon ? "disabled" : undefined }}
           />
+          {coupon &&
+            (offer.kind === "code_space" || offer.kind === "voucher_pass") && (
+              <CTAButton
+                offerKind={offer.kind}
+                handleOpenExternalLink={handleOpenExternalLink}
+              />
+            )}
           {!coupon && (
             <Button onClick={handleActivateOffer} mt={6}>
               J'active mon offre

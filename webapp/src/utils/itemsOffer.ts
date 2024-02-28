@@ -5,7 +5,7 @@ import { Offer } from "~/payload/payload-types";
 export const getItemsExternalLink = (offerKind: Offer["kind"]) => {
   let itemsSimpleTermsOfUse = [] as StackItem[];
 
-  if (offerKind === "code") {
+  if (offerKind.startsWith("code")) {
     itemsSimpleTermsOfUse = [
       {
         text: "Tous les sites de nos partenaires sont sécurisés",
