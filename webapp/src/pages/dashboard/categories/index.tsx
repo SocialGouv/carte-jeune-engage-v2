@@ -5,7 +5,7 @@ import LoadingLoader from "~/components/LoadingLoader";
 import CategoriesWrapper from "~/components/wrappers/CategoriesWrapper";
 import { api } from "~/utils/api";
 
-export default function Dashboard() {
+export default function CategoriesList() {
   const { data: resultCategories, isLoading: isLoadingCategories } =
     api.category.getList.useQuery({
       page: 1,

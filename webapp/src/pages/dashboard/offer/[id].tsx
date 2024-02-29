@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return hasAccessToOffer(context);
 };
 
-export default function Dashboard() {
+export default function OfferPage() {
   const { user } = useAuth();
 
   const router = useRouter();
