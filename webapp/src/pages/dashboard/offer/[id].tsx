@@ -31,7 +31,6 @@ import {
 import ChakraNextImage from "~/components/ChakraNextImage";
 import LoadingLoader from "~/components/LoadingLoader";
 import NewPassComponent from "~/components/NewPassComponent";
-import { PassIcon } from "~/components/icons/pass";
 import BaseModal from "~/components/modals/BaseModal";
 import StackItems, { StackItem } from "~/components/offer/StackItems";
 import StepsButtons from "~/components/offer/StepsButtons";
@@ -150,11 +149,19 @@ export default function Dashboard() {
   );
 
   const handleActivateOffer = () => {
-    if (offer?.kind === "voucher" && user?.status_image !== "approved") {
+    if (
+      offer?.kind.startsWith("voucher") &&
+      user?.status_image !== "approved"
+    ) {
       setIsOpenNewPassComponent(true);
     } else {
       onOpenActivateOffer();
     }
+  };
+
+  const handleValidateOffer = (offerId: number) => {
+    mutateCouponToUser({ offer_id: offerId });
+    onCloseActivateOffer();
   };
 
   if (isLoadingOffer || !offer || isLoadingCoupon)
@@ -175,9 +182,8 @@ export default function Dashboard() {
         handleActivateOffer={handleActivateOffer}
         handleOpenExternalLink={onOpenExternalLink}
       >
-        {offer.kind === "voucher" && (
+        {offer.kind.startsWith("voucher") && (
           <>
-            <Divider my={6} />
             <VStack spacing={3} align="start">
               <HStack spacing={4}>
                 <Icon as={HiBuildingStorefront} w={6} h={6} />
@@ -190,7 +196,7 @@ export default function Dashboard() {
               <Image
                 src={offer.imageOfEligibleStores.url as string}
                 alt={offer.imageOfEligibleStores.alt as string}
-                width="0"
+                width={0}
                 height={114}
                 sizes="100vw"
                 style={{ width: "100%" }}
@@ -204,9 +210,9 @@ export default function Dashboard() {
                 </HStack>
               </Link>
             </VStack>
+            <Divider my={6} />
           </>
         )}
-        <Divider my={6} />
         <HStack spacing={4}>
           <Button
             className="btn-conditions"
@@ -223,7 +229,7 @@ export default function Dashboard() {
               </Text>
             </Flex>
           </Button>
-          {offer.kind === "voucher" && (
+          {offer.kind.startsWith("voucher") && (
             <Button
               isDisabled
               className="btn-conditions"
@@ -306,10 +312,7 @@ export default function Dashboard() {
                   setActiveStep={setActiveStep}
                   count={nbSteps}
                   mainBtnText="J'ai compris"
-                  handleValidate={() => {
-                    mutateCouponToUser({ offer_id: offer.id });
-                    onCloseActivateOffer();
-                  }}
+                  handleValidate={() => handleValidateOffer(offer.id)}
                   onClose={onCloseActivateOffer}
                 />
               </TabPanel>
@@ -323,10 +326,7 @@ export default function Dashboard() {
                   setActiveStep={setActiveStep}
                   count={nbSteps}
                   mainBtnText="J'active cette offre"
-                  handleValidate={() => {
-                    mutateCouponToUser({ offer_id: offer.id });
-                    onCloseActivateOffer();
-                  }}
+                  handleValidate={() => handleValidateOffer(offer.id)}
                   onClose={onCloseActivateOffer}
                 />
               </TabPanel>

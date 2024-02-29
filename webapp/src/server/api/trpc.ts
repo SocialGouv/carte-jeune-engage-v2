@@ -97,8 +97,8 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
 });
 
 const isAuthedAsSupervisor = t.middleware(async ({ next, ctx }) => {
-  const user = await ctx.payload.find({
-    collection: "users",
+  const supervisor = await ctx.payload.find({
+    collection: "supervisors",
     where: {
       email: {
         equals: ctx.session?.email,
@@ -106,7 +106,7 @@ const isAuthedAsSupervisor = t.middleware(async ({ next, ctx }) => {
     },
   });
 
-  if (ctx.session?.email === undefined || !user) {
+  if (ctx.session?.email === undefined || !supervisor.docs.length) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
       message: "You are not authorized to perform this action",
@@ -130,7 +130,7 @@ const isAuthedAsUser = t.middleware(async ({ next, ctx }) => {
     },
   });
 
-  if (ctx.session?.email === undefined || !user) {
+  if (ctx.session?.email === undefined || !user.docs.length) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
       message: "You are not authorized to perform this action",

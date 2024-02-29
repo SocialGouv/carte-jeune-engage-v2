@@ -20,7 +20,7 @@ export const OfferKindBadge = ({
       bgColor={variant === "light" ? "white" : "black"}
       {...chakraProps}
     >
-      {kind === "voucher" ? (
+      {kind.startsWith("voucher") ? (
         <Icon
           as={BsCart2}
           color={variant === "light" ? "black" : "white"}
@@ -40,7 +40,7 @@ export const OfferKindBadge = ({
         fontSize="xs"
         fontWeight="medium"
       >
-        {kind === "voucher" ? "En magasin" : "En ligne"}
+        {kind.startsWith("voucher") ? "En magasin" : "En ligne"}
       </Text>
     </Flex>
   );
