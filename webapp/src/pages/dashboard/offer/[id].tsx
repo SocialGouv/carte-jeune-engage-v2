@@ -174,7 +174,16 @@ export default function Dashboard() {
     );
 
   return (
-    <OfferWrapper offer={offer} isModalOpen={isOpenActivateOffer}>
+    <OfferWrapper
+      offer={offer}
+      isModalOpen={
+        isOpenActivateOffer ||
+        isOpenExternalLink ||
+        isOpenNewPassComponent ||
+        isOpenOtherConditions ||
+        isOpenTermsOfUse
+      }
+    >
       <CouponWrapper
         coupon={coupon}
         offer={offer}

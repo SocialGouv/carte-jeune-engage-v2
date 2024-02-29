@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
-import Head from 'next/head';
-import { Button, Flex, Text, useTheme } from '@chakra-ui/react';
-import { ChevronLeftIcon } from '@chakra-ui/icons';
-import Image from 'next/image';
-import { OfferIncluded } from '~/server/api/routers/offer';
-import { dottedPattern } from '~/utils/chakra-theme';
-import { useRouter } from 'next/router';
+import { ReactNode } from "react";
+import Head from "next/head";
+import { Button, Flex, Text, useTheme } from "@chakra-ui/react";
+import { ChevronLeftIcon } from "@chakra-ui/icons";
+import Image from "next/image";
+import { OfferIncluded } from "~/server/api/routers/offer";
+import { dottedPattern } from "~/utils/chakra-theme";
+import { useRouter } from "next/router";
 
 type OfferWrapperProps = {
   children: ReactNode;
@@ -17,14 +17,14 @@ const OfferWrapper = ({ children, offer, isModalOpen }: OfferWrapperProps) => {
   const router = useRouter();
 
   const theme = useTheme();
-  const dotColor = theme.colors.bgWhite;
+  const bgWhiteColor = theme.colors.bgWhite;
 
   return (
     <>
       <Head>
         <meta
           name="theme-color"
-          content={isModalOpen ? '#ffffff' : offer?.partner.color}
+          content={isModalOpen ? bgWhiteColor : offer?.partner.color}
         />
       </Head>
       <Flex flexDir="column" h="full">
@@ -33,7 +33,7 @@ const OfferWrapper = ({ children, offer, isModalOpen }: OfferWrapperProps) => {
           px={8}
           py={6}
           position="relative"
-          sx={{ ...dottedPattern(dotColor) }}
+          sx={{ ...dottedPattern(bgWhiteColor) }}
           alignItems="center"
         >
           <Button
