@@ -1,3 +1,10 @@
+## [0.14.6](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.5...v0.14.6) (2024-02-29)
+
+
+### Bug Fixes
+
+* payload defensive code for conditionnal offer hook ([8287f4b](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/8287f4b21b9d73ad24a97c21e34f47b1865a6a2b))
+
 ## [0.14.5](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.4...v0.14.5) (2024-02-29)
 
 
