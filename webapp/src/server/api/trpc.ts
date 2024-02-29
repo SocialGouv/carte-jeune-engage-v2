@@ -14,7 +14,7 @@ import { ZodError } from "zod";
 import getPayloadClient from "~/payload/payloadClient";
 import { jwtDecode } from "jwt-decode";
 
-type PayloadJwtSession = {
+export type PayloadJwtSession = {
   id: number;
   email: string;
   iat: string;
@@ -157,6 +157,8 @@ const isAuthedAsUser = t.middleware(async ({ next, ctx }) => {
  * @see https://trpc.io/docs/router
  */
 export const createTRPCRouter = t.router;
+
+export const createCallerFactory = t.createCallerFactory;
 
 /**
  * Public (unauthenticated) procedure

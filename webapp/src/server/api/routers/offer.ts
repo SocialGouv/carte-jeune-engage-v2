@@ -16,13 +16,14 @@ export const offerRouter = createTRPCRouter({
     .input(
       ZGetListParams.merge(
         z.object({
+          offerId: z.number().optional(),
           categoryId: z.number().optional(),
           isCurrentUser: z.boolean().optional(),
         })
       )
     )
     .query(async ({ ctx, input }) => {
-      const { perPage, page, sort, categoryId, isCurrentUser } = input;
+      const { perPage, page, sort, categoryId, offerId, isCurrentUser } = input;
 
       let where = {
         ...payloadWhereOfferIsValid(),
@@ -31,6 +32,12 @@ export const offerRouter = createTRPCRouter({
       if (categoryId) {
         where.category = {
           equals: categoryId,
+        };
+      }
+
+      if (offerId) {
+        where.id = {
+          equals: offerId,
         };
       }
 

@@ -44,11 +44,9 @@ export default function Dashboard() {
 
   return (
     <CategoryWrapper category={category}>
-      {offers
-        ?.filter((offer) => offer.kind === "code")
-        ?.map((offer) => (
-          <OfferCard key={offer.id} offer={offer} />
-        ))}
+      {offers?.map((offer) => (
+        <OfferCard key={offer.id} offer={offer} />
+      ))}
     </CategoryWrapper>
   );
 }

@@ -16,6 +16,7 @@ import {
   useSteps,
 } from "@chakra-ui/react";
 import { useGSAP } from "@gsap/react";
+import { GetServerSideProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -36,11 +37,16 @@ import StepsButtons from "~/components/offer/StepsButtons";
 import CouponWrapper from "~/components/wrappers/CouponWrapper";
 import OfferWrapper from "~/components/wrappers/OfferWrapper";
 import StepsWrapper from "~/components/wrappers/StepsWrapper";
+import { hasAccessToOffer } from "~/guards/hasAccessToOffer";
 import { getItemsTermsOfUse } from "~/payload/components/CustomSelectField";
 import { useAuth } from "~/providers/Auth";
 import { couponAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
 import { getItemsExternalLink } from "~/utils/itemsOffer";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return hasAccessToOffer(context);
+};
 
 export default function Dashboard() {
   const { user } = useAuth();
