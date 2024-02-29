@@ -1,5 +1,6 @@
 import {
   As,
+  Box,
   ChakraProps,
   HStack,
   Icon,
@@ -60,7 +61,9 @@ const StackItems = ({
                   {icon === "PassIcon" ? (
                     <PassIcon w={6} h={6} color="inherit" />
                   ) : (
-                    <ReactIcon icon={icon} size={24} color="inherit" />
+                    <Box w={6} h={6}>
+                      <ReactIcon icon={icon} size={24} color="inherit" />
+                    </Box>
                   )}
                 </>
               ) : (
