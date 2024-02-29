@@ -1,3 +1,11 @@
+## [0.14.5](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.4...v0.14.5) (2024-02-29)
+
+
+### Bug Fixes
+
+* categories image quality ([106033f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/106033f4efba907c7a4b6ccc22b2a40ae86e84da))
+* name of default export function ([4bf4c38](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/4bf4c382981ee4789183e227746eea61dbd07842))
+
 ## [0.14.4](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.3...v0.14.4) (2024-02-29)
 
 

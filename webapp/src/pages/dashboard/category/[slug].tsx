@@ -5,7 +5,7 @@ import OfferCard from "~/components/cards/OfferCard";
 import CategoryWrapper from "~/components/wrappers/CategoryWrapper";
 import { api } from "~/utils/api";
 
-export default function Dashboard() {
+export default function CategoryOfferList() {
   const router = useRouter();
   const { slug } = router.query;
 
