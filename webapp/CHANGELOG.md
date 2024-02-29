@@ -1,3 +1,11 @@
+## [0.14.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.0...v0.14.1) (2024-02-29)
+
+
+### Bug Fixes
+
+* add guard if user can access to offer ([675a94d](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/675a94d941a969534953f8010d96b12db6209b74))
+* remove filter of only online offers in category slug offers list ([20db751](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/20db75110a7c6883adfbbbd5852b05133a6ef207))
+
 # [0.14.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.6...v0.14.0) (2024-02-29)
 
 
