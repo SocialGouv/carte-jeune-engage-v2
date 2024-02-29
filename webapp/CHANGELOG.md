@@ -1,3 +1,19 @@
+# [0.14.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.6...v0.14.0) (2024-02-29)
+
+
+### Bug Fixes
+
+* add payload migrations ([2e28972](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/2e2897241fbd71556d53304b792e7233b7d2663d))
+* hide dots on offer page on scroll ([2c1b313](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/2c1b313c99c44f83909c6f7e9b64430bf0bb8afb))
+* refactor coupon wrapper component ([df0d293](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/df0d293f39027135965cbc5a9ba70f757efc0470))
+* refactor offer display page ([a058bd5](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/a058bd5ea785822379daa694a453f58885dc37ec))
+* remove env & args from dockerfile ([54ac8ce](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/54ac8cefef88e6da43082ddebe082b1063ea2ddb))
+
+
+### Features
+
+* add new offers voucher_pass and code_space, create fake coupon for both of them on activate offer ([4a5f4ae](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/4a5f4aeb4e06b75e2b4593fa350cda3b9d4c1025))
+
 ## [0.13.6](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.5...v0.13.6) (2024-02-29)
 
 
