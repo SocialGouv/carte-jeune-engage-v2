@@ -13,6 +13,8 @@ app:
 maildev: {}
 
 pg:
+  backup:
+    name: carte-jeune-engage-preprod-02-29
   cnpg-cluster:
     recovery:
       enabled: true
