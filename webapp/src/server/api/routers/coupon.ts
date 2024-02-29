@@ -5,73 +5,97 @@ import { createTRPCRouter, userProtectedProcedure } from "~/server/api/trpc";
 import { payloadWhereOfferIsValid } from "~/utils/tools";
 
 export interface CouponIncluded extends Coupon {
-	offer: Offer & { icon: Media; partner: Partner };
-	userRouter: User;
+  offer: Offer & { icon: Media; partner: Partner };
+  userRouter: User;
 }
 
 export const couponRouter = createTRPCRouter({
-	getOne: userProtectedProcedure
-		.input(z.object({ offer_id: z.number() }))
-		.query(async ({ ctx, input }) => {
-			const { offer_id } = input;
+  getOne: userProtectedProcedure
+    .input(z.object({ offer_id: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const { offer_id } = input;
 
-			const nowDate = new Date().toISOString().split("T")[0];
+      const nowDate = new Date().toISOString().split("T")[0];
 
-			const coupons = await ctx.payload.find({
-				collection: "coupons",
-				depth: 2,
-				where: {
-					and: [
-						{ offer: { equals: offer_id } },
-						{ user: { equals: ctx.session.id } },
-						{
-							...payloadWhereOfferIsValid("offer")
-						},
-						{ used: { equals: false } },
-					],
-				},
-			});
+      const coupons = await ctx.payload.find({
+        collection: "coupons",
+        depth: 2,
+        where: {
+          and: [
+            { offer: { equals: offer_id } },
+            { user: { equals: ctx.session.id } },
+            {
+              ...payloadWhereOfferIsValid("offer"),
+            },
+            { used: { equals: false } },
+          ],
+        },
+      });
 
-			return { data: coupons.docs[0] as CouponIncluded };
-		}),
+      return { data: coupons.docs[0] as CouponIncluded };
+    }),
 
-	assignToUser: userProtectedProcedure
-		.input(z.object({ offer_id: z.number() }))
-		.mutation(async ({ ctx, input }) => {
-			const { offer_id } = input;
+  assignToUser: userProtectedProcedure
+    .input(z.object({ offer_id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const { offer_id } = input;
 
-			const coupons = await ctx.payload.find({
-				collection: "coupons",
-				where: {
-					and: [
-						{ offer: { equals: offer_id } },
-						{
-							...payloadWhereOfferIsValid("offer")
-						},
-						{ used: { equals: false } },
-					],
-				},
-			});
+      const currentOffer = await ctx.payload.findByID({
+        collection: "offers",
+        id: offer_id,
+      });
 
-			const couponsFiltered = coupons.docs.filter(
-				(coupon) => coupon.user === undefined || coupon.user === null
-			);
+      if (!currentOffer)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Offer not found",
+        });
 
-			if (couponsFiltered.length === 0) {
-				throw new TRPCError({
-					code: "NOT_FOUND",
-					message: "No coupons available for this offer",
-				});
-			}
+      let availableCoupon;
 
-			const couponData = couponsFiltered[0] as CouponIncluded;
+      if (currentOffer.kind === "voucher" || currentOffer.kind === "code") {
+        const coupons = await ctx.payload.find({
+          collection: "coupons",
+          where: {
+            and: [
+              { offer: { equals: offer_id } },
+              {
+                ...payloadWhereOfferIsValid("offer"),
+              },
+              { used: { equals: false } },
+            ],
+          },
+        });
 
-			const updatedCoupon = await ctx.payload.update({
-				collection: "coupons",
-				id: couponData.id,
-				data: { user: ctx.session.id },
-			});
+        const couponsFiltered = coupons.docs.filter(
+          (coupon) => coupon.user === undefined || coupon.user === null
+        );
 
-			return { data: updatedCoupon };
-		}),
+        if (couponsFiltered.length === 0) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "No coupons available for this offer",
+          });
+        }
+
+        availableCoupon = couponsFiltered[0] as CouponIncluded;
+      } else {
+        const tmpNewCoupon = await ctx.payload.create({
+          collection: "coupons",
+          data: { code: `fake-code-${offer_id}`, offer: offer_id },
+        });
+
+        availableCoupon = tmpNewCoupon as CouponIncluded;
+      }
+
+      const couponData = availableCoupon;
+
+      const updatedCoupon = await ctx.payload.update({
+        collection: "coupons",
+        id: couponData.id,
+        data: { user: ctx.session.id },
+      });
+
+      return { data: updatedCoupon };
+    }),
 });

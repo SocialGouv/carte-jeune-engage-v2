@@ -124,7 +124,7 @@ export interface Supervisor {
  */
 export interface Permission {
   id: number;
-  phone_number?: string | null;
+  phone_number: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -153,7 +153,7 @@ export interface Offer {
   category: number | Category;
   validityFrom?: string | null;
   validityTo: string;
-  kind: 'voucher' | 'code';
+  kind: 'voucher' | 'voucher_pass' | 'code' | 'code_space';
   nbOfEligibleStores?: number | null;
   imageOfEligibleStores?: number | Media | null;
   linkOfEligibleStores?: string | null;
@@ -248,11 +248,13 @@ export interface PayloadMigration {
  */
 export interface QuickAccess {
   id: number;
-  items: {
-    partner: number | Partner;
-    offer?: (number | null) | Offer;
-    id?: string | null;
-  }[];
+  items?:
+    | {
+        partner: number | Partner;
+        offer?: (number | null) | Offer;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }

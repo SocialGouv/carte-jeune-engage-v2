@@ -73,12 +73,12 @@ export default function Wallet() {
 
   const { data: currentUserOffers } = resultUserOffers || {};
 
-  const inStoreOffers = currentUserOffers?.filter(
-    (offer) => offer.kind === "voucher"
+  const inStoreOffers = currentUserOffers?.filter((offer) =>
+    offer.kind.startsWith("voucher")
   );
 
-  const onlineOffers = currentUserOffers?.filter(
-    (offer) => offer.kind === "code"
+  const onlineOffers = currentUserOffers?.filter((offer) =>
+    offer.kind.startsWith("code")
   );
 
   if (isLoadingUserOffers) {

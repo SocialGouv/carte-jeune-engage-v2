@@ -24,9 +24,9 @@ export const offerRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { perPage, page, sort, categoryId, isCurrentUser } = input;
 
-			let where = {
-				...payloadWhereOfferIsValid()
-			} as Where;
+      let where = {
+        ...payloadWhereOfferIsValid(),
+      } as Where;
 
       if (categoryId) {
         where.category = {
@@ -65,6 +65,9 @@ export const offerRouter = createTRPCRouter({
             (coupon) => coupon.user === ctx.session.id && coupon.used === false
           ).length;
         } else {
+          if (offer.kind === "voucher_pass" || offer.kind === "code_space")
+            return offer;
+
           couponCount = couponFiltered.filter(
             (coupon) =>
               (coupon.user === undefined ||
