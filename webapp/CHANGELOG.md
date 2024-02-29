@@ -1,3 +1,10 @@
+## [0.14.3](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.2...v0.14.3) (2024-02-29)
+
+
+### Bug Fixes
+
+* icon size on dynamic react icon component and add default white colorscheme to back btn in steps wrapper ([6343b4d](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/6343b4dd2e9b9289b6fa37bc517be18f20c61abb))
+
 ## [0.14.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.1...v0.14.2) (2024-02-29)
 
 
