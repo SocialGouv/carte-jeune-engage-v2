@@ -1,3 +1,10 @@
+## [0.14.4](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.3...v0.14.4) (2024-02-29)
+
+
+### Bug Fixes
+
+* add correct background color on all modals in status bar in offer page ([a8a9876](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/a8a98760701239b2d1d96a12aa365e211ef5650e))
+
 ## [0.14.3](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.2...v0.14.3) (2024-02-29)
 
 
