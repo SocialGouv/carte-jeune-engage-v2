@@ -6,7 +6,7 @@ const PassInCreation = () => {
   return (
     <Flex
       flexDir="column"
-      mt={8}
+      my={8}
       borderRadius="xl"
       w="full"
       bgColor="cje-gray.500"
