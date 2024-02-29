@@ -6,7 +6,7 @@ import { StackItem } from "~/components/offer/StackItems";
 export const getItemsTermsOfUse = (
   offerKind: Offer["kind"]
 ): { text: string; slug: string; icon: string }[] => {
-  if (offerKind === "code") {
+  if (offerKind.startsWith("code")) {
     return [
       { text: "Copier le code promo", slug: "copy-code", icon: "FiCopy" },
       {
