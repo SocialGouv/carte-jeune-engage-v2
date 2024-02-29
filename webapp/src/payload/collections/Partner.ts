@@ -21,13 +21,11 @@ export const Partners: CollectionConfig = {
       name: "description",
       type: "textarea",
       label: "Description",
-      required: true,
     },
     {
       name: "url",
       type: "text",
       label: "URL",
-      required: true,
     },
     {
       name: "color",

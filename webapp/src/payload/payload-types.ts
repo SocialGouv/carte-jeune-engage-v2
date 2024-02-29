@@ -135,8 +135,8 @@ export interface Permission {
 export interface Partner {
   id: number;
   name: string;
-  description: string;
-  url: string;
+  description?: string | null;
+  url?: string | null;
   color: string;
   icon: number | Media;
   updatedAt: string;
@@ -154,6 +154,7 @@ export interface Offer {
   validityFrom?: string | null;
   validityTo: string;
   kind: 'voucher' | 'voucher_pass' | 'code' | 'code_space';
+  url?: string | null;
   nbOfEligibleStores?: number | null;
   imageOfEligibleStores?: number | Media | null;
   linkOfEligibleStores?: string | null;

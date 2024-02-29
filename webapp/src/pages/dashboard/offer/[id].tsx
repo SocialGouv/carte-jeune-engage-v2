@@ -133,7 +133,7 @@ export default function OfferPage() {
   } = useDisclosure({
     onOpen: () => {
       const timeoutId = setTimeout(() => {
-        window.open(offer?.partner.url, "_blank");
+        window.open(offer?.url as string, "_blank");
         onCloseExternalLink();
       }, 1000);
       setTimeoutIdExternalLink(timeoutId);
