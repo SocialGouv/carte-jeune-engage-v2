@@ -1,3 +1,10 @@
+## [0.14.8](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.7...v0.14.8) (2024-02-29)
+
+
+### Bug Fixes
+
+* add startsWith instead of equals for offerkind in howItWorks step in offer collection ([b247d05](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/b247d057c1797dc5aa92a911e05c45b1d2381cdb))
+
 ## [0.14.7](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.6...v0.14.7) (2024-02-29)
 
 
