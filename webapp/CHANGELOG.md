@@ -1,3 +1,10 @@
+## [0.14.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.1...v0.14.2) (2024-02-29)
+
+
+### Bug Fixes
+
+* add margin bottom to PassInCreation component ([9f62da8](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/9f62da8b2bfebf0a526afcada4f6e22ff49f7ac3))
+
 ## [0.14.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.0...v0.14.1) (2024-02-29)
 
 
