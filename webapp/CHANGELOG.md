@@ -1,3 +1,10 @@
+## [0.14.7](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.6...v0.14.7) (2024-02-29)
+
+
+### Bug Fixes
+
+* remove required on description and url in partner collection and add required url in offer kind online ([1cf235f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/1cf235fdd8f3b845ad8bd1c5053891b1047cc1e6))
+
 ## [0.14.6](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.5...v0.14.6) (2024-02-29)
 
 
