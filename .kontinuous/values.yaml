@@ -22,3 +22,4 @@ jobs:
           sentry_auth_token:
             secretName: app-sealed-secret
             secretKey: SENTRY_AUTH_TOKEN
+
