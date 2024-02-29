@@ -1,3 +1,10 @@
+## [0.13.6](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.5...v0.13.6) (2024-02-29)
+
+
+### Bug Fixes
+
+* issue with user and supervisor middleware check if exists in db ([e5bf6ed](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/e5bf6ed208a5cc7dea22beb62e32876d4ae265ea))
+
 ## [0.13.5](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.13.4...v0.13.5) (2024-02-29)
 
 
