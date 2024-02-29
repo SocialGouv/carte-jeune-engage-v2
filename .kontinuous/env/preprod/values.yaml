@@ -15,19 +15,19 @@ maildev: {}
 pg:
   cnpg-cluster:
     recovery:
-    enabled: true
-    ~tpl~database: "{{ .Values.global.pgDatabase }}"
-    ~tpl~owner: "{{ .Values.global.pgUser }}"
-    secretName: "pg-db"
-    barmanObjectStore:
-      ~tpl~destinationPath: "s3://carte-jeune-engage-dev-backups/carte-jeune-engage-v2-preprod"
-      s3Credentials:
-        accessKeyId:
-          ~tpl~name: "carte-jeune-engage-dev-backups-access-key"
-          key: bucket_access_key
-        secretAccessKey:
-          ~tpl~name: "carte-jeune-engage-dev-backups-access-key"
-          key: bucket_secret_key
-        region:
-          ~tpl~name: "carte-jeune-engage-dev-backups-access-key"
-          key: bucket_region
+      enabled: true
+      ~tpl~database: "{{ .Values.global.pgDatabase }}"
+      ~tpl~owner: "{{ .Values.global.pgUser }}"
+      secretName: "pg-db"
+      barmanObjectStore:
+        ~tpl~destinationPath: "s3://carte-jeune-engage-dev-backups/carte-jeune-engage-v2-preprod"
+        s3Credentials:
+          accessKeyId:
+            ~tpl~name: "carte-jeune-engage-dev-backups-access-key"
+            key: bucket_access_key
+          secretAccessKey:
+            ~tpl~name: "carte-jeune-engage-dev-backups-access-key"
+            key: bucket_secret_key
+          region:
+            ~tpl~name: "carte-jeune-engage-dev-backups-access-key"
+            key: bucket_region
