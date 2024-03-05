@@ -24,6 +24,7 @@ import BigLoader from "~/components/BigLoader";
 import ChakraNextImage from "~/components/ChakraNextImage";
 import FormInput from "~/components/forms/FormInput";
 import Header from "~/components/landing/Header";
+import Footer from "~/components/landing/Footer";
 import { loginAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
 import { addSpaceToTwoCharacters, frenchPhoneNumber } from "~/utils/tools";
@@ -251,7 +252,18 @@ export default function Home() {
   }
 
   return (
-    <Flex flexDir="column" py={8} h="full" overflow={"hidden"} bgColor="white">
+    <Flex
+      flexDir="column"
+      pt={8}
+      h="full"
+      overflowY="auto"
+      sx={{
+        "::-webkit-scrollbar": {
+          display: "none",
+        },
+      }}
+      bgColor="white"
+    >
       <Header />
       <Flex id="login-form" flexDir="column" px={8} py={16} textAlign="center">
         <Heading fontSize="2xl" fontWeight="extrabold">
@@ -354,6 +366,8 @@ export default function Home() {
           </ChakraBox>
         </Flex>
       </Flex>
+      <Flex flexDir="column" px={8} py={16}></Flex>
+      <Footer />
     </Flex>
   );
 }

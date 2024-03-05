@@ -12,6 +12,13 @@ import {
 import ChakraNextImage from "../ChakraNextImage";
 import { HiMiniBars3 } from "react-icons/hi2";
 
+export const menuItems = [
+  { title: "Qu'est-ce que c'est ?" },
+  { title: "Qui peut en profiter ?" },
+  { title: "Comment ça marche ?" },
+  { title: "FAQ" },
+];
+
 const Header = () => {
   return (
     <Flex
@@ -46,9 +53,9 @@ const Header = () => {
           <Icon as={HiMiniBars3} w={8} h={8} />
         </MenuButton>
         <MenuList style={{ position: "relative" }}>
-          <MenuItem>Qu'est-ce que c'est ?</MenuItem>
-          <MenuItem>Qui peut en profiter ?</MenuItem>
-          <MenuItem>Comment ça marche ?</MenuItem>
+          {menuItems.map((item) => (
+            <MenuItem key={item.title}>{item.title}</MenuItem>
+          ))}
         </MenuList>
       </Menu>
     </Flex>
