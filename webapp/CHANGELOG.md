@@ -1,3 +1,10 @@
+# [0.15.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.8...v0.15.0) (2024-03-05)
+
+
+### Features
+
+* add barcodeFormat to offer collection and fix height full for payload admin ([73cb745](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/73cb745c8bedcf7c25fe1ee2ccb85efc2e6431a3))
+
 ## [0.14.8](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.7...v0.14.8) (2024-02-29)
 
 
