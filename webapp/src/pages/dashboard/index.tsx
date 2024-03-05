@@ -25,7 +25,7 @@ export default function Dashboard() {
     });
 
   const { data: resultQuickAccess, isLoading: isLoadingQuickAccess } =
-    api.quickAccess.getAll.useQuery();
+    api.globals.quickAccessGetAll.useQuery();
 
   const { data: resultOffers, isLoading: isLoadingOffers } =
     api.offer.getListOfAvailables.useQuery({

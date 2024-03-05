@@ -184,6 +184,10 @@ export const theme = extendTheme({
     secondaryText: "#5C5C70",
     blackLight: "#20202C",
   },
+  shadows: {
+    "landing-phone-number-component":
+      "0px 4px 9.9px 0px rgba(177, 177, 177, 0.25)",
+  },
   radii: {
     "1.5xl": "1.25rem",
   },
