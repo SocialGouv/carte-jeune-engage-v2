@@ -1,8 +1,5 @@
 import { type CollectionConfig } from "payload/types";
-import {
-  CustomSelectTermsOfUse,
-  getItemsTermsOfUse,
-} from "../components/CustomSelectField";
+import { CustomSelectTermsOfUse } from "../components/CustomSelectField";
 import { QuickAccess } from "../payload-types";
 
 export const Offers: CollectionConfig = {
@@ -68,6 +65,7 @@ export const Offers: CollectionConfig = {
       admin: {
         condition: (_, siblingData) =>
           !!siblingData.kind && siblingData.kind.startsWith("code"),
+        position: "sidebar",
       },
       required: true,
     },
@@ -78,6 +76,7 @@ export const Offers: CollectionConfig = {
       admin: {
         condition: (_, siblingData) =>
           !!siblingData.kind && siblingData.kind.startsWith("voucher"),
+        position: "sidebar",
       },
       defaultValue: 1,
     },
@@ -89,6 +88,7 @@ export const Offers: CollectionConfig = {
       admin: {
         condition: (_, siblingData) =>
           !!siblingData.kind && siblingData.kind.startsWith("voucher"),
+        position: "sidebar",
       },
     },
     {
@@ -98,6 +98,28 @@ export const Offers: CollectionConfig = {
       admin: {
         condition: (_, siblingData) =>
           !!siblingData.kind && siblingData.kind.startsWith("voucher"),
+        position: "sidebar",
+      },
+    },
+    {
+      name: "barcodeFormat",
+      type: "select",
+      label: "Format du code-barres",
+      options: [
+        { label: "CODE39", value: "CODE39" },
+        { label: "EAN13", value: "EAN13" },
+        { label: "ITF14", value: "ITF14" },
+        { label: "MSI", value: "MSI" },
+        { label: "Pharmacode", value: "pharmacode" },
+        { label: "Codabar", value: "codabar" },
+        { label: "Upc", value: "upc" },
+      ],
+      admin: {
+        condition: (_, siblingData) =>
+          !!siblingData.kind && siblingData.kind === "voucher",
+        position: "sidebar",
+        description:
+          "Si vide, le code-barres est formaté au format CODE128 par défaut",
       },
     },
     {

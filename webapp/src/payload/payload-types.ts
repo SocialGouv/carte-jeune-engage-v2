@@ -158,6 +158,7 @@ export interface Offer {
   nbOfEligibleStores?: number | null;
   imageOfEligibleStores?: number | Media | null;
   linkOfEligibleStores?: string | null;
+  barcodeFormat?: ('CODE39' | 'EAN13' | 'ITF14' | 'MSI' | 'pharmacode' | 'codabar' | 'upc') | null;
   termsOfUse?:
     | {
         slug?: string | null;

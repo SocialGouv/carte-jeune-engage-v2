@@ -148,6 +148,11 @@ const CouponWrapper = ({
             <Barcode
               value={coupon?.code ?? "6FHDJFHEIDJF"}
               background={coupon ? "white" : "#edeff3"}
+              format={
+                coupon?.code && offer?.barcodeFormat
+                  ? offer?.barcodeFormat
+                  : "CODE128"
+              }
               height={70}
             />
           )}

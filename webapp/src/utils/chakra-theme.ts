@@ -121,8 +121,18 @@ export const theme = extendTheme({
   },
   styles: {
     global: () => ({
+      html: {
+        height: "100%",
+      },
       body: {
         bg: "bgWhite",
+        height: "100%",
+      },
+      main: {
+        height: "100%",
+      },
+      "#__next": {
+        height: "100%",
       },
     }),
   },
