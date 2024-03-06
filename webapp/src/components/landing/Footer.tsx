@@ -4,13 +4,7 @@ import { menuItems } from "./Header";
 const Footer = () => {
   return (
     <Flex flexDir="column" bgColor="blackLight" h="full">
-      <Box
-        bgColor="white"
-        borderBottom="1px solid"
-        height="75px"
-        borderColor="blackLight"
-        borderBottomRadius="full"
-      />
+      <Box bgColor="white" height="75px" borderBottomRadius="full" />
       <Flex flexDir="column" w="full" mt={16} mb={12}>
         <Flex alignItems="center" w="full" pr={4}>
           <Image

@@ -1,11 +1,12 @@
 import {
+  AspectRatio,
   Box,
   Button,
   Flex,
-  Grid,
   HStack,
   Heading,
   Icon,
+  Image,
   Link,
   PinInput,
   PinInputField,
@@ -19,7 +20,13 @@ import { isValidMotionProp, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { HiArrowRight, HiChevronLeft } from "react-icons/hi2";
+import {
+  HiArrowRight,
+  HiCalendarDays,
+  HiChevronLeft,
+  HiMapPin,
+  HiMiniClipboardDocumentCheck,
+} from "react-icons/hi2";
 import BigLoader from "~/components/BigLoader";
 import ChakraNextImage from "~/components/ChakraNextImage";
 import FormInput from "~/components/forms/FormInput";
@@ -28,6 +35,8 @@ import Footer from "~/components/landing/Footer";
 import { loginAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
 import { addSpaceToTwoCharacters, frenchPhoneNumber } from "~/utils/tools";
+import SectionContent from "~/components/landing/SimpleSection";
+import MapSectionCard from "~/components/landing/MapSectionCard";
 
 const ChakraBox = chakra(motion.div, {
   shouldForwardProp: (prop) =>
@@ -48,6 +57,35 @@ const pinProps = {
 };
 
 const defaultTimeToResend = 30;
+
+const sectionItems = [
+  {
+    title:
+      "Bénéficiez d’un statut privilégié qui vous offre des remises avantageuses",
+    description:
+      "Vous n’êtes pas encore en formation ni en emploi, vous bénéficiez d’un statut de jeune engagé en étant inscrit à la Mission locale, avec la carte “jeune engagé”, vous accédez à toutes les réductions disponibles pour vous !",
+    image: "/images/landing/section-1.png",
+  },
+  {
+    title:
+      "Tout ce qu’il faut pour bien démarrer dans la vie active, à prix réduit grâce aux partenaires",
+    description:
+      "La carte “jeune engagé” vous fait économisez pour tout grâce aux nombreux partenaires participants. Bénéficiez de prix instantanément réduits pour faire vos courses, pour équiper votre logement, pour le matériel informatique mais aussi pour vos assurances et vos abonnements. ",
+    image: "/images/landing/section-2.png",
+  },
+  {
+    title: "Des réductions à utiliser en ligne ou en magasin",
+    description:
+      "Profitez d’une flexibilité totale avec la carte “jeune engagé” ! L’application vous offre des réductions à utiliser en ligne mais aussi directement en magasin : plus pratique pour faire vos courses par exemple. ",
+    image: "/images/landing/section-3.png",
+  },
+  {
+    title: "Suivez toutes vos économies",
+    description:
+      "Gardez un œil sur vos économies grâce à notre fonction de suivi intégrée. Consultez facilement l'historique de vos économies et suivez les au fil du temps. ",
+    image: "/images/landing/section-4.png",
+  },
+];
 
 export default function Home() {
   const router = useRouter();
@@ -366,7 +404,33 @@ export default function Home() {
           </ChakraBox>
         </Flex>
       </Flex>
-      <Flex flexDir="column" px={8} py={16}></Flex>
+      <Flex flexDir="column" px={8} py={16} gap={9}>
+        {sectionItems.map((section, index) => (
+          <SectionContent key={`section-${index}`} {...section} />
+        ))}
+      </Flex>
+      <Box mt={24} zIndex={10}>
+        <Heading fontSize="3xl" fontWeight="extrabold" textAlign="center">
+          Qui peut en profiter ?
+        </Heading>
+        <AspectRatio ratio={1} pt={4} mt={8} mb={-10}>
+          <Image src="/images/landing/map.png" transform="rotate(-4.5deg)" />
+        </AspectRatio>
+        <Flex flexDir="column" px={8} gap={8}>
+          <MapSectionCard
+            text="Disponible uniquement dans le département du Val d’Oise"
+            icon={HiMapPin}
+          />
+          <MapSectionCard
+            text="Réservé aux jeunes inscrits en contrat d’engagement jeune à la Mission locale "
+            icon={HiMiniClipboardDocumentCheck}
+          />
+          <MapSectionCard
+            text="Réservé aux jeunes ni en emploi, ni en formation, âgés entre 18 et 25 ans."
+            icon={HiCalendarDays}
+          />
+        </Flex>
+      </Box>
       <Footer />
     </Flex>
   );
