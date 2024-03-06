@@ -2,7 +2,7 @@ import { GlobalConfig } from "payload/types";
 
 export const LandingPartners: GlobalConfig = {
   slug: "landingPartners",
-  label: "Logos des partenaires sur la page d'accueil",
+  label: "[Accueil] Logos des partenaires",
   fields: [
     {
       name: "items",

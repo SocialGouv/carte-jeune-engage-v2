@@ -1,4 +1,5 @@
 import {
+  Accordion,
   AspectRatio,
   Box,
   Button,
@@ -37,6 +38,8 @@ import { api } from "~/utils/api";
 import { addSpaceToTwoCharacters, frenchPhoneNumber } from "~/utils/tools";
 import SectionContent from "~/components/landing/SimpleSection";
 import MapSectionCard from "~/components/landing/MapSectionCard";
+import HowItWorksSectionCard from "~/components/landing/HowItWorkSectionCard";
+import FAQSectionAccordionItem from "~/components/landing/FAQSectionAccordionItem";
 
 const ChakraBox = chakra(motion.div, {
   shouldForwardProp: (prop) =>
@@ -97,6 +100,7 @@ export default function Home() {
 
   const [timeToResend, setTimeToResend] = useState(defaultTimeToResend);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+  const [faqCurrentIndex, setFaqCurrentIndex] = useState<number | null>(null);
 
   const {
     handleSubmit,
@@ -124,6 +128,11 @@ export default function Home() {
     api.globals.landingPartnersGetLogos.useQuery();
 
   const logoPartners = resultLogoPartners?.data || [];
+
+  const { data: resultFAQ, isLoading: isLoadingFAQ } =
+    api.globals.landingFAQGetAll.useQuery();
+
+  const landingFAQ = resultFAQ?.data || [];
 
   const { mutate: generateOtp, isLoading: isLoadingOtp } =
     api.user.generateOTP.useMutation({
@@ -194,7 +203,14 @@ export default function Home() {
     return () => clearInterval(id);
   }, []);
 
-  if (isLoadingOtp || isLoadingLogin || forceLoader) return <BigLoader />;
+  if (
+    isLoadingOtp ||
+    isLoadingLogin ||
+    forceLoader ||
+    isLoadingLogoPartners ||
+    isLoadingFAQ
+  )
+    return <BigLoader />;
 
   if (isOtpGenerated) {
     return (
@@ -294,12 +310,12 @@ export default function Home() {
       flexDir="column"
       pt={8}
       h="full"
-      overflowY="auto"
       sx={{
         "::-webkit-scrollbar": {
           display: "none",
         },
       }}
+      overflowY="auto"
       bgColor="white"
     >
       <Header />
@@ -404,7 +420,7 @@ export default function Home() {
           </ChakraBox>
         </Flex>
       </Flex>
-      <Flex flexDir="column" px={8} py={16} gap={9}>
+      <Flex flexDir="column" px={8} mt={16} gap={9}>
         {sectionItems.map((section, index) => (
           <SectionContent key={`section-${index}`} {...section} />
         ))}
@@ -430,6 +446,52 @@ export default function Home() {
             icon={HiCalendarDays}
           />
         </Flex>
+      </Box>
+      <Box px={8}>
+        <Box mt={28} textAlign="center">
+          <Heading fontSize="3xl" fontWeight="extrabold">
+            Comment ça marche ?
+          </Heading>
+          <Text fontWeight="medium" fontSize="sm" color="secondaryText" mt={8}>
+            Rappel : Vous devez être inscrit en Missions locale dans le “Contrat
+            d’engagement jeune”.
+          </Text>
+          <Flex flexDir="column" gap={8} mt={9}>
+            <HowItWorksSectionCard
+              title="Votre conseiller vous inscrit"
+              description="Votre conseiller du contrat d’engagement jeune (CEJ) vous inscrit avec votre numéro de téléphone. "
+              number={1}
+            />
+            <HowItWorksSectionCard
+              title="Créez votre compte sur l’application"
+              description="Téléchargez l’application et créez votre compte pour accéder aux offres et aux réductions."
+              number={2}
+            />
+            <HowItWorksSectionCard
+              title="Bénéficiez de vos réductions"
+              description="Dès qu’une réduction vous intéresse, activez-la et profitez-en en ligne ou en magasin."
+              number={3}
+            />
+          </Flex>
+        </Box>
+        <Box mt={24} textAlign="center">
+          <Heading fontSize="3xl" fontWeight="extrabold">
+            Questions fréquentes
+          </Heading>
+          <Accordion my={10} allowToggle>
+            {landingFAQ.map(({ title, content }, index) => (
+              <FAQSectionAccordionItem
+                key={`faq-item-${index}`}
+                title={title}
+                content={content}
+                index={index}
+                currentIndex={faqCurrentIndex}
+                setCurrentIndex={setFaqCurrentIndex}
+                total={landingFAQ.length}
+              />
+            ))}
+          </Accordion>
+        </Box>
       </Box>
       <Footer />
     </Flex>

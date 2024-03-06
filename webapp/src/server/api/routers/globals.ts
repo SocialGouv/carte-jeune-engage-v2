@@ -41,4 +41,15 @@ export const globalsRouter = createTRPCRouter({
       data: logoPartners,
     };
   }),
+
+  landingFAQGetAll: publicProcedure.query(async ({ ctx }) => {
+    const landingFAQ = await ctx.payload.findGlobal({
+      slug: "landingFAQ",
+      depth: 3,
+    });
+
+    return {
+      data: landingFAQ.items,
+    };
+  }),
 });
