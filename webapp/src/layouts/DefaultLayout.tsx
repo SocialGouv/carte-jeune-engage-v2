@@ -57,7 +57,11 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </Head>
-      <Box as="main" role="main">
+      <Box
+        as="main"
+        role="main"
+        background={pathname === "/" ? "white" : undefined}
+      >
         <Container
           maxWidth={{ base: "container.sm", lg: "container.sm" }}
           px={0}

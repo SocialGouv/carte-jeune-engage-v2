@@ -121,7 +121,7 @@ export const theme = extendTheme({
   },
   styles: {
     global: () => ({
-      body: {
+      main: {
         bg: "bgWhite",
       },
     }),

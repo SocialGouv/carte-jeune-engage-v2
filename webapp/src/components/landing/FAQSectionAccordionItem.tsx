@@ -40,43 +40,43 @@ const FAQSectionAccordionItem = ({
           }
           pb={isExpanded ? 2 : 0}
         >
-          <h2>
-            <AccordionButton
-              _hover={{
-                background: "none",
-              }}
-              onClick={() => setCurrentIndex(!isExpanded ? index : null)}
+          <AccordionButton
+            _hover={{
+              background: "none",
+            }}
+            onClick={() => setCurrentIndex(!isExpanded ? index : null)}
+          >
+            <Text
+              as="span"
+              flex="1"
+              textAlign="left"
+              fontWeight="bold"
+              fontSize="lg"
+              mr={8}
             >
-              <Text
-                as="span"
-                flex="1"
-                textAlign="left"
-                fontWeight="bold"
-                fontSize="lg"
-                mr={8}
-              >
-                {title}
-              </Text>
-              {!isExpanded ? (
-                <IconButton
-                  icon={<Icon as={HiPlus} />}
-                  onClick={() => setCurrentIndex(index)}
-                  colorScheme="gray"
-                  size="sm"
-                  borderRadius="full"
-                  aria-label="Ouvrir l'accordéon"
-                />
-              ) : (
-                <IconButton
-                  icon={<Icon as={HiXMark} />}
-                  onClick={() => setCurrentIndex(null)}
-                  size="sm"
-                  borderRadius="full"
-                  aria-label="Fermer l'accordéon"
-                />
-              )}
-            </AccordionButton>
-          </h2>
+              {title}
+            </Text>
+            {!isExpanded ? (
+              <IconButton
+                as="div"
+                icon={<Icon as={HiPlus} />}
+                onClick={() => setCurrentIndex(index)}
+                colorScheme="gray"
+                size="sm"
+                borderRadius="full"
+                aria-label="Ouvrir l'accordéon"
+              />
+            ) : (
+              <IconButton
+                as="div"
+                icon={<Icon as={HiXMark} />}
+                onClick={() => setCurrentIndex(null)}
+                size="sm"
+                borderRadius="full"
+                aria-label="Fermer l'accordéon"
+              />
+            )}
+          </AccordionButton>
           <AccordionPanel>
             <Text textAlign="left" fontWeight="medium" color="secondaryText">
               {content}

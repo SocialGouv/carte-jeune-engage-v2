@@ -20,7 +20,13 @@ import { setCookie } from "cookies-next";
 import { isValidMotionProp, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import {
+  useForm,
+  type SubmitHandler,
+  FieldError,
+  UseFormRegister,
+  ErrorOption,
+} from "react-hook-form";
 import {
   HiArrowRight,
   HiCalendarDays,
@@ -90,6 +96,89 @@ const sectionItems = [
   },
 ];
 
+type ComponentPhoneNumberKeys = "phone-number-cta" | "phone-number-footer";
+
+const ComponentFormPhoneNumber = ({
+  onSubmit,
+  currentKey,
+  setCurrentPhoneNumberKey,
+  error,
+  isLoadingOtp,
+}: {
+  onSubmit: SubmitHandler<LoginForm>;
+  currentKey: ComponentPhoneNumberKeys;
+  setCurrentPhoneNumberKey: React.Dispatch<
+    React.SetStateAction<ComponentPhoneNumberKeys>
+  >;
+  error: {
+    name: ComponentPhoneNumberKeys;
+    error: ErrorOption;
+  } | null;
+  isLoadingOtp: boolean;
+}) => {
+  const {
+    handleSubmit,
+    register,
+    setError,
+    formState: { errors },
+  } = useForm<LoginForm>({
+    mode: "onSubmit",
+  });
+
+  if (currentKey === error?.name && errors.phone_number === undefined) {
+    setError("phone_number", {
+      type: error.error.type,
+      message: error.error.message,
+    });
+  }
+
+  return (
+    <Box
+      key={currentKey}
+      as="form"
+      shadow="landing-phone-number-component"
+      borderRadius="1.125rem"
+      mt={6}
+      p={3}
+      onSubmit={(e: any) => {
+        e.preventDefault();
+        setCurrentPhoneNumberKey(currentKey);
+        handleSubmit(onSubmit)();
+      }}
+    >
+      <FormInput
+        field={{
+          name: "phone_number",
+          kind: "tel",
+          placeholder: "Mon numéro de téléphone",
+          prefix: "🇫🇷",
+          rules: {
+            required: "Ce champ est obligatoire",
+            pattern: {
+              value: frenchPhoneNumber,
+              message:
+                "On dirait que ce numéro de téléphone n’est pas valide. Vérifiez votre numéro",
+            },
+          },
+        }}
+        fieldError={errors.phone_number}
+        register={register}
+      />
+      <Button
+        mt={4}
+        colorScheme="blackBtn"
+        type="submit"
+        float="right"
+        w="full"
+        isLoading={isLoadingOtp}
+        rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
+      >
+        Vérifier mon éligibilité
+      </Button>
+    </Box>
+  );
+};
+
 export default function Home() {
   const router = useRouter();
 
@@ -102,18 +191,13 @@ export default function Home() {
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const [faqCurrentIndex, setFaqCurrentIndex] = useState<number | null>(null);
 
-  const {
-    handleSubmit,
-    register,
-    setError,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<LoginForm>({
-    mode: "onSubmit",
-  });
-
-  const formValues = watch();
+  const [currentPhoneNumberKey, setCurrentPhoneNumberKey] =
+    useState<ComponentPhoneNumberKeys>("phone-number-cta");
+  const [currentPhoneNumber, setCurrentPhoneNumber] = useState<string>("");
+  const [phoneNumberError, setPhoneNumberError] = useState<{
+    name: ComponentPhoneNumberKeys;
+    error: ErrorOption;
+  } | null>(null);
 
   const resetTimer = () => {
     if (intervalId) clearInterval(intervalId);
@@ -143,15 +227,21 @@ export default function Home() {
       onError: async ({ data }) => {
         console.log(data?.httpStatus);
         if (data?.httpStatus === 401) {
-          setError("phone_number", {
-            type: "conflict",
-            message:
-              "Votre numéro de téléphone n'est pas autorisé à accéder à l'application",
+          setPhoneNumberError({
+            name: currentPhoneNumberKey,
+            error: {
+              type: "conflict",
+              message:
+                "Votre numéro de téléphone n'est pas autorisé à accéder à l'application",
+            },
           });
         } else {
-          setError("phone_number", {
-            type: "internal",
-            message: "Erreur coté serveur, veuillez contacter le support",
+          setPhoneNumberError({
+            name: currentPhoneNumberKey,
+            error: {
+              type: "internal",
+              message: "Erreur coté serveur, veuillez contacter le support",
+            },
           });
         }
       },
@@ -178,13 +268,14 @@ export default function Home() {
     });
 
   const handleGenerateOtp: SubmitHandler<LoginForm> = async (values) => {
+    setCurrentPhoneNumber(values.phone_number);
     generateOtp({ phone_number: values.phone_number });
   };
 
   const handleLoginUser = async (otp: string) => {
     setForceLoader(true);
     loginUser({
-      phone_number: formValues.phone_number,
+      phone_number: currentPhoneNumber,
       otp,
     });
   };
@@ -203,13 +294,7 @@ export default function Home() {
     return () => clearInterval(id);
   }, []);
 
-  if (
-    isLoadingOtp ||
-    isLoadingLogin ||
-    forceLoader ||
-    isLoadingLogoPartners ||
-    isLoadingFAQ
-  )
+  if (isLoadingLogin || forceLoader || isLoadingLogoPartners || isLoadingFAQ)
     return <BigLoader />;
 
   if (isOtpGenerated) {
@@ -227,7 +312,7 @@ export default function Home() {
             h={6}
             onClick={() => {
               setIsOtpGenerated(false);
-              setValue("phone_number", "");
+              setCurrentPhoneNumber("");
             }}
             cursor="pointer"
             position="absolute"
@@ -243,8 +328,8 @@ export default function Home() {
           </Heading>
           <Text fontSize={"sm"} fontWeight="medium" color="secondaryText">
             Saisissez le code envoyé au{" "}
-            {addSpaceToTwoCharacters(formValues.phone_number)} pour pouvoir
-            créer votre compte
+            {addSpaceToTwoCharacters(currentPhoneNumber)} pour pouvoir créer
+            votre compte
           </Text>
           <Box my={8}>
             <HStack>
@@ -294,7 +379,7 @@ export default function Home() {
             color={timeToResend <= 0 ? "initial" : "gray.500"}
             onClick={() => {
               if (timeToResend <= 0)
-                handleGenerateOtp({ phone_number: formValues.phone_number });
+                handleGenerateOtp({ phone_number: currentPhoneNumber });
             }}
           >
             Me renvoyer un code par SMS{" "}
@@ -306,18 +391,7 @@ export default function Home() {
   }
 
   return (
-    <Flex
-      flexDir="column"
-      pt={8}
-      h="full"
-      sx={{
-        "::-webkit-scrollbar": {
-          display: "none",
-        },
-      }}
-      overflowY="auto"
-      bgColor="white"
-    >
+    <Flex flexDir="column" pt={8} h="full">
       <Header />
       <Flex id="login-form" flexDir="column" px={8} py={16} textAlign="center">
         <Heading fontSize="2xl" fontWeight="extrabold">
@@ -333,44 +407,13 @@ export default function Home() {
           Les économies pensées pour bien démarrer dans la vie et pour toutes
           ses dépenses quotidiennes.
         </Text>
-        <Box
-          as="form"
-          shadow="landing-phone-number-component"
-          borderRadius="1.125rem"
-          mt={6}
-          p={3}
-          onSubmit={handleSubmit(handleGenerateOtp)}
-        >
-          <FormInput
-            field={{
-              name: "phone_number",
-              kind: "tel",
-              placeholder: "Mon numéro de téléphone",
-              prefix: "🇫🇷",
-              rules: {
-                required: "Ce champ est obligatoire",
-                pattern: {
-                  value: frenchPhoneNumber,
-                  message:
-                    "On dirait que ce numéro de téléphone n’est pas valide. Vérifiez votre numéro",
-                },
-              },
-            }}
-            fieldError={errors.phone_number}
-            register={register}
-          />
-          <Button
-            mt={4}
-            colorScheme="blackBtn"
-            type={"submit"}
-            float="right"
-            w="full"
-            isLoading={isLoadingOtp}
-            rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
-          >
-            Vérifier mon éligibilité
-          </Button>
-        </Box>
+        <ComponentFormPhoneNumber
+          isLoadingOtp={isLoadingOtp}
+          onSubmit={handleGenerateOtp}
+          currentKey="phone-number-cta"
+          error={phoneNumberError}
+          setCurrentPhoneNumberKey={setCurrentPhoneNumberKey}
+        />
       </Flex>
       <Flex flexDir="column" textAlign="center" gap={8}>
         <Heading fontSize="3xl" fontWeight="extrabold">
@@ -492,6 +535,24 @@ export default function Home() {
             ))}
           </Accordion>
         </Box>
+        <Flex flexDir="column" mt={16} mb={8} textAlign="center">
+          <Heading fontSize="3xl" fontWeight="extrabold">
+            Je profite des réductions
+            <br />
+            dès maintenant
+          </Heading>
+          <Text fontWeight="medium" color="secondaryText" mt={6}>
+            Accédez aux réductions et aux offres des entreprises qui aident les
+            jeunes à se lancer dans la vie active.
+          </Text>
+          <ComponentFormPhoneNumber
+            isLoadingOtp={isLoadingOtp}
+            onSubmit={handleGenerateOtp}
+            currentKey="phone-number-footer"
+            error={phoneNumberError}
+            setCurrentPhoneNumberKey={setCurrentPhoneNumberKey}
+          />
+        </Flex>
       </Box>
       <Footer />
     </Flex>
