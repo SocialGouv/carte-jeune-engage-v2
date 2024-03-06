@@ -1,3 +1,11 @@
+## [0.15.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.15.1...v0.15.2) (2024-03-06)
+
+
+### Bug Fixes
+
+* hight quality images partners ([a879f47](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/a879f4793a4bde11f0413d5fcf1d6a4dffffff62))
+* radius on offerwrapper header ([63c0686](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/63c0686056f4bcadb6a3c69e25b7968e4062bcff))
+
 ## [0.15.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.15.0...v0.15.1) (2024-03-06)
 
 
