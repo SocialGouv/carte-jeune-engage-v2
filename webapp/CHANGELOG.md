@@ -1,3 +1,10 @@
+## [0.15.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.15.0...v0.15.1) (2024-03-06)
+
+
+### Bug Fixes
+
+* partnaire logo style on offers ([97b2d0a](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/97b2d0a692ac07d8d0b8b6c85ec99569cf3a9f5e))
+
 # [0.15.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.14.8...v0.15.0) (2024-03-05)
 
 
