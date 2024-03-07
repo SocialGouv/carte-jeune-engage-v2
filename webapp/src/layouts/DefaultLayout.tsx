@@ -3,6 +3,7 @@ import Head from "next/head";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import BottomNavigation from "~/components/BottomNavigation";
+import Footer from "~/components/landing/Footer";
 import { BeforeInstallPromptEvent, useAuth } from "~/providers/Auth";
 
 export default function DefaultLayout({ children }: { children: ReactNode }) {
@@ -63,7 +64,9 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
         background={pathname === "/" ? "white" : undefined}
       >
         <Container
-          maxWidth={{ base: "container.sm", lg: "container.sm" }}
+          maxWidth={{
+            base: pathname === "/" ? "container.xl" : "container.sm",
+          }}
           px={0}
           h="full"
         >

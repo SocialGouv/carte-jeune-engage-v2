@@ -13,10 +13,11 @@ const HowItWorksSectionCard = ({
 }: HowItWorksSectionCardProps) => {
   return (
     <Flex
+      flex={1}
       flexDir="column"
       alignItems="center"
       gap={4}
-      p={6}
+      p={{ base: 6, lg: 9 }}
       bgColor="bgWhite"
       borderRadius="3xl"
     >
@@ -25,7 +26,12 @@ const HowItWorksSectionCard = ({
           {number}
         </Text>
       </Center>
-      <Text fontSize="xl" fontWeight="extrabold">
+      <Text
+        fontSize={{ base: "xl", lg: "2xl" }}
+        fontWeight="extrabold"
+        px={{ base: 0, lg: 9 }}
+        lineHeight={{ base: "normal", lg: "shorter" }}
+      >
         {title}
       </Text>
       <Text fontWeight="medium" color="secondaryText">

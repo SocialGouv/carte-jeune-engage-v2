@@ -1,4 +1,5 @@
 import {
+  ChakraProps,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -30,17 +31,22 @@ interface Props {
   field: FieldProps;
   register: UseFormRegister<any>;
   fieldError: FieldError | undefined;
+  wrapperProps?: ChakraProps;
+  inputProps?: ChakraProps;
 }
 
 const FormInput = ({
   field: { name, kind, rules, label, placeholder, prefix },
   register,
   fieldError,
+  wrapperProps,
+  inputProps,
 }: Props) => {
   return (
     <FormControl
       isRequired
       isInvalid={!!fieldError}
+      {...wrapperProps}
       variant="floating"
       _before={
         prefix
@@ -58,6 +64,7 @@ const FormInput = ({
     >
       <Input
         id={name}
+        {...inputProps}
         type={kind}
         placeholder={placeholder}
         borderRadius={16}

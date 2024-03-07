@@ -14,19 +14,14 @@ import {
   Text,
   chakra,
   shouldForwardProp,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useGSAP } from "@gsap/react";
 import { setCookie } from "cookies-next";
 import { isValidMotionProp, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import {
-  useForm,
-  type SubmitHandler,
-  FieldError,
-  UseFormRegister,
-  ErrorOption,
-} from "react-hook-form";
+import { useForm, type SubmitHandler, ErrorOption } from "react-hook-form";
 import {
   HiArrowRight,
   HiCalendarDays,
@@ -133,13 +128,16 @@ const ComponentFormPhoneNumber = ({
   }
 
   return (
-    <Box
+    <Flex
       key={currentKey}
       as="form"
+      flexDir={{ base: "column", lg: "row" }}
+      mr={{ base: 0, lg: currentKey === "phone-number-cta" ? 12 : 0 }}
+      alignItems="center"
       shadow="landing-phone-number-component"
       borderRadius="1.125rem"
-      mt={6}
-      p={3}
+      mt={{ base: 6, lg: 16 }}
+      p={2}
       onSubmit={(e: any) => {
         e.preventDefault();
         setCurrentPhoneNumberKey(currentKey);
@@ -147,6 +145,11 @@ const ComponentFormPhoneNumber = ({
       }}
     >
       <FormInput
+        wrapperProps={{ w: "full" }}
+        inputProps={{
+          bgColor: { base: "white", lg: "transparent" },
+          fontSize: { base: "md", lg: "xl" },
+        }}
         field={{
           name: "phone_number",
           kind: "tel",
@@ -165,17 +168,19 @@ const ComponentFormPhoneNumber = ({
         register={register}
       />
       <Button
-        mt={4}
+        mt={{ base: 4, lg: 0 }}
+        w={{ base: "full", lg: "full" }}
         colorScheme="blackBtn"
+        px={0}
         type="submit"
-        float="right"
-        w="full"
+        fontSize={{ base: "md", lg: "2xl" }}
+        py={{ base: "inherit", lg: 9 }}
         isLoading={isLoadingOtp}
         rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
       >
         Vérifier mon éligibilité
       </Button>
-    </Box>
+    </Flex>
   );
 };
 
@@ -266,6 +271,18 @@ export default function Home() {
         setForceLoader(false);
       },
     });
+
+  const logoAnimationBreakpoint = useBreakpointValue({
+    base: {
+      x: ["0px", `-${57 * logoPartners.length + 32 * logoPartners.length}px`],
+      transition: {
+        repeat: Infinity,
+        duration: 4,
+        ease: "linear",
+      },
+    },
+    lg: undefined,
+  });
 
   const handleGenerateOtp: SubmitHandler<LoginForm> = async (values) => {
     setCurrentPhoneNumber(values.phone_number);
@@ -393,49 +410,62 @@ export default function Home() {
   return (
     <Flex flexDir="column" pt={8} h="full">
       <Header />
-      <Flex id="login-form" flexDir="column" px={8} py={16} textAlign="center">
-        <Heading fontSize="2xl" fontWeight="extrabold">
-          Des remises exclusives pour
-          <br />
-          les jeunes qui vont
-          <br />
-          commencer la vie active.
-          <br />
-          Avec la carte “jeune engagé”
-        </Heading>
-        <Text fontSize="lg" fontWeight="medium" color="secondaryText" mt={8}>
-          Les économies pensées pour bien démarrer dans la vie et pour toutes
-          ses dépenses quotidiennes.
-        </Text>
-        <ComponentFormPhoneNumber
-          isLoadingOtp={isLoadingOtp}
-          onSubmit={handleGenerateOtp}
-          currentKey="phone-number-cta"
-          error={phoneNumberError}
-          setCurrentPhoneNumberKey={setCurrentPhoneNumberKey}
+      <Flex
+        id="login-form"
+        alignItems="center"
+        px={8}
+        mt={14}
+        mb={24}
+        justifyContent={{ base: "center", lg: "space-between" }}
+        textAlign={{ base: "center", lg: "left" }}
+      >
+        <Box w={{ base: "full", lg: "65%" }}>
+          <Heading
+            fontSize={{ base: "2xl", lg: "56px" }}
+            fontWeight="extrabold"
+            px={{ base: 2, lg: 0 }}
+          >
+            Des remises exclusives pour les jeunes qui vont commencer la vie
+            active. Avec la carte “jeune engagé”
+          </Heading>
+          <Text
+            fontSize={{ base: "lg", lg: "28px" }}
+            fontWeight="medium"
+            color="secondaryText"
+            mt={8}
+          >
+            Les économies pensées pour bien démarrer dans la vie
+            <Box as="br" display={{ base: "none", lg: "block" }} />
+            et pour toutes ses dépenses quotidiennes.
+          </Text>
+          <ComponentFormPhoneNumber
+            isLoadingOtp={isLoadingOtp}
+            onSubmit={handleGenerateOtp}
+            currentKey="phone-number-cta"
+            error={phoneNumberError}
+            setCurrentPhoneNumberKey={setCurrentPhoneNumberKey}
+          />
+        </Box>
+        <Image
+          h="600px"
+          display={{ base: "none", lg: "block" }}
+          src="/images/landing/main.png"
         />
       </Flex>
       <Flex flexDir="column" textAlign="center" gap={8}>
         <Heading fontSize="3xl" fontWeight="extrabold">
-          Ils vous offrent
-          <br />
+          Ils vous offrent{" "}
+          <Box as="br" display={{ base: "block", lg: "none" }} />
           des remises
         </Heading>
         <Flex overflowX="hidden" whiteSpace="nowrap">
           <ChakraBox
             display="flex"
-            animate={{
-              x: [
-                "0px",
-                `-${57 * logoPartners.length + 32 * logoPartners.length}px`,
-              ],
-              transition: {
-                repeat: Infinity,
-                duration: 4,
-                ease: "linear",
-              },
-            }}
-            ml={8}
+            justifyContent={{ base: "normal", lg: "space-around" }}
+            w="full"
+            animate={logoAnimationBreakpoint}
+            ml={{ base: 8, lg: 0 }}
+            mx={{ base: 0, lg: "auto" }}
             gap={8}
           >
             {logoPartners.map((logo, index) => (
@@ -452,7 +482,7 @@ export default function Home() {
             {logoPartners.map((logo, index) => (
               <ChakraNextImage
                 key={`logo-duplicate-${index}`}
-                display="inline-block"
+                display={{ base: "inline-block", lg: "none" }}
                 src={logo.url as string}
                 alt={logo.alt as string}
                 width={57}
@@ -462,44 +492,67 @@ export default function Home() {
             ))}
           </ChakraBox>
         </Flex>
+        <Text fontWeight="bold" fontSize="2xl">
+          Et encore plein d’autres...
+        </Text>
       </Flex>
-      <Flex flexDir="column" px={8} mt={16} gap={9}>
+      <Flex
+        flexDir="column"
+        px={8}
+        mt={{ base: 16, lg: 40 }}
+        gap={{ base: 9, lg: 40 }}
+      >
         {sectionItems.map((section, index) => (
           <SectionContent key={`section-${index}`} {...section} />
         ))}
       </Flex>
-      <Box mt={24} zIndex={10}>
-        <Heading fontSize="3xl" fontWeight="extrabold" textAlign="center">
+      <Box mt={{ base: 24, lg: 40 }} zIndex={10}>
+        <Heading
+          size={{ base: "xl", lg: "2xl" }}
+          fontWeight="extrabold"
+          textAlign="center"
+        >
           Qui peut en profiter ?
         </Heading>
-        <AspectRatio ratio={1} pt={4} mt={8} mb={-10}>
-          <Image src="/images/landing/map.png" transform="rotate(-4.5deg)" />
-        </AspectRatio>
-        <Flex flexDir="column" px={8} gap={8}>
-          <MapSectionCard
-            text="Disponible uniquement dans le département du Val d’Oise"
-            icon={HiMapPin}
-          />
-          <MapSectionCard
-            text="Réservé aux jeunes inscrits en contrat d’engagement jeune à la Mission locale "
-            icon={HiMiniClipboardDocumentCheck}
-          />
-          <MapSectionCard
-            text="Réservé aux jeunes ni en emploi, ni en formation, âgés entre 18 et 25 ans."
-            icon={HiCalendarDays}
-          />
+        <Flex
+          flexDirection={{ base: "column", lg: "row-reverse" }}
+          alignItems="center"
+          mt={{ base: 8, lg: 16 }}
+        >
+          <AspectRatio
+            w={{ base: "full", lg: "58%" }}
+            ratio={1}
+            pt={4}
+            mb={-10}
+          >
+            <Image src="/images/landing/map.png" transform="rotate(-4.5deg)" />
+          </AspectRatio>
+          <Flex flexDir="column" px={8} gap={8} w={{ base: "auto", lg: "42%" }}>
+            <MapSectionCard
+              text="Disponible uniquement dans le département du Val d’Oise"
+              icon={HiMapPin}
+            />
+            <MapSectionCard
+              text="Réservé aux jeunes inscrits en contrat d’engagement jeune à la Mission locale "
+              icon={HiMiniClipboardDocumentCheck}
+            />
+            <MapSectionCard
+              text="Réservé aux jeunes ni en emploi, ni en formation, âgés entre 18 et 25 ans."
+              icon={HiCalendarDays}
+            />
+          </Flex>
         </Flex>
       </Box>
       <Box px={8}>
-        <Box mt={28} textAlign="center">
-          <Heading fontSize="3xl" fontWeight="extrabold">
+        <Box mt={{ base: 24, lg: 48 }} textAlign="center">
+          <Heading fontWeight="extrabold" size={{ base: "xl", lg: "2xl" }}>
             Comment ça marche ?
           </Heading>
           <Text fontWeight="medium" fontSize="sm" color="secondaryText" mt={8}>
             Rappel : Vous devez être inscrit en Missions locale dans le “Contrat
             d’engagement jeune”.
           </Text>
-          <Flex flexDir="column" gap={8} mt={9}>
+          <Flex flexDir={{ base: "column", lg: "row" }} gap={8} mt={9}>
             <HowItWorksSectionCard
               title="Votre conseiller vous inscrit"
               description="Votre conseiller du contrat d’engagement jeune (CEJ) vous inscrit avec votre numéro de téléphone. "
@@ -517,8 +570,8 @@ export default function Home() {
             />
           </Flex>
         </Box>
-        <Box mt={24} textAlign="center">
-          <Heading fontSize="3xl" fontWeight="extrabold">
+        <Box mt={{ base: 24, lg: 48 }} textAlign="center">
+          <Heading size={{ base: "xl", lg: "2xl" }} fontWeight="extrabold">
             Questions fréquentes
           </Heading>
           <Accordion my={10} allowToggle>
@@ -535,23 +588,37 @@ export default function Home() {
             ))}
           </Accordion>
         </Box>
-        <Flex flexDir="column" mt={16} mb={8} textAlign="center">
-          <Heading fontSize="3xl" fontWeight="extrabold">
-            Je profite des réductions
-            <br />
+        <Flex
+          flexDir="column"
+          mt={{ base: 16, lg: 48 }}
+          mb={{ base: 8, lg: 24 }}
+          textAlign="center"
+        >
+          <Heading size={{ base: "xl", lg: "2xl" }} fontWeight="extrabold">
+            Je profite des réductions{" "}
+            <Box as="br" display={{ base: "block", lg: "none" }} />
             dès maintenant
           </Heading>
-          <Text fontWeight="medium" color="secondaryText" mt={6}>
+          <Text
+            fontWeight="medium"
+            color="secondaryText"
+            w={{ base: "full", lg: "60%" }}
+            alignSelf={{ lg: "center" }}
+            fontSize={{ base: "md", lg: "2xl" }}
+            mt={{ base: 6, lg: 12 }}
+          >
             Accédez aux réductions et aux offres des entreprises qui aident les
             jeunes à se lancer dans la vie active.
           </Text>
-          <ComponentFormPhoneNumber
-            isLoadingOtp={isLoadingOtp}
-            onSubmit={handleGenerateOtp}
-            currentKey="phone-number-footer"
-            error={phoneNumberError}
-            setCurrentPhoneNumberKey={setCurrentPhoneNumberKey}
-          />
+          <Box w={{ base: "full", lg: "60%" }} alignSelf={{ lg: "center" }}>
+            <ComponentFormPhoneNumber
+              isLoadingOtp={isLoadingOtp}
+              onSubmit={handleGenerateOtp}
+              currentKey="phone-number-footer"
+              error={phoneNumberError}
+              setCurrentPhoneNumberKey={setCurrentPhoneNumberKey}
+            />
+          </Box>
         </Flex>
       </Box>
       <Footer />

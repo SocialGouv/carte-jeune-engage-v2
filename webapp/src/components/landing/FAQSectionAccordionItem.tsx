@@ -6,6 +6,7 @@ import {
   Icon,
   IconButton,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { HiPlus, HiXMark } from "react-icons/hi2";
 
@@ -26,6 +27,11 @@ const FAQSectionAccordionItem = ({
   setCurrentIndex,
   total,
 }: FAQSectionAccordionItemProps) => {
+  const accordionBtnSize = useBreakpointValue({
+    base: "sm",
+    lg: "md",
+  });
+
   return (
     <AccordionItem border="none">
       {({ isExpanded }) => (
@@ -38,20 +44,22 @@ const FAQSectionAccordionItem = ({
               ? "transparent"
               : "gray.200"
           }
-          pb={isExpanded ? 2 : 0}
+          pb={{ base: isExpanded ? 2 : 0, lg: 8 }}
         >
           <AccordionButton
             _hover={{
               background: "none",
             }}
             onClick={() => setCurrentIndex(!isExpanded ? index : null)}
+            pt={{ base: 2, lg: 8 }}
+            px={{ base: 4, lg: 8 }}
           >
             <Text
               as="span"
               flex="1"
               textAlign="left"
               fontWeight="bold"
-              fontSize="lg"
+              fontSize={{ base: "lg", lg: "3xl" }}
               mr={8}
             >
               {title}
@@ -62,7 +70,8 @@ const FAQSectionAccordionItem = ({
                 icon={<Icon as={HiPlus} />}
                 onClick={() => setCurrentIndex(index)}
                 colorScheme="gray"
-                size="sm"
+                px={{ lg: 0 }}
+                size={accordionBtnSize}
                 borderRadius="full"
                 aria-label="Ouvrir l'accordéon"
               />
@@ -71,14 +80,20 @@ const FAQSectionAccordionItem = ({
                 as="div"
                 icon={<Icon as={HiXMark} />}
                 onClick={() => setCurrentIndex(null)}
-                size="sm"
+                px={{ lg: 0 }}
+                size={accordionBtnSize}
                 borderRadius="full"
                 aria-label="Fermer l'accordéon"
               />
             )}
           </AccordionButton>
-          <AccordionPanel>
-            <Text textAlign="left" fontWeight="medium" color="secondaryText">
+          <AccordionPanel px={{ base: 4, lg: 8 }} w="85%">
+            <Text
+              textAlign="left"
+              fontWeight="medium"
+              fontSize={{ base: "md", lg: "xl" }}
+              color="secondaryText"
+            >
               {content}
             </Text>
           </AccordionPanel>

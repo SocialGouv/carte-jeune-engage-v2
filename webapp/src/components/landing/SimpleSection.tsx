@@ -8,20 +8,25 @@ type SimpleSectionProps = {
 
 const SimpleSection = ({ title, description, image }: SimpleSectionProps) => {
   return (
-    <Flex flexDir="column" gap={8}>
-      <Box bgColor="bgWhite" borderRadius="2xl">
+    <Flex flexDir={{ base: "column", lg: "row-reverse" }} gap={8}>
+      <Box w={{ base: "full", lg: "50%" }} bgColor="bgWhite" borderRadius="2xl">
         <Image src={image} />
       </Box>
       <Flex
         flexDirection="column"
         justifyContent="center"
-        alignItems="center"
-        w="full"
+        mr="auto"
+        w={{ base: "full", lg: "43%" }}
       >
         <Heading fontWeight="extrabold" lineHeight="shorter">
           {title}
         </Heading>
-        <Text fontWeight="medium" color="secondaryText" mt={4}>
+        <Text
+          fontWeight="medium"
+          color="secondaryText"
+          mt={{ base: 4, lg: 12 }}
+          fontSize={{ base: "md", lg: "2xl" }}
+        >
           {description}
         </Text>
       </Flex>

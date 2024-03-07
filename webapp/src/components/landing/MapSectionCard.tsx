@@ -19,7 +19,12 @@ const MapSectionCard = ({ text, icon }: MapSectionCardProps) => {
       <Box bgColor="black" p={2} borderRadius="full" alignSelf="start">
         <Icon as={icon} display="block" color="white" w={6} h={6} />
       </Box>
-      <Text fontSize="xl" lineHeight="shorter">
+      <Text
+        color="blackLight"
+        fontSize={{ base: "xl", lg: "2xl" }}
+        fontWeight={{ base: "normal", lg: "medium" }}
+        lineHeight={{ base: "shorter", lg: "normal" }}
+      >
         {text}
       </Text>
     </Flex>
