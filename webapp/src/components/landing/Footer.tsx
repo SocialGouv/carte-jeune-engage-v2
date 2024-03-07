@@ -1,5 +1,6 @@
 import { Box, Container, Divider, Flex, Image, Text } from "@chakra-ui/react";
 import { menuItems } from "./Header";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -58,14 +59,16 @@ const Footer = () => {
                 Vérifier mon éligibilité
               </Text>
               {menuItems.map((item) => (
-                <Text
-                  key={item.title}
-                  fontWeight="bold"
-                  color="white"
-                  fontSize="lg"
-                >
-                  {item.title}
-                </Text>
+                <Link key={item.slug} href={`/#${item.slug}-section`}>
+                  <Text
+                    key={item.title}
+                    fontWeight="bold"
+                    color="white"
+                    fontSize="lg"
+                  >
+                    {item.title}
+                  </Text>
+                </Link>
               ))}
             </Flex>
           </Flex>

@@ -117,9 +117,10 @@ a {
 
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
+  scroll-behavior: smooth;
 }
 
 /* override crisp */
 .cc-nsge {
-	opacity: 0 !important;
+  opacity: 0 !important;
 }

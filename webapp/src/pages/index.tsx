@@ -496,16 +496,23 @@ export default function Home() {
         </Text>
       </Flex>
       <Flex
+        id="what-is-it-section"
         flexDir="column"
         px={8}
-        mt={{ base: 16, lg: 40 }}
+        pt={{ base: 8, lg: 24 }}
+        mt={{ base: 8, lg: 16 }}
         gap={{ base: 9, lg: 40 }}
       >
         {sectionItems.map((section, index) => (
           <SectionContent key={`section-${index}`} {...section} />
         ))}
       </Flex>
-      <Box mt={{ base: 24, lg: 40 }} zIndex={10}>
+      <Box
+        id="who-can-benefit-section"
+        pt={{ base: 6, lg: 12 }}
+        mt={{ base: 14, lg: 28 }}
+        zIndex={10}
+      >
         <Heading
           size={{ base: "xl", lg: "2xl" }}
           fontWeight="extrabold"
@@ -543,7 +550,12 @@ export default function Home() {
         </Flex>
       </Box>
       <Box px={8}>
-        <Box mt={{ base: 24, lg: 48 }} textAlign="center">
+        <Box
+          id="how-does-it-work-section"
+          pt={{ base: 6, lg: 12 }}
+          mt={{ base: 14, lg: 36 }}
+          textAlign="center"
+        >
           <Heading fontWeight="extrabold" size={{ base: "xl", lg: "2xl" }}>
             Comment ça marche ?
           </Heading>
@@ -569,7 +581,12 @@ export default function Home() {
             />
           </Flex>
         </Box>
-        <Box mt={{ base: 24, lg: 48 }} textAlign="center">
+        <Box
+          id="faq-section"
+          pt={{ base: 6, lg: 24 }}
+          mt={{ base: 14, lg: 16 }}
+          textAlign="center"
+        >
           <Heading size={{ base: "xl", lg: "2xl" }} fontWeight="extrabold">
             Questions fréquentes
           </Heading>

@@ -11,12 +11,13 @@ import {
 } from "@chakra-ui/react";
 import ChakraNextImage from "../ChakraNextImage";
 import { HiMiniBars3 } from "react-icons/hi2";
+import Link from "next/link";
 
 export const menuItems = [
-  { title: "Qu'est-ce que c'est ?" },
-  { title: "Qui peut en profiter ?" },
-  { title: "Comment ça marche ?" },
-  { title: "FAQ" },
+  { title: "Qu'est-ce que c'est ?", slug: "what-is-it" },
+  { title: "Qui peut en profiter ?", slug: "who-can-benefit" },
+  { title: "Comment ça marche ?", slug: "how-does-it-work" },
+  { title: "FAQ", slug: "faq" },
 ];
 
 const Header = () => {
@@ -54,7 +55,9 @@ const Header = () => {
         </MenuButton>
         <MenuList style={{ position: "relative" }}>
           {menuItems.map((item) => (
-            <MenuItem key={item.title}>{item.title}</MenuItem>
+            <Link key={item.slug} href={`/#${item.slug}-section`}>
+              <MenuItem key={item.title}>{item.title}</MenuItem>
+            </Link>
           ))}
         </MenuList>
       </Menu>
