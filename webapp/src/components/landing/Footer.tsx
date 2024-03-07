@@ -23,7 +23,8 @@ const Footer = () => {
                 alt="Logo marianne du gouvernement français"
                 width="100%"
                 height="120px"
-                borderRight="1px solid disabled"
+                borderRight="1px solid"
+                borderColor="#808080"
                 mr={4}
               />
               <Image
@@ -69,7 +70,7 @@ const Footer = () => {
             </Flex>
           </Flex>
           <Divider
-            borderColor="disabled"
+            borderColor="#6D6D6D"
             w={{ base: "80%", lg: "full" }}
             mx="auto"
             my={8}
