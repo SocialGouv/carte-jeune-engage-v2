@@ -1,4 +1,4 @@
-import { Box, Container } from "@chakra-ui/react";
+import { Box, Container, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect } from "react";
@@ -62,6 +62,7 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
         as="main"
         role="main"
         background={pathname === "/" ? "white" : undefined}
+        h={pathname === "/" ? "auto" : "full"}
       >
         <Container
           maxWidth={{
@@ -72,6 +73,7 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
         >
           {children}
         </Container>
+        {pathname === "/" && <Footer />}
         {(pathname === "/dashboard" ||
           pathname === "/dashboard/wallet" ||
           pathname === "/dashboard/categories" ||

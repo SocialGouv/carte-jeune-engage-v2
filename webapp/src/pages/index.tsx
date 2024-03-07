@@ -33,7 +33,6 @@ import BigLoader from "~/components/BigLoader";
 import ChakraNextImage from "~/components/ChakraNextImage";
 import FormInput from "~/components/forms/FormInput";
 import Header from "~/components/landing/Header";
-import Footer from "~/components/landing/Footer";
 import { loginAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
 import { addSpaceToTwoCharacters, frenchPhoneNumber } from "~/utils/tools";
@@ -621,7 +620,6 @@ export default function Home() {
           </Box>
         </Flex>
       </Box>
-      <Footer />
     </Flex>
   );
 }
