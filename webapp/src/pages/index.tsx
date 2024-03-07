@@ -583,8 +583,8 @@ export default function Home() {
         </Box>
         <Box
           id="faq-section"
-          pt={{ base: 6, lg: 24 }}
-          mt={{ base: 14, lg: 16 }}
+          pt={{ base: 6, lg: 16 }}
+          mt={{ base: 14, lg: 24 }}
           textAlign="center"
         >
           <Heading size={{ base: "xl", lg: "2xl" }} fontWeight="extrabold">
