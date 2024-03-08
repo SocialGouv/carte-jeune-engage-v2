@@ -238,7 +238,8 @@ export default function OfferPage() {
 							</Text>
 						</Flex>
 					</Button>
-					{offer.kind.startsWith("voucher") && (
+					{/* WAITING FOR THE REAL FEATURE TO BE DEVELOPPED */}
+					{/* {offer.kind.startsWith("voucher") && (
 						<Button
 							isDisabled
 							className="btn-conditions"
@@ -255,7 +256,7 @@ export default function OfferPage() {
 								</Text>
 							</Flex>
 						</Button>
-					)}
+					)} */}
 				</HStack>
 				{!!(offer.conditions ?? []).length && (
 					<>
