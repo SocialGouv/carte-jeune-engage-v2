@@ -83,9 +83,7 @@ export const offerRouter = createTRPCRouter({
 
 
 				const coupons = couponCountOfOffers[index]
-				if (!coupons || !coupons.totalDocs) return false;
-
-				return (coupons.docs.length);
+				return !!coupons && !!coupons.docs.length;
 			});
 
 			return {
