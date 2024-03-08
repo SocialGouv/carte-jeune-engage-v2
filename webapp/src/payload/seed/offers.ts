@@ -40,6 +40,7 @@ export async function seedOffers(payload: Payload) {
       category:
         categories.findIndex((category) => category.slug === "mobility") + 1,
       kind: "code",
+      url: 'https://flixbus.com',
       validityTo,
     },
   ];
