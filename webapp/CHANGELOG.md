@@ -1,3 +1,18 @@
+## [0.15.3](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.15.2...v0.15.3) (2024-03-08)
+
+
+### Bug Fixes
+
+* hide eligible articles for now ([5df8917](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/5df891712198ff2b676ca00ada34c3f8f4f2f4a9))
+* offer available loading performance - reduce data checking ([55a3f08](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/55a3f08e045d0be9b458534aa76061182e0be916))
+* seed new schema ([625bc2f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/625bc2f60cf8a15a382f4fa028a844f75015b0fe))
+* simplify condition ([e61930f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/e61930f4eb23c760d5138cd80469fa0d78cf9c68))
+* timeout external link to 2 secondes ([335f5a2](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/335f5a2371f2313272b36a98536cf7871c5aa635))
+* update payload pgqsl pacakge ([797737b](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/797737b2182e64e9e42dfdc6ae11be2656a29370))
+* update yarn.lock ([2398aaa](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/2398aaa4912c4dbb85e314b298635325e9d614b3))
+* useAsTitle for coupon ([f9f8c52](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f9f8c520db3625475641a7f8b87357a902653be5))
+* wording ([992977c](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/992977ca09cbffec8f319df13406c894a8466849))
+
 ## [0.15.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.15.1...v0.15.2) (2024-03-06)
 
 
