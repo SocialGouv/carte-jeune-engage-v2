@@ -108,6 +108,7 @@ export const Coupons: CollectionConfig = {
 		],
 	},
 	admin: {
+		useAsTitle: 'code',
 		components: {
 			BeforeListTable: [ImportCoupons],
 		},
