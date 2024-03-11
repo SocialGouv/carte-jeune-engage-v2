@@ -2,7 +2,6 @@ import {
   Accordion,
   AspectRatio,
   Box,
-  Button,
   Flex,
   HStack,
   Heading,
@@ -15,15 +14,15 @@ import {
   chakra,
   shouldForwardProp,
   useBreakpointValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useGSAP } from "@gsap/react";
 import { setCookie } from "cookies-next";
 import { isValidMotionProp, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useForm, type SubmitHandler, ErrorOption } from "react-hook-form";
+import { type SubmitHandler, ErrorOption } from "react-hook-form";
 import {
-  HiArrowRight,
   HiCalendarDays,
   HiChevronLeft,
   HiMapPin,
@@ -31,24 +30,25 @@ import {
 } from "react-icons/hi2";
 import BigLoader from "~/components/BigLoader";
 import ChakraNextImage from "~/components/ChakraNextImage";
-import FormInput from "~/components/forms/FormInput";
 import Header from "~/components/landing/Header";
 import { loginAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
-import { addSpaceToTwoCharacters, frenchPhoneNumber } from "~/utils/tools";
+import { addSpaceToTwoCharacters } from "~/utils/tools";
 import SectionContent from "~/components/landing/SimpleSection";
 import MapSectionCard from "~/components/landing/MapSectionCard";
 import HowItWorksSectionCard from "~/components/landing/HowItWorkSectionCard";
 import FAQSectionAccordionItem from "~/components/landing/FAQSectionAccordionItem";
+import BaseModal from "~/components/modals/BaseModal";
+import PhoneNumberCTA, {
+  ComponentPhoneNumberKeys,
+  LoginForm,
+} from "~/components/landing/PhoneNumberCTA";
+import QRCodeWrapper from "~/components/landing/QRCode";
 
 const ChakraBox = chakra(motion.div, {
   shouldForwardProp: (prop) =>
     isValidMotionProp(prop) || shouldForwardProp(prop),
 });
-
-type LoginForm = {
-  phone_number: string;
-};
 
 const pinProps = {
   w: 12,
@@ -90,101 +90,17 @@ const sectionItems = [
   },
 ];
 
-type ComponentPhoneNumberKeys = "phone-number-cta" | "phone-number-footer";
-
-const ComponentFormPhoneNumber = ({
-  onSubmit,
-  currentKey,
-  setCurrentPhoneNumberKey,
-  error,
-  isLoadingOtp,
-}: {
-  onSubmit: SubmitHandler<LoginForm>;
-  currentKey: ComponentPhoneNumberKeys;
-  setCurrentPhoneNumberKey: React.Dispatch<
-    React.SetStateAction<ComponentPhoneNumberKeys>
-  >;
-  error: {
-    name: ComponentPhoneNumberKeys;
-    error: ErrorOption;
-  } | null;
-  isLoadingOtp: boolean;
-}) => {
-  const {
-    handleSubmit,
-    register,
-    setError,
-    formState: { errors },
-  } = useForm<LoginForm>({
-    mode: "onSubmit",
-  });
-
-  if (currentKey === error?.name && errors.phone_number === undefined) {
-    setError("phone_number", {
-      type: error.error.type,
-      message: error.error.message,
-    });
-  }
-
-  return (
-    <Flex
-      key={currentKey}
-      as="form"
-      flexDir={{ base: "column", lg: "row" }}
-      mr={{ base: 0, lg: currentKey === "phone-number-cta" ? 12 : 0 }}
-      alignItems="center"
-      shadow="landing-phone-number-component"
-      borderRadius="1.125rem"
-      mt={{ base: 6, lg: 16 }}
-      p={2}
-      onSubmit={(e: any) => {
-        e.preventDefault();
-        setCurrentPhoneNumberKey(currentKey);
-        handleSubmit(onSubmit)();
-      }}
-    >
-      <FormInput
-        wrapperProps={{ w: "full" }}
-        inputProps={{
-          bgColor: { base: "white", lg: "transparent" },
-          fontSize: { base: "md", lg: "xl" },
-        }}
-        field={{
-          name: "phone_number",
-          kind: "tel",
-          placeholder: "Mon numéro de téléphone",
-          prefix: "🇫🇷",
-          rules: {
-            required: "Ce champ est obligatoire",
-            pattern: {
-              value: frenchPhoneNumber,
-              message:
-                "On dirait que ce numéro de téléphone n’est pas valide. Vérifiez votre numéro",
-            },
-          },
-        }}
-        fieldError={errors.phone_number}
-        register={register}
-      />
-      <Button
-        mt={{ base: 4, lg: 0 }}
-        w={{ base: "full", lg: "full" }}
-        colorScheme="blackBtn"
-        px={0}
-        type="submit"
-        fontSize={{ base: "md", lg: "2xl" }}
-        py={{ base: "inherit", lg: 9 }}
-        isLoading={isLoadingOtp}
-        rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
-      >
-        Vérifier mon éligibilité
-      </Button>
-    </Flex>
-  );
-};
-
 export default function Home() {
   const router = useRouter();
+
+  const isDesktop = useBreakpointValue({ base: false, lg: true });
+  const {
+    isOpen: isOpenDesktopLogin,
+    onOpen: onOpenDesktopLogin,
+    onClose: onCloseDesktopLogin,
+  } = useDisclosure({
+    onClose: () => setCurrentPhoneNumber(""),
+  });
 
   const [isOtpGenerated, setIsOtpGenerated] = useState(false);
   const [hasOtpError, setHasOtpError] = useState(false);
@@ -224,9 +140,13 @@ export default function Home() {
 
   const { mutate: generateOtp, isLoading: isLoadingOtp } =
     api.user.generateOTP.useMutation({
-      onSuccess: async ({ data }) => {
-        setIsOtpGenerated(true);
-        resetTimer();
+      onSuccess: () => {
+        if (isDesktop) {
+          onOpenDesktopLogin();
+        } else {
+          setIsOtpGenerated(true);
+          resetTimer();
+        }
       },
       onError: async ({ data }) => {
         console.log(data?.httpStatus);
@@ -407,13 +327,13 @@ export default function Home() {
   }
 
   return (
-    <Flex flexDir="column" pt={8} h="full">
+    <Flex flexDir="column" h="full">
       <Header />
       <Flex
         id="login-form"
         alignItems="center"
         px={8}
-        mt={14}
+        mt={10}
         mb={24}
         justifyContent={{ base: "center", lg: "space-between" }}
         textAlign={{ base: "center", lg: "left" }}
@@ -437,7 +357,7 @@ export default function Home() {
             <Box as="br" display={{ base: "none", lg: "block" }} />
             et pour toutes ses dépenses quotidiennes.
           </Text>
-          <ComponentFormPhoneNumber
+          <PhoneNumberCTA
             isLoadingOtp={isLoadingOtp}
             onSubmit={handleGenerateOtp}
             currentKey="phone-number-cta"
@@ -627,7 +547,7 @@ export default function Home() {
             jeunes à se lancer dans la vie active.
           </Text>
           <Box w={{ base: "full", lg: "60%" }} alignSelf={{ lg: "center" }}>
-            <ComponentFormPhoneNumber
+            <PhoneNumberCTA
               isLoadingOtp={isLoadingOtp}
               onSubmit={handleGenerateOtp}
               currentKey="phone-number-footer"
@@ -637,6 +557,47 @@ export default function Home() {
           </Box>
         </Flex>
       </Box>
+      <BaseModal isOpen={isOpenDesktopLogin} onClose={onCloseDesktopLogin}>
+        <Flex alignItems="center">
+          <Box w="70%">
+            <Heading fontSize="5xl" fontWeight="extrabold">
+              Vous êtes éligible !
+            </Heading>
+            <Heading fontSize="5xl" fontWeight="extrabold" mt={10}>
+              Téléchargez l’application sur votre téléphone pour continuer.
+            </Heading>
+            <Text
+              fontSize="2xl"
+              fontWeight="medium"
+              color="secondaryText"
+              pr={40}
+              mt={16}
+            >
+              Scannez le QR code avec l’appareil photo de votre téléphone pour
+              accéder à l’application carte “jeune engagé” sur votre mobile.
+            </Text>
+          </Box>
+          <Box w="25%" ml="auto" position="relative">
+            <QRCodeWrapper
+              value="https://cje.fr"
+              wrapperProps={{
+                zIndex: 20,
+                position: "absolute",
+                left: "25%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
+            <Image
+              src="/images/landing/mobile-showcase.png"
+              alt="Mobile showcase"
+              h="500px"
+              opacity={0.5}
+              mb={-12}
+            />
+          </Box>
+        </Flex>
+      </BaseModal>
     </Flex>
   );
 }

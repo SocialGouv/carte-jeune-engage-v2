@@ -8,6 +8,8 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import ChakraNextImage from "../ChakraNextImage";
 import { HiMiniBars3 } from "react-icons/hi2";
@@ -21,9 +23,22 @@ export const menuItems = [
 ];
 
 const Header = () => {
+  const isDesktop = useBreakpointValue({ base: false, lg: true });
+
+  const handleIsEligibleClick = () => {
+    const element = document.querySelector(".phone-number-cta");
+    if (element) (element as HTMLElement).focus();
+  };
+
   return (
     <Flex
       id="login-gov-image"
+      position="sticky"
+      top={0}
+      zIndex={1000}
+      py={6}
+      pb={4}
+      bgColor="white"
       justifyContent="space-between"
       alignItems="center"
       pl={4}
@@ -35,12 +50,10 @@ const Header = () => {
           alt="Logo marianne du gouvernement français"
           width={74}
           height={49}
-        />
-        <Divider
-          orientation="vertical"
-          mr={2.5}
-          borderWidth="1.35px"
-          borderColor="blackLight"
+          borderRight="1px solid"
+          borderColor="#808080"
+          pr={2}
+          mr={3}
         />
         <ChakraNextImage
           src="/images/cje-logo.png"
@@ -49,18 +62,40 @@ const Header = () => {
           height={38}
         />
       </Flex>
-      <Menu>
-        <MenuButton>
-          <Icon as={HiMiniBars3} w={8} h={8} />
-        </MenuButton>
-        <MenuList style={{ position: "relative" }}>
-          {menuItems.map((item) => (
-            <Link key={item.slug} href={`/#${item.slug}-section`}>
-              <MenuItem key={item.title}>{item.title}</MenuItem>
-            </Link>
-          ))}
-        </MenuList>
-      </Menu>
+      {!isDesktop ? (
+        <Menu>
+          <MenuButton>
+            <Icon as={HiMiniBars3} w={8} h={8} />
+          </MenuButton>
+          <MenuList style={{ position: "relative" }}>
+            {menuItems.map((item) => (
+              <Link key={item.slug} href={`/#${item.slug}-section`}>
+                <MenuItem key={item.title}>{item.title}</MenuItem>
+              </Link>
+            ))}
+          </MenuList>
+        </Menu>
+      ) : (
+        <>
+          <Flex alignItems="center" gap={8}>
+            {menuItems.map((item) => (
+              <Link key={item.slug} href={`/#${item.slug}-section`}>
+                <Text fontWeight="medium">{item.title}</Text>
+              </Link>
+            ))}
+          </Flex>
+          <Button
+            size="md"
+            py={7}
+            px={5}
+            borderRadius="xl"
+            fontSize="lg"
+            onClick={handleIsEligibleClick}
+          >
+            Vérifier mon éligibilité
+          </Button>
+        </>
+      )}
     </Flex>
   );
 };

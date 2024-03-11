@@ -4,6 +4,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  InputProps,
 } from "@chakra-ui/react";
 import { HTMLInputTypeAttribute } from "react";
 import {
@@ -32,7 +33,7 @@ interface Props {
   register: UseFormRegister<any>;
   fieldError: FieldError | undefined;
   wrapperProps?: ChakraProps;
-  inputProps?: ChakraProps;
+  inputProps?: InputProps;
 }
 
 const FormInput = ({
@@ -42,6 +43,8 @@ const FormInput = ({
   wrapperProps,
   inputProps,
 }: Props) => {
+  const { autoFocus = true, ...restInputProps } = inputProps || {};
+
   return (
     <FormControl
       isRequired
@@ -64,7 +67,8 @@ const FormInput = ({
     >
       <Input
         id={name}
-        {...inputProps}
+        {...restInputProps}
+        autoFocus={autoFocus}
         type={kind}
         placeholder={placeholder}
         borderRadius={16}
@@ -75,7 +79,6 @@ const FormInput = ({
         pr={5}
         pl={prefix ? 12 : 5}
         pt={label ? 9 : 7}
-        autoFocus
         pb={7}
         _focusVisible={{
           borderColor: "transparent",

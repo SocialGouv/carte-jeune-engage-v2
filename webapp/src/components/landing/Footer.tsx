@@ -3,6 +3,11 @@ import { menuItems } from "./Header";
 import Link from "next/link";
 
 const Footer = () => {
+  const handleIsEligibleClick = () => {
+    const element = document.querySelector(".phone-number-footer");
+    if (element) (element as HTMLElement).focus();
+  };
+
   return (
     <Flex flexDir="column" bgColor="blackLight" h="full">
       <Box
@@ -55,7 +60,12 @@ const Footer = () => {
               gap={4}
               textAlign="start"
             >
-              <Text color="white" fontSize="lg" fontWeight="bold">
+              <Text
+                color="white"
+                fontSize="lg"
+                fontWeight="bold"
+                onClick={handleIsEligibleClick}
+              >
                 Vérifier mon éligibilité
               </Text>
               {menuItems.map((item) => (

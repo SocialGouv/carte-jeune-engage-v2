@@ -3,8 +3,10 @@ import {
   StyleFunctionProps,
   extendTheme,
   theme as defaultTheme,
+  defineStyle,
 } from "@chakra-ui/react";
 import localFont from "next/font/local";
+import { modalTheme } from "~/components/theme/modal";
 
 export const Marianne = localFont({
   src: [
@@ -118,6 +120,7 @@ export const theme = extendTheme({
         },
       },
     },
+    Modal: modalTheme,
   },
   styles: {
     global: () => ({
