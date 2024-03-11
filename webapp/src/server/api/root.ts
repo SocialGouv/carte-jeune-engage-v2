@@ -5,7 +5,7 @@ import { categoryRouter } from "./routers/category";
 import { offerRouter } from "./routers/offer";
 import { couponRouter } from "./routers/coupon";
 import { partnerRouter } from "./routers/partner";
-import { quickAccessRouter } from "./routers/quickAccess";
+import { globalsRouter } from "./routers/globals";
 import { savingRouter } from "./routers/saving";
 import { permissionRouter } from "./routers/permission";
 
@@ -17,10 +17,10 @@ import { permissionRouter } from "./routers/permission";
 export const appRouter = createTRPCRouter({
   user: userRouter,
   category: categoryRouter,
+  globals: globalsRouter,
   offer: offerRouter,
   coupon: couponRouter,
   partner: partnerRouter,
-  quickAccess: quickAccessRouter,
   saving: savingRouter,
   permission: permissionRouter,
 });

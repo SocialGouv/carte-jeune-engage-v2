@@ -3,8 +3,10 @@ import {
   StyleFunctionProps,
   extendTheme,
   theme as defaultTheme,
+  defineStyle,
 } from "@chakra-ui/react";
 import localFont from "next/font/local";
+import { modalTheme } from "~/components/theme/modal";
 
 export const Marianne = localFont({
   src: [
@@ -118,6 +120,7 @@ export const theme = extendTheme({
         },
       },
     },
+    Modal: modalTheme,
   },
   styles: {
     global: () => ({
@@ -125,10 +128,10 @@ export const theme = extendTheme({
         height: "100%",
       },
       body: {
-        bg: "bgWhite",
         height: "100%",
       },
       main: {
+        bg: "bgWhite",
         height: "100%",
       },
       "#__next": {
@@ -193,6 +196,11 @@ export const theme = extendTheme({
     disabled: "#9595B1",
     secondaryText: "#5C5C70",
     blackLight: "#20202C",
+  },
+  shadows: {
+    "landing-phone-number-component":
+      "0px 4px 9.9px 0px rgba(177, 177, 177, 0.25)",
+    "landing-qr-code-desktop": "0px 0px 24.2px 0px rgba(145, 145, 145, 0.25)",
   },
   radii: {
     "1.5xl": "1.25rem",

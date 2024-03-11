@@ -1,20 +1,23 @@
-import { Box, Container } from "@chakra-ui/react";
+import { Box, Container, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import BottomNavigation from "~/components/BottomNavigation";
+import Footer from "~/components/landing/Footer";
 import { BeforeInstallPromptEvent, useAuth } from "~/providers/Auth";
 
 export default function DefaultLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
-  const { setDeferredEvent, setShowing, user } = useAuth();
+  const { setDeferredEvent, setShowing, user, isOtpGenerated } = useAuth();
+
+  const isLanding = pathname === "/" && !isOtpGenerated;
 
   const handleBeforeInstallPrompt = (event: Event) => {
     // Prevent the default behavior to keep the event available for later use
     event.preventDefault();
 
-    // // Save the event for later use
+    // Save the event for later use
     setDeferredEvent(event as BeforeInstallPromptEvent);
 
     setShowing(true);
@@ -57,14 +60,22 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </Head>
-      <Box as="main" role="main">
+      <Box
+        as="main"
+        role="main"
+        background={isLanding ? "white" : undefined}
+        h={isLanding ? "auto" : "full"}
+      >
         <Container
-          maxWidth={{ base: "container.sm", lg: "container.sm" }}
+          maxWidth={{
+            base: isLanding ? "container.xl" : "container.sm",
+          }}
           px={0}
           h="full"
         >
           {children}
         </Container>
+        {isLanding && <Footer />}
         {(pathname === "/dashboard" ||
           pathname === "/dashboard/wallet" ||
           pathname === "/dashboard/categories" ||

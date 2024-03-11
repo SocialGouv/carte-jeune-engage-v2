@@ -23,6 +23,8 @@ export interface Config {
   };
   globals: {
     quickAccess: QuickAccess;
+    landingPartners: LandingPartner;
+    landingFAQ: LandingFAQ;
   };
 }
 /**
@@ -254,6 +256,37 @@ export interface QuickAccess {
     | {
         partner: number | Partner;
         offer?: (number | null) | Offer;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landingPartners".
+ */
+export interface LandingPartner {
+  id: number;
+  items?:
+    | {
+        partner: number | Partner;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landingFAQ".
+ */
+export interface LandingFAQ {
+  id: number;
+  items?:
+    | {
+        title: string;
+        content: string;
         id?: string | null;
       }[]
     | null;

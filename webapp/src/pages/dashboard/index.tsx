@@ -24,8 +24,8 @@ export default function Dashboard() {
 			sort: "createdAt",
 		});
 
-	const { data: resultQuickAccess, isLoading: isLoadingQuickAccess } =
-		api.quickAccess.getAll.useQuery();
+  const { data: resultQuickAccess, isLoading: isLoadingQuickAccess } =
+    api.globals.quickAccessGetAll.useQuery();
 
 	const { data: resultOffers, isLoading: isLoadingOffers } =
 		api.offer.getListOfAvailables.useQuery({
