@@ -24,11 +24,11 @@ const PassInCreation = () => {
         </Flex>
       </Flex>
       <Text fontWeight="bold" px={10}>
-        Votre pass CJE est en cours de création
+        Votre carte CJE est en cours de création
       </Text>
       <Text fontWeight="medium" fontSize="sm">
         Notre équipe vérifie votre photo en ce moment. D’ici 24h vous aurez
-        votre pass CJE pour bénéficier de toutes les offres en magasin
+        votre carte CJE pour bénéficier de toutes les offres en magasin
         disponibles sur l’application.
       </Text>
     </Flex>

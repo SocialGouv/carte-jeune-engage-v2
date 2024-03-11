@@ -38,7 +38,7 @@ export const getItemsTermsOfUse = (
         icon: "HiReceiptPercent",
       },
       {
-        text: "Je présente mon pass CJE au moment du paiement",
+        text: "Je présente ma carte CJE au moment du paiement",
         slug: "show-pass",
         icon: "PassIcon",
       },
