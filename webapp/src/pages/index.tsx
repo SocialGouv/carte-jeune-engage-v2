@@ -448,19 +448,30 @@ export default function Home() {
           Qui peut en profiter ?
         </Heading>
         <Flex
+          position="relative"
           flexDirection={{ base: "column", lg: "row-reverse" }}
           alignItems="center"
           mt={{ base: 8, lg: 16 }}
         >
           <AspectRatio
-            w={{ base: "full", lg: "58%" }}
-            ratio={1}
+            w="full"
+            position={{ base: "relative", lg: "absolute" }}
+            zIndex={-1}
             pt={4}
             mb={-10}
           >
-            <Image src="/images/landing/map.png" transform="rotate(-4.5deg)" />
+            <Image
+              src={`/images/landing/map${!isDesktop ? "-mobile" : ""}.png`}
+              transform="rotate(-4.5deg)"
+            />
           </AspectRatio>
-          <Flex flexDir="column" px={8} gap={8} w={{ base: "auto", lg: "42%" }}>
+          <Flex
+            flexDir="column"
+            px={8}
+            gap={8}
+            w={{ base: "auto", lg: "42%" }}
+            mr="auto"
+          >
             <MapSectionCard
               text="Disponible uniquement dans le département du Val d’Oise"
               icon={HiMapPin}
