@@ -1,3 +1,34 @@
+# [0.16.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.15.3...v0.16.0) (2024-03-11)
+
+
+### Bug Fixes
+
+* add cursor pointer to element in not eligible form ([6660991](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/66609917a24429a54a7ade8ac990f5917045bcf0))
+* add migrations ([279500e](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/279500e23ecf469923a3506cd151afae76016e7b))
+* add preprod value to qr code instead of fake data ([1c29603](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/1c296035fdb58078b5eb790d6496c684ae4af861))
+* border color on footer omponent ([f4eaec5](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f4eaec58e9ccbc2a069b9d89010665cd99413475))
+* faq padding for anchor purpose ([d6014ba](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/d6014ba823c533103e5176249cfdcee646f0ca67))
+* map image on desktop ([a52b5c9](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/a52b5c9d0e49490f3cfe3f4e8a4c8afc6be5422d))
+* move useState isOtpGenerated to auth provider to remove footer on generation ([dd829d0](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/dd829d01a4974ac2bb0b2e086750d2f3b10da1b7))
+* qr code zIndex ([f3a35bb](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/f3a35bb1741e927fabe23126d88e6bb49fde8e6e))
+
+
+### Features
+
+* add active nav item when section is displayed ([407606f](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/407606feeb9de15fcefe9b4a50e876706e0ae7e2))
+* add anchor to sections on landing page ([2f197f0](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/2f197f0eccb46cb719dfd95f45fb8925d48ad958))
+* add burger navbar for mobile view ([818e101](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/818e10134e889320163155d5a7ff0fedf766ee34))
+* add eligible modal on desktop, fix multiple issues ([c2940ed](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/c2940ed2b415b075badd67c48d009f46ef3fb85f))
+* add footer for desktop ([0f717fa](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/0f717fa430abc3bb95e9c5ebadbd18d6f8068fb3))
+* add footer to landing page ([e3dce8a](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/e3dce8a15d13a4f3544f9a6d2eaf7f5466bdd4fb))
+* add introduction section and map section ([206003c](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/206003c315a717852045d6de50dfd4222cbe1828))
+* add logo to desktop page ([befc090](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/befc0900e78f9ede637c68c6d2ab3abab3a03dba))
+* add mode desktop to landing page ([c0a443e](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/c0a443e7a61befa371fd7e693ee4102d5d26f4bd))
+* add not eligible modal and form ([6b89c9b](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/6b89c9bbc11142319b23d10896b5b5c197896628))
+* add two new section, how it works and faq with dynamic question in global payload ([ac43070](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/ac43070590a83c35ad3ecadbb847c60707df0746))
+* begin homepage with header component, cta section and partners logo section ([c2d6048](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/c2d6048cf2a078eb47357fc64d4be53d17c6d8a6))
+* finish landing mobile with footer cta and fix overflow with background color specific for landing page ([181cbf4](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/181cbf4d39cb3661fa6b0e8fa956e6634aee07d8))
+
 ## [0.15.3](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.15.2...v0.15.3) (2024-03-08)
 
 
