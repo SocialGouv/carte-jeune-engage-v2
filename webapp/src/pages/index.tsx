@@ -44,6 +44,7 @@ import PhoneNumberCTA, {
   LoginForm,
 } from "~/components/landing/PhoneNumberCTA";
 import QRCodeWrapper from "~/components/landing/QRCode";
+import NotEligibleForm from "~/components/landing/NotEligibleForm";
 
 const ChakraBox = chakra(motion.div, {
   shouldForwardProp: (prop) =>
@@ -95,12 +96,18 @@ export default function Home() {
 
   const isDesktop = useBreakpointValue({ base: false, lg: true });
   const {
-    isOpen: isOpenDesktopLogin,
-    onOpen: onOpenDesktopLogin,
-    onClose: onCloseDesktopLogin,
+    isOpen: isOpenDesktopLoginSuccessful,
+    onOpen: onOpenDesktopLoginSuccessful,
+    onClose: onCloseDesktopLoginSuccessful,
   } = useDisclosure({
     onClose: () => setCurrentPhoneNumber(""),
   });
+
+  const {
+    isOpen: isOpenDesktopLoginError,
+    onOpen: onOpenDesktopLoginError,
+    onClose: onCloseDesktopLoginError,
+  } = useDisclosure();
 
   const [isOtpGenerated, setIsOtpGenerated] = useState(false);
   const [hasOtpError, setHasOtpError] = useState(false);
@@ -142,23 +149,23 @@ export default function Home() {
     api.user.generateOTP.useMutation({
       onSuccess: () => {
         if (isDesktop) {
-          onOpenDesktopLogin();
+          onOpenDesktopLoginSuccessful();
         } else {
           setIsOtpGenerated(true);
           resetTimer();
         }
       },
       onError: async ({ data }) => {
-        console.log(data?.httpStatus);
         if (data?.httpStatus === 401) {
-          setPhoneNumberError({
-            name: currentPhoneNumberKey,
-            error: {
-              type: "conflict",
-              message:
-                "Votre numéro de téléphone n'est pas autorisé à accéder à l'application",
-            },
-          });
+          onOpenDesktopLoginError();
+          // setPhoneNumberError({
+          //   name: currentPhoneNumberKey,
+          //   error: {
+          //     type: "conflict",
+          //     message:
+          //       "Votre numéro de téléphone n'est pas autorisé à accéder à l'application",
+          //   },
+          // });
         } else {
           setPhoneNumberError({
             name: currentPhoneNumberKey,
@@ -557,7 +564,10 @@ export default function Home() {
           </Box>
         </Flex>
       </Box>
-      <BaseModal isOpen={isOpenDesktopLogin} onClose={onCloseDesktopLogin}>
+      <BaseModal
+        isOpen={isOpenDesktopLoginSuccessful}
+        onClose={onCloseDesktopLoginSuccessful}
+      >
         <Flex alignItems="center">
           <Box w="70%">
             <Heading fontSize="5xl" fontWeight="extrabold">
@@ -597,6 +607,12 @@ export default function Home() {
             />
           </Box>
         </Flex>
+      </BaseModal>
+      <BaseModal
+        isOpen={isOpenDesktopLoginError}
+        onClose={onCloseDesktopLoginError}
+      >
+        <NotEligibleForm />
       </BaseModal>
     </Flex>
   );
