@@ -14,6 +14,7 @@ import ChakraNextImage from "../ChakraNextImage";
 import { HiMiniBars3, HiXMark } from "react-icons/hi2";
 import Link from "next/link";
 import { useRef } from "react";
+import useActiveSection from "~/hooks/useActiveSection";
 
 export const menuItems = [
   { title: "Qu'est-ce que c'est ?", slug: "what-is-it" },
@@ -24,9 +25,14 @@ export const menuItems = [
 
 const Header = () => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
+
   const { isOpen, onToggle } = useDisclosure();
 
   const headerRef = useRef<HTMLDivElement>(null);
+
+  const activeSection = useActiveSection(
+    menuItems.map((item) => `${item.slug}-section`)
+  );
 
   const handleIsEligibleClick = () => {
     const element = document.querySelector(".phone-number-cta");
@@ -135,9 +141,18 @@ const Header = () => {
         ) : (
           <>
             <Flex alignItems="center" gap={8}>
-              {menuItems.map((item) => (
-                <Link key={item.slug} href={`/#${item.slug}-section`}>
-                  <Text fontWeight="medium">{item.title}</Text>
+              {menuItems.map(({ slug, title }) => (
+                <Link key={slug} href={`/#${slug}-section`}>
+                  <Box position="relative">
+                    <Text fontWeight="medium">{title}</Text>
+                    <Box
+                      position="absolute"
+                      bottom={-3}
+                      h="2px"
+                      bgColor="blackLight"
+                      w={`${slug}-section` === activeSection ? "full" : 0}
+                    />
+                  </Box>
                 </Link>
               ))}
             </Flex>

@@ -95,6 +95,7 @@ export default function Home() {
   const router = useRouter();
 
   const isDesktop = useBreakpointValue({ base: false, lg: true });
+
   const {
     isOpen: isOpenDesktopLoginSuccessful,
     onOpen: onOpenDesktopLoginSuccessful,
@@ -427,8 +428,8 @@ export default function Home() {
           id="what-is-it-section"
           flexDir="column"
           px={8}
-          pt={{ base: 8, lg: 24 }}
-          mt={{ base: 8, lg: 16 }}
+          pt={{ base: 10, lg: 24 }}
+          mt={{ base: 0, lg: 16 }}
           gap={{ base: 9, lg: 40 }}
         >
           {sectionItems.map((section, index) => (
@@ -437,8 +438,8 @@ export default function Home() {
         </Flex>
         <Box
           id="who-can-benefit-section"
-          pt={{ base: 6, lg: 12 }}
-          mt={{ base: 14, lg: 28 }}
+          pt={{ base: 20, lg: 28 }}
+          mt={{ base: 0, lg: 12 }}
           zIndex={10}
         >
           <Heading
@@ -491,8 +492,8 @@ export default function Home() {
         <Box px={8}>
           <Box
             id="how-does-it-work-section"
-            pt={{ base: 6, lg: 12 }}
-            mt={{ base: 14, lg: 36 }}
+            pt={{ base: 24, lg: 28 }}
+            mt={{ base: 0, lg: 12 }}
             textAlign="center"
           >
             <Heading fontWeight="extrabold" size={{ base: "xl", lg: "2xl" }}>
@@ -527,8 +528,8 @@ export default function Home() {
           </Box>
           <Box
             id="faq-section"
-            pt={{ base: 6, lg: 16 }}
-            mt={{ base: 14, lg: 24 }}
+            pt={{ base: 24, lg: 28 }}
+            mt={{ base: 0, lg: 12 }}
             textAlign="center"
           >
             <Heading size={{ base: "xl", lg: "2xl" }} fontWeight="extrabold">
@@ -581,57 +582,57 @@ export default function Home() {
             </Box>
           </Flex>
         </Box>
-        <BaseModal
-          isOpen={isOpenDesktopLoginSuccessful}
-          onClose={onCloseDesktopLoginSuccessful}
-        >
-          <Flex alignItems="center">
-            <Box w="70%">
-              <Heading fontSize="5xl" fontWeight="extrabold">
-                Vous êtes éligible !
-              </Heading>
-              <Heading fontSize="5xl" fontWeight="extrabold" mt={10}>
-                Téléchargez l’application sur votre téléphone pour continuer.
-              </Heading>
-              <Text
-                fontSize="2xl"
-                fontWeight="medium"
-                color="secondaryText"
-                pr={40}
-                mt={16}
-              >
-                Scannez le QR code avec l’appareil photo de votre téléphone pour
-                accéder à l’application carte “jeune engagé” sur votre mobile.
-              </Text>
-            </Box>
-            <Box w="25%" ml="auto" position="relative">
-              <QRCodeWrapper
-                value="https://cje-preprod.ovh.fabrique.social.gouv.fr"
-                wrapperProps={{
-                  zIndex: 20,
-                  position: "absolute",
-                  left: "25%",
-                  top: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}
-              />
-              <Image
-                src="/images/landing/mobile-showcase.png"
-                alt="Mobile showcase"
-                h="500px"
-                opacity={0.5}
-                mb={-12}
-              />
-            </Box>
-          </Flex>
-        </BaseModal>
-        <BaseModal
-          isOpen={isOpenDesktopLoginError}
-          onClose={onCloseDesktopLoginError}
-        >
-          <NotEligibleForm />
-        </BaseModal>
       </Flex>
+      <BaseModal
+        isOpen={isOpenDesktopLoginSuccessful}
+        onClose={onCloseDesktopLoginSuccessful}
+      >
+        <Flex alignItems="center">
+          <Box w="70%">
+            <Heading fontSize="5xl" fontWeight="extrabold">
+              Vous êtes éligible !
+            </Heading>
+            <Heading fontSize="5xl" fontWeight="extrabold" mt={10}>
+              Téléchargez l’application sur votre téléphone pour continuer.
+            </Heading>
+            <Text
+              fontSize="2xl"
+              fontWeight="medium"
+              color="secondaryText"
+              pr={40}
+              mt={16}
+            >
+              Scannez le QR code avec l’appareil photo de votre téléphone pour
+              accéder à l’application carte “jeune engagé” sur votre mobile.
+            </Text>
+          </Box>
+          <Box w="25%" ml="auto" position="relative">
+            <QRCodeWrapper
+              value="https://cje-preprod.ovh.fabrique.social.gouv.fr"
+              wrapperProps={{
+                zIndex: 20,
+                position: "absolute",
+                left: "25%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
+            <Image
+              src="/images/landing/mobile-showcase.png"
+              alt="Mobile showcase"
+              h="500px"
+              opacity={0.5}
+              mb={-12}
+            />
+          </Box>
+        </Flex>
+      </BaseModal>
+      <BaseModal
+        isOpen={isOpenDesktopLoginError}
+        onClose={onCloseDesktopLoginError}
+      >
+        <NotEligibleForm />
+      </BaseModal>
       {isDesktop && (
         <Flex
           zIndex={10}

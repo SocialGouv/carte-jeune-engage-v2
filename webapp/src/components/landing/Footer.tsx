@@ -64,6 +64,7 @@ const Footer = () => {
                 color="white"
                 fontSize="lg"
                 fontWeight="bold"
+                cursor="pointer"
                 onClick={handleIsEligibleClick}
               >
                 Vérifier mon éligibilité
