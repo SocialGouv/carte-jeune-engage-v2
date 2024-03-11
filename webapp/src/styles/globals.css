@@ -85,12 +85,12 @@ body {
   overflow-x: hidden;
 }
 
-html,
+/* html,
 body,
 main,
 #__next {
   height: 100%;
-}
+} */
 
 body {
   color: rgb(var(--foreground-rgb));
