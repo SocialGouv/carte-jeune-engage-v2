@@ -189,6 +189,7 @@ const NotEligibleForm = () => {
           fontWeight="bold"
           textDecoration="underline"
           mt={6}
+          cursor="pointer"
           onClick={() => setDisplayForm(true)}
         >
           J’ai besoin d’aide pour me connecter

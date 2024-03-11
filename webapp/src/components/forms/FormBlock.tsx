@@ -39,6 +39,7 @@ const FormBlock = ({
       }}
       border="2px solid"
       borderColor={isSelected ? "blackLight" : "transparent"}
+      cursor="pointer"
     >
       {iconSrc && <Image src={iconSrc} alt="" width={65} height={65} />}
       <Text
