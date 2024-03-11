@@ -9,13 +9,15 @@ import { BeforeInstallPromptEvent, useAuth } from "~/providers/Auth";
 export default function DefaultLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
-  const { setDeferredEvent, setShowing, user } = useAuth();
+  const { setDeferredEvent, setShowing, user, isOtpGenerated } = useAuth();
+
+  const isLanding = pathname === "/" && !isOtpGenerated;
 
   const handleBeforeInstallPrompt = (event: Event) => {
     // Prevent the default behavior to keep the event available for later use
     event.preventDefault();
 
-    // // Save the event for later use
+    // Save the event for later use
     setDeferredEvent(event as BeforeInstallPromptEvent);
 
     setShowing(true);
@@ -61,19 +63,19 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
       <Box
         as="main"
         role="main"
-        background={pathname === "/" ? "white" : undefined}
-        h={pathname === "/" ? "auto" : "full"}
+        background={isLanding ? "white" : undefined}
+        h={isLanding ? "auto" : "full"}
       >
         <Container
           maxWidth={{
-            base: pathname === "/" ? "container.xl" : "container.sm",
+            base: isLanding ? "container.xl" : "container.sm",
           }}
           px={0}
           h="full"
         >
           {children}
         </Container>
-        {pathname === "/" && <Footer />}
+        {isLanding && <Footer />}
         {(pathname === "/dashboard" ||
           pathname === "/dashboard/wallet" ||
           pathname === "/dashboard/categories" ||

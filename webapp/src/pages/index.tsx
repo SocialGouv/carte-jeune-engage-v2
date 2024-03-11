@@ -45,6 +45,7 @@ import PhoneNumberCTA, {
 } from "~/components/landing/PhoneNumberCTA";
 import QRCodeWrapper from "~/components/landing/QRCode";
 import NotEligibleForm from "~/components/landing/NotEligibleForm";
+import { useAuth } from "~/providers/Auth";
 
 const ChakraBox = chakra(motion.div, {
   shouldForwardProp: (prop) =>
@@ -94,6 +95,8 @@ const sectionItems = [
 export default function Home() {
   const router = useRouter();
 
+  const { isOtpGenerated, setIsOtpGenerated } = useAuth();
+
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
   const {
@@ -110,7 +113,6 @@ export default function Home() {
     onClose: onCloseDesktopLoginError,
   } = useDisclosure();
 
-  const [isOtpGenerated, setIsOtpGenerated] = useState(false);
   const [hasOtpError, setHasOtpError] = useState(false);
   const [hasOtpExpired, setHasOtpExpired] = useState(false);
   const [forceLoader, setForceLoader] = useState(false);

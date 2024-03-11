@@ -16,6 +16,8 @@ export interface BeforeInstallPromptEvent extends Event {
 type AuthContext = {
   user: UserIncluded | null;
   setUser: (user: UserIncluded | null) => void;
+  isOtpGenerated: boolean;
+  setIsOtpGenerated: (isOtpGenerated: boolean) => void;
   showing: boolean;
   setShowing: (showing: boolean) => void;
   deferredEvent: BeforeInstallPromptEvent | null;
@@ -29,6 +31,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<UserIncluded | null>(null);
+
+  const [isOtpGenerated, setIsOtpGenerated] = useState<boolean>(false);
 
   const [showing, setShowing] = useState(false);
   const [deferredEvent, setDeferredEvent] =
@@ -66,6 +70,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         user,
         setUser,
+        isOtpGenerated,
+        setIsOtpGenerated,
         showing,
         setShowing,
         deferredEvent,
