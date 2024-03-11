@@ -190,6 +190,7 @@ export const theme = extendTheme({
   shadows: {
     "landing-phone-number-component":
       "0px 4px 9.9px 0px rgba(177, 177, 177, 0.25)",
+    "landing-qr-code-desktop": "0px 0px 24.2px 0px rgba(145, 145, 145, 0.25)",
   },
   radii: {
     "1.5xl": "1.25rem",
