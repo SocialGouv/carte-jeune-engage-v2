@@ -634,6 +634,7 @@ export default function Home() {
       </Flex>
       {isDesktop && (
         <Flex
+          zIndex={10}
           bgColor="white"
           flexDir="column"
           position="fixed"
