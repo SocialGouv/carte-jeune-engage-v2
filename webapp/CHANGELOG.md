@@ -1,3 +1,10 @@
+# [0.17.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.16.0...v0.17.0) (2024-03-11)
+
+
+### Features
+
+* pwa icons ([99284fe](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/99284fe3189370a24a45e1c05a5ef1d28bf734cb))
+
 # [0.16.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.15.3...v0.16.0) (2024-03-11)
 
 
