@@ -606,7 +606,7 @@ export default function Home() {
             </Box>
             <Box w="25%" ml="auto" position="relative">
               <QRCodeWrapper
-                value="https://cje.fr"
+                value="https://cje-preprod.ovh.fabrique.social.gouv.fr"
                 wrapperProps={{
                   zIndex: 20,
                   position: "absolute",
@@ -647,7 +647,10 @@ export default function Home() {
           <Text fontWeight="extrabold" mb={1} mx="auto">
             Accéder à l’application
           </Text>
-          <QRCodeWrapper size={181} value="https://cje.fr" />
+          <QRCodeWrapper
+            size={181}
+            value="https://cje-preprod.ovh.fabrique.social.gouv.fr/"
+          />
         </Flex>
       )}
     </>
