@@ -1,3 +1,10 @@
+## [0.18.3](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.18.2...v0.18.3) (2024-03-12)
+
+
+### Bug Fixes
+
+* remove sentry init on development node_env and add environnement tag for production and preproduction ([706ecdc](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/706ecdc67583e873ed9371125ba03c4da62bf127))
+
 ## [0.18.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.18.1...v0.18.2) (2024-03-12)
 
 
