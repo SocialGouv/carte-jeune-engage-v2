@@ -1,27 +1,43 @@
 import { SelectInput, useField, useFormFields } from "payload/components/forms";
 import { Offer } from "../payload-types";
 import React from "react";
-import { StackItem } from "~/components/offer/StackItems";
 
-export const getItemsTermsOfUse = (
-  offerKind: Offer["kind"]
-): { text: string; slug: string; icon: string }[] => {
+export const getItemsTermsOfUse = (offerKind: Offer["kind"]) => {
+  const items: { text: string; slug: string; icon: string }[] = [];
+
   if (offerKind.startsWith("code")) {
-    return [
-      { text: "Copier le code promo", slug: "copy-code", icon: "FiCopy" },
+    const defaultCodeItems = [
       {
-        text: "Utiliser le lien du site qui est dans mon application",
+        text: "Je vais sur le site de l’offre ",
         slug: "use-link",
         icon: "HiLink",
       },
       {
-        text: "Coller le code promo au moment du paiement en ligne sur le site",
-        slug: "paste-code",
-        icon: "FiCopy",
+        text: "J’accepte les cookies sur le site du partenaire ",
+        slug: "accept-cookies",
+        icon: "HiCheckBadge",
       },
     ];
+
+    if (offerKind === "code") {
+      items.push(
+        { text: "Je copie mon code promo", slug: "copy-code", icon: "FiCopy" },
+        ...defaultCodeItems,
+        {
+          text: "Je colle mon code sur le site du partenaire dès qu'on me le demande",
+          slug: "paste-code",
+          icon: "FiCopy",
+        }
+      );
+    } else if (offerKind === "code_space") {
+      items.push(...defaultCodeItems, {
+        text: "Aucun code promo permet de débloquer cette offre",
+        slug: "no-code",
+        icon: "HiLockClosed",
+      });
+    }
   } else {
-    return [
+    const defaultVoucherItems = [
       {
         text: "Je vais dans un magasin participant",
         slug: "go-to-store",
@@ -43,7 +59,17 @@ export const getItemsTermsOfUse = (
         icon: "PassIcon",
       },
     ];
+
+    if (offerKind === "voucher") {
+      items.push(...defaultVoucherItems);
+    } else if (offerKind === "voucher_pass") {
+      items.push(
+        ...defaultVoucherItems.filter((item) => item.slug !== "scan-barcode")
+      );
+    }
   }
+
+  return items;
 };
 
 export const CustomSelectTermsOfUse: React.FC<{ path: string }> = ({
