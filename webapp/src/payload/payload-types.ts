@@ -61,7 +61,7 @@ export interface User {
   image?: number | Media | null;
   timeAtCEJ?: ('started' | 'lessThan3Months' | 'moreThan3Months') | null;
   userEmail?: string | null;
-  status_image?: ('pending' | 'approved' | 'rejected') | null;
+  status_image?: ('pending' | 'approved') | null;
   preferences?: (number | Category)[] | null;
   otp_request_token?: string | null;
   updatedAt: string;

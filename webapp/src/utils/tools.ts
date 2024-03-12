@@ -101,3 +101,11 @@ export const addSpaceToTwoCharacters = (input: string) => {
 
   return result;
 };
+
+export const getBaseUrl = () => {
+  if (process.env.APP_ENV === "production")
+    return "https://cje.fabrique.social.gouv.fr";
+  if (process.env.APP_ENV === "preproduction")
+    return "https://cje-preprod.fabrique.social.gouv.fr";
+  return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
+};
