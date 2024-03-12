@@ -1,3 +1,10 @@
+## [0.18.2](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.18.1...v0.18.2) (2024-03-12)
+
+
+### Bug Fixes
+
+* next dir permissions ([1871bab](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/1871bab3484d4ca1a7553fe66d09f0b7bf4f4905))
+
 ## [0.18.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.18.0...v0.18.1) (2024-03-12)
 
 
