@@ -1,3 +1,10 @@
+## [0.17.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.17.0...v0.17.1) (2024-03-11)
+
+
+### Bug Fixes
+
+* loader center horizontally ([990c079](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/990c07933b362a39e7e0a3f81942d3f520e4bc97))
+
 # [0.17.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.16.0...v0.17.0) (2024-03-11)
 
 
