@@ -51,9 +51,12 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
         <meta name="description" content="Carte Jeune Engagé" />
         <link rel="shortcut icon" href="/pwa/appIcon/maskable_icon_x48.png" />
         <link rel="manifest" href="/pwa/manifest.json" />
-        <meta name="theme-color" content="#F7F7F7" />
+        <meta name="theme-color" content={isLanding ? "#FFFFFF" : "#F7F7F7"} />
         /* iOS */
-        <meta name="apple-mobile-web-app-status-bar-style" content="#F7F7F7" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content={isLanding ? "#FFFFFF" : "#F7F7F7"}
+        />
         <link
           rel="apple-touch-icon"
           href="/pwa/appIcon/maskable_icon_x192.png"
