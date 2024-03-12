@@ -1,3 +1,10 @@
+# [0.18.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.17.1...v0.18.0) (2024-03-12)
+
+
+### Features
+
+* log error no user ([e0c8986](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/e0c89862513579ed8fbbaa57569cd8a52bea084e))
+
 ## [0.17.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.17.0...v0.17.1) (2024-03-11)
 
 
