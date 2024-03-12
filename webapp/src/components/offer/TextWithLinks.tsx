@@ -9,8 +9,7 @@ const TextWithLinks = ({
   text: string;
   props?: ChakraProps;
 }) => {
-  const URL_REGEX =
-    /(((https?:\/\/)|(www\.))?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*))/gi;
+  const URL_REGEX = /(((https?:\/\/)|(www\.))[^\s]+)/g;
 
   const html = text.split(" ").map((part) => {
     if (URL_REGEX.test(part)) {
