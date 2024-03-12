@@ -1,4 +1,5 @@
 import {
+  AspectRatio,
   Box,
   Button,
   Center,
@@ -11,6 +12,7 @@ import {
   TabPanels,
   Tabs,
   Text,
+  Link,
   VStack,
   useDisclosure,
   useSteps,
@@ -18,7 +20,7 @@ import {
 import { useGSAP } from "@gsap/react";
 import { GetServerSideProps } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import {
@@ -203,15 +205,31 @@ export default function OfferPage() {
                 {offer.nbOfEligibleStores ?? 1} magasins {offer.partner.name}{" "}
                 participants
               </Text>
-              <Image
-                src={offer.imageOfEligibleStores.url as string}
-                alt={offer.imageOfEligibleStores.alt as string}
-                width={0}
-                height={114}
-                sizes="100vw"
-                style={{ width: "100%" }}
-              />
-              <Link href={offer.linkOfEligibleStores ?? ""} target="_blank">
+              <Link
+                as={NextLink}
+                href={offer.linkOfEligibleStores ?? ""}
+                w="full"
+                target="_blank"
+              >
+                <Image
+                  src={offer.imageOfEligibleStores.url as string}
+                  alt={offer.imageOfEligibleStores.alt as string}
+                  width={0}
+                  height={114}
+                  sizes="100vw"
+                  style={{
+                    width: "100%",
+                    height: "114px",
+                    borderRadius: "10px",
+                    objectFit: "cover",
+                  }}
+                />
+              </Link>
+              <Link
+                as={NextLink}
+                href={offer.linkOfEligibleStores ?? ""}
+                target="_blank"
+              >
                 <HStack align="center" borderBottom="1px solid black">
                   <Text fontWeight="medium">
                     Voir les magasins participants
