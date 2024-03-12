@@ -54,7 +54,7 @@ export const getItemsTermsOfUse = (offerKind: Offer["kind"]) => {
         icon: "HiReceiptPercent",
       },
       {
-        text: "Je présente ma carte CJE au moment du paiement",
+        text: "Je présente ma carte CJE en caisse",
         slug: "show-pass",
         icon: "PassIcon",
       },
