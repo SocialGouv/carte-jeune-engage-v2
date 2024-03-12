@@ -25,7 +25,8 @@ const StepsButtons = ({
   return (
     <VStack
       spacing={6}
-      bottom={6}
+      bottom={0}
+      pb={6}
       position={"fixed"}
       w="full"
       left={0}
