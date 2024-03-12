@@ -1,3 +1,10 @@
+## [0.18.1](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.18.0...v0.18.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* different jwt name by envs ([2613956](https://github.com/SocialGouv/carte-jeune-engage-v2/commit/2613956568987ce2363e7c4664788e59f8af5642))
+
 # [0.18.0](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.17.1...v0.18.0) (2024-03-12)
 
 
