@@ -1,3 +1,10 @@
+## [0.19.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.0...v0.19.1) (2024-03-13)
+
+
+### Bug Fixes
+
+* solve redirect on iphone and fix offer display when user affected ([cb660a2](https://github.com/SocialGouv/carte-jeune-engage/commit/cb660a257a027a69b6e069d16154c453bce37773))
+
 # [0.19.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.18.3...v0.19.0) (2024-03-13)
 
 
