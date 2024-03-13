@@ -1,3 +1,10 @@
+## [0.19.5](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.4...v0.19.5) (2024-03-13)
+
+
+### Bug Fixes
+
+* name of app_env next public in dockerfile ([fa624b3](https://github.com/SocialGouv/carte-jeune-engage/commit/fa624b3fd04059de7825f81fa1639fcca249bc8b))
+
 ## [0.19.4](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.3...v0.19.4) (2024-03-13)
 
 
