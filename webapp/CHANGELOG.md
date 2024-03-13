@@ -1,3 +1,10 @@
+## [0.19.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.2...v0.19.3) (2024-03-13)
+
+
+### Bug Fixes
+
+* another workaround for ios redirection ([e54dab5](https://github.com/SocialGouv/carte-jeune-engage/commit/e54dab501e75e69975d1a14b55637028601b7270))
+
 ## [0.19.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.1...v0.19.2) (2024-03-13)
 
 
