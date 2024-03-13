@@ -1,3 +1,10 @@
+## [0.19.6](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.5...v0.19.6) (2024-03-13)
+
+
+### Bug Fixes
+
+* revert getListAvailable change] ([0536f86](https://github.com/SocialGouv/carte-jeune-engage/commit/0536f8681e54769f3ee92b9fa74ce819b66de296))
+
 ## [0.19.5](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.4...v0.19.5) (2024-03-13)
 
 
