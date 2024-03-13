@@ -1,3 +1,10 @@
+## [0.19.4](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.3...v0.19.4) (2024-03-13)
+
+
+### Bug Fixes
+
+* error typescript ([092aa55](https://github.com/SocialGouv/carte-jeune-engage/commit/092aa5507200190e194c60b4292cbc7c84b65732))
+
 ## [0.19.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.2...v0.19.3) (2024-03-13)
 
 
