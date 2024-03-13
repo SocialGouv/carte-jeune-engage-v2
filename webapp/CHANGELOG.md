@@ -1,3 +1,29 @@
+# [0.19.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.18.3...v0.19.0) (2024-03-13)
+
+
+### Bug Fixes
+
+* add component to interpret link in string on offer other conditions ([7cd3f11](https://github.com/SocialGouv/carte-jeune-engage/commit/7cd3f111aa975da782c022e5c5d730168194a622))
+* add component to interpret link in string on offer other conditions ([d3dd8c6](https://github.com/SocialGouv/carte-jeune-engage/commit/d3dd8c65f0796a4cc5b5d79a7a0c13696ca29508))
+* add link on map in offer page ([d69e541](https://github.com/SocialGouv/carte-jeune-engage/commit/d69e5410cfb0837bd7e5acefeac23c6cca7349ae))
+* add sentry exception on fetch of user and fix build problem on user collection ([0a8f7e5](https://github.com/SocialGouv/carte-jeune-engage/commit/0a8f7e5279c1a575e5e688fe1563803556d3c904))
+* background color on scroll ([c2bbf8e](https://github.com/SocialGouv/carte-jeune-engage/commit/c2bbf8e3e0d20fe896fb4c8f6723fbc271188a9f))
+* change import on user collection from relative to absolute path ([7ea6b22](https://github.com/SocialGouv/carte-jeune-engage/commit/7ea6b2219a29bbad95174338132358df5b24f856))
+* other conditions missing padding on steps buttons ([40bd88a](https://github.com/SocialGouv/carte-jeune-engage/commit/40bd88a075b79815a794037381c9c539b5d022fe))
+* otp paste code for ios and remove generateOtp if desktop mode ([2684987](https://github.com/SocialGouv/carte-jeune-engage/commit/268498735ed5d1967b3d13f7c76ebae923287310))
+* spelling on homepage title ([473432d](https://github.com/SocialGouv/carte-jeune-engage/commit/473432d656a99fc6496dc3977babe7c28a5aaa24))
+* status bar color on landing ([bb647f7](https://github.com/SocialGouv/carte-jeune-engage/commit/bb647f7e4d5e1ff74896ce2495b376e926bbedc0))
+* TextWithLinks componennt regex ([0bfae91](https://github.com/SocialGouv/carte-jeune-engage/commit/0bfae915c2c49b54eb083fca16128dbcfe557ec7))
+* wording for dynamic how it works on offer and add missing values for each kind of offer ([e82efa9](https://github.com/SocialGouv/carte-jeune-engage/commit/e82efa95aa44852febf072fa07be05829a40c0c5))
+* wording for how it works options ([42f4d7a](https://github.com/SocialGouv/carte-jeune-engage/commit/42f4d7a983c7d14265c711c46efca2f181521909))
+* wording from 'pass CJE' to 'carte CJE' on new pass component and offer page ([9537cc9](https://github.com/SocialGouv/carte-jeune-engage/commit/9537cc9169e4feb348c78355ba7c61a0a6999597))
+* wording from 'pass CJE' to 'carte CJE' on new pass component and offer page ([25bda7b](https://github.com/SocialGouv/carte-jeune-engage/commit/25bda7bc46511f46e2cd184b155fbcbbc3697329))
+
+
+### Features
+
+* send mail on accept and refused of user image, create a helper for baseUrl and add smtp values for preprod and prod ([3e767ec](https://github.com/SocialGouv/carte-jeune-engage/commit/3e767ecf8f5a587d0d9cc59b64732a31204a2e1b))
+
 ## [0.18.3](https://github.com/SocialGouv/carte-jeune-engage-v2/compare/v0.18.2...v0.18.3) (2024-03-12)
 
 
