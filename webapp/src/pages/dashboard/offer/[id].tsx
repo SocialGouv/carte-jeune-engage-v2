@@ -138,7 +138,7 @@ export default function OfferPage() {
       const timeoutId = setTimeout(() => {
         let a = document.createElement("a");
         document.body.appendChild(a);
-        a.style = "display: none";
+        a.classList.add("hidden");
         a.href = offer?.url as string;
         a.target = "_blank";
         a.click();
