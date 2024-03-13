@@ -7,6 +7,7 @@ import {
   Heading,
   Icon,
   Image,
+  Input,
   Link,
   PinInput,
   PinInputField,
@@ -46,20 +47,12 @@ import PhoneNumberCTA, {
 import QRCodeWrapper from "~/components/landing/QRCode";
 import NotEligibleForm from "~/components/landing/NotEligibleForm";
 import { useAuth } from "~/providers/Auth";
+import OtpInput from "react-otp-input";
 
 const ChakraBox = chakra(motion.div, {
   shouldForwardProp: (prop) =>
     isValidMotionProp(prop) || shouldForwardProp(prop),
 });
-
-const pinProps = {
-  w: 12,
-  h: 12,
-  borderColor: "transparent",
-  _hover: { borderColor: "transparent" },
-  _focus: { borderColor: "blackLight", borderWidth: "2px" },
-  _focusVisible: { boxShadow: "none" },
-};
 
 const defaultTimeToResend = 30;
 
@@ -96,6 +89,7 @@ export default function Home() {
   const router = useRouter();
 
   const { isOtpGenerated, setIsOtpGenerated } = useAuth();
+  const [otp, setOtp] = useState<string>("");
 
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
@@ -215,7 +209,7 @@ export default function Home() {
 
   const handleGenerateOtp: SubmitHandler<LoginForm> = async (values) => {
     setCurrentPhoneNumber(values.phone_number);
-    generateOtp({ phone_number: values.phone_number });
+    generateOtp({ phone_number: values.phone_number, is_desktop: isDesktop });
   };
 
   const handleLoginUser = async (otp: string) => {
@@ -279,32 +273,40 @@ export default function Home() {
           </Text>
           <Box my={8}>
             <HStack>
-              <PinInput
-                placeholder="-"
-                otp
-                onComplete={handleLoginUser}
-                onChange={() => {
+              <OtpInput
+                shouldAutoFocus
+                value={otp}
+                onChange={(otp) => {
+                  setOtp(otp);
                   setHasOtpError(false);
                   setHasOtpExpired(false);
+                  if (otp.length === 4) handleLoginUser(otp);
                 }}
-              >
-                <PinInputField
-                  {...pinProps}
-                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
-                />
-                <PinInputField
-                  {...pinProps}
-                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
-                />
-                <PinInputField
-                  {...pinProps}
-                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
-                />
-                <PinInputField
-                  {...pinProps}
-                  bg={hasOtpError ? "errorLight" : "cje-gray.500"}
-                />
-              </PinInput>
+                numInputs={4}
+                placeholder={"----"}
+                renderInput={({ style, ...props }) => (
+                  <Input
+                    {...props}
+                    _focus={{
+                      _placeholder: {
+                        color: "transparent",
+                      },
+                      borderColor: "blackLight",
+                      borderWidth: "2px",
+                    }}
+                    size="lg"
+                    bg={hasOtpError ? "errorLight" : "cje-gray.500"}
+                    textAlign="center"
+                    borderColor="transparent"
+                    _hover={{ borderColor: "transparent" }}
+                    _focusVisible={{ boxShadow: "none" }}
+                    w={12}
+                    h={12}
+                    px={0}
+                    mx={1}
+                  />
+                )}
+              />
             </HStack>
             {hasOtpExpired && (
               <Text color="error" fontSize={"sm"} mt={2}>
@@ -610,7 +612,6 @@ export default function Home() {
           </Box>
           <Box w="25%" ml="auto" position="relative">
             <QRCodeWrapper
-              value="https://cje-preprod.ovh.fabrique.social.gouv.fr"
               wrapperProps={{
                 zIndex: 20,
                 position: "absolute",
@@ -650,10 +651,7 @@ export default function Home() {
           <Text fontWeight="extrabold" mb={1} mx="auto">
             Accéder à l’application
           </Text>
-          <QRCodeWrapper
-            size={181}
-            value="https://cje-preprod.ovh.fabrique.social.gouv.fr/"
-          />
+          <QRCodeWrapper size={181} />
         </Flex>
       )}
     </>

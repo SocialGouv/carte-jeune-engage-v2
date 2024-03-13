@@ -52,8 +52,8 @@ export const Offers: CollectionConfig = {
       required: true,
       defaultValue: "voucher",
       options: [
-        { label: "[En magasin] Bon d'achat + pass CJE", value: "voucher" },
-        { label: "[En magasin] Pass CJE", value: "voucher_pass" },
+        { label: "[En magasin] Bon d'achat + carte CJE", value: "voucher" },
+        { label: "[En magasin] Carte CJE", value: "voucher_pass" },
         { label: "[En ligne] Code de réduction", value: "code" },
         { label: "[En ligne] Espace de réduction", value: "code_space" },
       ],

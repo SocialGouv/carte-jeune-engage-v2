@@ -1,17 +1,17 @@
 import { Box, ChakraProps } from "@chakra-ui/react";
 import { QRCode } from "react-qrcode-logo";
+import { getBaseUrl } from "~/utils/tools";
 
 type QRCodeProps = {
-  value: string;
   size?: number;
   wrapperProps?: ChakraProps;
 };
 
-const QRCodeWrapper = ({ value, size, wrapperProps }: QRCodeProps) => {
+const QRCodeWrapper = ({ size, wrapperProps }: QRCodeProps) => {
   return (
     <Box {...wrapperProps} borderRadius="2xl">
       <QRCode
-        value={value}
+        value={getBaseUrl()}
         qrStyle="dots"
         logoWidth={50}
         logoHeight={30}

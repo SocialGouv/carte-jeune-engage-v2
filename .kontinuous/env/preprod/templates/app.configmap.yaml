@@ -5,3 +5,7 @@ metadata:
 data:
   PAYLOAD_CONFIG_PATH: payload/payload.config.ts
   APP_ENV: preproduction
+  SMTP_HOST: maildev
+  SMTP_PORT: "1025"
+  SMTP_FROM_NAME: "Carte Jeune Engagé"
+  SMTP_FROM_ADDRESS: cje@fabrique.social.gouv.fr

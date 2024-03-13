@@ -11,6 +11,7 @@ import {
 import { IconType } from "react-icons/lib";
 import ReactIcon from "~/utils/dynamicIcon";
 import { PassIcon } from "../icons/pass";
+import TextWithLinks from "./TextWithLinks";
 
 export type StackItem = {
   text: string;
@@ -71,7 +72,7 @@ const StackItems = ({
               )}
             </>
           )}
-          <Text fontWeight="medium">{text}</Text>
+          <TextWithLinks props={{ fontWeight: "medium " }} text={text} />
         </HStack>
       ))}
     </VStack>

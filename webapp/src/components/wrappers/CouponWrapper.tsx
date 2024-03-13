@@ -55,7 +55,7 @@ const CTAButton = ({
       ) : (
         <Link href="/dashboard/account/card">
           <Button leftIcon={<Icon as={PassIcon} w={6} h={6} />} w="full">
-            Présenter mon pass CJE
+            Présenter ma carte CJE
           </Button>
         </Link>
       )}

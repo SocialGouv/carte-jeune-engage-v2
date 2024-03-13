@@ -129,9 +129,9 @@ export const theme = extendTheme({
       },
       body: {
         height: "100%",
+        bg: "bgWhite",
       },
       main: {
-        bg: "bgWhite",
         height: "100%",
       },
       "#__next": {

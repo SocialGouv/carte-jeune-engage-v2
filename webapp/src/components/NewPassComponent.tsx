@@ -207,7 +207,7 @@ const NewPassComponent = ({
             </Flex>
           </Flex>
           <Heading textAlign="center" fontWeight="extrabold" size="lg" mt={20}>
-            Notre équipe est en train de créer votre pass CJE {user.firstName}
+            Notre équipe est en train de créer votre carte CJE {user.firstName}
           </Heading>
           <VStack spacing={4} mt={10}>
             <HStack spacing={4} w="full">
@@ -217,7 +217,7 @@ const NewPassComponent = ({
             <HStack spacing={4} w="full">
               <Icon as={HiCheckCircle} w={6} h={6} />
               <Text fontWeight="medium">
-                Dès que votre pass est prêt vous recevez un message
+                Dès que votre carte est prête vous recevez un message
               </Text>
             </HStack>
             <HStack spacing={4} w="full">
@@ -371,7 +371,7 @@ const NewPassComponent = ({
                 isDisabled={!croppedImageSrc}
                 onClick={handleCreatePass}
               >
-                Créer mon pass CJE
+                Créer mon carte CJE
               </Button>
             </Box>
           </Flex>
@@ -390,7 +390,7 @@ const NewPassComponent = ({
           <br />
           c'est possible :
           <br />
-          <Box mt={2}>avec votre pass CJE</Box>
+          <Box mt={2}>avec votre carte CJE</Box>
         </Heading>
         <Image
           mt={6}
@@ -402,31 +402,33 @@ const NewPassComponent = ({
           <HStack spacing={4} w="full">
             <Icon as={HiBuildingStorefront} w={6} h={6} />
             <Text fontWeight="medium">
-              Le pass CJE permet d’obtenir les réductions dans tous les magasins
-              disponibles sur l’appli
+              La carte CJE permet d’obtenir les réductions dans tous les
+              magasins disponibles sur l’appli
             </Text>
           </HStack>
           <HStack spacing={4} w="full">
             <Icon as={HiUser} w={6} h={6} />
-            <Text fontWeight="medium">Le pass CJE est virtuel et gratuit</Text>
+            <Text fontWeight="medium">
+              La carte CJE est virtuelle et gratuit
+            </Text>
           </HStack>
           <HStack spacing={4} w="full">
             <Icon as={HiClock} w={6} h={6} />
             <Text fontWeight="medium">
-              Nous vous créons votre pass CJE en 24h
+              Nous vous créons votre carte CJE en 24h
             </Text>
           </HStack>
           <HStack spacing={4} w="full">
             <Icon as={HiUserCircle} w={6} h={6} />
             <Text fontWeight="medium">
-              Présentez votre pass CJE au moment du paiement pour bénéficier de
+              Présentez votre carte CJE au moment du paiement pour bénéficier de
               la réduction
             </Text>
           </HStack>
           <HStack spacing={4} w="full">
             <Icon as={HiUser} w={6} h={6} />
             <Text fontWeight="medium">
-              Une photo de vous est nécessaire pour valider votre pass CJE
+              Une photo de vous est nécessaire pour valider la carte
             </Text>
           </HStack>
           <HStack spacing={4} w="full">
@@ -444,7 +446,7 @@ const NewPassComponent = ({
           onClick={() => setStepNewPass("add-photo")}
         >
           <Box lineHeight="short">
-            Créer mon pass CJE
+            Créer ma carte CJE
             <br />
             <Text fontSize="sm" color="cje-gray.200">
               juste votre photo à ajouter
