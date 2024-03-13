@@ -1,3 +1,10 @@
+## [0.19.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.1...v0.19.2) (2024-03-13)
+
+
+### Bug Fixes
+
+* move app_env env variable from server to public with next_public prefix ([08d10fc](https://github.com/SocialGouv/carte-jeune-engage/commit/08d10fcd0de5b17686aaf3b1bc9841deab284424))
+
 ## [0.19.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.0...v0.19.1) (2024-03-13)
 
 
