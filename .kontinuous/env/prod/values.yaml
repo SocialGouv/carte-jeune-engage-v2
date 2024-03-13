@@ -5,6 +5,7 @@ jobs:
       with:
         buildArgs:
           PRODUCTION: 1
+          NEXT_PUBLIC_ENV_APP: production
           NEXT_PUBLIC_JWT_NAME: cje-jwt-prod
           NEXT_PUBLIC_CRISP_TOKEN: 53f1b086-7828-49de-abb4-0c6765d9ca13
           NEXT_PUBLIC_MATOMO_TRACKING_ENABLED: "true"

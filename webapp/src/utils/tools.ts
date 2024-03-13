@@ -103,9 +103,9 @@ export const addSpaceToTwoCharacters = (input: string) => {
 };
 
 export const getBaseUrl = () => {
-  if (process.env.APP_ENV === "production")
+  if (process.env.NEXT_PUBLIC_ENV_APP === "production")
     return "https://cje.fabrique.social.gouv.fr";
-  if (process.env.APP_ENV === "preproduction")
+  if (process.env.NEXT_PUBLIC_ENV_APP === "preproduction")
     return "https://cje-preprod.fabrique.social.gouv.fr";
   return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
 };

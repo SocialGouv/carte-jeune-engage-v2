@@ -4,6 +4,5 @@ metadata:
   name: app-configmap
 data:
   PAYLOAD_CONFIG_PATH: payload/payload.config.ts
-  APP_ENV: production
   SMTP_FROM_NAME: "Carte Jeune Engagé"
   SMTP_FROM_ADDRESS: cje@fabrique.social.gouv.fr
