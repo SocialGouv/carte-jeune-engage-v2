@@ -1,6 +1,6 @@
 import { type CollectionConfig } from "payload/types";
 import { User } from "../payload-types";
-import { getBaseUrl } from "~/utils/tools";
+import { getBaseUrl } from "../../utils/tools";
 
 const getHtmlPassAccepted = (user: User) => {
   return `
