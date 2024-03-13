@@ -3,6 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/router";
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { UserIncluded } from "~/server/api/routers/user";
+import * as Sentry from "@sentry/browser";
 
 export interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -46,16 +47,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const decoded = jwtDecode(jwtToken);
     const collection = (decoded as any)["collection"] as string;
-    const result = await fetch(`/api/${collection}/me`, {
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    }).then((req) => req.json());
+    try {
+      const result = await fetch(`/api/${collection}/me`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      }).then((req) => req.json());
 
-    if (result && result.user !== null) {
-      setUser(result.user);
-    } else {
-      console.error("NO USER : ", result);
+      if (result && result.user !== null) {
+        setUser(result.user);
+      } else {
+        Sentry.captureException(result);
+        setUser(null);
+        deleteCookie(process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt");
+        router.push("/");
+      }
+    } catch (e) {
+      Sentry.captureException(e);
       setUser(null);
       deleteCookie(process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt");
       router.push("/");
