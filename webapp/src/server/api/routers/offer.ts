@@ -87,7 +87,7 @@ export const offerRouter = createTRPCRouter({
           (offer.kind === "voucher_pass" || offer.kind === "code_space")
         )
           return true;
-        else if (myUnusedOfferCoupons) return true;
+        else if (isCurrentUser) return !!myUnusedOfferCoupons;
 
         const coupons = couponCountOfOffers[index];
         return !!coupons && !!coupons.docs.length;
