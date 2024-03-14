@@ -67,7 +67,6 @@ export const permissionRouter = createTRPCRouter({
 				)
 					.then((response) => response.json())
 					.then((data) => data);
-				console.log(octopushResponse)
 
 				return {
 					data: permission,
