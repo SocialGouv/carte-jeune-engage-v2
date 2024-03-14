@@ -204,7 +204,11 @@ export default function OnBoarding() {
           bottom={12}
           insetX={8}
           type="button"
-          onClick={() => router.push("/dashboard")}
+          onClick={() => {
+            localStorage.removeItem("cje-signup-form");
+            localStorage.removeItem("cje-onboarding-form");
+            router.push("/dashboard");
+          }}
           rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
         >
           Accéder aux réductions
