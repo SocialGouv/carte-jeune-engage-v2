@@ -1,3 +1,10 @@
+## [0.19.8](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.7...v0.19.8) (2024-03-14)
+
+
+### Bug Fixes
+
+* add inputType number on otp input ([dbf3444](https://github.com/SocialGouv/carte-jeune-engage/commit/dbf3444ccec2c99f02f449afca64917419c89ebf))
+
 ## [0.19.7](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.6...v0.19.7) (2024-03-14)
 
 
