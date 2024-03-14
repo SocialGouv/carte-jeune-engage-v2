@@ -1,3 +1,10 @@
+## [0.19.10](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.9...v0.19.10) (2024-03-14)
+
+
+### Bug Fixes
+
+* add expiration date to cookie in navigator and change default expiration for user from 5 years to 6 months ([635594e](https://github.com/SocialGouv/carte-jeune-engage/commit/635594eabcf573fefb68b1285cefc06fb2eea5b7))
+
 ## [0.19.9](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.8...v0.19.9) (2024-03-14)
 
 
