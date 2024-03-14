@@ -1,3 +1,14 @@
+## [0.19.11](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.10...v0.19.11) (2024-03-14)
+
+
+### Bug Fixes
+
+* disable hard cache for every page navigated on nextjs/link ([c3bcb5c](https://github.com/SocialGouv/carte-jeune-engage/commit/c3bcb5ce352eb4ce561a2b9f0150b419104bbdfa))
+* hide conditions on footer only keep CGU ([a6a8e5e](https://github.com/SocialGouv/carte-jeune-engage/commit/a6a8e5ece38056811f751198d406ed9391f131a6))
+* if on ios mobile open tab on same page ([390122e](https://github.com/SocialGouv/carte-jeune-engage/commit/390122ed72ff8c22511d3f113bc49a098c467c98))
+* limit nb of partners on homepage to 8 ([0de5c8e](https://github.com/SocialGouv/carte-jeune-engage/commit/0de5c8ed6009f394e0204908aa9c69c9580914e7))
+* use area-inset-bottom on ios for bottom black bar spacing ([62de09b](https://github.com/SocialGouv/carte-jeune-engage/commit/62de09b90a8849ed495d3d4c97bddfdb57b0744a))
+
 ## [0.19.10](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.9...v0.19.10) (2024-03-14)
 
 
