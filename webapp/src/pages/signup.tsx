@@ -344,6 +344,7 @@ export default function Signup() {
                   fieldError={
                     errors[currentSignupStep?.field.name as keyof SignUpForm]
                   }
+                  handleSubmit={() => handleSubmit(onSubmit)()}
                 />
               ) : (
                 <FormInput

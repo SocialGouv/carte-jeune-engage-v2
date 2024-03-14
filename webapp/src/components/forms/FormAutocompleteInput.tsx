@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Center,
   FormControl,
   FormErrorMessage,
@@ -7,7 +8,12 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import { Control, Controller, FieldError } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldError,
+  UseFormHandleSubmit,
+} from "react-hook-form";
 import {
   AutoComplete,
   AutoCompleteInput,
@@ -25,6 +31,7 @@ interface Props {
   isLoading: boolean;
   control: Control<any>;
   fieldError: FieldError | undefined;
+  handleSubmit: () => Promise<void>;
 }
 
 const FormAutocompleteInput = ({
@@ -35,6 +42,7 @@ const FormAutocompleteInput = ({
   setError,
   clearErrors,
   isLoading,
+  handleSubmit,
 }: Props) => {
   const { label, name } = field;
   const [optionsHistory, setOptionsHistory] = useState<string[]>([]);
@@ -67,17 +75,31 @@ const FormAutocompleteInput = ({
                 defaultIsOpen
                 openOnFocus
                 disableFilter
-                isLoading={isLoading}
+                isLoading={value && value.length > 4 && isLoading}
                 emptyState={(e: any) => {
                   if (e.query.length > 4) {
                     return (
                       <Center
+                        display="flex"
+                        flexDir="column"
                         bgColor="cje-gray.500"
                         borderRadius="2xl"
                         fontWeight="medium"
                         py={8}
                       >
                         <Text>Pas de résultats</Text>
+                        <Text
+                          fontWeight="bold"
+                          mt={2}
+                          borderBottom="1px solid"
+                          onClick={() => {
+                            clearErrors(name);
+                            setOptionsHistory([...optionsHistory, value]);
+                            handleSubmit();
+                          }}
+                        >
+                          Valider quand même cette adresse
+                        </Text>
                       </Center>
                     );
                   }
