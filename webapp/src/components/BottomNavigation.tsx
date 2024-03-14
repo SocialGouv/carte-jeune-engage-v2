@@ -1,6 +1,7 @@
 import { Flex, Icon, SimpleGrid, Text } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import {
   HiHome,
   HiMiniSquares2X2,
@@ -11,6 +12,27 @@ import {
 const BottomNavigation = () => {
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    const updatePadding = () => {
+      const computedStyle = getComputedStyle(document.body);
+
+      const safeAreaInsetBottom = computedStyle.getPropertyValue(
+        "--safe-area-inset-bottom"
+      );
+
+      const bottomNavigation = document.getElementById("cje-bottom-navigation");
+
+      if (bottomNavigation)
+        bottomNavigation.style.paddingBottom =
+          safeAreaInsetBottom !== "0px" ? safeAreaInsetBottom : "20px";
+    };
+
+    updatePadding();
+    window.addEventListener("resize", updatePadding);
+
+    return () => window.removeEventListener("resize", updatePadding);
+  }, []);
 
   const navigationItems = [
     {
@@ -37,6 +59,7 @@ const BottomNavigation = () => {
 
   return (
     <SimpleGrid
+      id="cje-bottom-navigation"
       columns={4}
       borderTopRadius={24}
       bgColor="white"
@@ -44,7 +67,7 @@ const BottomNavigation = () => {
       bottom={0}
       left={0}
       right={0}
-      py={5}
+      pt={5}
       px={6}
     >
       {navigationItems.map(({ href, label, icon }) => (

@@ -73,6 +73,12 @@
   }
 }
 
+@supports (padding: env(safe-area-inset-bottom)) {
+  :root {
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  }
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

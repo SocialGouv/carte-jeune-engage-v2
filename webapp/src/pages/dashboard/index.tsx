@@ -36,7 +36,7 @@ export default function Dashboard() {
   const { data: resultPartners, isLoading: isLoadingPartners } =
     api.partner.getList.useQuery({
       page: 1,
-      perPage: 50,
+      perPage: 8,
     });
 
   const { data: categories } = resultCategories || {};

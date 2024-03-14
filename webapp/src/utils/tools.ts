@@ -109,3 +109,7 @@ export const getBaseUrl = () => {
     return "https://cje-preprod.fabrique.social.gouv.fr";
   return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
 };
+
+export const isIOS = () => {
+  return !!navigator.userAgent.match(/(iPod|iPhone|iPad)/);
+};
