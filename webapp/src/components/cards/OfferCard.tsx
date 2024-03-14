@@ -4,15 +4,20 @@ import Link from "next/link";
 import { OfferIncluded } from "~/server/api/routers/offer";
 import { dottedPattern } from "~/utils/chakra-theme";
 import { OfferKindBadge } from "../OfferKindBadge";
+import { push } from "@socialgouv/matomo-next";
 
 type OfferCardProps = {
 	offer: OfferIncluded;
 	displayExpiryDate?: boolean;
+	matomoEvent: string[];
 };
 
-const OfferCard = ({ offer, displayExpiryDate = false }: OfferCardProps) => {
+const OfferCard = ({ offer, displayExpiryDate = false, matomoEvent = [] }: OfferCardProps) => {
 	return (
-		<Link href={`/dashboard/offer/${offer.id}`}>
+		<Link href={`/dashboard/offer/${offer.id}`} onClick={() => {
+			if (!!matomoEvent.length)
+				push(['trackEvent', ...matomoEvent])
+		}}>
 			<Flex flexDir="column">
 				<Flex
 					bgColor={offer.partner.color}
