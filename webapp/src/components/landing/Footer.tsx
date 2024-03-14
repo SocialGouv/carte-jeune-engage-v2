@@ -98,12 +98,12 @@ const Footer = () => {
             <Text color="white" fontSize="lg" fontWeight="bold">
               CGU
             </Text>
-            <Text color="white" fontSize="lg" fontWeight="bold">
+            {/* <Text color="white" fontSize="lg" fontWeight="bold">
               Mentions légales
             </Text>
             <Text color="white" fontSize="lg" fontWeight="bold">
               Politique de confidentialité
-            </Text>
+            </Text> */}
           </Flex>
         </Flex>
       </Container>
