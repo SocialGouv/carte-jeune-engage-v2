@@ -25,7 +25,7 @@ const getHtmlPassRejected = (user: User) => {
 export const Users: CollectionConfig = {
   slug: "users",
   auth: {
-    tokenExpiration: 155683200,
+    tokenExpiration: 15568320,
   },
   labels: {
     singular: "Utilisateur",

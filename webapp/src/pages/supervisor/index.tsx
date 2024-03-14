@@ -25,7 +25,8 @@ export default function Home() {
       onSuccess: async ({ data }) => {
         setCookie(
           process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt",
-          data.token || ""
+          data.token || "",
+          { expires: new Date((data.exp as number) * 1000) }
         );
         router.push("/");
       },

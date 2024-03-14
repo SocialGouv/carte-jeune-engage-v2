@@ -1,4 +1,4 @@
-import { getCookie, setCookie, deleteCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/router";
 import React, { useState, createContext, useContext, useEffect } from "react";

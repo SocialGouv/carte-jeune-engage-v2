@@ -202,7 +202,8 @@ export default function Signup() {
           req.json().then((data) => {
             setCookie(
               process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt",
-              data.refreshedToken as string
+              data.refreshedToken as string,
+              { expires: new Date((data.exp as number) * 1000) }
             );
             router.push("/onboarding");
           });
