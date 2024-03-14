@@ -17,8 +17,6 @@ const nextOptions = {
 
 const pwaOptions = {
   dest: "public",
-  cacheOnFrontEndNav: true,
-  aggressiveFrontEndNavCaching: true,
   reloadOnOnline: true,
   dynamicStartUrl: true,
   workboxOptions: {
