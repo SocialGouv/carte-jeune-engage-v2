@@ -9,7 +9,7 @@ import { push } from "@socialgouv/matomo-next";
 type OfferCardProps = {
 	offer: OfferIncluded;
 	displayExpiryDate?: boolean;
-	matomoEvent: string[];
+	matomoEvent?: string[];
 };
 
 const OfferCard = ({ offer, displayExpiryDate = false, matomoEvent = [] }: OfferCardProps) => {
