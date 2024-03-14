@@ -46,6 +46,7 @@ import { useAuth } from "~/providers/Auth";
 import { couponAnimation } from "~/utils/animations";
 import { api } from "~/utils/api";
 import { getItemsExternalLink } from "~/utils/itemsOffer";
+import { isIOS } from "~/utils/tools";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return hasAccessToOffer(context);
@@ -140,10 +141,9 @@ export default function OfferPage() {
         document.body.appendChild(a);
         a.classList.add("hidden");
         a.href = offer?.url as string;
-        a.target = "_blank";
+        if (!isIOS()) a.target = "_blank";
         a.click();
         document.body.removeChild(a);
-        /// window.open(offer?.url as string, "_blank");
         onCloseExternalLink();
       }, 2000);
       setTimeoutIdExternalLink(timeoutId);
