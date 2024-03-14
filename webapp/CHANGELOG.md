@@ -1,3 +1,11 @@
+## [0.19.9](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.8...v0.19.9) (2024-03-14)
+
+
+### Bug Fixes
+
+* add options to by pass address autocmplete ([80dd2fb](https://github.com/SocialGouv/carte-jeune-engage/commit/80dd2fb2e4b57ab5d5e9175c58d39dcd8f111d3b))
+* better autcomplete on address search, remove emptyState message on string length lower than 4 ([f752c09](https://github.com/SocialGouv/carte-jeune-engage/commit/f752c098d2164d71c7f579bc0d233b31b4284749))
+
 ## [0.19.8](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.7...v0.19.8) (2024-03-14)
 
 
