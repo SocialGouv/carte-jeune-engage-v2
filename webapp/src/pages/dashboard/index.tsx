@@ -63,7 +63,7 @@ export default function Dashboard() {
 	return (
 		<Box pt={12} pb={32}>
 			<Box px={8}>
-				<InstallationBanner ignoreUserOutcome={false} />
+				<InstallationBanner ignoreUserOutcome={false} matomoEvent={['Accueil', "Obtenir l'application"]} />
 				<Heading as="h2" fontSize="2xl">
 					Quelles économies allez-vous faire aujourd’hui ?
 				</Heading>
