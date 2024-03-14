@@ -46,7 +46,10 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,viewport-fit=cover"
+        />
         <title>Carte Jeune Engagé</title>
         <meta name="description" content="Carte Jeune Engagé" />
         <link rel="shortcut icon" href="/pwa/appIcon/maskable_icon_x48.png" />
