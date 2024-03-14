@@ -1,3 +1,10 @@
+## [0.19.7](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.6...v0.19.7) (2024-03-14)
+
+
+### Bug Fixes
+
+* remove localStorage data from on boarding on completion ([f47b050](https://github.com/SocialGouv/carte-jeune-engage/commit/f47b050983b66dbb65b71e13fa191b47f5788a78))
+
 ## [0.19.6](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.5...v0.19.6) (2024-03-13)
 
 
