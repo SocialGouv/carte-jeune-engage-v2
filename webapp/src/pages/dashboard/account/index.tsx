@@ -24,6 +24,7 @@ import { api } from "~/utils/api";
 import { UserIncluded } from "~/server/api/routers/user";
 import NewPassComponent from "~/components/NewPassComponent";
 import dynamic from "next/dynamic";
+import { push } from "@socialgouv/matomo-next";
 
 const CRISP_TOKEN = process.env.NEXT_PUBLIC_CRISP_TOKEN as string
 
@@ -109,6 +110,7 @@ export default function Account() {
 		label: string;
 		href?: string;
 		onClick?: () => void;
+		matomoEvent?: string[];
 		icon: IconType;
 		slug: string;
 	}[] = [
@@ -117,6 +119,7 @@ export default function Account() {
 				href: "/dashboard/account/history",
 				icon: HiCurrencyEuro,
 				slug: "history",
+				matomoEvent: ['Profil', 'Suivre mes économies']
 			},
 			{
 				label: "Ma carte CJE",
@@ -124,9 +127,13 @@ export default function Account() {
 					user?.image && user?.status_image === "approved"
 						? "/dashboard/account/card"
 						: undefined,
-				onClick: !user?.image ? () => setIsOpenNewPassComponent(true) : undefined,
+				onClick: !user?.image ? () => {
+					push(['trackEvent', 'Profil', 'Ma carte CJE'])
+					setIsOpenNewPassComponent(true)
+				} : undefined,
 				icon: HiUserCircle,
 				slug: "card",
+				matomoEvent: ['Profil', 'Ma carte CJE']
 			},
 			{
 				label: "J'ai besoin d'aide",
@@ -135,6 +142,7 @@ export default function Account() {
 				},
 				icon: HiChatBubbleOvalLeftEllipsis,
 				slug: "help",
+				matomoEvent: ['Profil', "J'ai besoin d'aide"]
 			},
 		];
 
@@ -203,7 +211,10 @@ export default function Account() {
 				{itemsPrimary.map((item) => (
 					<Link href={item.href ?? ""} key={item.icon.toString()} color="blue">
 						<Flex
-							onClick={item.onClick}
+							onClick={() => {
+								if (item.matomoEvent) push(['trackEvent', ...item.matomoEvent])
+								if (item.onClick) item.onClick()
+							}}
 							alignItems="start"
 							gap={4}
 							bgColor="cje-gray.500"
@@ -234,7 +245,7 @@ export default function Account() {
 					</Link>
 				))}
 			</Flex>
-			<InstallationBanner ignoreUserOutcome={true} theme="dark" />
+			<InstallationBanner ignoreUserOutcome={true} theme="dark" matomoEvent={['Profil', "Obtenir l'application"]} />
 			<Flex flexDir="column" mt={8} gap={8} px={5}>
 				{itemsSecondary.map((item) => (
 					<Link

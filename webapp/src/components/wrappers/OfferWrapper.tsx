@@ -6,6 +6,7 @@ import Image from "next/image";
 import { OfferIncluded } from "~/server/api/routers/offer";
 import { dottedPattern } from "~/utils/chakra-theme";
 import { useRouter } from "next/router";
+import { push } from "@socialgouv/matomo-next";
 
 type OfferWrapperProps = {
 	children: ReactNode;
@@ -39,7 +40,10 @@ const OfferWrapper = ({ children, offer, isModalOpen }: OfferWrapperProps) => {
 					<Button
 						position="absolute"
 						colorScheme="whiteBtn"
-						onClick={() => router.back()}
+						onClick={() => {
+							push(['trackEvent', 'Retour'])
+							router.back()
+						}}
 						size="md"
 						iconSpacing={0}
 						px={0}

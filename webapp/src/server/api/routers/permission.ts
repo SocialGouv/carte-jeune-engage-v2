@@ -60,7 +60,7 @@ export const permissionRouter = createTRPCRouter({
 								}
 							],
 							text: `
-								Vous avez le droit aux réductions de la carte « jeune engagé » ! Pour en bénéficier télécharger l’application sur ce lien : https://cje.fabrique.social.gouv.fr/. STOP au 30101
+								Vous avez le droit aux réductions de la carte « jeune engagé » ! Pour en bénéficier téléchargez l’application sur ce lien : https://cje.fabrique.social.gouv.fr/. STOP au 30101
 							`,
 						}),
 					}
