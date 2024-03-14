@@ -282,6 +282,7 @@ export default function Home() {
                   setHasOtpExpired(false);
                   if (otp.length === 4) handleLoginUser(otp);
                 }}
+                inputType="number"
                 numInputs={4}
                 placeholder={"----"}
                 renderInput={({ style, ...props }) => (
