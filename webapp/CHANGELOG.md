@@ -1,3 +1,23 @@
+# [0.21.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.20.0...v0.21.0) (2024-03-14)
+
+
+### Bug Fixes
+
+* wording sms ([00a8650](https://github.com/SocialGouv/carte-jeune-engage/commit/00a86508d12d4c235ff794d821b50a92d47aecd0))
+
+
+### Features
+
+* event account ([d81bc85](https://github.com/SocialGouv/carte-jeune-engage/commit/d81bc8538749bfd882923250430d754f0f26f0be))
+* event back ([c293e3c](https://github.com/SocialGouv/carte-jeune-engage/commit/c293e3c52ab5182daab8be56872ea576f382419f))
+* event carte ([11095c1](https://github.com/SocialGouv/carte-jeune-engage/commit/11095c187cc778d39ac899e3bc8f6e0327406d4b))
+* event explorer ([0042244](https://github.com/SocialGouv/carte-jeune-engage/commit/00422446a05594ac529ba0000de0455f8a443759))
+* event home ([29966b9](https://github.com/SocialGouv/carte-jeune-engage/commit/29966b92e8e8017c8e83e4d57fc4ca84635eabb6))
+* event landing ([a5aaa63](https://github.com/SocialGouv/carte-jeune-engage/commit/a5aaa636c32cb57739c2ec1d1b0368fd5485de47))
+* event navigation ([b2232c8](https://github.com/SocialGouv/carte-jeune-engage/commit/b2232c884001dd17568b8c3844e9914fafd95c94))
+* event offer ([cb8c971](https://github.com/SocialGouv/carte-jeune-engage/commit/cb8c971f3744e4d1833a428edf7a0a51d0ef2e4e))
+* event wallet ([f28e6c6](https://github.com/SocialGouv/carte-jeune-engage/commit/f28e6c6629dfd60889159306517a31309442b68b))
+
 # [0.20.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.19.11...v0.20.0) (2024-03-14)
 
 
