@@ -2,3 +2,4 @@
 .github/workflows/*.yml @SocialGouv/sre
 .github/CODEOWNERS @SocialGouv/sre
 .kontinuous/ @SocialGouv/sre
+webapp/Dockerfile @SocialGouv/sre
