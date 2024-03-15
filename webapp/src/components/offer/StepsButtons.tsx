@@ -1,10 +1,12 @@
 import { Button, VStack } from "@chakra-ui/react";
 import { push } from "@socialgouv/matomo-next";
+import { OfferIncluded } from "~/server/api/routers/offer";
 
 type StepsButtonsProps = {
 	mainBtnText: string;
 	activeStep: number;
 	count: number;
+	offer: OfferIncluded;
 	setActiveStep: (index: number) => void;
 	handleValidate?: () => void;
 	onClose: () => void;
@@ -16,6 +18,7 @@ const StepsButtons = ({
 	onClose,
 	activeStep,
 	setActiveStep,
+	offer,
 	count,
 }: StepsButtonsProps) => {
 	const handleOnClose = () => {
@@ -38,10 +41,10 @@ const StepsButtons = ({
 			<Button
 				onClick={() => {
 					if (activeStep !== count) {
-						push(['trackEvent', 'Inactive', "J'active mon offre - J'ai compris"])
+						push(['trackEvent', 'Offre', `${offer.partner.name}`, `${offer.title}`, 'Inactive', "J'active mon offre", "J'ai compris"])
 						setActiveStep(activeStep + 1)
 					} else if (handleValidate) {
-						push(['trackEvent', 'Inactive', "J'active mon offre - Validation"])
+						push(['trackEvent', 'Offre', `${offer.partner.name}`, `${offer.title}`, "Inactive", "J'active mon offre - Validation"])
 						handleValidate()
 					}
 				}}
@@ -51,7 +54,7 @@ const StepsButtons = ({
 			</Button>
 			<Button
 				onClick={() => {
-					push(['trackEvent', 'Inactive', `J'active mon offre - Cette offre ne m'intéresse pas ${activeStep === count ?? '2'}`])
+					push(['trackEvent', 'Offre', `${offer.partner.name}`, `${offer.title}`, "Inactive", "J'active mon offre", `Cette offre ne m'intéresse pas ${activeStep === count ? '2' : ''}`])
 					handleOnClose()
 				}}
 				variant="ghost"

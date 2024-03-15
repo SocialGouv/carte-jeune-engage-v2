@@ -29,7 +29,7 @@ export default function CategoriesList() {
 		<CategoriesWrapper>
 			{categories.map((category) => (
 				<Link key={category.id} href={`/dashboard/category/${category.slug}`} onClick={() => {
-					push(['trackEvent', 'Explorer', `Catégories - ${category.label}`])
+					push(['trackEvent', 'Explorer', 'Catégories', category.label])
 				}}>
 					<Flex
 						flexDir="column"

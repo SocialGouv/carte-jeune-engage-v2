@@ -41,24 +41,24 @@ type CouponWrapperProps = {
 };
 
 const CTAButton = ({
-	offerKind,
+	offer,
 	handleOpenExternalLink,
 }: {
-	offerKind: Offer["kind"];
+	offer: OfferIncluded;
 	handleOpenExternalLink: () => void;
 }) => {
 	return (
 		<Box>
-			{offerKind.startsWith("code") ? (
+			{offer.kind.startsWith("code") ? (
 				<Button onClick={() => {
-					push(['trackEvent', 'Active', 'Aller sur le site'])
+					push(['trackEvent', 'Offre', offer.partner.name, offer.title, 'Active', 'Aller sur le site'])
 					handleOpenExternalLink()
 				}} w="full">
 					Aller sur le site
 				</Button>
 			) : (
 				<Link href="/dashboard/account/card" onClick={() => {
-					push(['trackEvent', 'Active', 'Présenter ma carte CJE'])
+					push(['trackEvent', 'Offre', offer.partner.name, offer.title, 'Active', 'Présenter ma carte CJE'])
 				}}>
 					<Button leftIcon={<Icon as={PassIcon} w={6} h={6} />} w="full">
 						Présenter ma carte CJE
@@ -180,7 +180,7 @@ const CouponWrapper = ({
 							textDecoration="underline"
 							textUnderlineOffset={3}
 							onClick={() => {
-								push(['trackEvent', 'Active', 'Conditions 2'])
+								push(['trackEvent', 'Offre', offer.partner.name, offer.title, 'Active', 'Conditions 2'])
 								handleOpenOtherConditions()
 							}}
 						>
@@ -244,7 +244,7 @@ const CouponWrapper = ({
 							}}>J'active mon offre</Button>
 						) : (
 							<CTAButton
-								offerKind={offer.kind}
+								offer={offer}
 								handleOpenExternalLink={handleOpenExternalLink}
 							/>
 						)}

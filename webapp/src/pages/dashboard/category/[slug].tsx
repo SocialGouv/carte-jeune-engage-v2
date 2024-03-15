@@ -45,7 +45,7 @@ export default function CategoryOfferList() {
 	return (
 		<CategoryWrapper category={category}>
 			{offers?.map((offer) => (
-				<OfferCard key={offer.id} offer={offer} matomoEvent={['Explorer', `Catégories - ${category.label} - Offre - ${offer.partner.name} - ${offer.title}`]} />
+				<OfferCard key={offer.id} offer={offer} matomoEvent={['Explorer', 'Catégories', category.label, 'Offre', offer.partner.name, offer.title]} />
 			))}
 		</CategoryWrapper>
 	);
