@@ -75,6 +75,7 @@ const FormAutocompleteInput = ({
                 defaultIsOpen
                 openOnFocus
                 disableFilter
+                placement="bottom"
                 isLoading={value && value.length > 4 && isLoading}
                 emptyState={(e: any) => {
                   if (e.query.length > 4) {
