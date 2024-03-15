@@ -18,28 +18,30 @@ const Footer = () => {
       <Container maxWidth="container.xl" px={0} h="full">
         <Flex flexDir="column" w="full" mt={16} mb={12}>
           <Flex flexDir={{ base: "column", lg: "row" }} alignItems="center">
-            <Flex
-              alignItems="center"
-              w={{ base: "full", lg: "inherit" }}
-              pr={4}
-              mr={{ base: 0, lg: 3 }}
-            >
-              <Image
-                src="/images/marianne-white.svg"
-                alt="Logo marianne du gouvernement français"
-                width="100%"
-                height="120px"
-                borderRight="1px solid"
-                borderColor="#808080"
-                mr={4}
-              />
-              <Image
-                src="/images/cje-logo-white.svg"
-                alt="Logo de l'application Carte Jeune Engagé"
-                width="100%"
-                height="90px"
-              />
-            </Flex>
+            <Link href="/">
+              <Flex
+                alignItems="center"
+                w={{ base: "full", lg: "inherit" }}
+                pr={4}
+                mr={{ base: 0, lg: 3 }}
+              >
+                <Image
+                  src="/images/marianne-white.svg"
+                  alt="Logo marianne du gouvernement français"
+                  width="100%"
+                  height="120px"
+                  borderRight="1px solid"
+                  borderColor="#808080"
+                  mr={4}
+                />
+                <Image
+                  src="/images/cje-logo-white.svg"
+                  alt="Logo de l'application Carte Jeune Engagé"
+                  width="100%"
+                  height="90px"
+                />
+              </Flex>
+            </Link>
             <Text
               fontWeight="medium"
               color="white"
@@ -95,9 +97,11 @@ const Footer = () => {
             gap={4}
             flexWrap="wrap"
           >
-            <Text color="white" fontSize="lg" fontWeight="bold">
-              CGU
-            </Text>
+            <Link href="/cgu">
+              <Text color="white" fontSize="lg" fontWeight="bold">
+                CGU
+              </Text>
+            </Link>
             {/* <Text color="white" fontSize="lg" fontWeight="bold">
               Mentions légales
             </Text>

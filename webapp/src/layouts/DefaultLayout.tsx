@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import BottomNavigation from "~/components/BottomNavigation";
 import Footer from "~/components/landing/Footer";
+import Header from "~/components/landing/Header";
 import { BeforeInstallPromptEvent, useAuth } from "~/providers/Auth";
 
 export default function DefaultLayout({ children }: { children: ReactNode }) {
@@ -11,7 +12,8 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
 
   const { setDeferredEvent, setShowing, user, isOtpGenerated } = useAuth();
 
-  const isLanding = pathname === "/" && !isOtpGenerated;
+  const isLanding =
+    (pathname === "/" || pathname === "/cgu") && !isOtpGenerated;
 
   const handleBeforeInstallPrompt = (event: Event) => {
     // Prevent the default behavior to keep the event available for later use
@@ -72,6 +74,7 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
         background={isLanding ? "white" : undefined}
         h={isLanding ? "auto" : "full"}
       >
+        {isLanding && <Header />}
         <Container
           maxWidth={{
             base: isLanding ? "container.xl" : "container.sm",

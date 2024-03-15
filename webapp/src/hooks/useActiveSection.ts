@@ -9,8 +9,7 @@ export default function useActiveSection(sectionIds: string[]) {
 
       sectionIds.forEach((id) => {
         const section = document.getElementById(id);
-        const scrollPosition =
-          document.body.scrollTop + document.body.clientHeight / 2; // Adjust this to change when a section becomes "active"
+        const scrollPosition = window.scrollY + window.innerHeight / 2; // Adjust this to change when a section becomes "active"
         if (
           section &&
           section.offsetTop <= scrollPosition &&
@@ -23,8 +22,8 @@ export default function useActiveSection(sectionIds: string[]) {
       setActiveSection(currentSection);
     };
 
-    document.body.addEventListener("scroll", handleScroll);
-    return () => document.body.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [sectionIds]); // Only re-run the effect if sectionIds changes
 
   return activeSection;

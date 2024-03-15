@@ -343,7 +343,6 @@ export default function Home() {
   return (
     <>
       <Flex flexDir="column" h="full">
-        <Header />
         <Flex
           id="login-form"
           alignItems="center"
@@ -467,6 +466,7 @@ export default function Home() {
               zIndex={-1}
               pt={4}
               mb={-10}
+              overflow="hidden"
             >
               <Image
                 src={`/images/landing/map${!isDesktop ? "-mobile" : ""}.png`}
