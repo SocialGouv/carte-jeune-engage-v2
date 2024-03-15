@@ -1,3 +1,10 @@
+## [0.22.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.22.0...v0.22.1) (2024-03-15)
+
+
+### Bug Fixes
+
+* add placement bottom to autocomplete input to prevent top placement ([5cdc347](https://github.com/SocialGouv/carte-jeune-engage/commit/5cdc347ed4093c5f31adc07fd9909ae0cfb3dee9))
+
 # [0.22.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.21.1...v0.22.0) (2024-03-15)
 
 
