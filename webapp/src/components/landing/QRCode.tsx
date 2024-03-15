@@ -16,8 +16,7 @@ const QRCodeWrapper = ({ size, wrapperProps }: QRCodeProps) => {
         logoWidth={50}
         logoHeight={30}
         eyeRadius={16}
-        logoPadding={6}
-        removeQrCodeBehindLogo={true}
+        logoPadding={2.5}
         size={size ?? 256}
         logoImage="/images/cje-logo.png"
       />
