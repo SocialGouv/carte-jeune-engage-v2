@@ -1,3 +1,10 @@
+## [0.22.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.22.2...v0.22.3) (2024-03-15)
+
+
+### Bug Fixes
+
+* smaller padding on logo qr code for better lisibility of code ([f0210b4](https://github.com/SocialGouv/carte-jeune-engage/commit/f0210b43f388f314c49a269c8118876994600955))
+
 ## [0.22.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.22.1...v0.22.2) (2024-03-15)
 
 
