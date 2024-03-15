@@ -1,3 +1,11 @@
+## [0.22.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.22.1...v0.22.2) (2024-03-15)
+
+
+### Bug Fixes
+
+* condition matomo event ([e38fa4e](https://github.com/SocialGouv/carte-jeune-engage/commit/e38fa4e4c368fcca648089d7a24dd8b374e0a25e))
+* matomo event multi child ([d5e6a78](https://github.com/SocialGouv/carte-jeune-engage/commit/d5e6a7807a4877507c33723ca99309466e4c0eb4))
+
 ## [0.22.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.22.0...v0.22.1) (2024-03-15)
 
 
