@@ -1,3 +1,10 @@
+# [0.22.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.21.1...v0.22.0) (2024-03-15)
+
+
+### Features
+
+* add cgu page on landing, add link to home on header and footer logo and fix overflow x global for scroll top on link navigation ([528ea43](https://github.com/SocialGouv/carte-jeune-engage/commit/528ea43d9c94d8e818e87ae726f99aff39bd256e))
+
 ## [0.21.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.21.0...v0.21.1) (2024-03-15)
 
 
