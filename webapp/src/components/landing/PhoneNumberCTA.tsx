@@ -99,7 +99,7 @@ const PhoneNumberCTA = ({
 				py={{ base: "inherit", lg: 9 }}
 				isLoading={isLoadingOtp}
 				onClick={() => {
-					push(['trackEvent', 'Landing', `Vérifier mon éligibilité ${currentKey === 'phone-number-footer' ?? '2'}`])
+					push(['trackEvent', 'Landing', `Vérifier mon éligibilité ${currentKey === 'phone-number-footer' ? '2' : ''}`])
 				}}
 				rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
 			>

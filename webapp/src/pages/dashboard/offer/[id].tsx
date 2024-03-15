@@ -257,7 +257,7 @@ export default function OfferPage() {
 						colorScheme="cje-gray"
 						color="black"
 						onClick={() => {
-							push(['trackEvent', !!coupon ? 'Active' : 'Inactive', 'Comment ça marche'])
+							push(['trackEvent', 'Offre', offer.partner.name, offer.title, !!coupon ? 'Active' : 'Inactive', 'Comment ça marche'])
 							onOpenTermsOfUse()
 						}}
 					>
@@ -312,7 +312,7 @@ export default function OfferPage() {
 									w="fit-content"
 									borderBottom="1px solid black"
 									onClick={() => {
-										push(['trackEvent', !!coupon ? 'Active' : 'Inactive', 'Conditions'])
+										push(['trackEvent', 'Offre', offer.partner.name, offer.title, !!coupon ? 'Active' : 'Inactive', 'Conditions'])
 										onOpenOtherConditions()
 									}}
 								>
@@ -351,6 +351,7 @@ export default function OfferPage() {
 								</Text>
 								<StackItems items={itemsTermsOfUse} props={{ mt: 6 }} />
 								<StepsButtons
+									offer={offer}
 									activeStep={activeStep}
 									setActiveStep={setActiveStep}
 									count={nbSteps}
@@ -365,6 +366,7 @@ export default function OfferPage() {
 								</Text>
 								<StackItems items={offer.conditions ?? []} props={{ mt: 6 }} />
 								<StepsButtons
+									offer={offer}
 									activeStep={activeStep}
 									setActiveStep={setActiveStep}
 									count={nbSteps}

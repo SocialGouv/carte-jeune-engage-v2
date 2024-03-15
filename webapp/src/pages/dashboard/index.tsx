@@ -73,7 +73,7 @@ export default function Dashboard() {
 							key={category.id}
 							href={`/dashboard/category/${category.slug}`}
 							onClick={() => {
-								push(['trackEvent', 'Accueil', `Catégories - ${category.label}`])
+								push(['trackEvent', 'Accueil', 'Catégories', category.label])
 							}}
 							passHref
 						>
@@ -154,7 +154,7 @@ export default function Dashboard() {
 							key={quickAccess.id}
 							href={`/dashboard/offer/${quickAccess.offer.id}`}
 							onClick={() => {
-								push(['trackEvent', 'Accueil', `Accès rapide - Offre - ${quickAccess.offer.partner.name} - ${quickAccess.offer.title}`])
+								push(['trackEvent', 'Accueil', 'Accès rapide', 'Offre', quickAccess.offer.partner.name, quickAccess.offer.title])
 							}}
 							passHref
 						>
@@ -205,7 +205,7 @@ export default function Dashboard() {
 						}}
 					>
 						{offers?.map((offer) => (
-							<OfferCard key={offer.id} offer={offer} matomoEvent={['Accueil', `Pour vous - Offre - ${offer.partner.name} - ${offer.title}`]} />
+							<OfferCard key={offer.id} offer={offer} matomoEvent={['Accueil', 'Pour vous', 'Offre', offer.partner.name, offer.title]} />
 						))}
 					</Grid>
 				</>
