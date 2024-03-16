@@ -20,7 +20,8 @@ type BaseModalProps = {
   title?: string;
   hideCloseBtn?: boolean;
   size?: ResponsiveValue<string>;
-  smallPb?: boolean;
+  pb?: ResponsiveValue<number>;
+  pt?: ResponsiveValue<number>;
 };
 
 const BaseModal = ({
@@ -30,7 +31,8 @@ const BaseModal = ({
   hideCloseBtn,
   title,
   size,
-  smallPb,
+  pb,
+  pt,
 }: BaseModalProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
 
@@ -44,7 +46,6 @@ const BaseModal = ({
         minH={isMobile ? "full" : "auto"}
         bgColor="bgWhite"
         pt={hideCloseBtn ? 6 : 0}
-        pb={smallPb ? 4 : 44}
       >
         {!hideCloseBtn && (
           <IconButton
@@ -63,7 +64,9 @@ const BaseModal = ({
             {title}
           </ModalHeader>
         )}
-        <ModalBody>{children}</ModalBody>
+        <ModalBody pt={pt} pb={pb ? pb : 44}>
+          {children}
+        </ModalBody>
       </ModalContent>
     </Modal>
   );

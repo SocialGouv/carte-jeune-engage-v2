@@ -592,6 +592,8 @@ export default function Home() {
       <BaseModal
         isOpen={isOpenDesktopLoginSuccessful}
         onClose={onCloseDesktopLoginSuccessful}
+        pt={16}
+        pb={40}
       >
         <Flex alignItems="center">
           <Box w="70%">
@@ -635,6 +637,8 @@ export default function Home() {
       <BaseModal
         isOpen={isOpenDesktopLoginError}
         onClose={onCloseDesktopLoginError}
+        pt={16}
+        pb={36}
       >
         <NotEligibleForm />
       </BaseModal>

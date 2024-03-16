@@ -17,7 +17,7 @@ const SupervisorCGUModal = ({
 }: SupervisorCGUModalProps) => {
   const [hasAcceptedCGU, setHasAcceptedCGU] = useState<boolean>(false);
   return (
-    <BaseModal onClose={onClose} isOpen={isOpen} size="xl" smallPb>
+    <BaseModal onClose={onClose} isOpen={isOpen} size="xl" pb={4}>
       <Box maxH={500} overflowY={"scroll"}>
         <Text fontWeight="bold">Préambule</Text>
         <Text mt={4}>
