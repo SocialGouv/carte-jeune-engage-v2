@@ -8,6 +8,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  ResponsiveValue,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { HiMiniXMark } from "react-icons/hi2";
@@ -18,6 +19,8 @@ type BaseModalProps = {
   isOpen: boolean;
   title?: string;
   hideCloseBtn?: boolean;
+  size?: ResponsiveValue<string>;
+  smallPb?: boolean;
 };
 
 const BaseModal = ({
@@ -26,21 +29,22 @@ const BaseModal = ({
   isOpen,
   hideCloseBtn,
   title,
+  size,
+  smallPb,
 }: BaseModalProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
 
+  let modalSize: ResponsiveValue<string> = isMobile ? "full" : "desktop";
+  if (size) modalSize = size;
+
   return (
-    <Modal
-      size={isMobile ? "full" : "desktop"}
-      onClose={onClose}
-      isOpen={isOpen}
-    >
+    <Modal size={modalSize} onClose={onClose} isOpen={isOpen}>
       <ModalOverlay bgColor={isMobile ? "bgWhite" : undefined} />
       <ModalContent
         minH={isMobile ? "full" : "auto"}
         bgColor="bgWhite"
         pt={hideCloseBtn ? 6 : 0}
-        pb={44}
+        pb={smallPb ? 4 : 44}
       >
         {!hideCloseBtn && (
           <IconButton
