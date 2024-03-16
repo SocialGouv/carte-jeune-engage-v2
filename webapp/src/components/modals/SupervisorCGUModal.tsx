@@ -6,12 +6,14 @@ type SupervisorCGUModalProps = {
   onClose: () => void;
   isOpen: boolean;
   onValidate: () => void;
+  isLoading: boolean;
 };
 
 const SupervisorCGUModal = ({
   onClose,
   isOpen,
   onValidate,
+  isLoading,
 }: SupervisorCGUModalProps) => {
   const [hasAcceptedCGU, setHasAcceptedCGU] = useState<boolean>(false);
   return (
@@ -179,6 +181,7 @@ const SupervisorCGUModal = ({
         mt={10}
         onClick={onValidate}
         isDisabled={!hasAcceptedCGU}
+        isLoading={isLoading}
       >
         Valider
       </Button>

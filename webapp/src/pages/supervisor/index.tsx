@@ -54,7 +54,6 @@ export default function Home() {
         }
       },
       onError: (error) => {
-        console.log(error);
         if (error.data?.httpStatus === 401) {
           setError("password", {
             type: "mismatch",
@@ -76,6 +75,7 @@ export default function Home() {
 
   const handleLoginWithCGU = async () => {
     await loginUser({ ...formValues, cgu: true });
+    onToggleCGU();
   };
 
   return (
@@ -127,6 +127,7 @@ export default function Home() {
         isOpen={isOpenCGU}
         onClose={onCloseCGU}
         onValidate={handleLoginWithCGU}
+        isLoading={isLoading}
       />
     </Flex>
   );
