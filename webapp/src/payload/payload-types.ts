@@ -109,6 +109,7 @@ export interface Category {
  */
 export interface Supervisor {
   id: number;
+  cgu?: boolean | null;
   updatedAt: string;
   createdAt: string;
   email: string;
