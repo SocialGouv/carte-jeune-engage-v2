@@ -1,3 +1,10 @@
+## [0.22.4](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.22.3...v0.22.4) (2024-03-16)
+
+
+### Bug Fixes
+
+* wording signup sms ([9299cc9](https://github.com/SocialGouv/carte-jeune-engage/commit/9299cc99f63204e5d8f52122c03ff86033de2b52))
+
 ## [0.22.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.22.2...v0.22.3) (2024-03-15)
 
 
