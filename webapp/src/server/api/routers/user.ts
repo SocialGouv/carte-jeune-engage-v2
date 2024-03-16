@@ -372,16 +372,33 @@ export const userRouter = createTRPCRouter({
       z.object({
         email: z.string().email(),
         password: z.string(),
+        cgu: z.boolean().optional(),
       })
     )
     .mutation(async ({ ctx, input: userInput }) => {
+      const { email, password, cgu } = userInput;
+
       try {
-        const user = await ctx.payload.login({
+        const login = await ctx.payload.login({
           collection: "supervisors",
-          data: userInput,
+          data: {
+            email,
+            password,
+          },
         });
 
-        return { data: user };
+        if (cgu) {
+          await ctx.payload.update({
+            collection: "supervisors",
+            id: login.user.id,
+            data: {
+              cgu: true,
+            },
+          });
+          login.user.cgu = true;
+        }
+
+        return { data: login };
       } catch (error) {
         if (error && typeof error === "object" && "status" in error) {
           if (error.status === 401) {

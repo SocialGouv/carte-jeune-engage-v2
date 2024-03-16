@@ -1,9 +1,17 @@
-import { Box, Button, Flex, Heading, Icon } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import FormInput from "~/components/forms/FormInput";
+import SupervisorCGUModal from "~/components/modals/SupervisorCGUModal";
 import { api } from "~/utils/api";
 
 type LoginForm = {
@@ -15,26 +23,59 @@ export default function Home() {
   const router = useRouter();
 
   const {
+    isOpen: isOpenCGU,
+    onToggle: onToggleCGU,
+    onClose: onCloseCGU,
+  } = useDisclosure();
+
+  const {
     handleSubmit,
     register,
+    watch,
+    setError,
     formState: { errors },
   } = useForm<LoginForm>();
+  const formValues = watch();
+
+  const storeUserCookie = (token?: string, exp?: number) => {
+    setCookie(process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt", token || "", {
+      expires: new Date((exp as number) * 1000),
+    });
+    router.push("/");
+  };
 
   const { mutate: loginUser, isLoading } = api.user.loginSupervisor.useMutation(
     {
       onSuccess: async ({ data }) => {
-        setCookie(
-          process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt",
-          data.token || "",
-          { expires: new Date((data.exp as number) * 1000) }
-        );
-        router.push("/");
+        if (!data.user.cgu) {
+          onToggleCGU();
+        } else {
+          storeUserCookie(data.token, data.exp);
+        }
+      },
+      onError: (error) => {
+        if (error.data?.httpStatus === 401) {
+          setError("password", {
+            type: "mismatch",
+            message: "Email ou mot de passe incorrect",
+          });
+        } else {
+          setError("password", {
+            type: "mismatch",
+            message: "Erreur coté serveur, veuillez ré-essayer",
+          });
+        }
       },
     }
   );
 
   const handleLogin: SubmitHandler<LoginForm> = async (values) => {
     await loginUser(values);
+  };
+
+  const handleLoginWithCGU = async () => {
+    await loginUser({ ...formValues, cgu: true });
+    onToggleCGU();
   };
 
   return (
@@ -82,6 +123,12 @@ export default function Home() {
           </Button>
         </Flex>
       </form>
+      <SupervisorCGUModal
+        isOpen={isOpenCGU}
+        onClose={onCloseCGU}
+        onValidate={handleLoginWithCGU}
+        isLoading={isLoading}
+      />
     </Flex>
   );
 }
