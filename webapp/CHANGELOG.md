@@ -1,3 +1,19 @@
+# [0.23.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.22.4...v0.23.0) (2024-03-16)
+
+
+### Bug Fixes
+
+* add loading ([7bf9020](https://github.com/SocialGouv/carte-jeune-engage/commit/7bf90209a3c876068df0b43c33a55116ebbdfb2c))
+* migration ([0d7f622](https://github.com/SocialGouv/carte-jeune-engage/commit/0d7f62201cba1eab050de6883844855cab5e3d71))
+* pb base modal ([b6de070](https://github.com/SocialGouv/carte-jeune-engage/commit/b6de07069494de6c13c43156258e7abb49f984c2))
+* remove old_login ([005371b](https://github.com/SocialGouv/carte-jeune-engage/commit/005371bbb649b8f1eaf752d578d30c99d0a612e8))
+
+
+### Features
+
+* add cgu checkbox in supervisors ([64b874e](https://github.com/SocialGouv/carte-jeune-engage/commit/64b874e2b2c737bb5bf8bd3b76e53405ebc92460))
+* supervisor accept CGU first login ([0f15769](https://github.com/SocialGouv/carte-jeune-engage/commit/0f157696435ed937e53442b77ed2e68ec00a44ef))
+
 ## [0.22.4](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.22.3...v0.22.4) (2024-03-16)
 
 
