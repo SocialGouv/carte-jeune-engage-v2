@@ -387,7 +387,6 @@ const NewPassComponent = ({
 		<WrappperNewPassComponent modalOptions={{ isOpen, onClose }}>
 			<Flex flexDir="column" px={2} py={8}>
 				<Icon as={HiLockOpen} w={10} h={10} mx="auto" />
-				<Image src="/images/new-pass-partners.png" alt="new-pass" />
 				<Heading textAlign="center" fontWeight="extrabold" size="lg" mt={8}>
 					Les économies en magasin
 					<br />
@@ -412,7 +411,7 @@ const NewPassComponent = ({
 					<HStack spacing={4} w="full">
 						<Icon as={HiUser} w={6} h={6} />
 						<Text fontWeight="medium">
-							La carte CJE est virtuelle et gratuit
+							La carte CJE est virtuelle et gratuite
 						</Text>
 					</HStack>
 					<HStack spacing={4} w="full">
