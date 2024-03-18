@@ -1,3 +1,10 @@
+## [0.23.4](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.3...v0.23.4) (2024-03-18)
+
+
+### Bug Fixes
+
+* reload router supervisor login ([8672a53](https://github.com/SocialGouv/carte-jeune-engage/commit/8672a5378fe8b8a993a4ee71092486129fe480ab))
+
 ## [0.23.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.2...v0.23.3) (2024-03-18)
 
 
