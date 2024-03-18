@@ -1,3 +1,10 @@
+## [0.23.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.1...v0.23.2) (2024-03-18)
+
+
+### Bug Fixes
+
+* SMTP_PORT to string ([ad5ad6d](https://github.com/SocialGouv/carte-jeune-engage/commit/ad5ad6d045df0614fd11c8258333d6518c5d2a25))
+
 ## [0.23.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.0...v0.23.1) (2024-03-18)
 
 
