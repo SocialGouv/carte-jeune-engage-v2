@@ -1,3 +1,10 @@
+## [0.23.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.2...v0.23.3) (2024-03-18)
+
+
+### Bug Fixes
+
+* preprod url mail ([d4e6945](https://github.com/SocialGouv/carte-jeune-engage/commit/d4e694543ddacd1c91755ec4e42a6258c47ef005))
+
 ## [0.23.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.1...v0.23.2) (2024-03-18)
 
 
