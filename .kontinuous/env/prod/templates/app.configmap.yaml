@@ -4,5 +4,8 @@ metadata:
   name: app-configmap
 data:
   PAYLOAD_CONFIG_PATH: payload/payload.config.ts
+  SMTP_HOST: ex5.mail.ovh.net
+  SMTP_PORT: 587
+  SMTP_USER: cje@fabrique.social.gouv.fr
   SMTP_FROM_NAME: "Carte Jeune Engagé"
   SMTP_FROM_ADDRESS: cje@fabrique.social.gouv.fr
