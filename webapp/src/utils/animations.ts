@@ -72,6 +72,7 @@ export const couponAnimation = (isSuccess: boolean, couponExists: boolean) => {
 
   gsap.to("#coupon-code-text", {
     filter: couponExists ? "blur(0px)" : "blur(4.5px)",
+    webkitFilter: couponExists ? "blur(0px)" : "blur(4.5px)",
     duration: isSuccess ? 1 : 0,
     delay: isSuccess ? 1.75 : 0,
   });
