@@ -75,7 +75,14 @@ const UploadImageComponent = ({
 	handleImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }) => {
 	return (
-		<label htmlFor="file-image-pass">
+		<Center 
+			as="label" 
+			htmlFor="file-image-pass" 
+			pos='absolute' 
+			w='full' 
+			h='full' 
+			mt={8}
+		>
 			<Text fontWeight="bold" fontSize="lg" textDecor="underline">
 				{text}
 			</Text>
@@ -86,7 +93,7 @@ const UploadImageComponent = ({
 				onChange={handleImageChange}
 				hidden
 			/>
-		</label>
+		</Center>
 	);
 };
 
@@ -268,10 +275,11 @@ const NewPassComponent = ({
 							mx="auto"
 							bgColor="#ffffff"
 							borderRadius="full"
+							pos={imageSrc && !croppedImageSrc ? undefined : "relative"}
 						>
 							{!imageSrc && !croppedImageSrc ? (
 								<>
-									<Icon as={HiPhoto} w={8} h={8} />
+									<Icon as={HiPhoto} w={8} h={8} mb={8} />
 									<UploadImageComponent
 										text="Ajouter une photo"
 										handleImageChange={(e) => handleImageChange(e)}
@@ -329,7 +337,7 @@ const NewPassComponent = ({
 							)}
 						</Flex>
 						{croppedImageSrc && (
-							<Flex justifyContent="center" mt={2}>
+							<Flex justifyContent="center" pos='relative'>
 								<UploadImageComponent
 									text="Changer de photo"
 									handleImageChange={(e) => {
