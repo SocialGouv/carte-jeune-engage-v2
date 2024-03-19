@@ -1,3 +1,11 @@
+# [0.26.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.25.0...v0.26.0) (2024-03-19)
+
+
+### Features
+
+* add stared to partners ([63223f3](https://github.com/SocialGouv/carte-jeune-engage/commit/63223f34df9218c8dd4c5413225e026a5364dbc6))
+* partner stared feature ([29e7936](https://github.com/SocialGouv/carte-jeune-engage/commit/29e7936c7b2abf341e8c3b8ab5a76add15b47611))
+
 # [0.25.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.24.0...v0.25.0) (2024-03-19)
 
 
