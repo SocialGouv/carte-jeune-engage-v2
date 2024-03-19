@@ -44,8 +44,7 @@ export const onBoardingSteps = [
     },
   },
   {
-    title:
-      "Depuis combien de temps êtes vous en CEJ à la Mission locale de Sarcelles ?",
+    title: "Depuis combien de temps êtes vous en CEJ ?",
     field: {
       name: "timeAtCEJ",
       kind: "select",
