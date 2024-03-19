@@ -169,9 +169,11 @@ const CouponWrapper = ({
           borderRadius="lg"
           bgColor={coupon ? "white" : "cje-gray.500"}
           py={8}
+          px={2}
+					wordBreak={"break-all"}
         >
           {offer.kind === "code" ? (
-            <Text fontSize="2xl" fontWeight="bold" letterSpacing={3}>
+            <Text fontSize="2xl" fontWeight="bold" letterSpacing={3} >
               {coupon?.code ? coupon.code : "6FHDJFHEIDJF"}
             </Text>
           ) : (
