@@ -56,17 +56,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (result && result.user !== null) {
         setUser(result.user);
-      } else {
-        Sentry.captureException(result);
-        setUser(null);
-        deleteCookie(process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt");
-        router.push("/");
       }
     } catch (e) {
       Sentry.captureException(e);
-      setUser(null);
-      deleteCookie(process.env.NEXT_PUBLIC_JWT_NAME ?? "cje-jwt");
-      router.push("/");
+      console.log("error : ", e);
     }
   };
 
