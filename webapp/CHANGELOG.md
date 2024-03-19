@@ -1,3 +1,10 @@
+## [0.26.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.26.1...v0.26.2) (2024-03-19)
+
+
+### Bug Fixes
+
+* do not delete cookie at failed fetch ([0730338](https://github.com/SocialGouv/carte-jeune-engage/commit/07303381f4e097a5166c42be50e58c4c64359933))
+
 ## [0.26.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.26.0...v0.26.1) (2024-03-19)
 
 
