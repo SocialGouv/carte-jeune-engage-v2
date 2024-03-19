@@ -1,3 +1,47 @@
+## [0.26.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.26.1...v0.26.2) (2024-03-19)
+
+
+### Bug Fixes
+
+* do not delete cookie at failed fetch ([0730338](https://github.com/SocialGouv/carte-jeune-engage/commit/07303381f4e097a5166c42be50e58c4c64359933))
+
+## [0.26.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.26.0...v0.26.1) (2024-03-19)
+
+
+### Bug Fixes
+
+* activated offer special wording ([9f60554](https://github.com/SocialGouv/carte-jeune-engage/commit/9f6055412d275a117d60d0b2082e13cbbc70a9ad))
+
+# [0.26.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.25.0...v0.26.0) (2024-03-19)
+
+
+### Features
+
+* add stared to partners ([63223f3](https://github.com/SocialGouv/carte-jeune-engage/commit/63223f34df9218c8dd4c5413225e026a5364dbc6))
+* partner stared feature ([29e7936](https://github.com/SocialGouv/carte-jeune-engage/commit/29e7936c7b2abf341e8c3b8ab5a76add15b47611))
+
+# [0.25.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.24.0...v0.25.0) (2024-03-19)
+
+
+### Features
+
+* add pages ([4bfc134](https://github.com/SocialGouv/carte-jeune-engage/commit/4bfc13463b47e90cb3a5dab0c3ed4ba02c2a9da1))
+* legal pages access while logged in ([55c1fd2](https://github.com/SocialGouv/carte-jeune-engage/commit/55c1fd25f3540e72205b9932deabdd9d703786c9))
+
+# [0.24.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.4...v0.24.0) (2024-03-19)
+
+
+### Bug Fixes
+
+* migration ([0851ecf](https://github.com/SocialGouv/carte-jeune-engage/commit/0851ecfe34e84424b826583397f3c1af0a7dafb2))
+* refetch user after onboarding ([2342112](https://github.com/SocialGouv/carte-jeune-engage/commit/23421129b8c08820422c25ca31d574fd73bac892))
+
+
+### Features
+
+* new step onboarding ([5a20d5f](https://github.com/SocialGouv/carte-jeune-engage/commit/5a20d5f002575f4a39fcd3dcca65f5c7d7e6bb99))
+* preferences matching in home ([2128c15](https://github.com/SocialGouv/carte-jeune-engage/commit/2128c15af05cf3598e07ffc8632f34b292ac2309))
+
 ## [0.23.4](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.3...v0.23.4) (2024-03-18)
 
 

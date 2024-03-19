@@ -19,11 +19,20 @@ export const offerRouter = createTRPCRouter({
           offerId: z.number().optional(),
           categoryId: z.number().optional(),
           isCurrentUser: z.boolean().optional(),
+          matchPreferences: z.boolean().optional(),
         })
       )
     )
     .query(async ({ ctx, input }) => {
-      const { perPage, page, sort, categoryId, offerId, isCurrentUser } = input;
+      const {
+        perPage,
+        page,
+        sort,
+        categoryId,
+        offerId,
+        isCurrentUser,
+        matchPreferences,
+      } = input;
 
       let where = {
         ...payloadWhereOfferIsValid(),
@@ -33,6 +42,21 @@ export const offerRouter = createTRPCRouter({
         where.category = {
           equals: categoryId,
         };
+      } else if (matchPreferences) {
+        const currentUser = await ctx.payload.findByID({
+          collection: "users",
+          id: ctx.session.id,
+        });
+
+        if (currentUser) {
+          where.category = {
+            in: currentUser.preferences
+              ?.map((p) => {
+                if (typeof p === "object") return p.id;
+              })
+              .filter((p) => !!p),
+          };
+        }
       }
 
       if (offerId) {
