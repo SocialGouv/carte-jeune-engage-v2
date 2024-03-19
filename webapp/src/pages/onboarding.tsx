@@ -22,6 +22,7 @@ import { getCookie, setCookie } from "cookies-next";
 import { useAuth } from "~/providers/Auth";
 
 type OnBoardingForm = {
+  cejFrom: string;
   timeAtCEJ: string;
   preferences: string[];
 };
@@ -33,6 +34,15 @@ export type OnBoardingFormStep = {
 };
 
 export const onBoardingSteps = [
+  {
+    title:
+      "Vous êtes en Contrat d'engagement jeune (CEJ) avec quel établissement ?",
+    field: {
+      name: "cejFrom",
+      kind: "select",
+      label: "Quel établissement",
+    },
+  },
   {
     title:
       "Depuis combien de temps êtes vous en CEJ à la Mission locale de Sarcelles ?",
@@ -223,6 +233,124 @@ export default function OnBoarding() {
     currentOnBoardingStep.field.name as keyof OnBoardingForm
   );
 
+  const displayStep = () => {
+    if (currentOnBoardingStep.field.name === "cejFrom") {
+      return (
+        <Flex flexDir="column" alignItems="center" w="full" gap={6}>
+          <Controller
+            control={control}
+            name={currentOnBoardingStep.field.name}
+            render={({ field: { onChange, value } }) => (
+              <>
+                <FormBlock
+                  value="franceTravail"
+                  currentValue={value}
+                  onChange={onChange}
+                >
+                  à France Travail (ex Pôle emploi)
+                </FormBlock>
+                <FormBlock
+                  value="missionLocale"
+                  currentValue={value}
+                  onChange={onChange}
+                >
+                  à la Mission locale
+                </FormBlock>
+              </>
+            )}
+          />
+        </Flex>
+      );
+    }
+
+    if (currentOnBoardingStep.field.name === "timeAtCEJ") {
+      return (
+        <Flex flexDir="column" alignItems="center" w="full" gap={6}>
+          <Controller
+            control={control}
+            name={currentOnBoardingStep.field.name}
+            render={({ field: { onChange, value } }) => (
+              <>
+                <FormBlock
+                  value="started"
+                  currentValue={value}
+                  onChange={onChange}
+                >
+                  Je viens de commencer
+                </FormBlock>
+                <FormBlock
+                  value="lessThan3Months"
+                  currentValue={value}
+                  onChange={onChange}
+                >
+                  Ça fait - de 3 mois
+                </FormBlock>
+                <FormBlock
+                  value="moreThan3Months"
+                  currentValue={value}
+                  onChange={onChange}
+                >
+                  Ça fait + de 3 mois
+                </FormBlock>
+              </>
+            )}
+          />
+        </Flex>
+      );
+    }
+
+    if (currentOnBoardingStep.field.name === "preferences") {
+      return (
+        <Box pb={36}>
+          <Flex
+            alignItems="center"
+            fontSize="sm"
+            fontWeight="medium"
+            color="secondaryText"
+          >
+            {filteredPreferences.length === 0 ? (
+              "Sélectionnez au moins 3 thématiques"
+            ) : filteredPreferences.length > 0 &&
+              filteredPreferences.length < 3 ? (
+              `Sélectionnez encore ${
+                3 - filteredPreferences.length
+              } thématique${3 - filteredPreferences.length > 1 ? "s" : ""}`
+            ) : (
+              <>
+                3 sélectionnés
+                <Icon as={HiCheck} w={5} h={5} ml={2} />
+              </>
+            )}
+          </Flex>
+          <SimpleGrid columns={2} mt={4} spacing={4} overflowY="auto" h="full">
+            {categories?.map((category, index) => (
+              <Controller
+                key={category.id}
+                control={control}
+                name={`preferences.${index}`}
+                render={({ field: { onChange } }) => (
+                  <FormBlock
+                    value={category.id.toString()}
+                    currentValue={formValues.preferences}
+                    iconSrc={category.icon.url as string}
+                    onChange={
+                      filteredPreferences.length >= 3 &&
+                      !currentFieldValue.includes(category.id.toString())
+                        ? () => {}
+                        : onChange
+                    }
+                  >
+                    {category.label}
+                  </FormBlock>
+                )}
+              />
+            ))}
+          </SimpleGrid>
+        </Box>
+      );
+    }
+  };
+
   return (
     <OnBoardingStepsWrapper
       stepContext={{
@@ -253,103 +381,13 @@ export default function OnBoarding() {
             <Heading as="h1" size="md" fontWeight="extrabold" mb={4}>
               {currentOnBoardingStep?.title}
             </Heading>
-            <Text fontSize="sm" fontWeight="medium" color="secondaryText">
-              {currentOnBoardingStep?.description ||
-                "Saisissez la même information que sur vos documents administratifs officiels."}
-            </Text>
+            {currentOnBoardingStep?.description && (
+              <Text fontSize="sm" fontWeight="medium" color="secondaryText">
+                {currentOnBoardingStep.description}
+              </Text>
+            )}
             <Box mt={6} key={currentOnBoardingStep.field.name}>
-              {currentOnBoardingStep.field.name === "timeAtCEJ" ? (
-                <Flex flexDir="column" alignItems="center" w="full" gap={6}>
-                  <Controller
-                    control={control}
-                    name={currentOnBoardingStep.field.name}
-                    render={({ field: { onChange, value } }) => (
-                      <>
-                        <FormBlock
-                          value="started"
-                          currentValue={value}
-                          onChange={onChange}
-                        >
-                          Je viens de commencer
-                        </FormBlock>
-                        <FormBlock
-                          value="lessThan3Months"
-                          currentValue={value}
-                          onChange={onChange}
-                        >
-                          Ça fait - de 3 mois
-                        </FormBlock>
-                        <FormBlock
-                          value="moreThan3Months"
-                          currentValue={value}
-                          onChange={onChange}
-                        >
-                          Ça fait + de 3 mois
-                        </FormBlock>
-                      </>
-                    )}
-                  />
-                </Flex>
-              ) : (
-                currentOnBoardingStep.field.name === "preferences" && (
-                  <Box pb={36}>
-                    <Flex
-                      alignItems="center"
-                      fontSize="sm"
-                      fontWeight="medium"
-                      color="secondaryText"
-                    >
-                      {filteredPreferences.length === 0 ? (
-                        "Sélectionnez au moins 3 thématiques"
-                      ) : filteredPreferences.length > 0 &&
-                        filteredPreferences.length < 3 ? (
-                        `Sélectionnez encore ${
-                          3 - filteredPreferences.length
-                        } thématique${
-                          3 - filteredPreferences.length > 1 ? "s" : ""
-                        }`
-                      ) : (
-                        <>
-                          3 sélectionnés
-                          <Icon as={HiCheck} w={5} h={5} ml={2} />
-                        </>
-                      )}
-                    </Flex>
-                    <SimpleGrid
-                      columns={2}
-                      mt={4}
-                      spacing={4}
-                      overflowY="auto"
-                      h="full"
-                    >
-                      {categories?.map((category, index) => (
-                        <Controller
-                          key={category.id}
-                          control={control}
-                          name={`preferences.${index}`}
-                          render={({ field: { onChange } }) => (
-                            <FormBlock
-                              value={category.id.toString()}
-                              currentValue={formValues.preferences}
-                              iconSrc={category.icon.url as string}
-                              onChange={
-                                filteredPreferences.length >= 3 &&
-                                !currentFieldValue.includes(
-                                  category.id.toString()
-                                )
-                                  ? () => {}
-                                  : onChange
-                              }
-                            >
-                              {category.label}
-                            </FormBlock>
-                          )}
-                        />
-                      ))}
-                    </SimpleGrid>
-                  </Box>
-                )
-              )}
+              {displayStep()}
             </Box>
           </Flex>
           <Button

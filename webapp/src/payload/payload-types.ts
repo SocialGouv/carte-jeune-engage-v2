@@ -59,8 +59,9 @@ export interface User {
   lastName?: string | null;
   address?: string | null;
   image?: number | Media | null;
-  timeAtCEJ?: ('started' | 'lessThan3Months' | 'moreThan3Months') | null;
   userEmail?: string | null;
+  cejFrom?: ('franceTravail' | 'missionLocale') | null;
+  timeAtCEJ?: ('started' | 'lessThan3Months' | 'moreThan3Months') | null;
   status_image?: ('pending' | 'approved') | null;
   preferences?: (number | Category)[] | null;
   otp_request_token?: string | null;
