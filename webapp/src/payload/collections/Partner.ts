@@ -44,6 +44,9 @@ export const Partners: CollectionConfig = {
       name: "stared",
       type: "checkbox",
       label: "Mettre en avant",
+      admin: {
+        position: "sidebar",
+      },
     },
   ],
 };

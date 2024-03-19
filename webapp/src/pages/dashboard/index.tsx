@@ -39,6 +39,7 @@ export default function Dashboard() {
     api.partner.getList.useQuery({
       page: 1,
       perPage: 8,
+      sort: "stared",
     });
 
   const { data: categories } = resultCategories || {};
