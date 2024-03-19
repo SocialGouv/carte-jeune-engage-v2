@@ -1,3 +1,12 @@
+## [0.26.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.26.2...v0.26.3) (2024-03-19)
+
+
+### Bug Fixes
+
+* long code display on multiple lines,  changed landing page images ([dfa20b2](https://github.com/SocialGouv/carte-jeune-engage/commit/dfa20b29ce22d565ec9e81af110c8843ed861d57))
+* profile image upload taking all the rounded space ([9d25af2](https://github.com/SocialGouv/carte-jeune-engage/commit/9d25af23e7252cfe73e0100478db6a025aafce9b))
+* wording, removed new pass partners image ([64890e7](https://github.com/SocialGouv/carte-jeune-engage/commit/64890e7d7c3b66a5049d4b06cce0cef7b49777fb))
+
 ## [0.26.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.26.1...v0.26.2) (2024-03-19)
 
 
