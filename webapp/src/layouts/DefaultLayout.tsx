@@ -17,7 +17,8 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
       pathname === "/cgu" ||
       pathname === "/mentions-legales" ||
       pathname === "/politique-de-confidentialite") &&
-    !isOtpGenerated;
+    !isOtpGenerated &&
+    !user;
 
   const handleBeforeInstallPrompt = (event: Event) => {
     // Prevent the default behavior to keep the event available for later use

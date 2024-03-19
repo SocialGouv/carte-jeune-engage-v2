@@ -1,4 +1,7 @@
-import { Box, Divider, Heading, Text, VStack } from "@chakra-ui/react";
+import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { Box, Button, Divider, Heading, Text, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useAuth } from "~/providers/Auth";
 
 const SubHeading = ({ children }: { children: React.ReactNode }) => (
   <Heading as="h2" size={{ base: "lg", lg: "2xl" }} mt={10} color="black">
@@ -7,15 +10,32 @@ const SubHeading = ({ children }: { children: React.ReactNode }) => (
 );
 
 export default function LegalMentions() {
+  const { user } = useAuth();
+  const router = useRouter();
+
   return (
     <VStack
       spacing={8}
       align="left"
-      mt={12}
+      mt={!!user ? 0 : 12}
+      py={!!user ? 10 : 0}
       px={{ base: 6, lg: 2 }}
       fontWeight="medium"
       color="secondaryText"
     >
+      {!!user && (
+        <Button
+          colorScheme="whiteBtn"
+          onClick={() => {
+            router.back();
+          }}
+          size="md"
+          width={8}
+          iconSpacing={0}
+          px={0}
+          rightIcon={<ChevronLeftIcon w={6} h={6} color="black" />}
+        />
+      )}
       <Heading
         as="h1"
         size={{ base: "xl", lg: "3xl" }}
