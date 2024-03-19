@@ -114,7 +114,7 @@ export const offerRouter = createTRPCRouter({
         else if (isCurrentUser) return !!myUnusedOfferCoupons;
 
         const coupons = couponCountOfOffers[index];
-        return !!coupons && !!coupons.docs.length;
+        return (!!coupons && !!coupons.docs.length) || !!myUnusedOfferCoupons;
       });
 
       return {
