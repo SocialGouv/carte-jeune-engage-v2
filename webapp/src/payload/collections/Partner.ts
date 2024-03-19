@@ -40,5 +40,10 @@ export const Partners: CollectionConfig = {
       required: true,
       relationTo: "media",
     },
+    {
+      name: "stared",
+      type: "checkbox",
+      label: "Mettre en avant",
+    },
   ],
 };
