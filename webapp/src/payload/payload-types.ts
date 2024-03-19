@@ -143,6 +143,7 @@ export interface Partner {
   url?: string | null;
   color: string;
   icon: number | Media;
+  stared?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }

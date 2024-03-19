@@ -102,12 +102,16 @@ const Footer = () => {
                 CGU
               </Text>
             </Link>
-            {/* <Text color="white" fontSize="lg" fontWeight="bold">
-              Mentions légales
-            </Text>
-            <Text color="white" fontSize="lg" fontWeight="bold">
-              Politique de confidentialité
-            </Text> */}
+            <Link href="/mentions-legales">
+              <Text color="white" fontSize="lg" fontWeight="bold">
+                Mentions légales
+              </Text>
+            </Link>
+            <Link href="/politique-de-confidentialite">
+              <Text color="white" fontSize="lg" fontWeight="bold">
+                Politique de confidentialité
+              </Text>
+            </Link>
           </Flex>
         </Flex>
       </Container>

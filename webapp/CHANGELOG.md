@@ -1,3 +1,19 @@
+# [0.26.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.25.0...v0.26.0) (2024-03-19)
+
+
+### Features
+
+* add stared to partners ([63223f3](https://github.com/SocialGouv/carte-jeune-engage/commit/63223f34df9218c8dd4c5413225e026a5364dbc6))
+* partner stared feature ([29e7936](https://github.com/SocialGouv/carte-jeune-engage/commit/29e7936c7b2abf341e8c3b8ab5a76add15b47611))
+
+# [0.25.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.24.0...v0.25.0) (2024-03-19)
+
+
+### Features
+
+* add pages ([4bfc134](https://github.com/SocialGouv/carte-jeune-engage/commit/4bfc13463b47e90cb3a5dab0c3ed4ba02c2a9da1))
+* legal pages access while logged in ([55c1fd2](https://github.com/SocialGouv/carte-jeune-engage/commit/55c1fd25f3540e72205b9932deabdd9d703786c9))
+
 # [0.24.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.4...v0.24.0) (2024-03-19)
 
 
