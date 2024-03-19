@@ -13,7 +13,11 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
   const { setDeferredEvent, setShowing, user, isOtpGenerated } = useAuth();
 
   const isLanding =
-    (pathname === "/" || pathname === "/cgu") && !isOtpGenerated;
+    (pathname === "/" ||
+      pathname === "/cgu" ||
+      pathname === "/mentions-legales" ||
+      pathname === "/politique-de-confidentialite") &&
+    !isOtpGenerated;
 
   const handleBeforeInstallPrompt = (event: Event) => {
     // Prevent the default behavior to keep the event available for later use

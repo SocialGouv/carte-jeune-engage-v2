@@ -36,7 +36,7 @@ export default function CGU() {
         fontWeight="extrabold"
         color="black"
       >
-        Conditions générales d’utilisation "Jeunes Engagés"
+        Conditions générales d’utilisation
       </Heading>
       <Text fontSize={{ base: "lg", lg: "2xl" }}>22/03/2024</Text>
       <Divider />
