@@ -1,3 +1,11 @@
+## [0.27.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.27.0...v0.27.1) (2024-03-19)
+
+
+### Bug Fixes
+
+* delete cookie when user is null ([cefdb47](https://github.com/SocialGouv/carte-jeune-engage/commit/cefdb47074c87ef64625a92153a1f3d7b5d53a88))
+* wording onboarding ([64d766f](https://github.com/SocialGouv/carte-jeune-engage/commit/64d766f82af6ddda78717eb1f6b68b586805ffd9))
+
 # [0.27.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.26.3...v0.27.0) (2024-03-19)
 
 
