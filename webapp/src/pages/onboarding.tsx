@@ -57,7 +57,7 @@ export const onBoardingSteps = [
 export default function OnBoarding() {
   const router = useRouter();
 
-  const { user } = useAuth();
+  const { user, refetchUser } = useAuth();
 
   const { onBoardingStep } = router.query as {
     onBoardingStep: keyof OnBoardingForm | undefined;
@@ -114,6 +114,7 @@ export default function OnBoarding() {
               data.refreshedToken as string,
               { expires: new Date((data.exp as number) * 1000) }
             );
+            refetchUser();
             setFinishedOnBoarding(true);
           });
         });
@@ -203,7 +204,8 @@ export default function OnBoarding() {
           colorScheme="blackBtn"
           position="fixed"
           bottom={12}
-          insetX={8}
+          left={"50%"}
+          transform="translateX(-50%)"
           type="button"
           onClick={() => {
             localStorage.removeItem("cje-signup-form");
@@ -359,7 +361,10 @@ export default function OnBoarding() {
             }
             position={onBoardingStep === "preferences" ? "fixed" : "relative"}
             bottom={onBoardingStep === "preferences" ? 12 : undefined}
-            insetX={onBoardingStep === "preferences" ? 8 : undefined}
+            left={onBoardingStep === "preferences" ? "50%" : undefined}
+            transform={
+              onBoardingStep === "preferences" ? "translateX(-50%)" : undefined
+            }
             hidden={
               onBoardingStep === "preferences" && filteredPreferences.length < 3
             }
