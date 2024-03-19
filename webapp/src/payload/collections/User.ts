@@ -85,6 +85,32 @@ export const Users: CollectionConfig = {
       relationTo: "media",
     },
     {
+      name: "userEmail",
+      type: "text",
+      label: "Email de l'utilisateur",
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
+      name: "cejFrom",
+      type: "select",
+      label: "Établissement CEJ",
+      options: [
+        {
+          label: "France travail",
+          value: "franceTravail",
+        },
+        {
+          label: "Mission locale",
+          value: "missionLocale",
+        },
+      ],
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
       name: "timeAtCEJ",
       type: "select",
       label: "Temps passé au CEJ",
@@ -102,11 +128,9 @@ export const Users: CollectionConfig = {
           value: "moreThan3Months",
         },
       ],
-    },
-    {
-      name: "userEmail",
-      type: "text",
-      label: "Email de l'utilisateur",
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "status_image",
@@ -131,6 +155,9 @@ export const Users: CollectionConfig = {
       label: "Préférences",
       relationTo: "categories",
       hasMany: true,
+      admin: {
+        position: "sidebar",
+      },
     },
     {
       name: "otp_request_token",
