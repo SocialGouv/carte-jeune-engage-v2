@@ -56,6 +56,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (result && result.user !== null) {
         setUser(result.user);
+      } else {
+        setUser(null);
       }
     } catch (e) {
       Sentry.captureException(e);
