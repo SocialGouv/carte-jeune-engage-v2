@@ -1,3 +1,10 @@
+## [0.27.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.27.1...v0.27.2) (2024-03-19)
+
+
+### Bug Fixes
+
+* blur ios safari ([c482424](https://github.com/SocialGouv/carte-jeune-engage/commit/c4824249b289b9f29e16e1df22b6b8d663d2b423))
+
 ## [0.27.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.27.0...v0.27.1) (2024-03-19)
 
 
