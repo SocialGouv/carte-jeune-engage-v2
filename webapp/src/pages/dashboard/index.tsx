@@ -32,6 +32,7 @@ export default function Dashboard() {
     api.offer.getListOfAvailables.useQuery({
       page: 1,
       perPage: 50,
+      sort: "partner.name",
       matchPreferences: true,
     });
 

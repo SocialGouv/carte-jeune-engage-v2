@@ -70,7 +70,7 @@ export const offerRouter = createTRPCRouter({
         limit: perPage,
         page: page,
         where: where as Where,
-        sort,
+        sort: sort,
       });
 
       const myUnusedCoupons = await ctx.payload.find({
