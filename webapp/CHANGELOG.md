@@ -1,3 +1,11 @@
+# [0.25.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.24.0...v0.25.0) (2024-03-19)
+
+
+### Features
+
+* add pages ([4bfc134](https://github.com/SocialGouv/carte-jeune-engage/commit/4bfc13463b47e90cb3a5dab0c3ed4ba02c2a9da1))
+* legal pages access while logged in ([55c1fd2](https://github.com/SocialGouv/carte-jeune-engage/commit/55c1fd25f3540e72205b9932deabdd9d703786c9))
+
 # [0.24.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.4...v0.24.0) (2024-03-19)
 
 
