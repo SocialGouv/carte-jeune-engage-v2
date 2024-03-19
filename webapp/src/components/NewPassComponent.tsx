@@ -75,7 +75,14 @@ const UploadImageComponent = ({
 	handleImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }) => {
 	return (
-		<label htmlFor="file-image-pass">
+		<Center 
+			as="label" 
+			htmlFor="file-image-pass" 
+			pos='absolute' 
+			w='full' 
+			h='full' 
+			mt={8}
+		>
 			<Text fontWeight="bold" fontSize="lg" textDecor="underline">
 				{text}
 			</Text>
@@ -86,7 +93,7 @@ const UploadImageComponent = ({
 				onChange={handleImageChange}
 				hidden
 			/>
-		</label>
+		</Center>
 	);
 };
 
@@ -268,10 +275,11 @@ const NewPassComponent = ({
 							mx="auto"
 							bgColor="#ffffff"
 							borderRadius="full"
+							pos={imageSrc && !croppedImageSrc ? undefined : "relative"}
 						>
 							{!imageSrc && !croppedImageSrc ? (
 								<>
-									<Icon as={HiPhoto} w={8} h={8} />
+									<Icon as={HiPhoto} w={8} h={8} mb={8} />
 									<UploadImageComponent
 										text="Ajouter une photo"
 										handleImageChange={(e) => handleImageChange(e)}
@@ -329,7 +337,7 @@ const NewPassComponent = ({
 							)}
 						</Flex>
 						{croppedImageSrc && (
-							<Flex justifyContent="center" mt={2}>
+							<Flex justifyContent="center" pos='relative'>
 								<UploadImageComponent
 									text="Changer de photo"
 									handleImageChange={(e) => {
@@ -387,7 +395,6 @@ const NewPassComponent = ({
 		<WrappperNewPassComponent modalOptions={{ isOpen, onClose }}>
 			<Flex flexDir="column" px={2} py={8}>
 				<Icon as={HiLockOpen} w={10} h={10} mx="auto" />
-				<Image src="/images/new-pass-partners.png" alt="new-pass" />
 				<Heading textAlign="center" fontWeight="extrabold" size="lg" mt={8}>
 					Les économies en magasin
 					<br />
@@ -412,7 +419,7 @@ const NewPassComponent = ({
 					<HStack spacing={4} w="full">
 						<Icon as={HiUser} w={6} h={6} />
 						<Text fontWeight="medium">
-							La carte CJE est virtuelle et gratuit
+							La carte CJE est virtuelle et gratuite
 						</Text>
 					</HStack>
 					<HStack spacing={4} w="full">

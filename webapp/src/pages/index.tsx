@@ -68,7 +68,7 @@ const sectionItems = [
 		title:
 			"Tout ce qu’il faut pour bien démarrer dans la vie active, à prix réduit grâce aux partenaires",
 		description:
-			"La carte “jeune engagé” vous fait économisez pour tout grâce aux nombreux partenaires participants. Bénéficiez de prix instantanément réduits pour faire vos courses, pour équiper votre logement, pour le matériel informatique mais aussi pour vos assurances et vos abonnements. ",
+			"La carte “jeune engagé” vous fait économiser pour tout grâce aux nombreux partenaires participants. Bénéficiez de prix instantanément réduits pour faire vos courses, pour équiper votre logement, pour le matériel informatique mais aussi pour vos assurances et vos abonnements. ",
 		image: "/images/landing/section-2.png",
 	},
 	{
@@ -367,7 +367,7 @@ export default function Home() {
 							color="secondaryText"
 							mt={8}
 						>
-							Les économies pensées pour bien démarrer dans la vie
+							Les économies pensées pour bien démarrer dans la vie&nbsp;
 							<Box as="br" display={{ base: "none", lg: "block" }} />
 							et pour toutes ses dépenses quotidiennes.
 						</Text>
