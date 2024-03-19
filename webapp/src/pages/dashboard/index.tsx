@@ -40,7 +40,8 @@ export default function Dashboard() {
     api.partner.getList.useQuery({
       page: 1,
       perPage: 8,
-      sort: "stared",
+      stared: true,
+      sort: "name",
     });
 
   const { data: categories } = resultCategories || {};
