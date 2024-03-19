@@ -1,3 +1,18 @@
+# [0.27.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.26.3...v0.27.0) (2024-03-19)
+
+
+### Bug Fixes
+
+* padding offers list in category ([cff448e](https://github.com/SocialGouv/carte-jeune-engage/commit/cff448e9567584c81ccd2f9b117446c410e1e2c7))
+* partner home sorting and filtering ([0debc0f](https://github.com/SocialGouv/carte-jeune-engage/commit/0debc0f27340d35e79dcddb0416abc390e15847b))
+* set user to null at fail fetch ([fb339b3](https://github.com/SocialGouv/carte-jeune-engage/commit/fb339b32a42a1c7593ad25aba45fa3693eea76ed))
+* show my offers in all pages ([b736fa8](https://github.com/SocialGouv/carte-jeune-engage/commit/b736fa892575759dc7ec5805dbde25176c49e98c))
+
+
+### Features
+
+* sort offers by partner name alphabetically ([37f253a](https://github.com/SocialGouv/carte-jeune-engage/commit/37f253a79cf3849f5ebe9445e3e594a74408c92a))
+
 ## [0.26.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.26.2...v0.26.3) (2024-03-19)
 
 
