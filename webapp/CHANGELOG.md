@@ -1,3 +1,17 @@
+# [0.24.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.4...v0.24.0) (2024-03-19)
+
+
+### Bug Fixes
+
+* migration ([0851ecf](https://github.com/SocialGouv/carte-jeune-engage/commit/0851ecfe34e84424b826583397f3c1af0a7dafb2))
+* refetch user after onboarding ([2342112](https://github.com/SocialGouv/carte-jeune-engage/commit/23421129b8c08820422c25ca31d574fd73bac892))
+
+
+### Features
+
+* new step onboarding ([5a20d5f](https://github.com/SocialGouv/carte-jeune-engage/commit/5a20d5f002575f4a39fcd3dcca65f5c7d7e6bb99))
+* preferences matching in home ([2128c15](https://github.com/SocialGouv/carte-jeune-engage/commit/2128c15af05cf3598e07ffc8632f34b292ac2309))
+
 ## [0.23.4](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.23.3...v0.23.4) (2024-03-18)
 
 
