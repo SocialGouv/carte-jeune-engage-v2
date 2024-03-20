@@ -1,3 +1,11 @@
+# [0.28.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.27.2...v0.28.0) (2024-03-20)
+
+
+### Features
+
+* add cgu to accept ([abcba0b](https://github.com/SocialGouv/carte-jeune-engage/commit/abcba0bbae9c1b59707053713e6702aa7f8106f9))
+* add other legal links to profile ([c3afd7e](https://github.com/SocialGouv/carte-jeune-engage/commit/c3afd7e8e46586d2d328b3ef3c846dce795d7128))
+
 ## [0.27.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.27.1...v0.27.2) (2024-03-19)
 
 
