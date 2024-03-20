@@ -1,3 +1,10 @@
+## [0.28.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.28.0...v0.28.1) (2024-03-20)
+
+
+### Bug Fixes
+
+* hide QR code logo ([f4b7830](https://github.com/SocialGouv/carte-jeune-engage/commit/f4b7830631997a8d68a6b1f81fa6e3cecd2f45fc))
+
 # [0.28.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.27.2...v0.28.0) (2024-03-20)
 
 
