@@ -1,3 +1,10 @@
+## [0.28.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.28.2...v0.28.3) (2024-03-20)
+
+
+### Bug Fixes
+
+* new QR code ios issue ([417706c](https://github.com/SocialGouv/carte-jeune-engage/commit/417706c10fd1131b1b95d93d87828f9ba8b08591))
+
 ## [0.28.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.28.1...v0.28.2) (2024-03-20)
 
 
