@@ -1,3 +1,10 @@
+## [0.28.4](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.28.3...v0.28.4) (2024-03-20)
+
+
+### Bug Fixes
+
+* add missing image ([9a06852](https://github.com/SocialGouv/carte-jeune-engage/commit/9a0685299e909ecda7c672cbbea5f01ce31ec74f))
+
 ## [0.28.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.28.2...v0.28.3) (2024-03-20)
 
 
