@@ -1,3 +1,10 @@
+# [0.29.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.28.4...v0.29.0) (2024-03-25)
+
+
+### Features
+
+* add nbSeen on offers ([9ad03cc](https://github.com/SocialGouv/carte-jeune-engage/commit/9ad03cc9561633223dac7c46601d5041b530f20d))
+
 ## [0.28.4](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.28.3...v0.28.4) (2024-03-20)
 
 
