@@ -177,6 +177,7 @@ export interface Offer {
         id?: string | null;
       }[]
     | null;
+  nbSeen?: number | null;
   updatedAt: string;
   createdAt: string;
 }
