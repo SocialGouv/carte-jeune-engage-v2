@@ -1,3 +1,10 @@
+## [0.29.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.29.0...v0.29.1) (2024-03-26)
+
+
+### Bug Fixes
+
+* increase nbSeen only on not activated offers ([fb4cf03](https://github.com/SocialGouv/carte-jeune-engage/commit/fb4cf0321e995f5bf72e32434d00158276ad09f6))
+
 # [0.29.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.28.4...v0.29.0) (2024-03-25)
 
 
