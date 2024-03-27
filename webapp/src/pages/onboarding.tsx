@@ -5,11 +5,12 @@ import {
 	Flex,
 	Heading,
 	Icon,
+	Input,
 	SimpleGrid,
 	Text,
 } from "@chakra-ui/react";
 import { useForm, type SubmitHandler, Controller } from "react-hook-form";
-import { type FieldProps } from "~/components/forms/FormInput";
+import FormInput, { type FieldProps } from "~/components/forms/FormInput";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { HiArrowRight, HiCheck, HiCheckCircle } from "react-icons/hi2";
@@ -24,6 +25,9 @@ import { useAuth } from "~/providers/Auth";
 type OnBoardingForm = {
 	cejFrom: string;
 	timeAtCEJ: string;
+	hasAJobIdea: string;
+	projectTitle?: string;
+	projectDescription?: string;
 	preferences: string[];
 };
 
@@ -31,6 +35,7 @@ export type OnBoardingFormStep = {
 	title: string;
 	description?: string;
 	field: FieldProps;
+	optional?: boolean;
 };
 
 export const onBoardingSteps = [
@@ -49,6 +54,24 @@ export const onBoardingSteps = [
 			name: "timeAtCEJ",
 			kind: "select",
 			label: "Depuis combien de temps",
+		},
+	},
+	{
+		title: "Vous avez déjà une idée de formation ou de métier à la fin du CEJ ?",
+		field: {
+			name: "hasAJobIdea",
+			kind: "select",
+			label: "Pense à une idée de formation ou métier",
+		},
+	},
+	{
+		title: "Dites-nous ce que vous voulez faire et les réductions qui pourraient vous aider !",
+		optional: true,
+		description: "Nous allons bientôt ajouter des réductions pour vos formations et projet professionnels dites-nous ce dont vous avez besoin !",
+		field: {
+			name: "projectTitle",
+			kind: "text",
+			label: "Votre projet ? Electricien, tatoueur...",
 		},
 	},
 	{
@@ -92,6 +115,7 @@ export default function OnBoarding() {
 		watch,
 		control,
 		formState: { errors },
+		register
 	} = useForm<OnBoardingForm>({
 		mode: "onBlur",
 		defaultValues,
@@ -130,7 +154,11 @@ export default function OnBoarding() {
 				});
 			});
 		} else {
-			const nextStep = onBoardingSteps[currentStepIndex + 1];
+			let nextStep = onBoardingSteps[currentStepIndex + 1];
+			if (!nextStep) return;
+			if (nextStep.field.name === 'projectTitle' && formValues.hasAJobIdea === 'no') {
+				nextStep = onBoardingSteps[currentStepIndex + 2];
+			}
 			if (!nextStep) return;
 			router.push({ query: { onBoardingStep: nextStep.field.name } });
 			setCurrentOnBoardingStep(nextStep);
@@ -172,7 +200,7 @@ export default function OnBoarding() {
 		);
 
 		if (
-			!onBoardingStepNames.includes(onBoardingStep) ||
+			!onBoardingStepNames.includes(onBoardingStep as any) ||
 			!tmpCurrentSignupStep
 		) {
 			router.back();
@@ -263,6 +291,57 @@ export default function OnBoarding() {
 			);
 		}
 
+		if (currentOnBoardingStep.field.name === "hasAJobIdea") {
+			return (
+				<Flex alignItems="center" w="full" gap={4}>
+					<Controller
+						control={control}
+						name={currentOnBoardingStep.field.name}
+						render={({ field: { onChange, value } }) => (
+							<>
+								<FormBlock
+									value="yes"
+									currentValue={value}
+									onChange={onChange}
+								>
+									Oui
+								</FormBlock>
+								<FormBlock
+									value="no"
+									currentValue={value}
+									onChange={onChange}
+								>
+									Non pas encore
+								</FormBlock>
+							</>
+						)}
+					/>
+				</Flex>
+			);
+		}
+
+		if (currentOnBoardingStep.field.name === "projectTitle") {
+			return (
+				<Flex flexDir="column" alignItems="center" w="full" gap={6}>
+					<FormInput
+						register={register}
+						field={currentOnBoardingStep.field}
+					/>
+					<FormInput
+						register={register}
+						field={{
+							kind: 'textarea',
+							name: 'projectDescription',
+							label: 'Sur quoi voulez des réductions ? Du matériel ?  Des outils ?'
+						}}
+						inputProps={{
+							isRequired: false
+						}}
+					/>
+				</Flex>
+			)
+		}
+
 		if (currentOnBoardingStep.field.name === "timeAtCEJ") {
 			return (
 				<Flex flexDir="column" alignItems="center" w="full" gap={6}>
@@ -334,6 +413,7 @@ export default function OnBoarding() {
 										iconSrc={category.icon.url as string}
 										onChange={
 											filteredPreferences.length >= 3 &&
+												currentFieldValue &&
 												!currentFieldValue.includes(category.id.toString())
 												? () => { }
 												: onChange
@@ -371,7 +451,7 @@ export default function OnBoarding() {
 					display="flex"
 					flexDir="column"
 					pt={8}
-					pb={12}
+					pb={currentOnBoardingStep.optional ? 6 : 12}
 					px={6}
 					justifyContent="space-between"
 					h="full"
@@ -389,30 +469,39 @@ export default function OnBoarding() {
 							{displayStep()}
 						</Box>
 					</Flex>
-					<Button
-						colorScheme="blackBtn"
-						isDisabled={
-							!currentFieldValue ||
-							errors[currentOnBoardingStep.field.name as keyof OnBoardingForm]
-								?.message !== undefined
+					<Flex direction={"column"}>
+						<Button
+							colorScheme="blackBtn"
+							isDisabled={
+								!currentFieldValue ||
+								errors[currentOnBoardingStep.field.name as keyof OnBoardingForm]
+									?.message !== undefined
+							}
+							position={onBoardingStep === "preferences" ? "fixed" : "relative"}
+							bottom={onBoardingStep === "preferences" ? 12 : undefined}
+							left={onBoardingStep === "preferences" ? "50%" : undefined}
+							transform={
+								onBoardingStep === "preferences" ? "translateX(-50%)" : undefined
+							}
+							hidden={
+								onBoardingStep === "preferences" && filteredPreferences.length < 3
+							}
+							isLoading={isLoadingUpdateUser}
+							type="submit"
+							rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
+						>
+							{onBoardingStep === "preferences"
+								? "Accéder aux réductions"
+								: "Continuer"}
+						</Button>
+						{
+							currentOnBoardingStep.optional && (
+								<Button colorScheme="transparent" mt={2} color="blackBtn.500" onClick={handleSubmit(onSubmit)}>
+									Passer cette question
+								</Button>
+							)
 						}
-						position={onBoardingStep === "preferences" ? "fixed" : "relative"}
-						bottom={onBoardingStep === "preferences" ? 12 : undefined}
-						left={onBoardingStep === "preferences" ? "50%" : undefined}
-						transform={
-							onBoardingStep === "preferences" ? "translateX(-50%)" : undefined
-						}
-						hidden={
-							onBoardingStep === "preferences" && filteredPreferences.length < 3
-						}
-						isLoading={isLoadingUpdateUser}
-						type="submit"
-						rightIcon={<Icon as={HiArrowRight} w={6} h={6} />}
-					>
-						{onBoardingStep === "preferences"
-							? "Accéder aux réductions"
-							: "Continuer"}
-					</Button>
+					</Flex>
 				</Flex>
 			</Box>
 		</OnBoardingStepsWrapper>
