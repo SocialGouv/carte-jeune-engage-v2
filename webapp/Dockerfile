@@ -1,4 +1,4 @@
-ARG NODE_VERSION=lts-alpine3.18@sha256:acdf232a7bf5d32e2212134d50aee7deb9193908f1172e56fc865c51b0c6bfb0
+ARG NODE_VERSION=lts-alpine3.18@sha256:a7b87c23700cdffb83eba702cd2143ddce421ef7affb1d82d927dbad46224e2e
 
 FROM node:$NODE_VERSION as base
 WORKDIR /app
