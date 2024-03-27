@@ -1,3 +1,10 @@
+## [0.30.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.30.2...v0.30.3) (2024-03-27)
+
+
+### Bug Fixes
+
+* wording no activated offers ([04de789](https://github.com/SocialGouv/carte-jeune-engage/commit/04de78999d2fecfb17112c6287d29e7fe53624da))
+
 ## [0.30.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.30.1...v0.30.2) (2024-03-27)
 
 
