@@ -4,7 +4,8 @@ tarteaucitron.lang = {
   middleBarHead: "",
   adblock:
     "Bonjour! Ce site joue la transparence et vous donne le choix des services tiers à activer.",
-  description: "toto",
+  description:
+    'Bienvenue sur le site de la carte “jeune engagé” ! Nous utilisons des cookies pour améliorer votre expérience et les services disponibles sur ce site. Pour en savoir plus visitez la page de <a href="/politique-de-confidentialite">Politique de confidentialité</a>. Vous pouvez à tout moment avoir le contrôle sur les cookies que vous souhaitez activer.',
   adblock_call:
     "Merci de désactiver votre adblocker pour commencer la personnalisation.",
   reload: "Recharger la page",
