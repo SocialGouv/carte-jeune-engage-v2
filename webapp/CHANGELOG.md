@@ -1,3 +1,18 @@
+# [0.30.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.29.1...v0.30.0) (2024-03-27)
+
+
+### Bug Fixes
+
+* css ([ad5f79e](https://github.com/SocialGouv/carte-jeune-engage/commit/ad5f79e4af2b05407c832959ede3588076468f56))
+* css ([432759f](https://github.com/SocialGouv/carte-jeune-engage/commit/432759f0120dd251414f6993c45518c73580245e))
+
+
+### Features
+
+* load different hotjar id by env ([cd3489d](https://github.com/SocialGouv/carte-jeune-engage/commit/cd3489d2c96ba8f869abbcd7858d754894768209))
+* tarteaucitron desktop ([305e907](https://github.com/SocialGouv/carte-jeune-engage/commit/305e907b5f8978c521213384f0879ee3392ff61d))
+* tarteaucitron mobile integration ([7aaef13](https://github.com/SocialGouv/carte-jeune-engage/commit/7aaef1341fed17c2178ae714ae1b556c6c515bbd))
+
 ## [0.29.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.29.0...v0.29.1) (2024-03-26)
 
 
