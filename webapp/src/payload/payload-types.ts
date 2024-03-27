@@ -62,6 +62,9 @@ export interface User {
   userEmail?: string | null;
   cejFrom?: ('franceTravail' | 'missionLocale') | null;
   timeAtCEJ?: ('started' | 'lessThan3Months' | 'moreThan3Months') | null;
+  hasAJobIdea?: ('yes' | 'no') | null;
+  projectTitle?: string | null;
+  projectDescription?: string | null;
   status_image?: ('pending' | 'approved') | null;
   preferences?: (number | Category)[] | null;
   otp_request_token?: string | null;
