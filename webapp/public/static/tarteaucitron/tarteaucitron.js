@@ -488,9 +488,9 @@ var tarteaucitron = {
         if (tarteaucitron.orientation === "middle") {
           var customThemeMiddle = document.createElement("style"),
             cssRuleMiddle =
-              "div#tarteaucitronRoot.tarteaucitronBeforeVisible:before {content: '';position: fixed;max-width: 100vw;width: 100%;height: 100%;background: white;top: 0;left: 0;z-index: 999;opacity: 0.5;}div#tarteaucitronAlertBig:before {content: '" +
+              "div#tarteaucitronRoot.tarteaucitronBeforeVisible:before {content: '';position: fixed;max-width: 100vw;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.4);top: 0;left: 0;z-index: 999;}div#tarteaucitronAlertBig:before {content: '" +
               tarteaucitron.lang.middleBarHead +
-              "';font-size: 35px;}body #tarteaucitronRoot div#tarteaucitronAlertBig {width: 100%;max-width: 100vw;height: fit-content;}span#tarteaucitronDisclaimerAlert {padding: 0 30px;}#tarteaucitronRoot span#tarteaucitronDisclaimerAlert {margin: 10px 0 30px;display: block;text-align: center;font-size: 21px;}@media screen and (max-width: 900px) {div#tarteaucitronAlertBig button {margin: 0 auto 10px!important;display: block!important;}}";
+              "';font-size: 35px;}body #tarteaucitronRoot div#tarteaucitronAlertBig {width: 100%;max-width: 100vw;height: fit-content;}#tarteaucitronRoot span#tarteaucitronDisclaimerAlert {margin: 10px 0 30px;display: block;}@media screen and (max-width: 900px) {div#tarteaucitronAlertBig button {margin: 0 auto 15px!important;display: block!important;}}";
 
           customThemeMiddle.type = "text/css";
           if (customThemeMiddle.styleSheet) {
@@ -516,7 +516,7 @@ var tarteaucitron = {
             cssRulePopup =
               "div#tarteaucitronAlertBig:before {content: '" +
               tarteaucitron.lang.middleBarHead +
-              "';font-size: 22px;}body #tarteaucitronRoot div#tarteaucitronAlertBig {bottom: 0;top: auto!important;left: 8px!important;right: auto!important;transform: initial!important;border-radius: 5px 5px 0 0!important;max-width: 250px!important;width: calc(100% - 16px)!important;min-width: 0!important;padding: 25px 0;}span#tarteaucitronDisclaimerAlert {padding: 0 30px;font-size: 15px!important;}#tarteaucitronRoot span#tarteaucitronDisclaimerAlert {margin: 10px 0 30px;display: block;text-align: center;font-size: 21px;}div#tarteaucitronAlertBig button {margin: 0 auto 10px!important;display: block!important;width: calc(100% - 60px);box-sizing: border-box;}";
+              "';font-size: 22px;}body #tarteaucitronRoot div#tarteaucitronAlertBig {bottom: 0;top: auto!important;left: 8px!important;right: auto!important;transform: initial!important;border-radius: 5px 5px 0 0!important;max-width: 250px!important;width: calc(100% - 16px)!important;min-width: 0!important;padding: 25px 0;}span#tarteaucitronDisclaimerAlert {font-size: 15px!important;}#tarteaucitronRoot span#tarteaucitronDisclaimerAlert {margin: 10px 0 30px;display: block;text-align: center;font-size: 21px;}div#tarteaucitronAlertBig button {margin: 0 auto 10px!important;display: block!important;width: calc(100% - 60px);box-sizing: border-box;}";
 
           customThemePopup.type = "text/css";
           if (customThemePopup.styleSheet) {
@@ -610,13 +610,6 @@ var tarteaucitron = {
           "</span>";
         html += '         <div id="tarteaucitronInfo">';
         html += "         " + tarteaucitron.lang.disclaimer;
-        if (tarteaucitron.parameters.privacyUrl !== "") {
-          html += "   <br/><br/>";
-          html +=
-            '   <button type="button" id="tarteaucitronPrivacyUrlDialog" role="link">';
-          html += "       " + tarteaucitron.lang.privacyUrl;
-          html += "   </button>";
-        }
         html += "         </div>";
         html += '         <div class="tarteaucitronName">';
         html +=
@@ -628,15 +621,11 @@ var tarteaucitron = {
           '         <div class="tarteaucitronAsk" id="tarteaucitronScrollbarAdjust">';
         html +=
           '            <button type="button" id="tarteaucitronAllAllowed" class="tarteaucitronAllow">';
-        html +=
-          '               <span class="tarteaucitronCheck" aria-hidden="true"></span> ' +
-          tarteaucitron.lang.allowAll;
+        html +=        tarteaucitron.lang.allowAll;
         html += "            </button> ";
         html +=
           '            <button type="button" id="tarteaucitronAllDenied" class="tarteaucitronDeny">';
-        html +=
-          '               <span class="tarteaucitronCross" aria-hidden="true"></span> ' +
-          tarteaucitron.lang.denyAll;
+        html +=        tarteaucitron.lang.denyAll;
         html += "            </button>";
         html += "         </div>";
         html += "      </div>";
@@ -782,13 +771,6 @@ var tarteaucitron = {
           html += "       " + tarteaucitron.lang.personalize;
           html += "   </button>";
 
-          if (tarteaucitron.parameters.privacyUrl !== "") {
-            html +=
-              '   <button role="link" type="button" id="tarteaucitronPrivacyUrl">';
-            html += "       " + tarteaucitron.lang.privacyUrl;
-            html += "   </button>";
-          }
-
           //html += '   </span>';
           //html += '</div>';
           html += "</div>";
@@ -821,7 +803,6 @@ var tarteaucitron = {
           html +=
             '   <button type="button" class="tarteaucitronCTAButton tarteaucitronAllow" id="tarteaucitronPersonalize2">';
           html +=
-            '       <span class="tarteaucitronCheck" aria-hidden="true"></span> ' +
             tarteaucitron.lang.acceptAll;
           html += "   </button>";
 
@@ -841,9 +822,7 @@ var tarteaucitron = {
               html +=
                 '   <button type="button" class="tarteaucitronCTAButton tarteaucitronDeny" id="tarteaucitronAllDenied2">';
             }
-            html +=
-              '       <span class="tarteaucitronCross" aria-hidden="true"></span> ' +
-              tarteaucitron.lang.denyAll;
+            html +=       tarteaucitron.lang.denyAll;
             html += "   </button>";
             //html += '   <br/><br/>';
           }
@@ -860,13 +839,6 @@ var tarteaucitron = {
             '">';
           html += "       " + tarteaucitron.lang.personalize;
           html += "   </button>";
-
-          if (tarteaucitron.parameters.privacyUrl !== "") {
-            html +=
-              '   <button type="button" id="tarteaucitronPrivacyUrl" role="link">';
-            html += "       " + tarteaucitron.lang.privacyUrl;
-            html += "   </button>";
-          }
 
           //html += '   </span>';
           //html += '</div>';
