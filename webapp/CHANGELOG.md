@@ -1,3 +1,10 @@
+## [0.30.2](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.30.1...v0.30.2) (2024-03-27)
+
+
+### Bug Fixes
+
+* remove console logs ([5d0c155](https://github.com/SocialGouv/carte-jeune-engage/commit/5d0c155fe5b75d032307f9015bf42e6c3ba1899e))
+
 ## [0.30.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.30.0...v0.30.1) (2024-03-27)
 
 
