@@ -490,7 +490,7 @@ var tarteaucitron = {
             cssRuleMiddle =
               "div#tarteaucitronRoot.tarteaucitronBeforeVisible:before {content: '';position: fixed;max-width: 100vw;width: 100%;height: 100%;background: rgba(0, 0, 0, 0.4);top: 0;left: 0;z-index: 999;}div#tarteaucitronAlertBig:before {content: '" +
               tarteaucitron.lang.middleBarHead +
-              "';font-size: 35px;}body #tarteaucitronRoot div#tarteaucitronAlertBig {width: 100%;height: fit-content;}#tarteaucitronRoot span#tarteaucitronDisclaimerAlert {margin: 10px 0 30px;display: block;}@media screen and (max-width: 900px) {div#tarteaucitronAlertBig button {margin: 0 auto 15px!important;display: block!important;}}";
+              "';font-size: 35px;}body #tarteaucitronRoot div#tarteaucitronAlertBig {width: 100%;height: fit-content;}#tarteaucitronRoot span#tarteaucitronDisclaimerAlert {margin: 10px 0 30px;display: block;}@media screen and (max-width: 900px) {div#tarteaucitronAlertBig button {display: block!important;}}";
 
           customThemeMiddle.type = "text/css";
           if (customThemeMiddle.styleSheet) {

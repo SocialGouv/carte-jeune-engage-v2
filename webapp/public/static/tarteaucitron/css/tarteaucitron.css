@@ -1092,6 +1092,7 @@ span#tarteaucitronDisclaimerAlert #tarteaucitronDescription {
 	box-sizing: border-box;
 	border-radius: 20px;
 	font-weight: bold;
+	margin: 0 auto 15px!important;
 }
 
 #tarteaucitronRoot .tarteaucitronDeny, #tarteaucitronAlertBig #tarteaucitronCloseAlert {
@@ -1105,8 +1106,6 @@ span#tarteaucitronDisclaimerAlert #tarteaucitronDescription {
 #tarteaucitron #tarteaucitronPrivacyUrlDialog {
   color: #333;
   font-size: 13px;
-  margin-bottom: 3px;
-  margin-left: 7px;
 }
 
 #tarteaucitronPercentage {
