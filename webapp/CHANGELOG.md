@@ -1,3 +1,11 @@
+# [0.31.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.30.3...v0.31.0) (2024-03-27)
+
+
+### Features
+
+* new fields on User ([357be58](https://github.com/SocialGouv/carte-jeune-engage/commit/357be58bf674591c547d38cca2872e6b2dc4f51d))
+* optionnal step with projectTitle & projectDescription ([f8cc68f](https://github.com/SocialGouv/carte-jeune-engage/commit/f8cc68f25deec2e486997ce40eff9b3d7e2f9bb7))
+
 ## [0.30.3](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.30.2...v0.30.3) (2024-03-27)
 
 
