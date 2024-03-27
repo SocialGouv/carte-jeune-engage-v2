@@ -1,3 +1,10 @@
+## [0.30.1](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.30.0...v0.30.1) (2024-03-27)
+
+
+### Bug Fixes
+
+* zindex tarteaucitron ([43b50af](https://github.com/SocialGouv/carte-jeune-engage/commit/43b50af12c270dfee428a0f037b39c269a95b1c4))
+
 # [0.30.0](https://github.com/SocialGouv/carte-jeune-engage/compare/v0.29.1...v0.30.0) (2024-03-27)
 
 
