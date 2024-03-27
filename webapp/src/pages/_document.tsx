@@ -1,8 +1,6 @@
-import { Html, Head, Main, NextScript } from 'next/document'
-import Script from 'next/script'
+import { Head, Html, Main, NextScript } from 'next/document'
 
 export default function Document() {
-	console.log(process.env.NEXT_PUBLIC_ENV_APP)
 
 	const getTarteAuCitronInitByEnv = () => {
 		switch (process.env.NEXT_PUBLIC_ENV_APP) {
